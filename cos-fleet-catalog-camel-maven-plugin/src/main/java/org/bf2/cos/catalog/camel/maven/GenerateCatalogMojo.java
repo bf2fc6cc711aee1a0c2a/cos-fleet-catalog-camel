@@ -152,6 +152,7 @@ public class GenerateCatalogMojo extends AbstractMojo {
                     final String connectorId = String.format("%s-%s", connectorName, connectorVersion);
 
                     ObjectNode entry = mapper.createObjectNode();
+                    entry.with("json_schema").put("type", "object");
                     entry.put("id", connectorId);
                     entry.put("type", "object");
                     entry.put("kind", "ConnectorType");
@@ -164,56 +165,57 @@ public class GenerateCatalogMojo extends AbstractMojo {
                     entry.set("description", k.getValue().requiredAt("/spec/definition/description"));
                     entry.putArray("labels").add(connectorType);
 
+                    var connector = entry.with("json_schema").with("properties").with("connector");
+                    connector.put("type", "object");
+                    connector.set("title", k.getValue().requiredAt("/spec/definition/title"));
+
                     addRequired(
                             k.getValue(),
-                            entry.with("json_schema").withArray("required"),
-                            "connector.");
+                            connector.withArray("required"),
+                            null);
                     remapProperties(
                             k.getValue(),
-                            entry.with("json_schema").with("properties"),
-                            "connector.",
+                            connector.with("properties"),
+                            null,
                             n -> {
-                                if (!n.has("x-section")) {
-                                    n.put("x-section", "connector");
-                                }
                             });
 
                     switch (connectorType) {
                         case "source": {
                             final String kafkaKamelet = normalizeName(managedKafkaSinkKamelet);
                             final ObjectNode kafka = catalog.getKamelets().get(kafkaKamelet);
+                            final ObjectNode props = entry.with("json_schema").with("properties").with("kafka");
+                            props.put("type", "object");
+                            props.set("title", kafka.requiredAt("/spec/definition/title"));
 
                             addRequired(
                                     kafka,
-                                    entry.with("json_schema").withArray("required"),
-                                    "kafka.");
+                                    props.withArray("required"),
+                                    null);
                             remapProperties(
                                     kafka,
-                                    entry.with("json_schema").with("properties"),
-                                    "kafka.",
+                                    props.with("properties"),
+                                    null,
                                     n -> {
-                                        if (!n.has("x-section")) {
-                                            n.put("x-section", "kafka");
-                                        }
                                     });
                             break;
                         }
                         case "sink": {
                             final String kafkaKamelet = normalizeName(managedKafkaSourceKamelet);
                             final ObjectNode kafka = catalog.getKamelets().get(kafkaKamelet);
+                            final ObjectNode props = entry.with("json_schema").with("properties").with("kafka");
+                            props.put("type", "object");
+                            props.set("title", kafka.requiredAt("/spec/definition/title"));
 
                             addRequired(
                                     kafka,
-                                    entry.with("json_schema").withArray("required"),
+                                    props.withArray("required"),
                                     "kafka.");
                             remapProperties(
                                     kafka,
-                                    entry.with("json_schema").with("properties"),
+                                    props.with("properties"),
                                     "kafka.",
                                     n -> {
-                                        if (!n.has("x-section")) {
-                                            n.put("x-section", "kafka");
-                                        }
                                     });
                             break;
                         }
@@ -236,8 +238,7 @@ public class GenerateCatalogMojo extends AbstractMojo {
                                             .put("maxProperties", 1)
                                             .with("properties")
                                             .with(actionName)
-                                            .put("$ref", "#/definitions/actions/" + actionName)
-                                            .put("x-section", "steps");
+                                            .put("$ref", "#/definitions/actions/" + actionName);
                                 });
                     }
 
@@ -262,7 +263,11 @@ public class GenerateCatalogMojo extends AbstractMojo {
         JsonNode required = source.at("/spec/definition/required");
         if (required.getNodeType() == JsonNodeType.ARRAY) {
             for (JsonNode node : required) {
-                target.add(prefix + node.asText());
+                if (prefix != null) {
+                    target.add(prefix + node.asText());
+                } else {
+                    target.add(node.asText());
+                }
             }
         }
     }
@@ -271,11 +276,16 @@ public class GenerateCatalogMojo extends AbstractMojo {
         var fields = source.requiredAt("/spec/definition/properties").fields();
         while (fields.hasNext()) {
             var field = fields.next();
-            var value = field.getValue();
+            var value = (ObjectNode) field.getValue();
+            value.remove("x-descriptors");
 
             customizer.accept((ObjectNode) value);
 
-            target.set(prefix + field.getKey(), value);
+            if (prefix != null) {
+                target.set(prefix + field.getKey(), value);
+            } else {
+                target.set(field.getKey(), value);
+            }
         }
     }
 
