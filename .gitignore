@@ -1,0 +1,12 @@
+target
+
+*.iml
+
+.idea
+.project
+.metadata
+.settings
+.factorypath
+.classpath
+/target
+/cos-fleet-catalog-camel/static
