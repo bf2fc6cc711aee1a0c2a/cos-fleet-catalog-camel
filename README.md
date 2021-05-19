@@ -8,7 +8,7 @@ docker build -t "quay.io/lburgazzoli/ccs:latest" -f cos-fleet-catalog-camel/Dock
 
 ## Running
 ```
-docker run --rm -ti -p 9091:80 quay.io/lburgazzoli/ccs:latest 
+docker run --rm -ti -p 9091:8080 quay.io/lburgazzoli/ccs:latest 
 ```
 
 or with https://github.com/svenstaro/miniserve
