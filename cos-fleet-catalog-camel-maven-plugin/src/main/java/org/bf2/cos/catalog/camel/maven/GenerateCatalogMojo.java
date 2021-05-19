@@ -114,11 +114,11 @@ public class GenerateCatalogMojo extends AbstractMojo {
                                 .filter(a -> actions.contains(a.getKey()))
                                 .forEach(a -> {
                                     meta.with("kamelets").put(
-                                            a.getKey().replace("-action", ""),
+                                            a.getValue().requiredAt("/metadata/name").asText().replace("-action", ""),
                                             String.format("%s:%s:%s",
                                                     a.getValue().get("apiVersion").asText(),
                                                     a.getValue().get("kind").asText(),
-                                                    a.getKey()));
+                                                    a.getValue().requiredAt("/metadata/name").asText()));
                                 });
                     }
                 });
