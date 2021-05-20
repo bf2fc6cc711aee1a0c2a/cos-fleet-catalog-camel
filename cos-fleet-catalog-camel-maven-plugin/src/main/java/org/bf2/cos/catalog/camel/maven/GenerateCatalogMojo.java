@@ -222,23 +222,19 @@ public class GenerateCatalogMojo extends AbstractMojo {
                     }
 
                     if (actions != null) {
+                        final var p = (ObjectNode) entry.with("json_schema").with("properties").with("steps")
+                                .put("type", "array")
+                                .with("items")
+                                .put("type", "object")
+                                .put("maxProperties", 1)
+                                .with("properties");
+
                         catalog.actions()
                                 .filter(a -> actions.contains(a.getKey()))
                                 .forEach(a -> {
-                                    String actionName = extractName(a.getKey());
-
-                                    entry.with("json_schema").with("definitions").with("actions").set(
-                                            actionName,
-                                            a.getValue().requiredAt("/spec/definition"));
-
-                                    entry.with("json_schema").with("properties").with("steps")
-                                            .put("type", "array")
-                                            .with("items")
-                                            .put("type", "object")
-                                            .put("maxProperties", 1)
-                                            .with("properties")
-                                            .with(actionName)
-                                            .put("$ref", "#/definitions/actions/" + actionName);
+                                    var name = extractName(a.getKey());
+                                    p.set(name, a.getValue().requiredAt("/spec/definition"));
+                                    p.with(name).put("type", "object");
                                 });
                     }
 
