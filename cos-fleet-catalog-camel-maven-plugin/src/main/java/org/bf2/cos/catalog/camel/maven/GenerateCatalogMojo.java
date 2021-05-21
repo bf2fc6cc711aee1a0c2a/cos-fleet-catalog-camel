@@ -85,16 +85,40 @@ public class GenerateCatalogMojo extends AbstractMojo {
                     entry.put("revision", connectorRevision);
 
                     ObjectNode meta = entry.putObject("shard_metadata");
-                    // TODO: externalize
-                    meta.put("meta_image", "quay.io/lburgazzoli/cms:latest");
                     meta.put("connector_image", connectorImage);
                     meta.put("connector_type", connectorType);
 
-                    meta.withArray("operators")
-                            .addObject()
-                            .put("type", "camel-k")
-                            // TODO: externalize
-                            .put("versions", "[1.0.0,2.0.0)");
+                    // TODO: remove when provided by an annotation
+                    meta.put("meta_image", "quay.io/lburgazzoli/cms:latest");
+
+                    JsonNode annotations = k.getValue().at("/metadata/annotations");
+                    if (annotations.getNodeType() != JsonNodeType.MISSING) {
+                        if (annotations.has("cos.operator.version")) {
+                            meta.withArray("operators")
+                                    .addObject()
+                                    .put("type", "camel-k")
+                                    .set("versions", annotations.get("cos.operator.version"));
+                        } else {
+                            // TODO: remove and fail if not present
+                            meta.withArray("operators")
+                                    .addObject()
+                                    .put("type", "camel-k")
+                                    .put("versions", "[1.0.0,2.0.0)");
+                        }
+
+                        if (annotations.has("cos.meta.image")) {
+                            meta.set("meta_image", annotations.get("cos.meta.image"));
+                        }
+                        if (annotations.has("cos.connector.image")) {
+                            meta.set("connector_image", annotations.get("cos.connector.image"));
+                        }
+                    } else {
+                        // TODO: remove and fail if not present
+                        meta.withArray("operators")
+                                .addObject()
+                                .put("type", "camel-k")
+                                .put("versions", "[1.0.0,2.0.0)");
+                    }
 
                     meta.with("kamelets").put("connector", k.getKey());
 
