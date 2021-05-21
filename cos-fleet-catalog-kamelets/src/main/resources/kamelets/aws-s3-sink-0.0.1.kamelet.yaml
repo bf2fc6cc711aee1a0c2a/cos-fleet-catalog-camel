@@ -1,0 +1,103 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: aws-s3-sink
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.group: "AWS"
+  labels:
+    camel.apache.org/kamelet.type: "sink"
+    camel.apache.org/kamelet.version: "0.0.1"
+spec:
+  definition:
+    title: "AWS S3 Sink"
+    description: |-
+      Upload data to AWS S3.
+
+      The Kamelet expects the following headers to be set:
+
+      - `file` / `ce-file`: as the file name to upload
+
+      If the header won't be set the exchange ID will be used as file name.
+    required:
+      - bucketNameOrArn
+      - accessKey
+      - secretKey
+      - region
+    type: object
+    properties:
+      bucketNameOrArn:
+        title: Bucket Name
+        description: The S3 Bucket name or ARN.
+        type: string
+      accessKey:
+        title: Access Key
+        description: The access key obtained from AWS.
+        type: string
+        format: password
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:password
+      secretKey:
+        title: Secret Key
+        description: The secret key obtained from AWS.
+        type: string
+        format: password
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:password
+      region:
+        title: AWS Region
+        description: The AWS region to connect to.
+        type: string
+        example: eu-west-1
+      overrideEndpoint:
+        title: Override Endpoint
+        description: Set the need for overidding the endpoint. This option needs to be used in combination with uriEndpointOverride.
+        type: boolean
+        default: false
+        x-descriptors:
+        - 'urn:alm:descriptor:com.tectonic.ui:checkbox'
+      uriEndpointOverride:
+        title: Override Endpoint URI
+        description: Set the overriding uri endpoint. This option needs to be used in combination with overrideEndpoint option.
+        type: string
+        example: "http://another-s3-endpoint:9000"
+      autoCreateBucket:
+        title: Autocreate Bucket
+        description: Setting the autocreation of the S3 bucket bucketName.
+        type: boolean
+        x-descriptors:
+        - 'urn:alm:descriptor:com.tectonic.ui:checkbox'
+        default: false
+  dependencies:
+    - "camel:aws2-s3"
+    - "camel:kamelet"
+  flow:
+    from:
+      uri: "kamelet:source"
+      steps:
+      - choice:
+          when:
+          - simple: "${header[file]}"
+            steps:
+            - set-header:
+                name: CamelAwsS3Key
+                simple: "${header[file]}"
+          - simple: "${header[ce-file]}"
+            steps:
+            - set-header:
+                name: CamelAwsS3Key
+                simple: "${header[ce-file]}"
+          otherwise:
+            steps:
+            - set-header:
+                name: CamelAwsS3Key
+                simple: "${exchangeId}"
+      - to:
+          uri: "aws2-s3:{{bucketNameOrArn}}"
+          parameters:
+            secretKey: "{{secretKey}}"
+            accessKey: "{{accessKey}}"
+            region: "{{region}}"
+            uriEndpointOverride: "{{uriEndpointOverride}}"
+            overrideEndpoint: "{{overrideEndpoint}}"
+            autoCreateBucket: "{{autoCreateBucket}}"

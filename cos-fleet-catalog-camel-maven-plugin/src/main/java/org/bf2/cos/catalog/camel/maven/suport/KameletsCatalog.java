@@ -16,17 +16,14 @@
  */
 package org.bf2.cos.catalog.camel.maven.suport;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -34,21 +31,19 @@ import io.github.classgraph.ClassGraph;
 import io.github.classgraph.Resource;
 import io.github.classgraph.ScanResult;
 import org.apache.maven.plugin.logging.Log;
-import org.apache.maven.project.MavenProject;
 
 public final class KameletsCatalog {
     private static final String KAMELETS_DIR = "kamelets";
 
     private final Map<String, ObjectNode> models;
 
-    public KameletsCatalog(MavenProject project, Log log) {
-        this.models = loadCatalog(project, log);
+    public KameletsCatalog(ClassLoader cl, Log log) {
+        this.models = loadCatalog(cl, log);
     }
 
-    private static Map<String, ObjectNode> loadCatalog(MavenProject project, Log log) {
+    private static Map<String, ObjectNode> loadCatalog(ClassLoader cl, Log log) {
         final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         final Map<String, ObjectNode> answer = new HashMap<>();
-        final ClassLoader cl = getClassLoader(project, log);
 
         try (ScanResult scanResult = new ClassGraph().addClassLoader(cl).acceptPaths("/" + KAMELETS_DIR + "/").scan()) {
             for (Resource resource : scanResult.getAllResources()) {
@@ -75,24 +70,29 @@ public final class KameletsCatalog {
         return node.requiredAt("/metadata/labels").get("camel.apache.org/kamelet.type").asText();
     }
 
-    private static ClassLoader getClassLoader(MavenProject project, Log log) {
-        try {
-            List<String> classpathElements = project.getCompileClasspathElements();
-            classpathElements.add(project.getBuild().getOutputDirectory());
-            classpathElements.add(project.getBuild().getTestOutputDirectory());
-            URL urls[] = new URL[classpathElements.size()];
-            for (int i = 0; i < classpathElements.size(); ++i) {
-                urls[i] = new File(classpathElements.get(i)).toURI().toURL();
-            }
-            return new URLClassLoader(urls, KameletsCatalog.class.getClassLoader());
-        } catch (Exception e) {
-            log.debug("Couldn't get the classloader.");
-            return KameletsCatalog.class.getClassLoader();
-        }
+    public static String name(ObjectNode node) {
+        return node.requiredAt("/metadata/name").asText();
+    }
+
+    public static String version(ObjectNode node) {
+        return node.requiredAt("/metadata/labels").get("camel.apache.org/kamelet.version").asText();
     }
 
     public Map<String, ObjectNode> getKamelets() {
         return models;
+    }
+
+    public ObjectNode kamelet(JsonNode node) {
+        return kamelet(node.required("name").asText(), node.required("version").asText());
+    }
+
+    public ObjectNode kamelet(String name, String version) {
+        return getKamelets().entrySet().stream()
+                .filter(k -> Objects.equals(name, name(k.getValue())) && Objects.equals(version, version(k.getValue())))
+                .map(Map.Entry::getValue)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Unable to find kamelet with name " + name + "and version " + version));
     }
 
     public Stream<Map.Entry<String, ObjectNode>> kamelets() {

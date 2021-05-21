@@ -1,0 +1,76 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: aws-sqs-source
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.group: "AWS"
+  labels:
+    camel.apache.org/kamelet.type: "source"
+    camel.apache.org/kamelet.version: "0.0.1"
+spec:
+  definition:
+    title: "AWS SQS Source"
+    description: |-
+      Receive data from AWS SQS.
+    required:
+      - queueNameOrArn
+      - accessKey
+      - secretKey
+      - region
+    type: object
+    properties:
+      queueNameOrArn:
+        title: Queue Name
+        description: The SQS Queue Name or ARN
+        type: string
+      deleteAfterRead:
+        title: Auto-delete Messages
+        description: Delete messages after consuming them
+        type: boolean
+        x-descriptors:
+        - 'urn:alm:descriptor:com.tectonic.ui:checkbox'
+        default: true
+      accessKey:
+        title: Access Key
+        description: The access key obtained from AWS
+        type: string
+        format: password
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:password
+      secretKey:
+        title: Secret Key
+        description: The secret key obtained from AWS
+        type: string
+        format: password
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:password
+      region:
+        title: AWS Region
+        description: The AWS region to connect to
+        type: string
+        example: eu-west-1
+      autoCreateQueue:
+        title: Autocreate Queue
+        description: Setting the autocreation of the SQS queue.
+        type: boolean
+        x-descriptors:
+        - 'urn:alm:descriptor:com.tectonic.ui:checkbox'
+        default: false
+  types:
+    out:
+      mediaType: application/json
+  dependencies:
+    - "camel:aws2-sqs"
+    - "camel:kamelet"
+  flow:
+    from:
+      uri: "aws2-sqs:{{queueNameOrArn}}"
+      parameters:
+        autoCreateQueue: "{{autoCreateQueue}}"
+        secretKey: "{{secretKey}}"
+        accessKey: "{{accessKey}}"
+        region: "{{region}}"
+        deleteAfterRead: "{{deleteAfterRead}}"
+      steps:
+      - to: "kamelet:sink"

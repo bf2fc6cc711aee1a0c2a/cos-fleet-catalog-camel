@@ -42,6 +42,7 @@
 
     <modules>
         <module>cos-fleet-catalog-camel-maven-plugin</module>
+        <module>cos-fleet-catalog-kamelets</module>
         <module>cos-fleet-catalog-camel</module>
     </modules>
 
@@ -72,6 +73,11 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>cos-fleet-catalog-camel-maven-plugin</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>cos-fleet-catalog-kamelets</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

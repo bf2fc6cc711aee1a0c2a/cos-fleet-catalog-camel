@@ -1,0 +1,33 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: managed-kafka-source
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+  labels:
+    camel.apache.org/kamelet.type: "source"
+    camel.apache.org/kamelet.version: "0.0.1"
+spec:
+  definition:
+    title: "Managed Kafka Source"
+    description: |-
+      Receive data from Managed Kafka topics.
+    required:
+      - topic
+    properties:
+      topic:
+        title: Topic names
+        description: Comma separated list of Kafka topic names
+        type: string
+  dependencies:
+    - mvn:org.apache.kafka:kafka-clients:2.6.0
+  flow:
+    from:
+      uri: "kafka:{{topic}}"
+      parameters:
+        brokers: "{{bootstrapServers}}"
+        securityProtocol: "{{securityProtocol}}"
+        saslMechanism: "{{saslMechanism}}"
+        saslJaasConfig: "org.apache.kafka.common.security.plain.PlainLoginModule required username='{{user}}' password='{{password}}';"
+      steps:
+        - to: "kamelet:sink"

@@ -8,37 +8,26 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>cos-fleet-catalog-camel</artifactId>
+    <artifactId>cos-fleet-catalog-kamelets</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
+        <!--
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>cos-fleet-catalog-kamelets</artifactId>
+            <groupId>com.github.apache</groupId>
+            <artifactId>camel-kamelets</artifactId>
+            <version>main-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.fabric8</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+        -->
     </dependencies>
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.bf2</groupId>
-                <artifactId>cos-fleet-catalog-camel-maven-plugin</artifactId>
-                <version>${project.version}</version>
-                <executions>
-                    <execution>
-                        <id>generate-catalog</id>
-                        <phase>process-classes</phase>
-                        <goals>
-                            <goal>generate-catalog</goal>
-                        </goals>
-                        <configuration>
-                            <staticPath>${project.basedir}/static</staticPath>
-                            <definitions>
-                                <definition>${project.basedir}/src/main/resources/aws.yaml</definition>
-                            </definitions>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>

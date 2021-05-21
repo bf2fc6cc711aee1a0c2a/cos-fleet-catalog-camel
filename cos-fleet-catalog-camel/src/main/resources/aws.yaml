@@ -1,0 +1,48 @@
+- apiVersion: org.bf2.cos/v1alpha1
+  kind: CamelConnector
+  metadata:
+    name: aws-s3-sink
+    annotations:
+      connector.name: "AWS S3 Sink"
+      connector.description: "AWS S3  Sink"
+      connector.version: "0.1"
+      connector.revision: "1"
+      connector.image: "quay.io/mcs_dev/aws-s3-sink:0.0.1"
+      connector.meta.image: "quay.io/mcs_dev/cos-fleetshard-meta-camel:0.0.1"
+      connector.operator.version: "[1.0.0,2.0.0)"
+  spec:
+    connector:
+      name: "aws-s3-sink"
+      version: "0.0.1"
+    kafka:
+      name: "managed-kafka-source"
+      version: "0.0.1"
+    steps:
+      - name: "insert-field-action"
+        version: "0.0.1"
+      - name: "extract-field-action"
+        version: "0.0.1"
+- apiVersion: org.bf2.cos/v1alpha1
+  kind: CamelConnector
+  metadata:
+    name: aws-s3-source
+    annotations:
+      connector.name: "AWS S3 Source"
+      connector.description: "AWS S3  Source"
+      connector.version: "0.1"
+      connector.revision: "1"
+      connector.image: "quay.io/mcs_dev/aws-s3-sink:0.0.1"
+      connector.meta.image: "quay.io/mcs_dev/cos-fleetshard-meta-camel:0.0.1"
+      connector.operator.version: "[1.0.0,2.0.0)"
+  spec:
+    connector:
+      name: "aws-s3-source"
+      version: "0.0.1"
+    kafka:
+      name: "managed-kafka-sink"
+      version: "0.0.1"
+    steps:
+      - name: "insert-field-action"
+        version: "0.0.1"
+      - name: "extract-field-action"
+        version: "0.0.1"
