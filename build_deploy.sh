@@ -28,13 +28,6 @@
 # The machines that run this script need to have access to internet, so that
 # the built images can be pushed to quay.io.
 
-# Log in to the image registry:
-if [ -z "${QUAY_ORG}" && -z "${CONTAINER_IMAGE}" ]; then
-  echo "The quay.io org hasn't been provided."
-  echo "Make sure to set the QUAY_ORG environment variable."
-  exit 1
-fi
-
 if [ -z "${CONTAINER_VERSION}" ]; then
   # The version should be the short hash from git. This is what the deployment
   # process expects.
@@ -42,7 +35,7 @@ if [ -z "${CONTAINER_VERSION}" ]; then
 fi
 
 if [ -z "${CONTAINER_IMAGE}" ]; then
-  CONTAINER_IMAGE="quay.io/${QUAY_ORG}/cos-fleetshard-meta-camel:${CONTAINER_VERSION}"
+  CONTAINER_IMAGE="quay.io/mcs_dev/cos-fleet-catalog-camel:${CONTAINER_VERSION}"
 fi
 
 # Set the directory for docker configuration:
@@ -64,5 +57,6 @@ fi
 mkdir -p "${DOCKER_CONFIG}"
 
 ./mvnw clean install
-docker build -t ${CONTAINER_IMAGE} -f cos-catalog-camel/Dockerfile cos-catalog-camel
+docker build -t ${CONTAINER_IMAGE} -f cos-fleet-catalog-camel/Dockerfile cos-fleet-catalog-camel
+docker push ${CONTAINER_IMAGE}
 
