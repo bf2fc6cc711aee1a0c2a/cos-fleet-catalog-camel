@@ -167,19 +167,19 @@ public class GenerateCatalogMojo extends AbstractMojo {
                 //
 
                 if (!stepsSpec.isEmpty()) {
-                    final var p = (ObjectNode) entry.with("json_schema").with("properties").with("steps")
+                    final var oneOf = (ArrayNode) entry.with("json_schema").with("properties").with("steps")
                             .put("type", "array")
                             .with("items")
-                            .put("type", "object")
-                            .put("maxProperties", 1)
-                            .with("properties");
+                            .withArray("oneOf");
 
                     for (JsonNode step : stepsSpec) {
                         final String stepName = step.required("name").asText().replace("-action", "");
-                        final ObjectNode stepNode = catalog.kamelet(step);
+                        final ObjectNode stepSchema = oneOf.addObject();
 
-                        p.set(stepName, stepNode.requiredAt("/spec/definition"));
-                        p.with(stepName).put("type", "object");
+                        stepSchema.put("type", "object");
+                        stepSchema.withArray("required").add(stepName);
+                        stepSchema.with("properties").set(stepName, catalog.kamelet(step).requiredAt("/spec/definition"));
+                        stepSchema.with("properties").with(stepName).put("type", "object");
                     }
                 }
 
