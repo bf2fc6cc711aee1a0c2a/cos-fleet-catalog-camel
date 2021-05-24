@@ -1,21 +1,15 @@
 package org.bf2.cos.catalog.camel.maven;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -26,13 +20,16 @@ import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
 import org.bf2.cos.catalog.camel.maven.suport.KameletsCatalog;
 
-import static org.bf2.cos.catalog.camel.maven.suport.KameletsCatalog.type;
+import static org.bf2.cos.catalog.camel.maven.suport.CatalogSupport.JSON_MAPPER;
+import static org.bf2.cos.catalog.camel.maven.suport.CatalogSupport.YAML_MAPPER;
+import static org.bf2.cos.catalog.camel.maven.suport.CatalogSupport.addRequired;
+import static org.bf2.cos.catalog.camel.maven.suport.CatalogSupport.copyProperties;
+import static org.bf2.cos.catalog.camel.maven.suport.CatalogSupport.getClassLoader;
+import static org.bf2.cos.catalog.camel.maven.suport.CatalogSupport.kameletName;
+import static org.bf2.cos.catalog.camel.maven.suport.CatalogSupport.kameletType;
 
 @Mojo(name = "generate-catalog", defaultPhase = LifecyclePhase.GENERATE_RESOURCES, threadSafe = true, requiresDependencyResolution = ResolutionScope.COMPILE_PLUS_RUNTIME, requiresDependencyCollection = ResolutionScope.COMPILE_PLUS_RUNTIME)
 public class GenerateCatalogMojo extends AbstractMojo {
-    private static final ObjectMapper YAML_MAPPER = new YAMLMapper();
-    private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
-
     @Parameter(readonly = true, defaultValue = "${project}")
     private MavenProject project;
     @Parameter(defaultValue = "${project.build.directory}/static")
@@ -50,10 +47,8 @@ public class GenerateCatalogMojo extends AbstractMojo {
     }
 
     private void generateIndex(Path definition) throws MojoExecutionException, MojoFailureException {
-        final ClassLoader cl = getClassLoader(project);
-        final KameletsCatalog catalog = new KameletsCatalog(cl, getLog());
-
         try (InputStream is = Files.newInputStream(definition)) {
+            final KameletsCatalog catalog = new KameletsCatalog(getClassLoader(project));
             final ArrayNode root = JSON_MAPPER.createArrayNode();
 
             for (JsonNode connector : YAML_MAPPER.readValue(is, ArrayNode.class)) {
@@ -63,7 +58,7 @@ public class GenerateCatalogMojo extends AbstractMojo {
                 final String name = connector.requiredAt("/metadata/name").asText();
                 final JsonNode annotations = connector.requiredAt("/metadata/annotations");
                 final String version = annotations.required("connector.version").asText();
-                final String type = type(connectorSpec);
+                final String type = kameletType(connectorSpec);
                 final String id = String.format("%s-%s", name, version);
 
                 ObjectNode entry = root.addObject();
@@ -79,8 +74,8 @@ public class GenerateCatalogMojo extends AbstractMojo {
                         .put("type", "camel-k")
                         .set("version", annotations.required("connector.operator.version"));
                 shardMeta.with("kamelets")
-                        .put("connector", KameletsCatalog.name(connectorSpec))
-                        .put("kafka", KameletsCatalog.name(kafkaSpec));
+                        .put("connector", kameletName(connectorSpec))
+                        .put("kafka", kameletName(kafkaSpec));
 
                 for (JsonNode step : stepsSpec) {
                     shardMeta.with("kamelets").put(
@@ -108,10 +103,9 @@ public class GenerateCatalogMojo extends AbstractMojo {
     }
 
     private void generateDefinitions(Path definition) throws MojoExecutionException, MojoFailureException {
-        final ClassLoader cl = getClassLoader(project);
-        final KameletsCatalog catalog = new KameletsCatalog(cl, getLog());
-
         try (InputStream is = Files.newInputStream(definition)) {
+            final KameletsCatalog catalog = new KameletsCatalog(getClassLoader(project));
+
             for (JsonNode connector : YAML_MAPPER.readValue(is, ArrayNode.class)) {
                 final ObjectNode connectorSpec = catalog.kamelet(connector.requiredAt("/spec/connector"));
                 final ObjectNode kafkaSpec = catalog.kamelet(connector.requiredAt("/spec/kafka"));
@@ -130,7 +124,7 @@ public class GenerateCatalogMojo extends AbstractMojo {
                 entry.set("name", annotations.required("connector.name"));
                 entry.set("description", annotations.required("connector.description"));
                 entry.put("version", version);
-                entry.putArray("labels").add(type(connectorSpec));
+                entry.putArray("labels").add(kameletType(connectorSpec));
 
                 //
                 // Connector
@@ -143,7 +137,7 @@ public class GenerateCatalogMojo extends AbstractMojo {
                 addRequired(
                         connectorSpec,
                         connectorProps.withArray("required"));
-                remapProperties(
+                copyProperties(
                         connectorSpec,
                         connectorProps.with("properties"));
 
@@ -158,7 +152,7 @@ public class GenerateCatalogMojo extends AbstractMojo {
                 addRequired(
                         kafkaSpec,
                         kafkaProps.withArray("required"));
-                remapProperties(
+                copyProperties(
                         kafkaSpec,
                         kafkaProps.with("properties"));
 
@@ -200,66 +194,6 @@ public class GenerateCatalogMojo extends AbstractMojo {
             }
         } catch (IOException e) {
             throw new MojoExecutionException("", e);
-        }
-    }
-
-    private void addRequired(ObjectNode source, ArrayNode target) {
-        JsonNode required = source.at("/spec/definition/required");
-        if (required.getNodeType() == JsonNodeType.ARRAY) {
-            for (JsonNode node : required) {
-                target.add(node.asText());
-            }
-        }
-    }
-
-    private void remapProperties(ObjectNode source, ObjectNode target) {
-        var fields = source.requiredAt("/spec/definition/properties").fields();
-        while (fields.hasNext()) {
-            var field = fields.next();
-            var value = (ObjectNode) field.getValue();
-            value.remove("x-descriptors");
-
-            target.set(field.getKey(), value);
-        }
-    }
-
-    private String normalizeName(String name) {
-        String[] items = name.split(":");
-        if (items.length == 1) {
-            return "camel.apache.org/v1alpha1:Kamelet:" + name;
-        }
-        if (items.length == 3) {
-            return name;
-        }
-
-        throw new IllegalArgumentException("Wrong name format: " + name);
-    }
-
-    public String extractName(String normalizedName) {
-        String[] items = normalizedName.split(":");
-        if (items.length == 1) {
-            return items[0];
-        }
-        if (items.length == 3) {
-            return items[2];
-        }
-
-        throw new IllegalArgumentException("Wrong name format: " + normalizedName);
-    }
-
-    private ClassLoader getClassLoader(MavenProject project) {
-        try {
-            List<String> classpathElements = project.getCompileClasspathElements();
-            classpathElements.add(project.getBuild().getOutputDirectory());
-            classpathElements.add(project.getBuild().getTestOutputDirectory());
-            URL[] urls = new URL[classpathElements.size()];
-            for (int i = 0; i < classpathElements.size(); ++i) {
-                urls[i] = new File(classpathElements.get(i)).toURI().toURL();
-            }
-            return new URLClassLoader(urls, KameletsCatalog.class.getClassLoader());
-        } catch (Exception e) {
-            getLog().debug("Couldn't get the classloader.");
-            return KameletsCatalog.class.getClassLoader();
         }
     }
 }

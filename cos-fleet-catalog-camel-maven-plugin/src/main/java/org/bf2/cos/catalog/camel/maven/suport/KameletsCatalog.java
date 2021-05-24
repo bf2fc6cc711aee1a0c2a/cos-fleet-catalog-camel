@@ -17,68 +17,40 @@
 package org.bf2.cos.catalog.camel.maven.suport;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.Objects;
-import java.util.stream.Stream;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.Resource;
 import io.github.classgraph.ScanResult;
-import org.apache.maven.plugin.logging.Log;
+
+import static org.bf2.cos.catalog.camel.maven.suport.CatalogSupport.YAML_MAPPER;
+import static org.bf2.cos.catalog.camel.maven.suport.CatalogSupport.kameletName;
+import static org.bf2.cos.catalog.camel.maven.suport.CatalogSupport.kameletVersion;
 
 public final class KameletsCatalog {
     private static final String KAMELETS_DIR = "kamelets";
 
-    private final Map<String, ObjectNode> models;
+    private final List<ObjectNode> models;
 
-    public KameletsCatalog(ClassLoader cl, Log log) {
-        this.models = loadCatalog(cl, log);
-    }
+    public KameletsCatalog(ClassLoader cl) throws IOException {
+        final List<ObjectNode> kamelets = new ArrayList<>();
+        final ClassGraph cg = new ClassGraph().addClassLoader(cl).acceptPaths("/" + KAMELETS_DIR + "/");
 
-    private static Map<String, ObjectNode> loadCatalog(ClassLoader cl, Log log) {
-        final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-        final Map<String, ObjectNode> answer = new HashMap<>();
-
-        try (ScanResult scanResult = new ClassGraph().addClassLoader(cl).acceptPaths("/" + KAMELETS_DIR + "/").scan()) {
+        try (ScanResult scanResult = cg.scan()) {
             for (Resource resource : scanResult.getAllResources()) {
-                try {
-                    final ObjectNode content = mapper.readValue(resource.open(), ObjectNode.class);
-                    final String apiVersion = content.requiredAt("/apiVersion").asText();
-                    final String kind = content.requiredAt("/kind").asText();
-                    final String name = content.requiredAt("/metadata/name").asText();
-
-                    answer.put(
-                            String.format("%s:%s:%s", apiVersion, kind, name),
-                            mapper.readValue(resource.open(), ObjectNode.class));
-                } catch (IOException e) {
-                    log.warn("Cannot init Kamelet Catalog with content of " + resource.getPath(), e);
-                }
-
+                kamelets.add(YAML_MAPPER.readValue(resource.open(), ObjectNode.class));
             }
         }
 
-        return Collections.unmodifiableMap(answer);
+        this.models = Collections.unmodifiableList(kamelets);
     }
 
-    public static String type(ObjectNode node) {
-        return node.requiredAt("/metadata/labels").get("camel.apache.org/kamelet.type").asText();
-    }
-
-    public static String name(ObjectNode node) {
-        return node.requiredAt("/metadata/name").asText();
-    }
-
-    public static String version(ObjectNode node) {
-        return node.requiredAt("/metadata/labels").get("camel.apache.org/kamelet.version").asText();
-    }
-
-    public Map<String, ObjectNode> getKamelets() {
+    public List<ObjectNode> getKamelets() {
         return models;
     }
 
@@ -87,23 +59,10 @@ public final class KameletsCatalog {
     }
 
     public ObjectNode kamelet(String name, String version) {
-        return getKamelets().entrySet().stream()
-                .filter(k -> Objects.equals(name, name(k.getValue())) && Objects.equals(version, version(k.getValue())))
-                .map(Map.Entry::getValue)
+        return getKamelets().stream()
+                .filter(node -> Objects.equals(name, kameletName(node)) && Objects.equals(version, kameletVersion(node)))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(
                         "Unable to find kamelet with name " + name + "and version " + version));
-    }
-
-    public Stream<Map.Entry<String, ObjectNode>> kamelets() {
-        return getKamelets().entrySet().stream()
-                .sorted(Map.Entry.comparingByKey())
-                .filter(k -> !Objects.equals("action", type(k.getValue())));
-    }
-
-    public Stream<Map.Entry<String, ObjectNode>> actions() {
-        return getKamelets().entrySet().stream()
-                .sorted(Map.Entry.comparingByKey())
-                .filter(k -> Objects.equals("action", type(k.getValue())));
     }
 }
