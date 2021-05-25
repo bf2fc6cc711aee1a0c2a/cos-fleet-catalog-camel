@@ -39,18 +39,52 @@ public class GenerateCatalogMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
-        for (String definition : definitions) {
-            Path path = Paths.get(definition);
-            generateIndex(path);
-            generateDefinitions(path);
+        try {
+            final KameletsCatalog catalog = new KameletsCatalog(getClassLoader(project));
+
+            generateIndex(catalog);
+            generateDefinitions(catalog);
+        } catch (IOException e) {
+            throw new MojoExecutionException("", e);
         }
     }
 
-    private void generateIndex(Path definition) throws MojoExecutionException, MojoFailureException {
-        try (InputStream is = Files.newInputStream(definition)) {
-            final KameletsCatalog catalog = new KameletsCatalog(getClassLoader(project));
+    // **************************************
+    //
+    // Index
+    //
+    // **************************************
+
+    private void generateIndex(KameletsCatalog catalog) throws MojoExecutionException, MojoFailureException {
+        try {
             final ArrayNode root = JSON_MAPPER.createArrayNode();
 
+            for (String definition : definitions) {
+                Path path = Paths.get(definition);
+                generateIndex(root, catalog, path);
+            }
+
+            //
+            // Write
+            //
+
+            Path out = Paths.get(staticPath)
+                    .resolve("v1")
+                    .resolve("kafka-connector-catalog");
+
+            Files.createDirectories(out);
+
+            JSON_MAPPER.writerWithDefaultPrettyPrinter().writeValue(
+                    Files.newBufferedWriter(out.resolve("index.json")),
+                    root);
+        } catch (IOException e) {
+            throw new MojoExecutionException("", e);
+        }
+    }
+
+    private void generateIndex(ArrayNode root, KameletsCatalog catalog, Path definition)
+            throws MojoExecutionException, MojoFailureException {
+        try (InputStream is = Files.newInputStream(definition)) {
             for (JsonNode connector : YAML_MAPPER.readValue(is, ArrayNode.class)) {
                 final ObjectNode connectorSpec = catalog.kamelet(connector.requiredAt("/spec/connector"));
                 final ObjectNode kafkaSpec = catalog.kamelet(connector.requiredAt("/spec/kafka"));
@@ -83,29 +117,27 @@ public class GenerateCatalogMojo extends AbstractMojo {
                             step.required("name").asText());
                 }
             }
-
-            //
-            // Write
-            //
-
-            Path out = Paths.get(staticPath)
-                    .resolve("v1")
-                    .resolve("kafka-connector-catalog");
-
-            Files.createDirectories(out);
-
-            JSON_MAPPER.writerWithDefaultPrettyPrinter().writeValue(
-                    Files.newBufferedWriter(out.resolve("index.json")),
-                    root);
         } catch (IOException e) {
             throw new MojoExecutionException("", e);
         }
     }
 
-    private void generateDefinitions(Path definition) throws MojoExecutionException, MojoFailureException {
-        try (InputStream is = Files.newInputStream(definition)) {
-            final KameletsCatalog catalog = new KameletsCatalog(getClassLoader(project));
+    // **************************************
+    //
+    // Definitions
+    //
+    // **************************************
 
+    private void generateDefinitions(KameletsCatalog catalog) throws MojoExecutionException, MojoFailureException {
+        for (String definition : definitions) {
+            Path path = Paths.get(definition);
+            generateDefinitions(catalog, path);
+        }
+    }
+
+    private void generateDefinitions(KameletsCatalog catalog, Path definition)
+            throws MojoExecutionException, MojoFailureException {
+        try (InputStream is = Files.newInputStream(definition)) {
             for (JsonNode connector : YAML_MAPPER.readValue(is, ArrayNode.class)) {
                 final ObjectNode connectorSpec = catalog.kamelet(connector.requiredAt("/spec/connector"));
                 final ObjectNode kafkaSpec = catalog.kamelet(connector.requiredAt("/spec/kafka"));

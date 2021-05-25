@@ -25,9 +25,9 @@ spec:
     from:
       uri: "kafka:{{topic}}"
       parameters:
-        brokers: "{{bootstrapServers}}"
-        securityProtocol: "{{securityProtocol}}"
-        saslMechanism: "{{saslMechanism}}"
+        brokers: "{{bootstrapServers:}}"
+        securityProtocol: "{{securityProtocol:SASL_SSL}}"
+        saslMechanism: "{{saslMechanism:PLAIN}}"
         saslJaasConfig: "org.apache.kafka.common.security.plain.PlainLoginModule required username='{{user}}' password='{{password}}';"
       steps:
         - to: "kamelet:sink"

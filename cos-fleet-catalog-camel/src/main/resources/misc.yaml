@@ -1,0 +1,24 @@
+- apiVersion: org.bf2.cos/v1alpha1
+  kind: CamelConnector
+  metadata:
+    name: injector-source
+    annotations:
+      connector.name: "Injector Source"
+      connector.description: "Injector Source"
+      connector.version: "0.1"
+      connector.revision: "1"
+      connector.image: "quay.io/mcs_dev/injector-source:0.0.1"
+      connector.meta.image: "quay.io/mcs_dev/cos-fleetshard-meta-camel:0.0.1"
+      connector.operator.version: "[1.0.0,2.0.0)"
+  spec:
+    connector:
+      name: "injector-source"
+      version: "0.0.1"
+    kafka:
+      name: "managed-kafka-sink"
+      version: "0.0.1"
+    steps:
+      - name: "insert-field-action"
+        version: "0.0.1"
+      - name: "extract-field-action"
+        version: "0.0.1"

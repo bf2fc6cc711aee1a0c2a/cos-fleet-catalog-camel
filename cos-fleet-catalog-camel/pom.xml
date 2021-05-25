@@ -33,6 +33,7 @@
                         <configuration>
                             <staticPath>${project.basedir}/static</staticPath>
                             <definitions>
+                                <definition>${project.basedir}/src/main/resources/misc.yaml</definition>
                                 <definition>${project.basedir}/src/main/resources/aws.yaml</definition>
                             </definitions>
                         </configuration>
