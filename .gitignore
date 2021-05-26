@@ -2,6 +2,7 @@ target
 
 *.iml
 
+.mvn
 .idea
 .project
 .metadata

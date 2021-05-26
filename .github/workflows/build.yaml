@@ -1,0 +1,47 @@
+name: Build and Push Image
+on:
+  push:
+    branches: [ main ]
+
+env:
+  LANG: en_US.UTF-8
+  MAVEN_OPTS: -Xmx100m
+  MAVEN_ARGS: -V -Dhttp.keepAlive=false -e
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+
+      - name: Checkout Project
+        uses: actions/checkout@v2
+
+      - name: Retrieve Project Metadata
+        uses: radcortez/project-metadata-action@243817f1e0f2b4df4e012fc17efc45cff166425d
+        id: metadata
+        with:
+          metadata-file-path: '.github/project.yaml'
+          local-file: true
+
+      - name: Build Project
+        run: |
+          ./mvnw ${MAVEN_ARGS} clean install
+
+      - name: Setup Docker
+        uses: docker-practice/actions-setup-docker@v1
+
+      - name: Build docker image and push it
+        working-directory: cos-fleet-catalog-camel
+        run: |
+          docker build -t ${{secrets.IMAGE_REPO_HOSTNAME}}/${{secrets.IMAGE_REPO_NAMESPACE}}/cos-fleet-catalog-camel:${{steps.metadata.outputs.current-version}} .
+          docker login -u="${{secrets.IMAGE_REPO_USERNAME}}" -p="${{secrets.IMAGE_REPO_PASSWORD}}" ${{secrets.IMAGE_REPO_HOSTNAME}}
+          docker push ${{secrets.IMAGE_REPO_HOSTNAME}}/${{secrets.IMAGE_REPO_NAMESPACE}}/cos-fleet-catalog-camel:${{steps.metadata.outputs.current-version}}
+
+      - name: Print image url
+        run: echo "Image pushed to ${{secrets.IMAGE_REPO_HOSTNAME}}/${{secrets.IMAGE_REPO_NAMESPACE}}/cos-fleet-catalog-camel:${{steps.metadata.outputs.current-version}}"
