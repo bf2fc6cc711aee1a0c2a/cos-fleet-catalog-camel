@@ -88,7 +88,7 @@ public class GenerateCatalogMojo extends AbstractMojo {
             for (JsonNode connector : YAML_MAPPER.readValue(is, ArrayNode.class)) {
                 final ObjectNode connectorSpec = catalog.kamelet(connector.requiredAt("/spec/connector"));
                 final ObjectNode kafkaSpec = catalog.kamelet(connector.requiredAt("/spec/kafka"));
-                final JsonNode stepsSpec = connector.requiredAt("/spec/steps");
+                final JsonNode stepsSpec = connector.at("/spec/steps");
                 final String name = connector.requiredAt("/metadata/name").asText();
                 final JsonNode annotations = connector.requiredAt("/metadata/annotations");
                 final String version = annotations.required("connector.version").asText();
@@ -111,10 +111,12 @@ public class GenerateCatalogMojo extends AbstractMojo {
                         .put("connector", kameletName(connectorSpec))
                         .put("kafka", kameletName(kafkaSpec));
 
-                for (JsonNode step : stepsSpec) {
-                    shardMeta.with("kamelets").put(
-                            step.required("name").asText().replace("-action", ""),
-                            step.required("name").asText());
+                if (!stepsSpec.isMissingNode() && !stepsSpec.isEmpty()) {
+                    for (JsonNode step : stepsSpec) {
+                        shardMeta.with("kamelets").put(
+                                step.required("name").asText().replace("-action", ""),
+                                step.required("name").asText());
+                    }
                 }
             }
         } catch (IOException e) {
@@ -141,7 +143,7 @@ public class GenerateCatalogMojo extends AbstractMojo {
             for (JsonNode connector : YAML_MAPPER.readValue(is, ArrayNode.class)) {
                 final ObjectNode connectorSpec = catalog.kamelet(connector.requiredAt("/spec/connector"));
                 final ObjectNode kafkaSpec = catalog.kamelet(connector.requiredAt("/spec/kafka"));
-                final JsonNode stepsSpec = connector.requiredAt("/spec/steps");
+                final JsonNode stepsSpec = connector.at("/spec/steps");
                 final String name = connector.requiredAt("/metadata/name").asText();
                 final JsonNode annotations = connector.requiredAt("/metadata/annotations");
                 final String version = annotations.required("connector.version").asText();
@@ -192,7 +194,7 @@ public class GenerateCatalogMojo extends AbstractMojo {
                 // Steps
                 //
 
-                if (!stepsSpec.isEmpty()) {
+                if (!stepsSpec.isMissingNode() && !stepsSpec.isEmpty()) {
                     final var oneOf = (ArrayNode) entry.with("json_schema").with("properties").with("steps")
                             .put("type", "array")
                             .with("items")
