@@ -1,14 +1,19 @@
 # cos-meta-camel
 
+## Running
+```
+docker run --rm -ti -p 9091:8080 quay.io/rhoas/cos-fleet-catalog-camel:0.0.1 
+```
+
 ## Building
 ```
 ./mvnw clean install
-docker build -t "quay.io/lburgazzoli/ccs:latest" -f cos-fleet-catalog-camel/Dockerfile cos-fleet-catalog-camel
+docker build -t "quay.io/$USER/cos-fleet-catalog-camel:latest" -f cos-fleet-catalog-camel/Dockerfile cos-fleet-catalog-camel
 ```
+And run your local copy
 
-## Running
 ```
-docker run --rm -ti -p 9091:8080 quay.io/lburgazzoli/ccs:latest 
+docker run --rm -ti -p 9091:8080 quay.io/$USER/cos-fleet-catalog-camel:latest 
 ```
 
 or with https://github.com/svenstaro/miniserve
