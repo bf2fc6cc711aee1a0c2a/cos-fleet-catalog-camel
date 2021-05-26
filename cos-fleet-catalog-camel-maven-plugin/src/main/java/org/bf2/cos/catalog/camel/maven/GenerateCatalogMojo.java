@@ -103,7 +103,6 @@ public class GenerateCatalogMojo extends AbstractMojo {
                 ObjectNode shardMeta = entry.putObject("shard_metadata");
                 shardMeta.put("connector_type", type);
                 shardMeta.set("connector_image", annotations.required("connector.image"));
-                shardMeta.set("meta_image", annotations.required("connector.meta.image"));
                 shardMeta.withArray("operators").addObject()
                         .put("type", "camel-k")
                         .set("version", annotations.required("connector.operator.version"));

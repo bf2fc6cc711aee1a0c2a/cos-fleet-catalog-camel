@@ -8,7 +8,6 @@
       connector.version: "0.1"
       connector.revision: "1"
       connector.image: "quay.io/mcs_dev/aws-s3-sink:0.0.1"
-      connector.meta.image: "quay.io/mcs_dev/cos-fleetshard-meta-camel:0.0.1"
       connector.operator.version: "[1.0.0,2.0.0)"
   spec:
     connector:
@@ -32,7 +31,6 @@
       connector.version: "0.1"
       connector.revision: "1"
       connector.image: "quay.io/mcs_dev/aws-s3-sink:0.0.1"
-      connector.meta.image: "quay.io/mcs_dev/cos-fleetshard-meta-camel:0.0.1"
       connector.operator.version: "[1.0.0,2.0.0)"
   spec:
     connector:
@@ -56,7 +54,6 @@
       connector.version: "0.1"
       connector.revision: "1"
       connector.image: "quay.io/mcs_dev/aws-sqs-source:0.0.1"
-      connector.meta.image: "quay.io/mcs_dev/cos-fleetshard-meta-camel:0.0.1"
       connector.operator.version: "[1.0.0,2.0.0)"
   spec:
     connector:
