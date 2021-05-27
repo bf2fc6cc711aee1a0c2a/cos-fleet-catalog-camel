@@ -32,16 +32,3 @@ jobs:
       - name: Build Project
         run: |
           ./mvnw ${MAVEN_ARGS} clean install
-
-      - name: Setup Docker
-        uses: docker-practice/actions-setup-docker@v1
-
-      - name: Build docker image and push it
-        working-directory: cos-fleet-catalog-camel
-        run: |
-          docker build -t ${{secrets.IMAGE_REPO_HOSTNAME}}/${{secrets.IMAGE_REPO_NAMESPACE}}/cos-fleet-catalog-camel:${{steps.metadata.outputs.current-version}} .
-          docker login -u="${{secrets.IMAGE_REPO_USERNAME}}" -p="${{secrets.IMAGE_REPO_PASSWORD}}" ${{secrets.IMAGE_REPO_HOSTNAME}}
-          docker push ${{secrets.IMAGE_REPO_HOSTNAME}}/${{secrets.IMAGE_REPO_NAMESPACE}}/cos-fleet-catalog-camel:${{steps.metadata.outputs.current-version}}
-
-      - name: Print image url
-        run: echo "Image pushed to ${{secrets.IMAGE_REPO_HOSTNAME}}/${{secrets.IMAGE_REPO_NAMESPACE}}/cos-fleet-catalog-camel:${{steps.metadata.outputs.current-version}}"
