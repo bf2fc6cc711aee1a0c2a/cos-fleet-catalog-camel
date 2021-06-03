@@ -65,11 +65,12 @@ public class GenerateCatalogMojo extends AbstractMojo {
                 final JsonNode annotations = connector.requiredAt("/metadata/annotations");
                 final String version = annotations.required("connector.version").asText();
                 final String type = kameletType(connectorSpec);
+                final String id = String.format("%s_%s", name, version).replace("-", "_");
 
                 ObjectNode root = JSON_MAPPER.createObjectNode();
                 ObjectNode connectorType = root.putObject("connector_type");
                 connectorType.with("json_schema").put("type", "object");
-                connectorType.put("id", String.format("%s-%s", name, version));
+                connectorType.put("id", id);
                 connectorType.put("type", "object");
                 connectorType.put("kind", "ConnectorType");
                 connectorType.put("icon_href", "TODO");
@@ -175,7 +176,7 @@ public class GenerateCatalogMojo extends AbstractMojo {
                 Files.createDirectories(out);
 
                 JSON_MAPPER.writerWithDefaultPrettyPrinter().writeValue(
-                        Files.newBufferedWriter(out.resolve(String.format("%s-%s.json", name, version))),
+                        Files.newBufferedWriter(out.resolve(id + ".json")),
                         root);
             }
         } catch (IOException e) {

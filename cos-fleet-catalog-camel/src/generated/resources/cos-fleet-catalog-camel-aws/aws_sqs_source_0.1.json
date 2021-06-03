@@ -5,17 +5,17 @@
       "properties" : {
         "connector" : {
           "type" : "object",
-          "title" : "AWS S3 Source",
-          "required" : [ "bucketNameOrArn", "accessKey", "secretKey", "region" ],
+          "title" : "AWS SQS Source",
+          "required" : [ "queueNameOrArn", "accessKey", "secretKey", "region" ],
           "properties" : {
-            "bucketNameOrArn" : {
-              "title" : "Bucket Name",
-              "description" : "The S3 Bucket name or ARN",
+            "queueNameOrArn" : {
+              "title" : "Queue Name",
+              "description" : "The SQS Queue Name or ARN",
               "type" : "string"
             },
             "deleteAfterRead" : {
-              "title" : "Auto-delete Objects",
-              "description" : "Delete objects after consuming them",
+              "title" : "Auto-delete Messages",
+              "description" : "Delete messages after consuming them",
               "type" : "boolean",
               "default" : true
             },
@@ -51,9 +51,9 @@
               "type" : "string",
               "example" : "eu-west-1"
             },
-            "autoCreateBucket" : {
-              "title" : "Autocreate Bucket",
-              "description" : "Setting the autocreation of the S3 bucket bucketName.",
+            "autoCreateQueue" : {
+              "title" : "Autocreate Queue",
+              "description" : "Setting the autocreation of the SQS queue.",
               "type" : "boolean",
               "default" : false
             }
@@ -120,12 +120,12 @@
         }
       }
     },
-    "id" : "aws-s3-source-0.1",
+    "id" : "aws_sqs_source_0.1",
     "type" : "object",
     "kind" : "ConnectorType",
     "icon_href" : "TODO",
-    "name" : "AWS S3 Source",
-    "description" : "AWS S3  Source",
+    "name" : "AWS SQS Source",
+    "description" : "AWS SQS Source",
     "version" : "0.1",
     "labels" : [ "source" ],
     "channels" : [ "stable" ]
@@ -135,13 +135,13 @@
       "revision" : 1,
       "shard_metadata" : {
         "connector_type" : "source",
-        "connector_image" : "quay.io/mcs_dev/aws-s3-sink:0.0.1",
+        "connector_image" : "quay.io/mcs_dev/aws-sqs-source:0.0.1",
         "operators" : [ {
           "type" : "camel-connector-operator",
           "version" : "[1.0.0,2.0.0)"
         } ],
         "kamelets" : {
-          "connector" : "aws-s3-source",
+          "connector" : "aws-sqs-source",
           "kafka" : "managed-kafka-sink",
           "insert-field" : "insert-field-action",
           "extract-field" : "extract-field-action"

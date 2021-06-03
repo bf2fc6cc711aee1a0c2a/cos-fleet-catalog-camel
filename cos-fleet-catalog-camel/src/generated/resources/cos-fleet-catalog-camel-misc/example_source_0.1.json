@@ -36,7 +36,7 @@
         }
       }
     },
-    "id" : "example-source-0.1",
+    "id" : "example_source_0.1",
     "type" : "object",
     "kind" : "ConnectorType",
     "icon_href" : "TODO",

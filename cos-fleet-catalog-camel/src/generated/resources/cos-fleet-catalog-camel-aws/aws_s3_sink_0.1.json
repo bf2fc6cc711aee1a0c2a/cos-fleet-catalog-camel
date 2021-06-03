@@ -126,7 +126,7 @@
         }
       }
     },
-    "id" : "aws-s3-sink-0.1",
+    "id" : "aws_s3_sink_0.1",
     "type" : "object",
     "kind" : "ConnectorType",
     "icon_href" : "TODO",

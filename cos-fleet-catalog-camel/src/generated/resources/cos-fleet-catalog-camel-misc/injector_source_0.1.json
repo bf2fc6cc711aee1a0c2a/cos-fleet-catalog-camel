@@ -76,7 +76,7 @@
         }
       }
     },
-    "id" : "injector-source-0.1",
+    "id" : "injector_source_0.1",
     "type" : "object",
     "kind" : "ConnectorType",
     "icon_href" : "TODO",
