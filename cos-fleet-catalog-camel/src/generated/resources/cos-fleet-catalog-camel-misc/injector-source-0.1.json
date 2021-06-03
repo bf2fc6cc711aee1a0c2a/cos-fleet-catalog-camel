@@ -1,0 +1,108 @@
+{
+  "connector_type" : {
+    "json_schema" : {
+      "type" : "object",
+      "properties" : {
+        "connector" : {
+          "type" : "object",
+          "title" : "Injector",
+          "required" : [ ],
+          "properties" : {
+            "delay" : {
+              "title" : "Delay",
+              "description" : "Delay",
+              "type" : "string"
+            }
+          }
+        },
+        "kafka" : {
+          "type" : "object",
+          "title" : "Managed Kafka Sink",
+          "required" : [ "topic" ],
+          "properties" : {
+            "topic" : {
+              "title" : "Topic names",
+              "description" : "Comma separated list of Kafka topic names",
+              "type" : "string"
+            }
+          }
+        },
+        "steps" : {
+          "type" : "array",
+          "items" : {
+            "oneOf" : [ {
+              "type" : "object",
+              "required" : [ "insert-field" ],
+              "properties" : {
+                "insert-field" : {
+                  "title" : "Insert Field Action",
+                  "description" : "Adds a custom field with a constant value to the message in transit",
+                  "required" : [ "field", "value" ],
+                  "properties" : {
+                    "field" : {
+                      "title" : "Field",
+                      "description" : "The name of the field to be added",
+                      "type" : "string"
+                    },
+                    "value" : {
+                      "title" : "Value",
+                      "description" : "The value of the field",
+                      "type" : "string"
+                    }
+                  },
+                  "type" : "object"
+                }
+              }
+            }, {
+              "type" : "object",
+              "required" : [ "extract-field" ],
+              "properties" : {
+                "extract-field" : {
+                  "title" : "Extract Field Action",
+                  "description" : "Extract a field from the body",
+                  "required" : [ "field" ],
+                  "properties" : {
+                    "field" : {
+                      "title" : "Field",
+                      "description" : "The name of the field to be added",
+                      "type" : "string"
+                    }
+                  },
+                  "type" : "object"
+                }
+              }
+            } ]
+          }
+        }
+      }
+    },
+    "id" : "injector-source-0.1",
+    "type" : "object",
+    "kind" : "ConnectorType",
+    "icon_href" : "TODO",
+    "name" : "Injector Source",
+    "description" : "Injector Source",
+    "version" : "0.1",
+    "labels" : [ "source" ],
+    "channels" : [ "stable" ]
+  },
+  "channels" : {
+    "stable" : {
+      "revision" : 1,
+      "shard_metadata" : {
+        "connector_type" : "source",
+        "connector_image" : "quay.io/mcs_dev/injector-source:0.0.1",
+        "operators" : [ {
+          "type" : "camel-connector-operator",
+          "version" : "[1.0.0,2.0.0)"
+        } ],
+        "kamelets" : {
+          "connector" : "injector-source",
+          "kafka" : "managed-kafka-sink",
+          "insert-field" : "insert-field-action",
+          "extract-field" : "extract-field-action"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,158 @@
+{
+  "connector_type" : {
+    "json_schema" : {
+      "type" : "object",
+      "properties" : {
+        "connector" : {
+          "type" : "object",
+          "title" : "AWS S3 Sink",
+          "required" : [ "bucketNameOrArn", "accessKey", "secretKey", "region" ],
+          "properties" : {
+            "bucketNameOrArn" : {
+              "title" : "Bucket Name",
+              "description" : "The S3 Bucket name or ARN.",
+              "type" : "string"
+            },
+            "accessKey" : {
+              "title" : "Access Key",
+              "oneOf" : [ {
+                "title" : "Access Key",
+                "description" : "The access key obtained from AWS.",
+                "type" : "string",
+                "format" : "password"
+              }, {
+                "description" : "An opaque reference to the accessKey",
+                "type" : "object",
+                "properties" : { }
+              } ]
+            },
+            "secretKey" : {
+              "title" : "Secret Key",
+              "oneOf" : [ {
+                "title" : "Secret Key",
+                "description" : "The secret key obtained from AWS.",
+                "type" : "string",
+                "format" : "password"
+              }, {
+                "description" : "An opaque reference to the secretKey",
+                "type" : "object",
+                "properties" : { }
+              } ]
+            },
+            "region" : {
+              "title" : "AWS Region",
+              "description" : "The AWS region to connect to.",
+              "type" : "string",
+              "example" : "eu-west-1"
+            },
+            "overrideEndpoint" : {
+              "title" : "Override Endpoint",
+              "description" : "Set the need for overidding the endpoint. This option needs to be used in combination with uriEndpointOverride.",
+              "type" : "boolean",
+              "default" : false
+            },
+            "uriEndpointOverride" : {
+              "title" : "Override Endpoint URI",
+              "description" : "Set the overriding uri endpoint. This option needs to be used in combination with overrideEndpoint option.",
+              "type" : "string",
+              "example" : "http://another-s3-endpoint:9000"
+            },
+            "autoCreateBucket" : {
+              "title" : "Autocreate Bucket",
+              "description" : "Setting the autocreation of the S3 bucket bucketName.",
+              "type" : "boolean",
+              "default" : false
+            }
+          }
+        },
+        "kafka" : {
+          "type" : "object",
+          "title" : "Managed Kafka Source",
+          "required" : [ "topic" ],
+          "properties" : {
+            "topic" : {
+              "title" : "Topic names",
+              "description" : "Comma separated list of Kafka topic names",
+              "type" : "string"
+            }
+          }
+        },
+        "steps" : {
+          "type" : "array",
+          "items" : {
+            "oneOf" : [ {
+              "type" : "object",
+              "required" : [ "insert-field" ],
+              "properties" : {
+                "insert-field" : {
+                  "title" : "Insert Field Action",
+                  "description" : "Adds a custom field with a constant value to the message in transit",
+                  "required" : [ "field", "value" ],
+                  "properties" : {
+                    "field" : {
+                      "title" : "Field",
+                      "description" : "The name of the field to be added",
+                      "type" : "string"
+                    },
+                    "value" : {
+                      "title" : "Value",
+                      "description" : "The value of the field",
+                      "type" : "string"
+                    }
+                  },
+                  "type" : "object"
+                }
+              }
+            }, {
+              "type" : "object",
+              "required" : [ "extract-field" ],
+              "properties" : {
+                "extract-field" : {
+                  "title" : "Extract Field Action",
+                  "description" : "Extract a field from the body",
+                  "required" : [ "field" ],
+                  "properties" : {
+                    "field" : {
+                      "title" : "Field",
+                      "description" : "The name of the field to be added",
+                      "type" : "string"
+                    }
+                  },
+                  "type" : "object"
+                }
+              }
+            } ]
+          }
+        }
+      }
+    },
+    "id" : "aws-s3-sink-0.1",
+    "type" : "object",
+    "kind" : "ConnectorType",
+    "icon_href" : "TODO",
+    "name" : "AWS S3 Sink",
+    "description" : "AWS S3  Sink",
+    "version" : "0.1",
+    "labels" : [ "sink" ],
+    "channels" : [ "stable" ]
+  },
+  "channels" : {
+    "stable" : {
+      "revision" : 1,
+      "shard_metadata" : {
+        "connector_type" : "sink",
+        "connector_image" : "quay.io/mcs_dev/aws-s3-sink:0.0.1",
+        "operators" : [ {
+          "type" : "camel-connector-operator",
+          "version" : "[1.0.0,2.0.0)"
+        } ],
+        "kamelets" : {
+          "connector" : "aws-s3-sink",
+          "kafka" : "managed-kafka-source",
+          "insert-field" : "insert-field-action",
+          "extract-field" : "extract-field-action"
+        }
+      }
+    }
+  }
+}

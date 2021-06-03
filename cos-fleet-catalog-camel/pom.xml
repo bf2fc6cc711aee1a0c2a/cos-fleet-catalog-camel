@@ -25,16 +25,26 @@
                 <version>${project.version}</version>
                 <executions>
                     <execution>
-                        <id>generate-catalog</id>
-                        <phase>process-classes</phase>
+                        <id>generate-catalog-aws</id>
                         <goals>
                             <goal>generate-catalog</goal>
                         </goals>
                         <configuration>
-                            <staticPath>${project.basedir}/static</staticPath>
+                            <outputPath>${project.basedir}/src/generated/resources/cos-fleet-catalog-camel-aws</outputPath>
+                            <definitions>
+                                <definition>${project.basedir}/src/main/resources/aws.yaml</definition>
+                            </definitions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-catalog-misc</id>
+                        <goals>
+                            <goal>generate-catalog</goal>
+                        </goals>
+                        <configuration>
+                            <outputPath>${project.basedir}/src/generated/resources/cos-fleet-catalog-camel-misc</outputPath>
                             <definitions>
                                 <definition>${project.basedir}/src/main/resources/misc.yaml</definition>
-                                <definition>${project.basedir}/src/main/resources/aws.yaml</definition>
                             </definitions>
                         </configuration>
                     </execution>

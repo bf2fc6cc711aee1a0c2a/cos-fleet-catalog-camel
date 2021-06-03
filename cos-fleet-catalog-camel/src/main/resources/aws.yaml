@@ -6,9 +6,6 @@
       connector.name: "AWS S3 Sink"
       connector.description: "AWS S3  Sink"
       connector.version: "0.1"
-      connector.revision: "1"
-      connector.image: "quay.io/mcs_dev/aws-s3-sink:0.0.1"
-      connector.operator.version: "[1.0.0,2.0.0)"
   spec:
     connector:
       name: "aws-s3-sink"
@@ -21,6 +18,13 @@
         version: "0.0.1"
       - name: "extract-field-action"
         version: "0.0.1"
+    channels:
+      stable:
+        metadata:
+          connector.revision: "1"
+          connector.image: "quay.io/mcs_dev/aws-s3-sink:0.0.1"
+          connector.operator.version: "[1.0.0,2.0.0)"
+
 - apiVersion: org.bf2.cos/v1alpha1
   kind: CamelConnector
   metadata:
@@ -29,9 +33,6 @@
       connector.name: "AWS S3 Source"
       connector.description: "AWS S3  Source"
       connector.version: "0.1"
-      connector.revision: "1"
-      connector.image: "quay.io/mcs_dev/aws-s3-sink:0.0.1"
-      connector.operator.version: "[1.0.0,2.0.0)"
   spec:
     connector:
       name: "aws-s3-source"
@@ -44,6 +45,13 @@
         version: "0.0.1"
       - name: "extract-field-action"
         version: "0.0.1"
+    channels:
+      stable:
+        metadata:
+          connector.revision: "1"
+          connector.image: "quay.io/mcs_dev/aws-s3-sink:0.0.1"
+          connector.operator.version: "[1.0.0,2.0.0)"
+
 - apiVersion: org.bf2.cos/v1alpha1
   kind: CamelConnector
   metadata:
@@ -52,9 +60,6 @@
       connector.name: "AWS SQS Source"
       connector.description: "AWS SQS Source"
       connector.version: "0.1"
-      connector.revision: "1"
-      connector.image: "quay.io/mcs_dev/aws-sqs-source:0.0.1"
-      connector.operator.version: "[1.0.0,2.0.0)"
   spec:
     connector:
       name: "aws-sqs-source"
@@ -67,3 +72,9 @@
         version: "0.0.1"
       - name: "extract-field-action"
         version: "0.0.1"
+    channels:
+      stable:
+        metadata:
+          connector.revision: "1"
+          connector.image: "quay.io/mcs_dev/aws-sqs-source:0.0.1"
+          connector.operator.version: "[1.0.0,2.0.0)"

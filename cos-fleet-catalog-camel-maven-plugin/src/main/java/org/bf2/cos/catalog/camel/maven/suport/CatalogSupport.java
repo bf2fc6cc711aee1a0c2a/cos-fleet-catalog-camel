@@ -4,17 +4,23 @@ import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.List;
+import java.util.Objects;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import org.apache.maven.project.MavenProject;
 
 public final class CatalogSupport {
-    public static final ObjectMapper YAML_MAPPER = new YAMLMapper();
+    public static final ObjectMapper YAML_MAPPER = new YAMLMapper()
+            .configure(YAMLGenerator.Feature.WRITE_DOC_START_MARKER, false)
+            .configure(YAMLGenerator.Feature.LITERAL_BLOCK_STYLE, true)
+            .configure(YAMLGenerator.Feature.MINIMIZE_QUOTES, true);
+
     public static final ObjectMapper JSON_MAPPER = new ObjectMapper();
 
     private CatalogSupport() {
@@ -36,7 +42,20 @@ public final class CatalogSupport {
             var value = (ObjectNode) field.getValue();
             value.remove("x-descriptors");
 
-            target.set(field.getKey(), value);
+            var format = value.get("format");
+            if (format != null && Objects.equals("password", format.textValue())) {
+                var property = target.putObject(field.getKey());
+                property.set("title", value.get("title"));
+
+                var oneOf = property.putArray("oneOf");
+                oneOf.add(value);
+                oneOf.addObject()
+                        .put("description", "An opaque reference to the " + field.getKey())
+                        .put("type", "object")
+                        .putObject("properties");
+            } else {
+                target.set(field.getKey(), value);
+            }
         }
     }
 

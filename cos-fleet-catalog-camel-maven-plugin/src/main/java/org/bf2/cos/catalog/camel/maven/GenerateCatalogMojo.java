@@ -32,8 +32,8 @@ import static org.bf2.cos.catalog.camel.maven.suport.CatalogSupport.kameletType;
 public class GenerateCatalogMojo extends AbstractMojo {
     @Parameter(readonly = true, defaultValue = "${project}")
     private MavenProject project;
-    @Parameter(defaultValue = "${project.build.directory}/static")
-    private String staticPath;
+    @Parameter(defaultValue = "${project.build.directory}")
+    private String outputPath;
     @Parameter
     private List<String> definitions;
 
@@ -42,128 +42,47 @@ public class GenerateCatalogMojo extends AbstractMojo {
         try {
             final KameletsCatalog catalog = new KameletsCatalog(getClassLoader(project));
 
-            generateIndex(catalog);
-            generateDefinitions(catalog);
-        } catch (IOException e) {
-            throw new MojoExecutionException("", e);
-        }
-    }
-
-    // **************************************
-    //
-    // Index
-    //
-    // **************************************
-
-    private void generateIndex(KameletsCatalog catalog) throws MojoExecutionException, MojoFailureException {
-        try {
-            final ArrayNode root = JSON_MAPPER.createArrayNode();
-
             for (String definition : definitions) {
                 Path path = Paths.get(definition);
-                generateIndex(root, catalog, path);
+                generateDefinitions(catalog, path);
             }
 
-            //
-            // Write
-            //
-
-            Path out = Paths.get(staticPath)
-                    .resolve("v1")
-                    .resolve("kafka-connector-catalog");
-
-            Files.createDirectories(out);
-
-            JSON_MAPPER.writerWithDefaultPrettyPrinter().writeValue(
-                    Files.newBufferedWriter(out.resolve("index.json")),
-                    root);
         } catch (IOException e) {
             throw new MojoExecutionException("", e);
-        }
-    }
-
-    private void generateIndex(ArrayNode root, KameletsCatalog catalog, Path definition)
-            throws MojoExecutionException, MojoFailureException {
-        try (InputStream is = Files.newInputStream(definition)) {
-            for (JsonNode connector : YAML_MAPPER.readValue(is, ArrayNode.class)) {
-                final ObjectNode connectorSpec = catalog.kamelet(connector.requiredAt("/spec/connector"));
-                final ObjectNode kafkaSpec = catalog.kamelet(connector.requiredAt("/spec/kafka"));
-                final JsonNode stepsSpec = connector.at("/spec/steps");
-                final String name = connector.requiredAt("/metadata/name").asText();
-                final JsonNode annotations = connector.requiredAt("/metadata/annotations");
-                final String version = annotations.required("connector.version").asText();
-                final String type = kameletType(connectorSpec);
-                final String id = String.format("%s-%s", name, version);
-
-                ObjectNode entry = root.addObject();
-                entry.put("id", id);
-                entry.put("channel", "stable");
-                entry.set("revision", annotations.required("connector.revision"));
-
-                ObjectNode shardMeta = entry.putObject("shard_metadata");
-                shardMeta.put("connector_type", type);
-                shardMeta.set("connector_image", annotations.required("connector.image"));
-                shardMeta.withArray("operators").addObject()
-                        .put("type", "camel-k")
-                        .set("version", annotations.required("connector.operator.version"));
-                shardMeta.with("kamelets")
-                        .put("connector", kameletName(connectorSpec))
-                        .put("kafka", kameletName(kafkaSpec));
-
-                if (!stepsSpec.isMissingNode() && !stepsSpec.isEmpty()) {
-                    for (JsonNode step : stepsSpec) {
-                        shardMeta.with("kamelets").put(
-                                step.required("name").asText().replace("-action", ""),
-                                step.required("name").asText());
-                    }
-                }
-            }
-        } catch (IOException e) {
-            throw new MojoExecutionException("", e);
-        }
-    }
-
-    // **************************************
-    //
-    // Definitions
-    //
-    // **************************************
-
-    private void generateDefinitions(KameletsCatalog catalog) throws MojoExecutionException, MojoFailureException {
-        for (String definition : definitions) {
-            Path path = Paths.get(definition);
-            generateDefinitions(catalog, path);
         }
     }
 
     private void generateDefinitions(KameletsCatalog catalog, Path definition)
             throws MojoExecutionException, MojoFailureException {
+
         try (InputStream is = Files.newInputStream(definition)) {
             for (JsonNode connector : YAML_MAPPER.readValue(is, ArrayNode.class)) {
                 final ObjectNode connectorSpec = catalog.kamelet(connector.requiredAt("/spec/connector"));
                 final ObjectNode kafkaSpec = catalog.kamelet(connector.requiredAt("/spec/kafka"));
+                final JsonNode channelsSpec = connector.requiredAt("/spec/channels");
                 final JsonNode stepsSpec = connector.at("/spec/steps");
                 final String name = connector.requiredAt("/metadata/name").asText();
                 final JsonNode annotations = connector.requiredAt("/metadata/annotations");
                 final String version = annotations.required("connector.version").asText();
-                final String id = String.format("%s-%s", name, version);
+                final String type = kameletType(connectorSpec);
 
-                ObjectNode entry = JSON_MAPPER.createObjectNode();
-                entry.with("json_schema").put("type", "object");
-                entry.put("id", String.format("%s-%s", name, version));
-                entry.put("type", "object");
-                entry.put("kind", "ConnectorType");
-                entry.put("icon_href", "TODO");
-                entry.set("name", annotations.required("connector.name"));
-                entry.set("description", annotations.required("connector.description"));
-                entry.put("version", version);
-                entry.putArray("labels").add(kameletType(connectorSpec));
+                ObjectNode root = JSON_MAPPER.createObjectNode();
+                ObjectNode connectorType = root.putObject("connector_type");
+                connectorType.with("json_schema").put("type", "object");
+                connectorType.put("id", String.format("%s-%s", name, version));
+                connectorType.put("type", "object");
+                connectorType.put("kind", "ConnectorType");
+                connectorType.put("icon_href", "TODO");
+                connectorType.set("name", annotations.required("connector.name"));
+                connectorType.set("description", annotations.required("connector.description"));
+                connectorType.put("version", version);
+                connectorType.putArray("labels").add(kameletType(connectorSpec));
 
                 //
                 // Connector
                 //
 
-                var connectorProps = entry.with("json_schema").with("properties").with("connector");
+                var connectorProps = connectorType.with("json_schema").with("properties").with("connector");
                 connectorProps.put("type", "object");
                 connectorProps.set("title", connectorSpec.requiredAt("/spec/definition/title"));
 
@@ -178,7 +97,7 @@ public class GenerateCatalogMojo extends AbstractMojo {
                 // Kafka
                 //
 
-                var kafkaProps = entry.with("json_schema").with("properties").with("kafka");
+                var kafkaProps = connectorType.with("json_schema").with("properties").with("kafka");
                 kafkaProps.put("type", "object");
                 kafkaProps.set("title", kafkaSpec.requiredAt("/spec/definition/title"));
 
@@ -194,7 +113,7 @@ public class GenerateCatalogMojo extends AbstractMojo {
                 //
 
                 if (!stepsSpec.isMissingNode() && !stepsSpec.isEmpty()) {
-                    final var oneOf = (ArrayNode) entry.with("json_schema").with("properties").with("steps")
+                    final var oneOf = (ArrayNode) connectorType.with("json_schema").with("properties").with("steps")
                             .put("type", "array")
                             .with("items")
                             .withArray("oneOf");
@@ -211,19 +130,53 @@ public class GenerateCatalogMojo extends AbstractMojo {
                 }
 
                 //
+                // channels
+                //
+
+                if (!channelsSpec.isMissingNode() && !channelsSpec.isEmpty()) {
+                    ObjectNode channels = root.putObject("channels");
+
+                    var it = channelsSpec.fields();
+                    while (it.hasNext()) {
+                        var entry = it.next();
+
+                        connectorType.withArray("channels").add(entry.getKey());
+
+                        JsonNode channelAnnotations = entry.getValue().requiredAt("/metadata");
+
+                        ObjectNode channel = channels.putObject(entry.getKey());
+                        channel.put("revision", channelAnnotations.required("connector.revision").asLong());
+
+                        ObjectNode shardMeta = channel.putObject("shard_metadata");
+                        shardMeta.put("connector_type", type);
+                        shardMeta.set("connector_image", channelAnnotations.required("connector.image"));
+                        shardMeta.withArray("operators").addObject()
+                                .put("type", "camel-connector-operator")
+                                .set("version", channelAnnotations.required("connector.operator.version"));
+                        shardMeta.with("kamelets")
+                                .put("connector", kameletName(connectorSpec))
+                                .put("kafka", kameletName(kafkaSpec));
+
+                        if (!stepsSpec.isMissingNode() && !stepsSpec.isEmpty()) {
+                            for (JsonNode step : stepsSpec) {
+                                shardMeta.with("kamelets").put(
+                                        step.required("name").asText().replace("-action", ""),
+                                        step.required("name").asText());
+                            }
+                        }
+                    }
+                }
+
+                //
                 // Write
                 //
 
-                Path out = Paths.get(staticPath)
-                        .resolve("v1")
-                        .resolve("kafka-connector-types")
-                        .resolve(id);
-
+                Path out = Paths.get(outputPath);
                 Files.createDirectories(out);
 
                 JSON_MAPPER.writerWithDefaultPrettyPrinter().writeValue(
-                        Files.newBufferedWriter(out.resolve("index.json")),
-                        entry);
+                        Files.newBufferedWriter(out.resolve(String.format("%s-%s.json", name, version))),
+                        root);
             }
         } catch (IOException e) {
             throw new MojoExecutionException("", e);
