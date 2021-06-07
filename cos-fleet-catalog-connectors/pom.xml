@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <parent>
+        <groupId>org.bf2</groupId>
+        <artifactId>cos-fleet-catalog-camel-parent</artifactId>
+        <version>999-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>cos-fleet-catalog-connectors</artifactId>
+    <packaging>pom</packaging>
+
+    <properties>
+        <cos.connector.operator.type>camel-connector-operator</cos.connector.operator.type>
+        <cos.connector.container.repository>quay.io</cos.connector.container.repository>
+        <cos.connector.container.organization>cos</cos.connector.container.organization>
+        <cos.connector.catalog.root>${cos.project.root}/etc/connectors</cos.connector.catalog.root>
+    </properties>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.bf2</groupId>
+                    <artifactId>cos-fleet-catalog-camel-maven-plugin</artifactId>
+                    <version>999-SNAPSHOT</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.bf2</groupId>
+                            <artifactId>cos-fleet-catalog-kamelets</artifactId>
+                            <version>999-SNAPSHOT</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <modules>
+        <module>aws</module>
+        <module>misc</module>
+    </modules>
+
+</project>

@@ -63,6 +63,6 @@ public final class KameletsCatalog {
                 .filter(node -> Objects.equals(name, kameletName(node)) && Objects.equals(version, kameletVersion(node)))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Unable to find kamelet with name " + name + "and version " + version));
+                        "Unable to find kamelet with name " + name + " and version " + version));
     }
 }

@@ -5,25 +5,19 @@
       "properties" : {
         "connector" : {
           "type" : "object",
-          "title" : "AWS S3 Source",
+          "title" : "AWS S3 Sink",
           "required" : [ "bucketNameOrArn", "accessKey", "secretKey", "region" ],
           "properties" : {
             "bucketNameOrArn" : {
               "title" : "Bucket Name",
-              "description" : "The S3 Bucket name or ARN",
+              "description" : "The S3 Bucket name or ARN.",
               "type" : "string"
-            },
-            "deleteAfterRead" : {
-              "title" : "Auto-delete Objects",
-              "description" : "Delete objects after consuming them",
-              "type" : "boolean",
-              "default" : true
             },
             "accessKey" : {
               "title" : "Access Key",
               "oneOf" : [ {
                 "title" : "Access Key",
-                "description" : "The access key obtained from AWS",
+                "description" : "The access key obtained from AWS.",
                 "type" : "string",
                 "format" : "password"
               }, {
@@ -36,7 +30,7 @@
               "title" : "Secret Key",
               "oneOf" : [ {
                 "title" : "Secret Key",
-                "description" : "The secret key obtained from AWS",
+                "description" : "The secret key obtained from AWS.",
                 "type" : "string",
                 "format" : "password"
               }, {
@@ -47,9 +41,21 @@
             },
             "region" : {
               "title" : "AWS Region",
-              "description" : "The AWS region to connect to",
+              "description" : "The AWS region to connect to.",
               "type" : "string",
               "example" : "eu-west-1"
+            },
+            "overrideEndpoint" : {
+              "title" : "Override Endpoint",
+              "description" : "Set the need for overidding the endpoint. This option needs to be used in combination with uriEndpointOverride.",
+              "type" : "boolean",
+              "default" : false
+            },
+            "uriEndpointOverride" : {
+              "title" : "Override Endpoint URI",
+              "description" : "Set the overriding uri endpoint. This option needs to be used in combination with overrideEndpoint option.",
+              "type" : "string",
+              "example" : "http://another-s3-endpoint:9000"
             },
             "autoCreateBucket" : {
               "title" : "Autocreate Bucket",
@@ -61,7 +67,7 @@
         },
         "kafka" : {
           "type" : "object",
-          "title" : "Managed Kafka Sink",
+          "title" : "Managed Kafka Source",
           "required" : [ "topic" ],
           "properties" : {
             "topic" : {
@@ -120,28 +126,28 @@
         }
       }
     },
-    "id" : "aws_s3_source_0.1",
+    "id" : "aws_s3_sink_0.1",
     "kind" : "ConnectorType",
     "icon_href" : "TODO",
-    "name" : "AWS S3 Source",
-    "description" : "AWS S3  Source",
+    "name" : "AWS S3 Sink",
+    "description" : "AWS S3 Sink",
     "version" : "0.1",
-    "labels" : [ "source" ],
+    "labels" : [ "sink" ],
     "channels" : [ "stable" ]
   },
   "channels" : {
     "stable" : {
-      "revision" : 1,
       "shard_metadata" : {
-        "connector_type" : "source",
-        "connector_image" : "quay.io/mcs_dev/aws-s3-sink:0.0.1",
+        "connector_revision" : "1",
+        "connector_type" : "sink",
+        "connector_image" : "quay.io/cos/aws-s3-sink-0.1:1",
         "operators" : [ {
           "type" : "camel-connector-operator",
           "version" : "[1.0.0,2.0.0)"
         } ],
         "kamelets" : {
-          "connector" : "aws-s3-source",
-          "kafka" : "managed-kafka-sink",
+          "connector" : "aws-s3-sink",
+          "kafka" : "managed-kafka-source",
           "insert-field" : "insert-field-action",
           "extract-field" : "extract-field-action"
         }

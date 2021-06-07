@@ -1,7 +1,6 @@
 package org.bf2.cos.catalog.camel.maven;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -20,8 +19,8 @@ import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
 import org.bf2.cos.catalog.camel.maven.suport.KameletsCatalog;
 
+import static java.util.Optional.ofNullable;
 import static org.bf2.cos.catalog.camel.maven.suport.CatalogSupport.JSON_MAPPER;
-import static org.bf2.cos.catalog.camel.maven.suport.CatalogSupport.YAML_MAPPER;
 import static org.bf2.cos.catalog.camel.maven.suport.CatalogSupport.addRequired;
 import static org.bf2.cos.catalog.camel.maven.suport.CatalogSupport.copyProperties;
 import static org.bf2.cos.catalog.camel.maven.suport.CatalogSupport.getClassLoader;
@@ -35,16 +34,18 @@ public class GenerateCatalogMojo extends AbstractMojo {
     @Parameter(defaultValue = "${project.build.directory}")
     private String outputPath;
     @Parameter
-    private List<String> definitions;
+    private List<Connector> connectors;
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
+        getLog().info("==================================");
         try {
             final KameletsCatalog catalog = new KameletsCatalog(getClassLoader(project));
 
-            for (String definition : definitions) {
-                Path path = Paths.get(definition);
-                generateDefinitions(catalog, path);
+            if (connectors != null) {
+                for (Connector connector : connectors) {
+                    generateDefinitions(catalog, connector);
+                }
             }
 
         } catch (IOException e) {
@@ -52,132 +53,141 @@ public class GenerateCatalogMojo extends AbstractMojo {
         }
     }
 
-    private void generateDefinitions(KameletsCatalog catalog, Path definition)
+    private void generateDefinitions(KameletsCatalog catalog, Connector connector)
             throws MojoExecutionException, MojoFailureException {
 
-        try (InputStream is = Files.newInputStream(definition)) {
-            for (JsonNode connector : YAML_MAPPER.readValue(is, ArrayNode.class)) {
-                final ObjectNode connectorSpec = catalog.kamelet(connector.requiredAt("/spec/connector"));
-                final ObjectNode kafkaSpec = catalog.kamelet(connector.requiredAt("/spec/kafka"));
-                final JsonNode channelsSpec = connector.requiredAt("/spec/channels");
-                final JsonNode stepsSpec = connector.at("/spec/steps");
-                final String name = connector.requiredAt("/metadata/name").asText();
-                final JsonNode annotations = connector.requiredAt("/metadata/annotations");
-                final String version = annotations.required("connector.version").asText();
-                final String type = kameletType(connectorSpec);
-                final String id = String.format("%s_%s", name, version).replace("-", "_");
+        try {
+            final ObjectNode connectorSpec = catalog.kamelet(
+                    connector.getAdapter().getName(),
+                    connector.getAdapter().getVersion());
+            final ObjectNode kafkaSpec = catalog.kamelet(
+                    connector.getKafka().getName(),
+                    connector.getKafka().getVersion());
 
-                ObjectNode root = JSON_MAPPER.createObjectNode();
-                ObjectNode connectorType = root.putObject("connector_type");
-                connectorType.with("json_schema").put("type", "object");
-                connectorType.put("id", id);
-                connectorType.put("kind", "ConnectorType");
-                connectorType.put("icon_href", "TODO");
-                connectorType.set("name", annotations.required("connector.name"));
-                connectorType.set("description", annotations.required("connector.description"));
-                connectorType.put("version", version);
-                connectorType.putArray("labels").add(kameletType(connectorSpec));
+            final String version = ofNullable(connector.getVersion()).orElseGet(project::getVersion);
+            final String name = ofNullable(connector.getName()).orElseGet(project::getArtifactId);
+            final String title = ofNullable(connector.getTitle()).orElseGet(project::getName);
+            final String description = ofNullable(connector.getDescription()).orElseGet(project::getDescription);
+            final String type = kameletType(connectorSpec);
+            final String id = name.replace("-", "_");
 
-                //
-                // Connector
-                //
+            ObjectNode root = JSON_MAPPER.createObjectNode();
+            ObjectNode connectorType = root.putObject("connector_type");
+            connectorType.with("json_schema").put("type", "object");
+            connectorType.put("id", id);
+            connectorType.put("kind", "ConnectorType");
+            connectorType.put("icon_href", "TODO");
+            connectorType.put("name", title);
+            connectorType.put("description", description);
+            connectorType.put("version", version);
+            connectorType.putArray("labels").add(kameletType(connectorSpec));
 
-                var connectorProps = connectorType.with("json_schema").with("properties").with("connector");
-                connectorProps.put("type", "object");
-                connectorProps.set("title", connectorSpec.requiredAt("/spec/definition/title"));
+            //
+            // Connector
+            //
 
-                addRequired(
-                        connectorSpec,
-                        connectorProps.withArray("required"));
-                copyProperties(
-                        connectorSpec,
-                        connectorProps.with("properties"));
+            var connectorProps = connectorType.with("json_schema").with("properties").with("connector");
+            connectorProps.put("type", "object");
+            connectorProps.set("title", connectorSpec.requiredAt("/spec/definition/title"));
 
-                //
-                // Kafka
-                //
+            addRequired(
+                    connectorSpec,
+                    connectorProps.withArray("required"));
+            copyProperties(
+                    connectorSpec,
+                    connectorProps.with("properties"));
 
-                var kafkaProps = connectorType.with("json_schema").with("properties").with("kafka");
-                kafkaProps.put("type", "object");
-                kafkaProps.set("title", kafkaSpec.requiredAt("/spec/definition/title"));
+            //
+            // Kafka
+            //
 
-                addRequired(
-                        kafkaSpec,
-                        kafkaProps.withArray("required"));
-                copyProperties(
-                        kafkaSpec,
-                        kafkaProps.with("properties"));
+            var kafkaProps = connectorType.with("json_schema").with("properties").with("kafka");
+            kafkaProps.put("type", "object");
+            kafkaProps.set("title", kafkaSpec.requiredAt("/spec/definition/title"));
 
-                //
-                // Steps
-                //
+            addRequired(
+                    kafkaSpec,
+                    kafkaProps.withArray("required"));
+            copyProperties(
+                    kafkaSpec,
+                    kafkaProps.with("properties"));
 
-                if (!stepsSpec.isMissingNode() && !stepsSpec.isEmpty()) {
-                    final var oneOf = (ArrayNode) connectorType.with("json_schema").with("properties").with("steps")
-                            .put("type", "array")
-                            .with("items")
-                            .withArray("oneOf");
+            //
+            // Steps
+            //
 
-                    for (JsonNode step : stepsSpec) {
-                        final String stepName = step.required("name").asText().replace("-action", "");
-                        final ObjectNode stepSchema = oneOf.addObject();
+            if (connector.getSteps() != null) {
+                final var oneOf = (ArrayNode) connectorType.with("json_schema").with("properties").with("steps")
+                        .put("type", "array")
+                        .with("items")
+                        .withArray("oneOf");
 
-                        stepSchema.put("type", "object");
-                        stepSchema.withArray("required").add(stepName);
-                        stepSchema.with("properties").set(stepName, catalog.kamelet(step).requiredAt("/spec/definition"));
-                        stepSchema.with("properties").with(stepName).put("type", "object");
-                    }
+                for (Connector.KameletRef step : connector.getSteps()) {
+                    final String stepName = step.getName().replace("-action", "");
+                    final ObjectNode stepSchema = oneOf.addObject();
+                    final JsonNode kameletSpec = catalog.kamelet(step.getName(), step.getVersion());
+
+                    stepSchema.put("type", "object");
+                    stepSchema.withArray("required").add(stepName);
+                    stepSchema.with("properties").set(stepName, kameletSpec.requiredAt("/spec/definition"));
+                    stepSchema.with("properties").with(stepName).put("type", "object");
                 }
+            }
 
-                //
-                // channels
-                //
+            //
+            // channels
+            //
 
-                if (!channelsSpec.isMissingNode() && !channelsSpec.isEmpty()) {
-                    ObjectNode channels = root.putObject("channels");
+            if (connector.getChannels() != null) {
+                for (var ch : connector.getChannels().entrySet()) {
 
-                    var it = channelsSpec.fields();
-                    while (it.hasNext()) {
-                        var entry = it.next();
+                    // add channel to the connector definition
+                    connectorType.withArray("channels").add(ch.getKey());
 
-                        connectorType.withArray("channels").add(entry.getKey());
+                    ObjectNode channel = root.with("channels").with(ch.getKey());
+                    String image = ch.getValue().getImage();
 
-                        JsonNode channelAnnotations = entry.getValue().requiredAt("/metadata");
+                    if (image == null) {
+                        image = String.format("%s/%s/%s:%s",
+                                project.getProperties().getProperty("cos.connector.container.repository"),
+                                project.getProperties().getProperty("cos.connector.container.organization"),
+                                name,
+                                ch.getValue().getRevision());
+                    }
 
-                        ObjectNode channel = channels.putObject(entry.getKey());
-                        channel.put("revision", channelAnnotations.required("connector.revision").asLong());
+                    ObjectNode shardMeta = channel.putObject("shard_metadata");
+                    shardMeta.put("connector_revision", ch.getValue().getRevision());
+                    shardMeta.put("connector_type", type);
+                    shardMeta.put("connector_image", image);
+                    shardMeta.withArray("operators").addObject()
+                            .put("type", ch.getValue().getOperator().getType())
+                            .put("version", ch.getValue().getOperator().getVersion());
+                    shardMeta.with("kamelets")
+                            .put("connector", kameletName(connectorSpec))
+                            .put("kafka", kameletName(kafkaSpec));
 
-                        ObjectNode shardMeta = channel.putObject("shard_metadata");
-                        shardMeta.put("connector_type", type);
-                        shardMeta.set("connector_image", channelAnnotations.required("connector.image"));
-                        shardMeta.withArray("operators").addObject()
-                                .put("type", "camel-connector-operator")
-                                .set("version", channelAnnotations.required("connector.operator.version"));
-                        shardMeta.with("kamelets")
-                                .put("connector", kameletName(connectorSpec))
-                                .put("kafka", kameletName(kafkaSpec));
-
-                        if (!stepsSpec.isMissingNode() && !stepsSpec.isEmpty()) {
-                            for (JsonNode step : stepsSpec) {
-                                shardMeta.with("kamelets").put(
-                                        step.required("name").asText().replace("-action", ""),
-                                        step.required("name").asText());
-                            }
+                    if (connector.getSteps() != null) {
+                        for (Connector.KameletRef step : connector.getSteps()) {
+                            shardMeta.with("kamelets").put(
+                                    step.getName().replace("-action", ""),
+                                    step.getName());
                         }
                     }
                 }
-
-                //
-                // Write
-                //
-
-                Path out = Paths.get(outputPath);
-                Files.createDirectories(out);
-
-                JSON_MAPPER.writerWithDefaultPrettyPrinter().writeValue(
-                        Files.newBufferedWriter(out.resolve(id + ".json")),
-                        root);
             }
+
+            //
+            // Write
+            //
+
+            Path out = Paths.get(outputPath);
+            Files.createDirectories(out);
+
+            getLog().info("Writing connector to: " + out.resolve(id + ".json"));
+
+            JSON_MAPPER.writerWithDefaultPrettyPrinter().writeValue(
+                    Files.newBufferedWriter(out.resolve(id + ".json")),
+                    root);
         } catch (IOException e) {
             throw new MojoExecutionException("", e);
         }
