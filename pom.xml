@@ -44,7 +44,7 @@
     <modules>
         <module>cos-fleet-catalog-camel-maven-plugin</module>
         <module>cos-fleet-catalog-kamelets</module>
-        <module>cos-fleet-catalog-camel</module>
+        <module>cos-fleet-catalog-connectors</module>
     </modules>
 
     <dependencyManagement>

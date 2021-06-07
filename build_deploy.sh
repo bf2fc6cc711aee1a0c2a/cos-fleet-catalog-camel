@@ -15,22 +15,23 @@
 # limitations under the License.
 #
 
-for D in $(ls cos-fleet-catalog-camel/src/generated/resources); do  
-  echo "Creating configmap: ${D}"
-  
-  if [ ! -z "$1" ]; then
-    kubectl delete configmap "${D}" \
-      --namespace "${1}" || true
-    kubectl create configmap "${D}" \
+CONNECTORS_DIR=etc/connectors
+
+for D in "${CONNECTORS_DIR}"/*; do
+  CM_NAME=$(basename "${D}")
+  echo "Creating configmap: ${CM_NAME}"
+
+  if [ -n "$1" ]; then
+    kubectl create configmap "${CM_NAME}" \
       --namespace "${1}" \
-      --from-file=cos-fleet-catalog-camel/src/generated/resources/${D}/ \
-      -o yaml
-  else 
-    kubectl create configmap "${D}" \
+      --from-file="${CONNECTORS_DIR}/${CM_NAME}/" \
+      --dry-run \
+      -o yaml | kubectl replace -f -
+  else
+    kubectl create configmap "${CM_NAME}" \
       --namespace "${1}" \
-      --from-file=cos-fleet-catalog-camel/src/generated/resources/${D}/ \
-      --dry-run=client \
+      --from-file="${CONNECTORS_DIR}/${CM_NAME}/" \
+      --dry-run \
       -o yaml
   fi
 done
-
