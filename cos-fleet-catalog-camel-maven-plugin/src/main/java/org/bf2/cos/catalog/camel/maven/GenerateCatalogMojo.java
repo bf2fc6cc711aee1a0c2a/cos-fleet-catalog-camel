@@ -71,7 +71,6 @@ public class GenerateCatalogMojo extends AbstractMojo {
                 ObjectNode connectorType = root.putObject("connector_type");
                 connectorType.with("json_schema").put("type", "object");
                 connectorType.put("id", id);
-                connectorType.put("type", "object");
                 connectorType.put("kind", "ConnectorType");
                 connectorType.put("icon_href", "TODO");
                 connectorType.set("name", annotations.required("connector.name"));

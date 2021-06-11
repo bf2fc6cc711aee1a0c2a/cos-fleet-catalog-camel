@@ -30,7 +30,7 @@
                             <goal>generate-catalog</goal>
                         </goals>
                         <configuration>
-                            <outputPath>${project.basedir}/src/generated/resources/cos-fleet-catalog-camel-aws</outputPath>
+                            <outputPath>${project.basedir}/src/generated/resources/connector-catalog-camel-aws</outputPath>
                             <definitions>
                                 <definition>${project.basedir}/src/main/resources/aws.yaml</definition>
                             </definitions>
@@ -42,7 +42,7 @@
                             <goal>generate-catalog</goal>
                         </goals>
                         <configuration>
-                            <outputPath>${project.basedir}/src/generated/resources/cos-fleet-catalog-camel-misc</outputPath>
+                            <outputPath>${project.basedir}/src/generated/resources/connector-catalog-camel-misc</outputPath>
                             <definitions>
                                 <definition>${project.basedir}/src/main/resources/misc.yaml</definition>
                             </definitions>

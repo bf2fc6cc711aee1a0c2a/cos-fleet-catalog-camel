@@ -5,55 +5,18 @@
       "properties" : {
         "connector" : {
           "type" : "object",
-          "title" : "AWS SQS Source",
-          "required" : [ "queueNameOrArn", "accessKey", "secretKey", "region" ],
+          "title" : "Log",
+          "required" : [ ],
           "properties" : {
-            "queueNameOrArn" : {
-              "title" : "Queue Name",
-              "description" : "The SQS Queue Name or ARN",
-              "type" : "string"
-            },
-            "deleteAfterRead" : {
-              "title" : "Auto-delete Messages",
-              "description" : "Delete messages after consuming them",
+            "multiLine" : {
+              "title" : "Multi Line",
+              "description" : "Multi Line",
               "type" : "boolean",
-              "default" : true
+              "default" : false
             },
-            "accessKey" : {
-              "title" : "Access Key",
-              "oneOf" : [ {
-                "title" : "Access Key",
-                "description" : "The access key obtained from AWS",
-                "type" : "string",
-                "format" : "password"
-              }, {
-                "description" : "An opaque reference to the accessKey",
-                "type" : "object",
-                "properties" : { }
-              } ]
-            },
-            "secretKey" : {
-              "title" : "Secret Key",
-              "oneOf" : [ {
-                "title" : "Secret Key",
-                "description" : "The secret key obtained from AWS",
-                "type" : "string",
-                "format" : "password"
-              }, {
-                "description" : "An opaque reference to the secretKey",
-                "type" : "object",
-                "properties" : { }
-              } ]
-            },
-            "region" : {
-              "title" : "AWS Region",
-              "description" : "The AWS region to connect to",
-              "type" : "string",
-              "example" : "eu-west-1"
-            },
-            "autoCreateQueue" : {
-              "title" : "Autocreate Queue",
-              "description" : "Setting the autocreation of the SQS queue.",
+            "showAll" : {
+              "title" : "Show All",
+              "description" : "Show All",
               "type" : "boolean",
               "default" : false
             }
@@ -61,7 +24,7 @@
         },
         "kafka" : {
           "type" : "object",
-          "title" : "Managed Kafka Sink",
+          "title" : "Managed Kafka Source",
           "required" : [ "topic" ],
           "properties" : {
             "topic" : {
@@ -120,29 +83,28 @@
         }
       }
     },
-    "id" : "aws_sqs_source_0.1",
-    "type" : "object",
+    "id" : "log_sink_0.1",
     "kind" : "ConnectorType",
     "icon_href" : "TODO",
-    "name" : "AWS SQS Source",
-    "description" : "AWS SQS Source",
+    "name" : "Log Sink",
+    "description" : "Log Sink",
     "version" : "0.1",
-    "labels" : [ "source" ],
+    "labels" : [ "sink" ],
     "channels" : [ "stable" ]
   },
   "channels" : {
     "stable" : {
       "revision" : 1,
       "shard_metadata" : {
-        "connector_type" : "source",
-        "connector_image" : "quay.io/mcs_dev/aws-sqs-source:0.0.1",
+        "connector_type" : "sink",
+        "connector_image" : "quay.io/mcs_dev/log-sink:0.0.1",
         "operators" : [ {
           "type" : "camel-connector-operator",
           "version" : "[1.0.0,2.0.0)"
         } ],
         "kamelets" : {
-          "connector" : "aws-sqs-source",
-          "kafka" : "managed-kafka-sink",
+          "connector" : "log-sink",
+          "kafka" : "managed-kafka-source",
           "insert-field" : "insert-field-action",
           "extract-field" : "extract-field-action"
         }
