@@ -15,14 +15,22 @@
 # limitations under the License.
 #
 
-# TODO: add commit id as annotation
-COMMIT_ID="$(git log --pretty=format:'%h' -n 1)"
-
-for D in $(ls cos-fleet-catalog-camel/src/generated/resources); do
-  echo ${D}
-  kubectl create configmap $D \
-    --from-file=cos-fleet-catalog-camel/src/generated/resources/${D}/ \
-    --dry-run=client \
-    -o yaml
+for D in $(ls cos-fleet-catalog-camel/src/generated/resources); do  
+  echo "Creating configmap: ${D}"
+  
+  if [ ! -z "$1" ]; then
+    kubectl delete configmap "${D}" \
+      --namespace "${1}" || true
+    kubectl create configmap "${D}" \
+      --namespace "${1}" \
+      --from-file=cos-fleet-catalog-camel/src/generated/resources/${D}/ \
+      -o yaml
+  else 
+    kubectl create configmap "${D}" \
+      --namespace "${1}" \
+      --from-file=cos-fleet-catalog-camel/src/generated/resources/${D}/ \
+      --dry-run=client \
+      -o yaml
+  fi
 done
 
