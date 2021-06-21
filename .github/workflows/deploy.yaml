@@ -7,6 +7,7 @@ on:
     paths:
       - 'etc/connectors/**/*.json'
       - 'etc/scripts/*.sh'
+      - '.github/workflows/deploy.yaml'
   workflow_dispatch:
 
 env:
@@ -23,9 +24,12 @@ jobs:
     steps:
       - name: Checkout Project
         uses: actions/checkout@v2
-
       - name: Login to OpenShift cluster
-        run: oc login --insecure-skip-tls-verify ${{ secrets.K8S_CLUSTER_DEV }} -u ${{ secrets.K8S_CLUSTER_DEV_USER }} -p ${{ secrets.K8S_CLUSTER_DEV_PASSWORD }}
-
+        run: |
+          oc login \
+            --insecure-skip-tls-verify ${{ secrets.K8S_CLUSTER_DEV }} \
+            -u ${{ secrets.K8S_CLUSTER_DEV_USER }} \
+            -p ${{ secrets.K8S_CLUSTER_DEV_PASSWORD }}
       - name: Deploy Catalog
-        run: ./etc/scripts/deploy.sh  ${{ secrets.K8S_CLUSTER_DEV_NAMESPACE }}
+        run: |
+          ./etc/scripts/deploy.sh  ${{ secrets.K8S_CLUSTER_DEV_NAMESPACE }}
