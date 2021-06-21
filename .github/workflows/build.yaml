@@ -1,4 +1,5 @@
-name: Build and Push Image
+name: Build and Push Catalog
+
 on:
   push:
     branches: [ main ]
@@ -32,3 +33,17 @@ jobs:
       - name: Build Project
         run: |
           ./mvnw ${MAVEN_ARGS} clean install
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    container: openshift/origin-cli:latest
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v2
+
+      - name: Login to OpenShift cluster
+        run: oc login --insecure-skip-tls-verify ${{ secrets.K8S_CLUSTER_DEV }} -u ${{ secrets.K8S_CLUSTER_DEV_USER }} -p ${{ secrets.K8S_CLUSTER_DEV_PASSWORD }}
+
+      - name: Deploy Catalog
+        run: ./etc/scripts/deploy.sh  ${{ secrets.IK8S_CLUSTER_DEV_NAMESPACE }}
