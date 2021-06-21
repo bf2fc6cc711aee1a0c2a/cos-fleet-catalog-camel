@@ -1,14 +1,17 @@
 name: Integration tests
 on:
-  push:
-    branches: [ main ]
   pull_request:
-    types: [ opened, reopened, synchronize ]
+    branches: [ main ]
+  workflow_dispatch:
 
 env:
   LANG: en_US.UTF-8
   MAVEN_OPTS: -Xmx100m
-  MAVEN_ARGS: -V -Dhttp.keepAlive=false -e
+  MAVEN_ARGS: -V -ntp -Dhttp.keepAlive=false -e
+
+concurrency:
+  group: ${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
 
 jobs:
   integration:

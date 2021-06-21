@@ -3,11 +3,16 @@ name: Build and Push Catalog
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
 
 env:
   LANG: en_US.UTF-8
   MAVEN_OPTS: -Xmx100m
   MAVEN_ARGS: -V -ntp -Dhttp.keepAlive=false -e
+
+concurrency:
+  group: ${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
 
 jobs:
   build:
