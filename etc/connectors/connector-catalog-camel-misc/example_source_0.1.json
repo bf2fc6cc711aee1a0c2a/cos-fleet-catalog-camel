@@ -33,53 +33,6 @@
               "default" : false
             }
           }
-        },
-        "steps" : {
-          "type" : "array",
-          "items" : {
-            "oneOf" : [ {
-              "type" : "object",
-              "required" : [ "insert-field" ],
-              "properties" : {
-                "insert-field" : {
-                  "title" : "Insert Field Action",
-                  "description" : "Adds a custom field with a constant value to the message in transit",
-                  "required" : [ "field", "value" ],
-                  "properties" : {
-                    "field" : {
-                      "title" : "Field",
-                      "description" : "The name of the field to be added",
-                      "type" : "string"
-                    },
-                    "value" : {
-                      "title" : "Value",
-                      "description" : "The value of the field",
-                      "type" : "string"
-                    }
-                  },
-                  "type" : "object"
-                }
-              }
-            }, {
-              "type" : "object",
-              "required" : [ "extract-field" ],
-              "properties" : {
-                "extract-field" : {
-                  "title" : "Extract Field Action",
-                  "description" : "Extract a field from the body",
-                  "required" : [ "field" ],
-                  "properties" : {
-                    "field" : {
-                      "title" : "Field",
-                      "description" : "The name of the field to be added",
-                      "type" : "string"
-                    }
-                  },
-                  "type" : "object"
-                }
-              }
-            } ]
-          }
         }
       }
     },
@@ -104,9 +57,7 @@
         } ],
         "kamelets" : {
           "connector" : "injector-source",
-          "kafka" : "log-sink",
-          "insert-field" : "insert-field-action",
-          "extract-field" : "extract-field-action"
+          "kafka" : "log-sink"
         }
       }
     }
