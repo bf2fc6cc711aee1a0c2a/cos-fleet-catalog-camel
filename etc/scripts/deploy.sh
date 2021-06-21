@@ -19,15 +19,18 @@ CONNECTORS_DIR=etc/connectors
 
 for D in "${CONNECTORS_DIR}"/*; do
   CM_NAME=$(basename "${D}")
-  echo "Creating configmap: ${CM_NAME}"
 
   if [ -n "$1" ]; then
+    echo "Creating configmap: ${CM_NAME} in namespace ${1}"
+    
     kubectl create configmap "${CM_NAME}" \
       --namespace "${1}" \
       --from-file="${CONNECTORS_DIR}/${CM_NAME}/" \
       --dry-run \
       -o yaml | kubectl replace -f -
   else
+    echo "Creating configmap: ${CM_NAME}"
+
     kubectl create configmap "${CM_NAME}" \
       --namespace "${1}" \
       --from-file="${CONNECTORS_DIR}/${CM_NAME}/" \

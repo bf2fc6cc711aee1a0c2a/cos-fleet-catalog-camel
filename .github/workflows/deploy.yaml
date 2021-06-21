@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'etc/connectors/**/*.json'
+      - 'etc/scripts/*.sh'
   workflow_dispatch:
 
 env:
