@@ -1,8 +1,9 @@
-name: Build and Push Catalog
+name: Build Catalog
 
 on:
   push:
-    branches: [ main ]
+    branches: 
+      - main
   workflow_dispatch:
 
 env:
@@ -28,27 +29,6 @@ jobs:
       - name: Checkout Project
         uses: actions/checkout@v2
 
-      - name: Retrieve Project Metadata
-        uses: radcortez/project-metadata-action@243817f1e0f2b4df4e012fc17efc45cff166425d
-        id: metadata
-        with:
-          metadata-file-path: '.github/project.yaml'
-          local-file: true
-
       - name: Build Project
         run: |
           ./mvnw ${MAVEN_ARGS} clean install
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    container: openshift/origin-cli:latest
-    steps:
-      - name: Checkout Project
-        uses: actions/checkout@v2
-
-      - name: Login to OpenShift cluster
-        run: oc login --insecure-skip-tls-verify ${{ secrets.K8S_CLUSTER_DEV }} -u ${{ secrets.K8S_CLUSTER_DEV_USER }} -p ${{ secrets.K8S_CLUSTER_DEV_PASSWORD }}
-
-      - name: Deploy Catalog
-        run: ./etc/scripts/deploy.sh  ${{ secrets.K8S_CLUSTER_DEV_NAMESPACE }}

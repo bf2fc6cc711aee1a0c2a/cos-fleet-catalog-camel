@@ -1,7 +1,8 @@
-name: Integration tests
+name: Run Catalog Integration Tests
 on:
   pull_request:
-    branches: [ main ]
+    branches: 
+      - main
   workflow_dispatch:
 
 env:
