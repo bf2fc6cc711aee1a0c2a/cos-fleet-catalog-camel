@@ -7,7 +7,7 @@ on:
 env:
   LANG: en_US.UTF-8
   MAVEN_OPTS: -Xmx100m
-  MAVEN_ARGS: -V -Dhttp.keepAlive=false -e
+  MAVEN_ARGS: -V -ntp -Dhttp.keepAlive=false -e
 
 jobs:
   build:
