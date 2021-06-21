@@ -33,6 +33,16 @@
                                 <name>log-sink</name>
                                 <version>0.0.1</version>
                             </kafka>
+                            <steps>
+                                <step>
+                                    <name>insert-field-action</name>
+                                    <version>0.0.1</version>
+                                </step>
+                                <step>
+                                    <name>extract-field-action</name>
+                                    <version>0.0.1</version>
+                                </step>
+                            </steps>
                             <channels>
                                 <stable>
                                     <revision>1</revision>
