@@ -45,7 +45,7 @@ spec:
         example: eu-west-1
       autoCreateQueue:
         title: Autocreate Queue
-        description: Setting the autocreation of the SQS queue.
+        description: Setting the autocreation of the SQS queue. 
         type: boolean
         x-descriptors:
         - 'urn:alm:descriptor:com.tectonic.ui:checkbox'
