@@ -38,7 +38,6 @@ public class GenerateCatalogMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
-        getLog().info("==================================");
         try {
             final KameletsCatalog catalog = new KameletsCatalog(getClassLoader(project));
 

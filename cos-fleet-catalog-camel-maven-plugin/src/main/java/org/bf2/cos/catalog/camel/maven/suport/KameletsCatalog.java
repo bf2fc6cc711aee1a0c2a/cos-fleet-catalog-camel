@@ -22,7 +22,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.Resource;
@@ -52,10 +51,6 @@ public final class KameletsCatalog {
 
     public List<ObjectNode> getKamelets() {
         return models;
-    }
-
-    public ObjectNode kamelet(JsonNode node) {
-        return kamelet(node.required("name").asText(), node.required("version").asText());
     }
 
     public ObjectNode kamelet(String name, String version) {
