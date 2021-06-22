@@ -1,0 +1,66 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: aws-sns-sink
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.group: "AWS"
+  labels:
+    camel.apache.org/kamelet.type: "sink"
+    camel.apache.org/kamelet.version: "0.0.1"
+spec:
+  definition:
+    title: AWS SNS Sink
+    description: |-
+      Send message to an AWS SNS Topic
+    required:
+      - topicNameOrArn
+      - accessKey
+      - secretKey
+      - region
+    type: object
+    properties:
+      topicNameOrArn:
+        title: Topic Name
+        description: The SQS Topic name or ARN
+        type: string
+      accessKey:
+        title: Access Key
+        description: The access key obtained from AWS
+        type: string
+        format: password
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:password
+      secretKey:
+        title: Secret Key
+        description: The secret key obtained from AWS
+        type: string
+        format: password
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:password
+      region:
+        title: AWS Region
+        description: The AWS region to connect to
+        type: string
+        example: eu-west-1
+      autoCreateTopic:
+        title: Autocreate Topic
+        description: Setting the autocreation of the SNS topic. 
+        type: boolean
+        x-descriptors:
+        - 'urn:alm:descriptor:com.tectonic.ui:checkbox'
+        default: false
+  dependencies:
+    - "camel:aws2-sns"
+    - "camel:kamelet"
+  flow:
+    from:
+      uri: kamelet:source
+      steps:
+      - to:
+          uri: "aws2-sns:{{topicNameOrArn}}"
+          parameters:
+            autoCreateTopic: "{{autoCreateTopic}}"
+            accessKey: "{{accessKey}}"
+            secretKey: "{{secretKey}}"
+            region: "{{region}}"
