@@ -10,10 +10,11 @@
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>cos-fleet-catalog-connectors-images</artifactId>
+    <name>connectors-images</name>
     <packaging>pom</packaging>
 
     <properties>
-        <quarkus.container-image.build>true</quarkus.container-image.build>
+        <quarkus.container-image.build>false</quarkus.container-image.build>
         <quarkus.container-image.push>false</quarkus.container-image.push>
         <quarkus.container-image.registry>quay.io</quarkus.container-image.registry>
         <quarkus.container-image.group>lburgazzoli</quarkus.container-image.group>
@@ -107,6 +108,15 @@
     </build>
 
     <profiles>
+        <profile>
+            <id>container-build</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <quarkus.container-image.build>true</quarkus.container-image.build>
+            </properties>
+        </profile>
         <profile>
             <id>container-push</id>
             <activation>
