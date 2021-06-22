@@ -27,6 +27,8 @@
 
     <modules>
         <module>aws-sqs-source-0.1</module>
+        <module>injector-source-0.1</module>
+        <module>log-sink-0.1</module>
     </modules>
 
 
