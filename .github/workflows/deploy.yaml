@@ -24,12 +24,24 @@ jobs:
     steps:
       - name: Checkout Project
         uses: actions/checkout@v2
-      - name: Login to OpenShift cluster
+
+      - name: Install OpenShift CLI tools
+        uses: redhat-actions/openshift-tools-installer@v1
+        with:
+          source: "mirror"
+          skip_cache: "true"
+          oc: "latest"
+      - name: Verify OpenShift CLI tools
         run: |
-          oc login \
-            --insecure-skip-tls-verify ${{ secrets.K8S_CLUSTER_DEV }} \
-            -u ${{ secrets.K8S_CLUSTER_DEV_USER }} \
-            -p ${{ secrets.K8S_CLUSTER_DEV_PASSWORD }}
+          oc version
+      - name: Log in and set context
+        uses: redhat-actions/oc-login@v1
+        with:
+          openshift_server_url: ${{ secrets.K8S_CLUSTER_DEV }}
+          openshift_username: ${{ secrets.K8S_CLUSTER_DEV_USER }}
+          openshift_password: ${{ secrets.K8S_CLUSTER_DEV_PASSWORD }}
+          insecure_skip_tls_verify: true
+          namespace: ${{ env.IMAGE_REPO_NAMESPACE }}
       - name: Deploy Catalog
         run: |
           ./etc/scripts/deploy.sh  ${{ secrets.K8S_CLUSTER_DEV_NAMESPACE }}
