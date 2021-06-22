@@ -1,13 +1,13 @@
 name: Run Catalog Integration Tests
 on:
   pull_request:
-    branches: 
+    branches:
       - main
   workflow_dispatch:
 
 env:
   LANG: en_US.UTF-8
-  MAVEN_OPTS: -Xmx100m
+  MAVEN_OPTS: -Xmx3000m
   MAVEN_ARGS: -V -ntp -Dhttp.keepAlive=false -e
 
 concurrency:
@@ -38,11 +38,11 @@ jobs:
       - name: "Integration tests"
         run: |
           mvn ${MAVEN_ARGS} clean verify
-          
+
       - name: Check for uncommitted changes
         id: check-changes
         uses: mskri/check-uncommitted-changes-action@v1.0.1
-        
+
       - name: Evaluate if there are changes
         if: steps.check-changes.outputs.outcome == failure()
         run: echo "There are uncommitted changes"
