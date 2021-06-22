@@ -16,11 +16,8 @@
     <properties>
         <quarkus.container-image.build>false</quarkus.container-image.build>
         <quarkus.container-image.push>false</quarkus.container-image.push>
-
-        <!--
         <quarkus.jib.base-jvm-image>adoptopenjdk/openjdk11:ubi-minimal</quarkus.jib.base-jvm-image>
-        <quarkus.jib.jvm-entrypoint>java,-XX:+UseShenandoahGC,-Xlog:gc,-jar,/work/quarkus-run.jar</quarkus.jib.jvm-entrypoint>
-        -->
+        <quarkus.jib.jvm-entrypoint>java,-XX:+UseShenandoahGC,-Djava.util.logging.manager=org.jboss.logmanager.LogManager,-jar,/work/quarkus-run.jar</quarkus.jib.jvm-entrypoint>
     </properties>
 
     <modules>
