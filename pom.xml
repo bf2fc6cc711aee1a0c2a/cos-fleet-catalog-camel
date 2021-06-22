@@ -12,6 +12,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+
+        <quarkus.version>2.0.0.CR3</quarkus.version>
+        <camel-k-runtime.version>1.9.0-SNAPSHOT</camel-k-runtime.version>
+        <camel-quarkus.version>2.0.0-M2</camel-quarkus.version>
+
         <kamelet-catalog.version>main-SNAPSHOT</kamelet-catalog.version>
         <jackson.version>2.12.3</jackson.version>
         <classgraph.version>4.8.105</classgraph.version>
@@ -28,6 +33,7 @@
         <maven.compiler.target>11</maven.compiler.target>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.parameters>true</maven.compiler.parameters>
+
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
         <maven-failsafe-plugin.version>3.0.0-M5</maven-failsafe-plugin.version>
@@ -45,6 +51,7 @@
         <module>cos-fleet-catalog-camel-maven-plugin</module>
         <module>cos-fleet-catalog-kamelets</module>
         <module>cos-fleet-catalog-connectors</module>
+        <module>cos-fleet-catalog-connectors-images</module>
     </modules>
 
     <dependencyManagement>
@@ -103,6 +110,22 @@
             </snapshots>
         </repository>
     </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>apache.snapshots</id>
+            <url>https://repository.apache.org/snapshots/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
 
     <build>
         <pluginManagement>

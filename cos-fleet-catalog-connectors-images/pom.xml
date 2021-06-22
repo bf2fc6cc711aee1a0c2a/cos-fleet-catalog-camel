@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <parent>
+        <groupId>org.bf2</groupId>
+        <artifactId>cos-fleet-catalog-camel-parent</artifactId>
+        <version>999-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>cos-fleet-catalog-connectors-images</artifactId>
+    <packaging>pom</packaging>
+
+    <properties>
+        <quarkus.container-image.build>true</quarkus.container-image.build>
+        <quarkus.container-image.push>false</quarkus.container-image.push>
+        <quarkus.container-image.registry>quay.io</quarkus.container-image.registry>
+        <quarkus.container-image.group>lburgazzoli</quarkus.container-image.group>
+
+        <!--
+        <quarkus.jib.base-jvm-image>adoptopenjdk/openjdk11:ubi-minimal</quarkus.jib.base-jvm-image>
+        <quarkus.jib.jvm-entrypoint>java,-XX:+UseShenandoahGC,-Xlog:gc,-jar,/work/quarkus-run.jar</quarkus.jib.jvm-entrypoint>
+        -->
+    </properties>
+
+    <modules>
+        <module>aws-sqs-source-0.1</module>
+    </modules>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>org.bf2</groupId>
+            <artifactId>cos-fleet-catalog-kamelets</artifactId>
+            <version>999-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-container-image-jib</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel.k</groupId>
+            <artifactId>camel-k-runtime</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel.quarkus</groupId>
+            <artifactId>camel-quarkus-yaml-dsl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel.quarkus</groupId>
+            <artifactId>camel-quarkus-kamelet</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel.quarkus</groupId>
+            <artifactId>camel-quarkus-kafka</artifactId>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-bom</artifactId>
+                <version>${quarkus.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel.k</groupId>
+                <artifactId>camel-k-runtime-bom</artifactId>
+                <version>${camel-k-runtime.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel.quarkus</groupId>
+                <artifactId>camel-quarkus-bom</artifactId>
+                <version>${camel-quarkus.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>io.quarkus</groupId>
+                    <artifactId>quarkus-maven-plugin</artifactId>
+                    <version>${quarkus.version}</version>
+                    <extensions>true</extensions>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>build</goal>
+                                <goal>generate-code</goal>
+                                <goal>generate-code-tests</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>container-push</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <quarkus.container-image.push>true</quarkus.container-image.push>
+            </properties>
+        </profile>
+    </profiles>
+
+</project>
