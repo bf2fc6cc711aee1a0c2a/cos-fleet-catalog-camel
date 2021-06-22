@@ -41,7 +41,7 @@ jobs:
           openshift_username: ${{ secrets.K8S_CLUSTER_DEV_USER }}
           openshift_password: ${{ secrets.K8S_CLUSTER_DEV_PASSWORD }}
           insecure_skip_tls_verify: true
-          namespace: ${{ env.IMAGE_REPO_NAMESPACE }}
+          namespace: ${{ env.K8S_CLUSTER_DEV_NAMESPACE }}
       - name: Deploy Catalog
         run: |
           ./etc/scripts/deploy.sh  ${{ secrets.K8S_CLUSTER_DEV_NAMESPACE }}
