@@ -27,19 +27,19 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>log-sink</artifactId>
+    <artifactId>injector-source</artifactId>
     <name>connectors-images :: ${project.artifactId}</name>
     <version>0.1</version>
 
     <properties>
-        <quarkus.container-image.name>${project.artifactId}</quarkus.container-image.name>
+        <quarkus.container-image.name>camel-k-${project.artifactId}</quarkus.container-image.name>
         <quarkus.container-image.version>${project.version}</quarkus.container-image.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.apache.camel.quarkus</groupId>
-            <artifactId>camel-quarkus-log</artifactId>
+            <artifactId>camel-quarkus-timer</artifactId>
         </dependency>
     </dependencies>
 
