@@ -47,5 +47,5 @@ jobs:
           ./etc/scripts/deploy.sh  ${{ secrets.K8S_CLUSTER_DEV_NAMESPACE }}
       - name: Restart FleetManager
         run: |
-          oc rollout restart deployment/kas-fleet-manger
+          oc rollout restart deployment/kas-fleet-manger --namespace ${{ secrets.K8S_CLUSTER_DEV_NAMESPACE }}
      
