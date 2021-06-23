@@ -45,7 +45,7 @@ jobs:
             -Dquarkus.container-image.username=${{ secrets.QUAY_MCI_USR }} \
             -Dquarkus.container-image.password=${{ secrets.QUAY_MCI_PWD }} \
             -Dquarkus.container-image.registry=quay.io \
-            -Dquarkus.container-image.group=${{ secrets.QUAY_MCI_USR }} \
+            -Dquarkus.container-image.group=lburgazzoli \
             -Pcontainer-push
       - name: Install OpenShift CLI tools
         uses: redhat-actions/openshift-tools-installer@v1
