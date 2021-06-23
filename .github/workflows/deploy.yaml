@@ -40,15 +40,12 @@ jobs:
         if: steps.check-changes.outputs.outcome == failure()
         run: echo "There are uncommitted changes"
       - name: Build Images
-        env:
-          IMAGE_REPO_USERNAME: ${{secrets.QUAY_MCI_USR}}
-          IMAGE_REPO_PASSWORD: ${{secrets.QUAY_MCI_PWD}}
         run: |
           ./mvnw ${MAVEN_ARGS} clean install \
-            -Dquarkus.container-image.username="${IMAGE_REPO_USERNAME}" \
-            -Dquarkus.container-image.password="${IMAGE_REPO_PASSWORD}" \
+            -Dquarkus.container-image.username=${{ secrets.QUAY_MCI_USR }} \
+            -Dquarkus.container-image.password=${{ secrets.QUAY_MCI_PWD }} \
             -Dquarkus.container-image.registry=quay.io \
-            -Dquarkus.container-image.group="${IMAGE_REPO_USERNAME}" \
+            -Dquarkus.container-image.group=${{ secrets.QUAY_MCI_USR }} \
             -Pcontainer-push
       - name: Install OpenShift CLI tools
         uses: redhat-actions/openshift-tools-installer@v1
@@ -70,7 +67,7 @@ jobs:
       - name: Deploy Catalog
         run: |
           CONNECTORS_DIR=etc/connectors
-          CONNECTORS_NS="${{ secrets.K8S_CLUSTER_DEV_NAMESPACE }}"
+          CONNECTORS_NS=${{ secrets.K8S_CLUSTER_DEV_NAMESPACE }}
 
           for D in "${CONNECTORS_DIR}"/*; do
             CM_NAME=$(basename "${D}")
