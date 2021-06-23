@@ -88,11 +88,17 @@ public class Connector {
         this.channels = channels;
     }
 
-    public static class KameletRef {
-        @Parameter
+    public static class Channel {
+        @Parameter(required = true)
         String name;
-        @Parameter
-        String version;
+        @Parameter(defaultValue = "${cos.connector.revision}", required = true)
+        String revision;
+        @Parameter(defaultValue = "${quarkus.container-image.registry}/${quarkus.container-image.group}/${quarkus.container-image.name}:${quarkus.container-image.tag}", required = true)
+        String image;
+        @Parameter(defaultValue = "${cos.connector.operator.type}")
+        String operatorType;
+        @Parameter(defaultValue = "${cos.connector.operator.version}")
+        String operatorVersion;
 
         public String getName() {
             return name;
@@ -101,23 +107,6 @@ public class Connector {
         public void setName(String name) {
             this.name = name;
         }
-
-        public String getVersion() {
-            return version;
-        }
-
-        public void setVersion(String version) {
-            this.version = version;
-        }
-    }
-
-    public static class Channel {
-        @Parameter
-        String revision;
-        @Parameter
-        String image;
-        @Parameter
-        Operator operator;
 
         public String getRevision() {
             return revision;
@@ -135,27 +124,35 @@ public class Connector {
             this.image = image;
         }
 
-        public Operator getOperator() {
-            return operator;
+        public String getOperatorType() {
+            return operatorType;
         }
 
-        public void setOperator(Operator operator) {
-            this.operator = operator;
+        public void setOperatorType(String operatorType) {
+            this.operatorType = operatorType;
+        }
+
+        public String getOperatorVersion() {
+            return operatorVersion;
+        }
+
+        public void setOperatorVersion(String operatorVersion) {
+            this.operatorVersion = operatorVersion;
         }
     }
 
-    public static class Operator {
-        @Parameter(defaultValue = "${cos.connector.operator.type}")
-        String type;
+    public static class KameletRef {
+        @Parameter
+        String name;
         @Parameter
         String version;
 
-        public String getType() {
-            return type;
+        public String getName() {
+            return name;
         }
 
-        public void setType(String type) {
-            this.type = type;
+        public void setName(String name) {
+            this.name = name;
         }
 
         public String getVersion() {

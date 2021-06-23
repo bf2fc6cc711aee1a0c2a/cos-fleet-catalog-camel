@@ -51,7 +51,6 @@
         <module>cos-fleet-catalog-camel-maven-plugin</module>
         <module>cos-fleet-catalog-kamelets</module>
         <module>cos-fleet-catalog-connectors</module>
-        <module>cos-fleet-catalog-connectors-images</module>
     </modules>
 
     <dependencyManagement>
@@ -86,7 +85,7 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>cos-fleet-catalog-kamelets</artifactId>
-                <version>${project.version}</version>
+                <version>999-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
