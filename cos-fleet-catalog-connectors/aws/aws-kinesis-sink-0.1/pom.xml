@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <parent>
+        <groupId>org.bf2</groupId>
+        <artifactId>cos-fleet-catalog-connectors-aws</artifactId>
+        <version>999-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>aws-kinesis-sink-0.1</artifactId>
+    <version>0.1</version>
+    <name>AWS Kinesis Sink</name>
+    <description>AWS Kinesis Sink</description>
+
+    <packaging>jar</packaging>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-fleet-catalog-camel-maven-plugin</artifactId>
+                <configuration>
+                    <connectors>
+                        <connector>
+                            <adapter>
+                                <name>aws-kinesis-sink</name>
+                                <version>0.0.1</version>
+                            </adapter>
+                            <kafka>
+                                <name>managed-kafka-source</name>
+                                <version>0.0.1</version>
+                            </kafka>
+                            <steps>
+                                <step>
+                                    <name>insert-field-action</name>
+                                    <version>0.0.1</version>
+                                </step>
+                                <step>
+                                    <name>extract-field-action</name>
+                                    <version>0.0.1</version>
+                                </step>
+                            </steps>
+                            <channels>
+                                <stable>
+                                    <revision>1</revision>
+                                    <operator>
+                                        <type>camel-connector-operator</type>
+                                        <version>[1.0.0,2.0.0)</version>
+                                    </operator>
+                                </stable>
+                            </channels>
+                        </connector>
+                    </connectors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate-catalog</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
