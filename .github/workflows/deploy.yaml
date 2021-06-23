@@ -1,12 +1,9 @@
-name: Deploy Catalog
+name: Build and Deploy Catalog
 
 on:
   push:
     branches:
       - main
-    paths:
-      - 'etc/connectors/**/*.json'
-      - '.github/workflows/deploy.yaml'
   workflow_dispatch:
 
 env:
