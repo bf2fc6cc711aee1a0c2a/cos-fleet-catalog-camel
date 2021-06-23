@@ -27,6 +27,7 @@
     </build>
 
     <modules>
+        <module>aws-kinesis-source-0.1</module>
         <module>aws-s3-sink-0.1</module>
         <module>aws-s3-source-0.1</module>
         <module>aws-sns-sink-0.1</module>
