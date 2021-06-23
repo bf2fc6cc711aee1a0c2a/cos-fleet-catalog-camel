@@ -21,6 +21,7 @@
     </properties>
 
     <modules>
+        <module>aws-sqs-sink</module>
         <module>aws-sqs-source</module>
         <module>injector-source</module>
         <module>log-sink</module>
