@@ -34,6 +34,7 @@
        <module>mysql-sink-0.1</module>
        <module>mysql-source-0.1</module>
        <module>sqlserver-sink-0.1</module>
+       <module>sqlserver-source-0.1</module>
     </modules>
 
 </project>
