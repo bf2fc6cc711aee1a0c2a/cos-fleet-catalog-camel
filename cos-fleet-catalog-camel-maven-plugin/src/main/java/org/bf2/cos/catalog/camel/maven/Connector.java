@@ -3,25 +3,23 @@ package org.bf2.cos.catalog.camel.maven;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.maven.plugins.annotations.Parameter;
-
 public class Connector {
-    @Parameter(defaultValue = "${project.artifactId}")
+    @Param(defaultValue = "${project.artifactId}")
     private String name;
-    @Parameter(defaultValue = "${project.title}")
+    @Param(defaultValue = "${project.title}")
     private String title;
-    @Parameter(defaultValue = "${project.description}")
+    @Param(defaultValue = "${project.description}")
     private String description;
-    @Parameter(defaultValue = "${project.version}")
+    @Param(defaultValue = "${project.version}")
     private String version;
 
-    @Parameter
+    @Param
     private KameletRef adapter;
-    @Parameter
+    @Param
     private KameletRef kafka;
-    @Parameter
+    @Param
     private List<KameletRef> steps;
-    @Parameter
+    @Param
     private Map<String, Channel> channels;
 
     public String getName() {
@@ -89,24 +87,14 @@ public class Connector {
     }
 
     public static class Channel {
-        @Parameter(required = true)
-        String name;
-        @Parameter(defaultValue = "${cos.connector.revision}", required = true)
+        @Param(defaultValue = "${cos.connector.revision}", required = true)
         String revision;
-        @Parameter(defaultValue = "${quarkus.container-image.registry}/${quarkus.container-image.group}/${quarkus.container-image.name}:${quarkus.container-image.tag}", required = true)
+        @Param(defaultValue = "${quarkus.container-image.registry}/${quarkus.container-image.group}/${quarkus.container-image.name}:${quarkus.container-image.tag}", required = true)
         String image;
-        @Parameter(defaultValue = "${cos.connector.operator.type}")
+        @Param(defaultValue = "${cos.connector.operator.type}")
         String operatorType;
-        @Parameter(defaultValue = "${cos.connector.operator.version}")
+        @Param(defaultValue = "${cos.connector.operator.version}")
         String operatorVersion;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
 
         public String getRevision() {
             return revision;
@@ -142,9 +130,9 @@ public class Connector {
     }
 
     public static class KameletRef {
-        @Parameter
+        @Param
         String name;
-        @Parameter
+        @Param
         String version;
 
         public String getName() {

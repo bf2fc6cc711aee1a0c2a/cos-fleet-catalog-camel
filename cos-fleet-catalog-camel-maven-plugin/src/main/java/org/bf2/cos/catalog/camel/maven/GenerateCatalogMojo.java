@@ -28,7 +28,7 @@ import static org.bf2.cos.catalog.camel.maven.suport.CatalogSupport.kameletName;
 import static org.bf2.cos.catalog.camel.maven.suport.CatalogSupport.kameletType;
 
 @Mojo(name = "generate-catalog", defaultPhase = LifecyclePhase.GENERATE_RESOURCES, threadSafe = true, requiresDependencyResolution = ResolutionScope.COMPILE_PLUS_RUNTIME, requiresDependencyCollection = ResolutionScope.COMPILE_PLUS_RUNTIME)
-public class GenerateCatalogMojo extends AbstractMojo {
+public class GenerateCatalogMojo extends AbstractConnectorMojo {
     /**
      * Skips the execution of this mojo
      */
@@ -39,8 +39,6 @@ public class GenerateCatalogMojo extends AbstractMojo {
     private MavenProject project;
     @Parameter(defaultValue = "${project.build.directory}")
     private String outputPath;
-    @Parameter
-    private List<Connector> connectors;
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
@@ -51,10 +49,8 @@ public class GenerateCatalogMojo extends AbstractMojo {
         try {
             final KameletsCatalog catalog = new KameletsCatalog(getClassLoader(project));
 
-            if (connectors != null) {
-                for (Connector connector : connectors) {
-                    generateDefinitions(catalog, connector);
-                }
+            for (Connector connector : getConnectors()) {
+                generateDefinitions(catalog, connector);
             }
 
         } catch (IOException e) {
