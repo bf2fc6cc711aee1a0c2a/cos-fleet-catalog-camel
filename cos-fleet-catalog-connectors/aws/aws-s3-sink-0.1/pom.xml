@@ -19,7 +19,6 @@
 
     <properties>
         <cos.connector.revision>1</cos.connector.revision>
-        <cos.connector.operator.type>camel-connector-operator</cos.connector.operator.type>
         <cos.connector.operator.version>[1.0.0,2.0.0)</cos.connector.operator.version>
 
         <quarkus.container-image.name>mci</quarkus.container-image.name>
@@ -53,23 +52,11 @@
                                 </step>
                             </steps>
                             <channels>
-                                <stable>
-                                    <revision>${cos.connector.revision}</revision>
-                                    <image>${quarkus.container-image.registry}/${quarkus.container-image.group}/${quarkus.container-image.name}:${quarkus.container-image.tag}</image>
-                                    <operatorType>${cos.connector.operator.type}</operatorType>
-                                    <operatorVersion>${cos.connector.operator.version}</operatorVersion>
-                                </stable>
+                                <stable/>
                             </channels>
                         </connector>
                     </connectors>
                 </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>generate-catalog</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
