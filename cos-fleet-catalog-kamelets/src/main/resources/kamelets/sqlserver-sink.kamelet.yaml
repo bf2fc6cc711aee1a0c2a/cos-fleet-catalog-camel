@@ -14,10 +14,6 @@ spec:
     description: |-
       Send data to a Microsoft SQL Server Database.
 
-      In you KameletBinding file you'll need to explicitly declare the SQL Server driver dependency in spec->integration->dependencies
-
-      - "mvn:com.microsoft.sqlserver:mssql-jdbc:<version>"
-
       This Kamelet expects a JSON as body. The mapping between the JSON fields and parameters is done by key, so if you have the following query:
 
       'INSERT INTO accounts (username,city) VALUES (:#username,:#city)'
@@ -71,6 +67,7 @@ spec:
   - "camel:kamelet"
   - "camel:sql"
   - "mvn:org.apache.commons:commons-dbcp2:2.8.0"
+  - "mvn:com.microsoft.sqlserver:mssql-jdbc:9.2.1.jre11"
   flow:
     beans:
       - name: dsBean
