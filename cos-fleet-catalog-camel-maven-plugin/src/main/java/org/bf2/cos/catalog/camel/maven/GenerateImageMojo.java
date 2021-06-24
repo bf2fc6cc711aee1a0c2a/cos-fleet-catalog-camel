@@ -56,7 +56,7 @@ import static org.bf2.cos.catalog.camel.maven.suport.CatalogSupport.getClassLoad
  * Builds the Quarkus application.
  */
 @Mojo(name = "generate-image", defaultPhase = LifecyclePhase.PACKAGE, requiresDependencyResolution = ResolutionScope.COMPILE_PLUS_RUNTIME, threadSafe = true)
-public class GenerateImageMojo extends AbstractMojo {
+public class GenerateImageMojo extends AbstractConnectorMojo {
 
     private static final String PACKAGE_TYPE_PROP = "quarkus.package.type";
     private static final String NATIVE_PROFILE_NAME = "native";
@@ -70,8 +70,6 @@ public class GenerateImageMojo extends AbstractMojo {
 
     @Parameter(defaultValue = "${project}", readonly = true, required = true)
     private MavenProject project;
-    @Parameter(defaultValue = "${session}", readonly = true)
-    private MavenSession session;
     @Component
     private MavenProjectHelper projectHelper;
     @Parameter(defaultValue = "${repositorySystemSession}", readonly = true)
@@ -133,9 +131,6 @@ public class GenerateImageMojo extends AbstractMojo {
 
     @Parameter(required = false, property = "appArtifact")
     private String appArtifact;
-
-    @Parameter
-    private List<Connector> connectors;
 
     @Parameter(defaultValue = "${camel-quarkus.version}")
     private String camelQuarkusVersion;
@@ -286,7 +281,7 @@ public class GenerateImageMojo extends AbstractMojo {
             // find dependencies
             List<AppDependency> forcedDependencies = new ArrayList();
             final KameletsCatalog catalog = getKameletsCatalog();
-            for (Connector connector : connectors) {
+            for (Connector connector : getConnectors()) {
                 final ObjectNode connectorSpec = catalog.kamelet(
                         connector.getAdapter().getName(),
                         connector.getAdapter().getVersion());
