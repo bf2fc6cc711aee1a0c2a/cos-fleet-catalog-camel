@@ -13,10 +13,6 @@ spec:
     title: "MySQL Source"
     description: |-
       Query data from a MySQL Database.
-
-      In you KameletBinding file you'll need to explicitly declare the SQL Server driver dependency in spec->integration->dependencies
-      
-      - "mvn:mysql:mysql-connector-java:<version>"
     required:
       - serverName
       - username
@@ -68,6 +64,7 @@ spec:
   - "camel:kamelet"
   - "camel:sql"
   - "mvn:org.apache.commons:commons-dbcp2:2.8.0"
+  - "mvn:mysql:mysql-connector-java:8.0.22"
   flow:
     beans:
       - name: dsBean
