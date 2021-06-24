@@ -14,10 +14,6 @@ spec:
     description: |-
       Send data to a MariaDB Database.
 
-      In you KameletBinding file you'll need to explicitly declare the MariaDB Server driver dependency in spec->integration->dependencies
-      
-      - "mvn:org.mariadb.jdbc:mariadb-java-client:<version>"
-
       This Kamelet expects a JSON as body. The mapping between the JSON fields and parameters is done by key, so if you have the following query:
 
       'INSERT INTO accounts (username,city) VALUES (:#username,:#city)'
