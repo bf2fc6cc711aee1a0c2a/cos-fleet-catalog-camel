@@ -27,6 +27,7 @@
     </build>
 
     <modules>
+       <module>postgresql-sink-0.1</module>
        <module>postgresql-source-0.1</module>
     </modules>
 
