@@ -1,0 +1,71 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: mongodb-sink
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.group: "MongoDB"
+  labels:
+    camel.apache.org/kamelet.type: "sink"
+    camel.apache.org/kamelet.version: "0.0.1"
+spec:
+  definition:
+    title: "MongoDB Sink"
+    description: |-
+      Send documents to MongoDB.
+
+      This Kamelet expects a JSON as body.
+    required:
+      - hosts
+      - collection
+      - password
+      - username
+      - database
+    type: object
+    properties:
+      hosts:
+        title: MongoDB Hosts
+        description: Comma separated list of MongoDB Host Addresses in host:port format.
+        type: string
+      collection:
+        title: MongoDB Collection
+        description: Sets the name of the MongoDB collection to bind to this endpoint.
+        type: string
+      password:
+        title: MongoDB Password
+        description: User password for accessing MongoDB.
+        type: string
+        format: password
+        x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:password
+      username:
+        title: MongoDB Username
+        description: Username for accessing MongoDB.
+        type: string
+      database:
+        title: MongoDB Database
+        description: Sets the name of the MongoDB database to target.
+        type: string
+  types:
+    in:
+      mediaType: application/json
+  dependencies:
+    - "camel:kamelet"
+    - "camel:mongodb"
+    - "camel:jackson"
+  flow:
+    beans:
+      - name: local-mongodb
+        type: "#class:org.apache.camel.component.mongodb.MongoDbComponent"
+    from:
+      uri: kamelet:source
+      steps:
+      - to: 
+          uri: "{{local-mongodb}}:test"
+          parameters:
+            hosts: "{{hosts}}"
+            collection: "{{collection}}"
+            password: "{{password}}"
+            username: "{{username}}"
+            database: "{{database}}"
+            operation: "insert"
