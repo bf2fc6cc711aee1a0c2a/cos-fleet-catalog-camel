@@ -112,6 +112,7 @@
     <modules>
         <module>aws</module>
         <module>misc</module>
+        <module>mongodb</module>
         <module>sql</module>
     </modules>
 
