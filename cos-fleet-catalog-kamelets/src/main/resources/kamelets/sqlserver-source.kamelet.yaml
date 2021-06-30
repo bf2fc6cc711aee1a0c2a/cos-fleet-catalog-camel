@@ -4,7 +4,7 @@ metadata:
   name: sqlserver-source
   annotations:
     camel.apache.org/provider: "Red Hat"
-    camel.apache.org/kamelet.group: "AWS"
+    camel.apache.org/kamelet.group: "SQL"
   labels:
     camel.apache.org/kamelet.type: "source"
     camel.apache.org/kamelet.version: "0.0.1"
