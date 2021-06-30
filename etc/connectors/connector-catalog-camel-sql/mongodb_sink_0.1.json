@@ -1,0 +1,135 @@
+{
+  "connector_type" : {
+    "json_schema" : {
+      "type" : "object",
+      "properties" : {
+        "connector" : {
+          "type" : "object",
+          "title" : "MongoDB Sink",
+          "required" : [ "hosts", "collection", "password", "username", "database" ],
+          "properties" : {
+            "hosts" : {
+              "title" : "MongoDB Hosts",
+              "description" : "Comma separated list of MongoDB Host Addresses in host:port format.",
+              "type" : "string"
+            },
+            "collection" : {
+              "title" : "MongoDB Collection",
+              "description" : "Sets the name of the MongoDB collection to bind to this endpoint.",
+              "type" : "string"
+            },
+            "password" : {
+              "title" : "MongoDB Password",
+              "oneOf" : [ {
+                "title" : "MongoDB Password",
+                "description" : "User password for accessing MongoDB.",
+                "type" : "string",
+                "format" : "password"
+              }, {
+                "description" : "An opaque reference to the password",
+                "type" : "object",
+                "properties" : { }
+              } ]
+            },
+            "username" : {
+              "title" : "MongoDB Username",
+              "description" : "Username for accessing MongoDB.",
+              "type" : "string"
+            },
+            "database" : {
+              "title" : "MongoDB Database",
+              "description" : "Sets the name of the MongoDB database to target.",
+              "type" : "string"
+            }
+          }
+        },
+        "kafka" : {
+          "type" : "object",
+          "title" : "Managed Kafka Source",
+          "required" : [ "topic" ],
+          "properties" : {
+            "topic" : {
+              "title" : "Topic names",
+              "description" : "Comma separated list of Kafka topic names",
+              "type" : "string"
+            }
+          }
+        },
+        "steps" : {
+          "type" : "array",
+          "items" : {
+            "oneOf" : [ {
+              "type" : "object",
+              "required" : [ "insert-field" ],
+              "properties" : {
+                "insert-field" : {
+                  "title" : "Insert Field Action",
+                  "description" : "Adds a custom field with a constant value to the message in transit",
+                  "required" : [ "field", "value" ],
+                  "properties" : {
+                    "field" : {
+                      "title" : "Field",
+                      "description" : "The name of the field to be added",
+                      "type" : "string"
+                    },
+                    "value" : {
+                      "title" : "Value",
+                      "description" : "The value of the field",
+                      "type" : "string"
+                    }
+                  },
+                  "type" : "object"
+                }
+              }
+            }, {
+              "type" : "object",
+              "required" : [ "extract-field" ],
+              "properties" : {
+                "extract-field" : {
+                  "title" : "Extract Field Action",
+                  "description" : "Extract a field from the body",
+                  "required" : [ "field" ],
+                  "properties" : {
+                    "field" : {
+                      "title" : "Field",
+                      "description" : "The name of the field to be added",
+                      "type" : "string"
+                    }
+                  },
+                  "type" : "object"
+                }
+              }
+            } ]
+          }
+        }
+      }
+    },
+    "id" : "mongodb_sink_0.1",
+    "kind" : "ConnectorType",
+    "icon_href" : "TODO",
+    "name" : "MongoDB Sink",
+    "description" : "MongoDB Sink",
+    "version" : "0.1",
+    "labels" : [ "sink" ],
+    "channels" : [ "stable" ]
+  },
+  "channels" : {
+    "stable" : {
+      "shard_metadata" : {
+        "connector_revision" : "1",
+        "connector_type" : "sink",
+        "connector_image" : "quay.io/lburgazzoli/mci:0.1.1-mongodb-sink-0.1",
+        "operators" : [ {
+          "type" : "camel-connector-operator",
+          "version" : "[1.0.0,2.0.0)"
+        } ],
+        "kamelets" : {
+          "connector" : "mongodb-sink",
+          "kafka" : "managed-kafka-source",
+          "insert-field" : "insert-field-action",
+          "extract-field" : "extract-field-action"
+        }
+      }
+    }
+  }
+}
