@@ -90,7 +90,7 @@ jobs:
             oc create configmap "${CM_NAME}" \
               --namespace ${CONNECTORS_NS} \
               --from-file="${CONNECTORS_DIR}/${CM_NAME}/" \
-              --dry-run \
+              --dry-run=client \
               -o yaml | kubectl apply -f -
           done
       - name: Restart FleetManager
