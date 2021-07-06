@@ -91,8 +91,8 @@ jobs:
               --namespace ${CONNECTORS_NS} \
               --from-file="${CONNECTORS_DIR}/${CM_NAME}/" \
               --dry-run \
-              -o yaml | kubectl replace -f -
+              -o yaml | kubectl apply -f -
           done
       - name: Restart FleetManager
         run: |
-          oc rollout restart deployment/kas-fleet-manager --namespace ${{ secrets.K8S_CLUSTER_DEV_NAMESPACE }}
+          oc rollout restart deployment/cos-fleet-manager --namespace ${{ secrets.K8S_CLUSTER_DEV_NAMESPACE }}
