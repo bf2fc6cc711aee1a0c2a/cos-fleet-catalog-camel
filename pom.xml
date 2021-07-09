@@ -13,9 +13,9 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 
-        <quarkus.version>2.0.0.CR3</quarkus.version>
-        <camel-k-runtime.version>1.8.0-SNAPSHOT</camel-k-runtime.version>
-        <camel-quarkus.version>2.0.0-M2</camel-quarkus.version>
+        <quarkus.version>2.0.0.Final</quarkus.version>
+        <camel-k-runtime.version>1.8.0</camel-k-runtime.version>
+        <camel-quarkus.version>2.0.0</camel-quarkus.version>
 
         <kamelet-catalog.version>main-SNAPSHOT</kamelet-catalog.version>
         <jackson.version>2.12.3</jackson.version>
