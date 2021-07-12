@@ -56,6 +56,12 @@
               "description" : "Setting the autocreation of the S3 bucket bucketName.",
               "type" : "boolean",
               "default" : false
+            },
+            "includeBody" : {
+              "title" : "Include Body",
+              "description" : "If it is true, the exchange will be consumed and put into the body and closed. If false the S3Object stream will be put raw into the body and the headers will be set with the S3 object metadata.",
+              "type" : "boolean",
+              "default" : true
             }
           }
         },

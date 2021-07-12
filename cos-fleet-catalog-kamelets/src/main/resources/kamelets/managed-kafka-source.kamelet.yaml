@@ -4,9 +4,9 @@ metadata:
   name: managed-kafka-source
   annotations:
     camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.version: "0.0.1"
   labels:
     camel.apache.org/kamelet.type: "source"
-    camel.apache.org/kamelet.version: "0.0.1"
 spec:
   definition:
     title: "Managed Kafka Source"

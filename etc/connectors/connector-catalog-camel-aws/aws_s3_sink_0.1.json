@@ -45,18 +45,6 @@
               "type" : "string",
               "example" : "eu-west-1"
             },
-            "overrideEndpoint" : {
-              "title" : "Override Endpoint",
-              "description" : "Set the need for overidding the endpoint. This option needs to be used in combination with uriEndpointOverride.",
-              "type" : "boolean",
-              "default" : false
-            },
-            "uriEndpointOverride" : {
-              "title" : "Override Endpoint URI",
-              "description" : "Set the overriding uri endpoint. This option needs to be used in combination with overrideEndpoint option.",
-              "type" : "string",
-              "example" : "http://another-s3-endpoint:9000"
-            },
             "autoCreateBucket" : {
               "title" : "Autocreate Bucket",
               "description" : "Setting the autocreation of the S3 bucket bucketName.",
