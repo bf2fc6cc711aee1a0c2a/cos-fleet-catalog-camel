@@ -81,6 +81,16 @@ public final class CatalogSupport {
     }
 
     public static String kameletVersion(ObjectNode node) {
-        return node.requiredAt("/metadata/labels").get("camel.apache.org/kamelet.version").asText();
+        JsonNode annotations = node.requiredAt("/metadata/annotations");
+        JsonNode version = annotations.get("camel.apache.org/kamelet.version");
+        if (version == null) {
+            version = annotations.get("camel.apache.org/catalog.version");
+        }
+
+        if (version == null) {
+            return null;
+        }
+
+        return version.asText();
     }
 }

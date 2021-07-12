@@ -11,21 +11,6 @@
     <artifactId>cos-fleet-catalog-kamelets</artifactId>
     <packaging>jar</packaging>
 
-    <dependencies>
-        <!--
-        <dependency>
-            <groupId>com.github.apache</groupId>
-            <artifactId>camel-kamelets</artifactId>
-            <version>main-SNAPSHOT</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>io.fabric8</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        -->
-    </dependencies>
     <build>
         <plugins>
             <plugin>

@@ -35,7 +35,7 @@
                         <connector>
                             <adapter>
                                 <name>aws-sqs-sink</name>
-                                <version>0.0.1</version>
+                                <version>${camel-kamelets-catalog.version}</version>
                             </adapter>
                             <kafka>
                                 <name>managed-kafka-source</name>
@@ -44,11 +44,11 @@
                             <steps>
                                 <step>
                                     <name>insert-field-action</name>
-                                    <version>0.0.1</version>
+                                    <version>${camel-kamelets-catalog.version}</version>
                                 </step>
                                 <step>
                                     <name>extract-field-action</name>
-                                    <version>0.0.1</version>
+                                    <version>${camel-kamelets-catalog.version}</version>
                                 </step>
                             </steps>
                             <channels>

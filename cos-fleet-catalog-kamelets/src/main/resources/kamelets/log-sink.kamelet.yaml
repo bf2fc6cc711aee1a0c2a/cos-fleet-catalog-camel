@@ -5,9 +5,9 @@ metadata:
   annotations:
     camel.apache.org/provider: "Red Hat"
     camel.apache.org/kamelet.group: "Misc"
+    camel.apache.org/kamelet.version: "0.0.1"
   labels:
     camel.apache.org/kamelet.type: "sink"
-    camel.apache.org/kamelet.version: "0.0.1"
 spec:
   definition:
     title: "Log"

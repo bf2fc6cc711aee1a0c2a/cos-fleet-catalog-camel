@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.github.classgraph.ClassGraph;
@@ -33,6 +34,7 @@ import static org.bf2.cos.catalog.camel.maven.suport.CatalogSupport.kameletVersi
 
 public final class KameletsCatalog {
     private static final String KAMELETS_DIR = "kamelets";
+    private static final String KAMELETS_FILE_SUFFIX = ".kamelet.yaml";
 
     private final List<ObjectNode> models;
 
@@ -42,7 +44,19 @@ public final class KameletsCatalog {
 
         try (ScanResult scanResult = cg.scan()) {
             for (Resource resource : scanResult.getAllResources()) {
-                kamelets.add(YAML_MAPPER.readValue(resource.open(), ObjectNode.class));
+                ObjectNode kamelet = YAML_MAPPER.readValue(resource.open(), ObjectNode.class);
+                if (kamelet.at("/metadata/name").isMissingNode()) {
+                    String name = resource.getPath();
+
+                    int index = resource.getPath().lastIndexOf(KAMELETS_FILE_SUFFIX);
+                    if (index > 0) {
+                        name = name.substring(0, index);
+                    }
+
+                    kamelet.with("metadata").put("name", name.substring(9));
+                }
+
+                kamelets.add(kamelet);
             }
         }
 
@@ -54,10 +68,20 @@ public final class KameletsCatalog {
     }
 
     public ObjectNode kamelet(String name, String version) {
-        return getKamelets().stream()
-                .filter(node -> Objects.equals(name, kameletName(node)) && Objects.equals(version, kameletVersion(node)))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "Unable to find kamelet with name " + name + " and version " + version));
+        List<ObjectNode> kamelets = getKamelets().stream()
+                .filter(node -> Objects.equals(name, kameletName(node)))
+                .filter(node -> Objects.equals(version, kameletVersion(node)))
+                .collect(Collectors.toList());
+
+        if (kamelets.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Unable to find kamelet with name " + name + " and version " + version);
+        }
+        if (kamelets.size() > 1) {
+            throw new IllegalArgumentException(
+                    "Multiple kamelet with name " + name + " and version " + version);
+        }
+
+        return kamelets.get(0);
     }
 }
