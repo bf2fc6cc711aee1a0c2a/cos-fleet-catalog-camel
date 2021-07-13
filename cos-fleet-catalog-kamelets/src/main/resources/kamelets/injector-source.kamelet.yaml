@@ -19,9 +19,20 @@ spec:
         title: Delay
         description: Delay
         type: string
+      multiLine:
+        title: Multi Line
+        description: Multi Line
+        type: boolean
+        default: false
+      showAll:
+        title: Show All
+        description: Show All
+        type: boolean
+        default: false
   dependencies:
     - "camel:timer"
     - "camel:kamelet"
+    - "camel:log"
   flow:
     from:
       uri: "timer:{{routeId}}"
@@ -32,4 +43,9 @@ spec:
           simple: "${exchangeProperty.CamelTimerCounter}"
       - convert-body-to:
           type: "java.lang.String"
+      - to:
+          uri: "log:{{routeId}}"
+          parameters:
+            multiline: "{{multiLine}}"
+            showAll: "{{showAll}}"
       - to: "kamelet:sink"
