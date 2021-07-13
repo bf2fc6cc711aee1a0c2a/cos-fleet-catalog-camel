@@ -149,7 +149,7 @@
     <modules>
         <module>aws</module>
         <module>misc</module>
-        <module>mongodb</module>
+        <module>nosql</module>
         <module>sql</module>
     </modules>
 
