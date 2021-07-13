@@ -9,7 +9,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>cos-fleet-catalog-connectors-mongodb</artifactId>
+    <artifactId>cos-fleet-catalog-connectors-nosql</artifactId>
     <packaging>pom</packaging>
 
     <build>
@@ -19,7 +19,7 @@
                     <groupId>org.bf2</groupId>
                     <artifactId>cos-fleet-catalog-camel-maven-plugin</artifactId>
                     <configuration>
-                        <outputPath>${cos.connector.catalog.root}/connector-catalog-camel-sql</outputPath>
+                        <outputPath>${cos.connector.catalog.root}/connector-catalog-camel-nosql</outputPath>
                     </configuration>
                 </plugin>
             </plugins>
