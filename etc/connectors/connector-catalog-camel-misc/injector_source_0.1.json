@@ -12,6 +12,18 @@
               "title" : "Delay",
               "description" : "Delay",
               "type" : "string"
+            },
+            "multiLine" : {
+              "title" : "Multi Line",
+              "description" : "Multi Line",
+              "type" : "boolean",
+              "default" : false
+            },
+            "showAll" : {
+              "title" : "Show All",
+              "description" : "Show All",
+              "type" : "boolean",
+              "default" : false
             }
           }
         },
