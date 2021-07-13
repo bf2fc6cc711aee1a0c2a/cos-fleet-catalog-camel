@@ -129,7 +129,7 @@
       "shard_metadata" : {
         "connector_revision" : "1",
         "connector_type" : "sink",
-        "connector_image" : "quay.io/lburgazzoli/mci:0.1.1-mongodb-sink-0.1",
+        "connector_image" : "quay.io/lburgazzoli/mci:0.1.1-mongodb-sink-0.1-2ffa82e",
         "operators" : [ {
           "type" : "camel-connector-operator",
           "version" : "[1.0.0,2.0.0)"

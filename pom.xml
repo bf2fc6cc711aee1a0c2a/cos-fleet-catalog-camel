@@ -45,6 +45,7 @@
         <directory-maven-plugin.version>0.3.1</directory-maven-plugin.version>
         <jandex-maven-plugin.version>1.0.8</jandex-maven-plugin.version>
         <openapi-generator-maven-plugin.version>5.1.0</openapi-generator-maven-plugin.version>
+        <git-commit-id-maven-plugin.version>5.0.0</git-commit-id-maven-plugin.version>
     </properties>
 
     <modules>
@@ -207,6 +208,20 @@
                         <configuration>
                             <property>cos.project.root</property>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>io.github.git-commit-id</groupId>
+                <artifactId>git-commit-id-maven-plugin</artifactId>
+                <version>${git-commit-id-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>get-the-git-infos</id>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                        <phase>initialize</phase>
                     </execution>
                 </executions>
             </plugin>
