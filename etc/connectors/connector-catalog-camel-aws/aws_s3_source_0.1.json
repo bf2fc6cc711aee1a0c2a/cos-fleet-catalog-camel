@@ -62,6 +62,18 @@
               "description" : "If it is true, the exchange will be consumed and put into the body and closed. If false the S3Object stream will be put raw into the body and the headers will be set with the S3 object metadata.",
               "type" : "boolean",
               "default" : true
+            },
+            "prefix" : {
+              "title" : "Prefix",
+              "description" : "The AWS S3 bucket prefix to consider while searching",
+              "type" : "string",
+              "example" : "folder/"
+            },
+            "ignoreBody" : {
+              "title" : "Ignore Body",
+              "description" : "If it is true, the S3 Object Body will be ignored completely, if it is set to false the S3 Object will be put in the body. Setting this to true, will override any behavior defined by includeBody option.",
+              "type" : "boolean",
+              "default" : false
             }
           }
         },
@@ -138,9 +150,9 @@
   "channels" : {
     "stable" : {
       "shard_metadata" : {
-        "connector_revision" : "1",
+        "connector_revision" : "2",
         "connector_type" : "source",
-        "connector_image" : "quay.io/lburgazzoli/mci:0.1.1-aws-s3-source-0.1-7273d64",
+        "connector_image" : "quay.io/lburgazzoli/mci:0.1.2-aws-s3-source-0.1",
         "operators" : [ {
           "type" : "camel-connector-operator",
           "version" : "[1.0.0,2.0.0)"
