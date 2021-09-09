@@ -18,7 +18,7 @@
     <packaging>jar</packaging>
 
     <properties>
-        <cos.connector.revision>2</cos.connector.revision>
+        <cos.connector.revision>3</cos.connector.revision>
         <cos.connector.operator.version>[1.0.0,2.0.0)</cos.connector.operator.version>
 
         <quarkus.container-image.name>mci</quarkus.container-image.name>
