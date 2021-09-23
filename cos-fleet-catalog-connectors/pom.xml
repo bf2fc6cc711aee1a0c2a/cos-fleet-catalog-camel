@@ -131,6 +131,7 @@
         <module>aws</module>
         <module>misc</module>
         <module>nosql</module>
+        <module>social</module>
         <module>sql</module>
     </modules>
 
