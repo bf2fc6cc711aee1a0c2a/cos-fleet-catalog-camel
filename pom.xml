@@ -19,7 +19,7 @@
         <camel-kamelets-catalog.version>0.4.0</camel-kamelets-catalog.version>
 
         <jackson.version>2.12.3</jackson.version>
-        <classgraph.version>4.8.105</classgraph.version>
+        <classgraph.version>4.8.117</classgraph.version>
         <swagger-annotations.version>1.6.2</swagger-annotations.version>
         <maven-version>3.6.3</maven-version>
         <maven-plugin-tools-version>3.6.0</maven-plugin-tools-version>
