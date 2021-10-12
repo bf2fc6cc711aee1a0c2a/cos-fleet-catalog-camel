@@ -114,6 +114,9 @@
           "kafka" : "managed-kafka-sink",
           "insert-field" : "insert-field-action",
           "extract-field" : "extract-field-action"
+        },
+        "annotations" : {
+          "trait.camel.apache.org/container.request-memory" : "128m"
         }
       }
     }
