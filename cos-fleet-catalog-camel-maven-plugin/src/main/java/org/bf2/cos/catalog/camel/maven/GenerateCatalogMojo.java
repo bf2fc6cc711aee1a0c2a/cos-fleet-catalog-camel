@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -39,6 +40,8 @@ public class GenerateCatalogMojo extends AbstractConnectorMojo {
     private MavenProject project;
     @Parameter(defaultValue = "${project.build.directory}")
     private String outputPath;
+    @Parameter
+    private List<Annotation> annotations;
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
@@ -170,6 +173,13 @@ public class GenerateCatalogMojo extends AbstractConnectorMojo {
                     shardMeta.with("kamelets")
                             .put("connector", kameletName(connectorSpec))
                             .put("kafka", kameletName(kafkaSpec));
+                    if (annotations != null) {
+                        ObjectNode p = shardMeta.with("annotations");
+                        for (Annotation annotation : annotations) {
+                            System.err.println(annotation.getName());
+                            p.put(annotation.getName(), annotation.getValue());
+                        }
+                    }
 
                     if (connector.getSteps() != null) {
                         for (Connector.KameletRef step : connector.getSteps()) {
