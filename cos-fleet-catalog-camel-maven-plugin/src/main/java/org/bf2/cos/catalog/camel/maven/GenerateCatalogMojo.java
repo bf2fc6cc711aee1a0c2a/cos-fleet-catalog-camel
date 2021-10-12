@@ -39,6 +39,8 @@ public class GenerateCatalogMojo extends AbstractConnectorMojo {
     private MavenProject project;
     @Parameter(defaultValue = "${project.build.directory}")
     private String outputPath;
+    @Parameter(defaultValue = "128m")
+    private String memoryRequest = "128m";
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
@@ -170,6 +172,8 @@ public class GenerateCatalogMojo extends AbstractConnectorMojo {
                     shardMeta.with("kamelets")
                             .put("connector", kameletName(connectorSpec))
                             .put("kafka", kameletName(kafkaSpec));
+                    shardMeta.with("annotations")
+                            .put("trait.camel.apache.org/container.request-memory", memoryRequest);
 
                     if (connector.getSteps() != null) {
                         for (Connector.KameletRef step : connector.getSteps()) {
