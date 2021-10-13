@@ -141,7 +141,8 @@
           "extract-field" : "extract-field-action"
         },
         "annotations" : {
-          "trait.camel.apache.org/container.request-memory" : "256m"
+          "trait.camel.apache.org/container.request-memory" : "256m",
+          "trait.camel.apache.org/container.request-cpu" : "1"
         }
       }
     }
