@@ -13,6 +13,8 @@ spec:
     title: "Injector"
     description: |-
       Inject data.
+    required:
+      - delay
     type: object
     properties:
       delay:
