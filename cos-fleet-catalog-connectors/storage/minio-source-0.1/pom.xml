@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <parent>
+        <groupId>org.bf2</groupId>
+        <artifactId>cos-fleet-catalog-connectors-storage</artifactId>
+        <version>999-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>minio-source-0.1</artifactId>
+    <version>0.1</version>
+    <name>Minio Source</name>
+    <description>Minio Source</description>
+
+    <packaging>jar</packaging>
+
+    <properties>
+        <cos.connector.revision>3</cos.connector.revision>
+        <cos.connector.operator.version>[1.0.0,2.0.0)</cos.connector.operator.version>
+
+        <quarkus.container-image.name>mci</quarkus.container-image.name>
+        <quarkus.container-image.tag>${project.version}.${cos.connector.revision}-${project.artifactId}</quarkus.container-image.tag>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-fleet-catalog-camel-maven-plugin</artifactId>
+                <configuration>
+                    <connectors>
+                        <connector>
+                            <adapter>
+                                <name>minio-source</name>
+                                <version>${camel-kamelets-catalog.version}</version>
+                            </adapter>
+                            <kafka>
+                                <name>managed-kafka-sink</name>
+                                <version>0.0.1</version>
+                            </kafka>
+                            <steps>
+                                <step>
+                                    <name>insert-field-action</name>
+                                    <version>${camel-kamelets-catalog.version}</version>
+                                </step>
+                                <step>
+                                    <name>extract-field-action</name>
+                                    <version>${camel-kamelets-catalog.version}</version>
+                                </step>
+                            </steps>
+                            <channels>
+                                <stable/>
+                            </channels>
+                        </connector>
+                    </connectors>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
