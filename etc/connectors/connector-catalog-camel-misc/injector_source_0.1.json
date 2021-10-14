@@ -6,7 +6,7 @@
         "connector" : {
           "type" : "object",
           "title" : "Injector",
-          "required" : [ ],
+          "required" : [ "delay" ],
           "properties" : {
             "delay" : {
               "title" : "Delay",
