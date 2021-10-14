@@ -133,6 +133,7 @@
         <module>nosql</module>
         <module>social</module>
         <module>sql</module>
+        <module>storage</module>
     </modules>
 
     <profiles>
