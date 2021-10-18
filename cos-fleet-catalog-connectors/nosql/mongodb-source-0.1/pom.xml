@@ -41,9 +41,6 @@
                                 <name>managed-kafka-sink</name>
                                 <version>0.0.1</version>
                             </kafka>
-                            <channels>
-                                <stable/>
-                            </channels>
                         </connector>
                     </connectors>
                     <annotations>

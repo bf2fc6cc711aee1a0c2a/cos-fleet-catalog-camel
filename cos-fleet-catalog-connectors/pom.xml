@@ -151,6 +151,16 @@
                                         <version>${camel-kamelets-catalog.version}</version>
                                     </step>
                                 </steps>
+                                <!-- 
+                                  configure the default channel.
+                                  
+                                  If connector-specific channels have to be included, use combine.children to 
+                                  properly configure the merge behavior, i.e.:
+
+                                  <channels combine.children="append">
+                                    <beta/>                                        
+                                  </channels>
+                                -->
                                 <channels>
                                     <stable/>
                                 </channels>
