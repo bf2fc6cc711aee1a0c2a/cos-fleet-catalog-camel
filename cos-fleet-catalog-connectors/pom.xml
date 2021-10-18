@@ -115,13 +115,12 @@
                     </dependencies>
                     <executions>
                         <execution>
+                            <id>generate-catalog</id>
                             <goals>
                                 <goal>generate-catalog</goal>
-                                <goal>generate-image</goal>
                             </goals>
                         </execution>
                     </executions>
-
                     <configuration>
                         <connectors>
                             <connector>
@@ -181,6 +180,22 @@
             <properties>
                 <quarkus.container-image.build>true</quarkus.container-image.build>
             </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.bf2</groupId>
+                        <artifactId>cos-fleet-catalog-camel-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>images</id>
+                                <goals>
+                                    <goal>generate-image</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
         <profile>
             <id>container-push</id>
@@ -190,7 +205,22 @@
             <properties>
                 <quarkus.container-image.push>true</quarkus.container-image.push>
             </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.bf2</groupId>
+                        <artifactId>cos-fleet-catalog-camel-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>images</id>
+                                <goals>
+                                    <goal>generate-image</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
-
 </project>
