@@ -41,16 +41,6 @@
                                 <name>managed-kafka-sink</name>
                                 <version>0.0.1</version>
                             </kafka>
-                            <steps>
-                                <step>
-                                    <name>insert-field-action</name>
-                                    <version>${camel-kamelets-catalog.version}</version>
-                                </step>
-                                <step>
-                                    <name>extract-field-action</name>
-                                    <version>${camel-kamelets-catalog.version}</version>
-                                </step>
-                            </steps>
                             <channels>
                                 <stable/>
                             </channels>
