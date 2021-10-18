@@ -41,9 +41,6 @@
                                 <name>managed-kafka-source</name>
                                 <version>0.0.1</version>
                             </kafka>
-                            <channels>
-                                <stable/>
-                            </channels>
                         </connector>
                     </connectors>
                     <annotations>
