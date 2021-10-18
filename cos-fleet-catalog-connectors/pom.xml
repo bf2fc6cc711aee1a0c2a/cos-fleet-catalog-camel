@@ -121,8 +121,44 @@
                             </goals>
                         </execution>
                     </executions>
-                </plugin>
 
+                    <configuration>
+                        <connectors>
+                            <connector>
+                                <!-- 
+                                  configure the default actions.
+                                  
+                                  If connector-specific actions have to be included, use combine.children to 
+                                  properly configure the merge behavior, i.e.:
+
+                                  <steps combine.children="append">
+                                    <step>
+                                        <name>my-action</name>
+                                        <version>${camel-kamelets-catalog.version}</version>
+                                    </step>
+                                  </steps>
+                                -->
+                                <steps>
+                                    <step>
+                                        <name>insert-field-action</name>
+                                        <version>${camel-kamelets-catalog.version}</version>
+                                    </step>
+                                    <step>
+                                        <name>extract-field-action</name>
+                                        <version>${camel-kamelets-catalog.version}</version>
+                                    </step>
+                                    <step>
+                                        <name> has-header-filter-action</name>
+                                        <version>${camel-kamelets-catalog.version}</version>
+                                    </step>
+                                </steps>
+                                <channels>
+                                    <stable/>
+                                </channels>
+                            </connector>
+                        </connectors>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>

@@ -113,6 +113,25 @@
                   "type" : "object"
                 }
               }
+            }, {
+              "type" : "object",
+              "required" : [ "has-header-filter" ],
+              "properties" : {
+                "has-header-filter" : {
+                  "title" : "Has Header Filter Action",
+                  "description" : "Filter based on the presence of one header",
+                  "required" : [ "name" ],
+                  "properties" : {
+                    "name" : {
+                      "title" : "Header Name",
+                      "description" : "The header name to evaluate",
+                      "type" : "string",
+                      "example" : "headerName"
+                    }
+                  },
+                  "type" : "object"
+                }
+              }
             } ]
           }
         }
@@ -141,7 +160,8 @@
           "connector" : "sqlserver-source",
           "kafka" : "managed-kafka-sink",
           "insert-field" : "insert-field-action",
-          "extract-field" : "extract-field-action"
+          "extract-field" : "extract-field-action",
+          "has-header-filter" : "has-header-filter-action"
         }
       }
     }
