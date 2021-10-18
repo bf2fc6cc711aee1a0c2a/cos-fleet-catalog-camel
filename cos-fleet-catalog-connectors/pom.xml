@@ -124,10 +124,10 @@
                     <configuration>
                         <connectors>
                             <connector>
-                                <!-- 
+                                <!--
                                   configure the default actions.
-                                  
-                                  If connector-specific actions have to be included, use combine.children to 
+
+                                  If connector-specific actions have to be included, use combine.children to
                                   properly configure the merge behavior, i.e.:
 
                                   <steps combine.children="append">
@@ -151,14 +151,14 @@
                                         <version>${camel-kamelets-catalog.version}</version>
                                     </step>
                                 </steps>
-                                <!-- 
+                                <!--
                                   configure the default channel.
-                                  
-                                  If connector-specific channels have to be included, use combine.children to 
+
+                                  If connector-specific channels have to be included, use combine.children to
                                   properly configure the merge behavior, i.e.:
 
                                   <channels combine.children="append">
-                                    <beta/>                                        
+                                    <beta/>
                                   </channels>
                                 -->
                                 <channels>
@@ -191,20 +191,22 @@
                 <quarkus.container-image.build>true</quarkus.container-image.build>
             </properties>
             <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.bf2</groupId>
-                        <artifactId>cos-fleet-catalog-camel-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>images</id>
-                                <goals>
-                                    <goal>generate-image</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.bf2</groupId>
+                            <artifactId>cos-fleet-catalog-camel-maven-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>images</id>
+                                    <goals>
+                                        <goal>generate-image</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
             </build>
         </profile>
         <profile>
@@ -216,20 +218,22 @@
                 <quarkus.container-image.push>true</quarkus.container-image.push>
             </properties>
             <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.bf2</groupId>
-                        <artifactId>cos-fleet-catalog-camel-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>images</id>
-                                <goals>
-                                    <goal>generate-image</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.bf2</groupId>
+                            <artifactId>cos-fleet-catalog-camel-maven-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>images</id>
+                                    <goals>
+                                        <goal>generate-image</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
             </build>
         </profile>
     </profiles>
