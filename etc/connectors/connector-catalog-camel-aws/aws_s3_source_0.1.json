@@ -182,6 +182,9 @@
           "insert-field" : "insert-field-action",
           "extract-field" : "extract-field-action",
           "has-header-filter" : "has-header-filter-action"
+        },
+        "annotations" : {
+          "trait.camel.apache.org/container.request-memory" : "128m"
         }
       }
     }
