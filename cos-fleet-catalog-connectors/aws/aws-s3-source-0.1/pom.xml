@@ -43,6 +43,12 @@
                             </kafka>
                         </connector>
                     </connectors>
+                    <annotations>
+                       <annotation>
+                          <name>trait.camel.apache.org/container.request-memory</name>
+                          <value>128m</value>
+                       </annotation>
+                    </annotations>
                 </configuration>
             </plugin>
         </plugins>
