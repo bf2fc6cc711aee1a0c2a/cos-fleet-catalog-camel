@@ -11,20 +11,12 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>cos-fleet-catalog-connectors-sql</artifactId>
     <packaging>pom</packaging>
+    <name>SQL Connectors</name>
+    <description>SQL Connectors</description>
 
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.bf2</groupId>
-                    <artifactId>cos-fleet-catalog-camel-maven-plugin</artifactId>
-                    <configuration>
-                        <outputPath>${cos.connector.catalog.root}/connector-catalog-camel-sql</outputPath>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-    </build>
+    <properties>
+        <cos.connector.catalog.group>sql</cos.connector.catalog.group>
+    </properties>
 
     <modules>
        <module>postgresql-sink-0.1</module>

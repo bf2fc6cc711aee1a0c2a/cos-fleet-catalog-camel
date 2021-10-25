@@ -11,22 +11,15 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>cos-fleet-catalog-connectors-misc</artifactId>
     <packaging>pom</packaging>
+    <name>Misc Connectors</name>
+    <description>Misc Connectors</description>
 
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.bf2</groupId>
-                    <artifactId>cos-fleet-catalog-camel-maven-plugin</artifactId>
-                    <configuration>
-                        <outputPath>${cos.connector.catalog.root}/connector-catalog-camel-misc</outputPath>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-    </build>
+    <properties>
+        <cos.connector.catalog.group>misc</cos.connector.catalog.group>
+    </properties>
 
     <modules>
+        <module>http-source-0.1</module>
         <module>injector-source-0.1</module>
         <module>log-sink-0.1</module>
     </modules>

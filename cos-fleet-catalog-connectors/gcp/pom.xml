@@ -12,19 +12,9 @@
     <artifactId>cos-fleet-catalog-connectors-gcp</artifactId>
     <packaging>pom</packaging>
 
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.bf2</groupId>
-                    <artifactId>cos-fleet-catalog-camel-maven-plugin</artifactId>
-                    <configuration>
-                        <outputPath>${cos.connector.catalog.root}/connector-catalog-camel-gcp</outputPath>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-    </build>
+    <properties>
+        <cos.connector.catalog.group>gcp</cos.connector.catalog.group>
+    </properties>
 
     <modules>
         <module>google-storage-sink-0.1</module>

@@ -1,0 +1,7 @@
+- route:
+    id: binding
+    from:
+      uri: "kamelet:cos-kafka-source/source"
+    steps:
+      - to: "kamelet:cos-log-action/_in"
+      - to: "kamelet:slack-sink/sink"

@@ -1,0 +1,1163 @@
+{
+  "$schema" : "https://json-schema.org/draft/2019-09/schema",
+  "$defs" : {
+    "Address" : {
+      "type" : "object",
+      "properties" : {
+        "address" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "original" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Attachment" : {
+      "type" : "object",
+      "properties" : {
+        "actions" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "confirm" : {
+                "type" : "object",
+                "properties" : {
+                  "dismissText" : {
+                    "type" : "string"
+                  },
+                  "okText" : {
+                    "type" : "string"
+                  },
+                  "text" : {
+                    "type" : "string"
+                  },
+                  "title" : {
+                    "type" : "string"
+                  }
+                }
+              },
+              "dataSource" : {
+                "type" : "string"
+              },
+              "id" : {
+                "type" : "string"
+              },
+              "minQueryLength" : {
+                "type" : "integer"
+              },
+              "name" : {
+                "type" : "string"
+              },
+              "optionGroups" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "options" : {
+                      "type" : "array",
+                      "items" : {
+                        "$ref" : "#/$defs/Option"
+                      }
+                    },
+                    "text" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              },
+              "options" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/$defs/Option"
+                }
+              },
+              "selectedOptions" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/$defs/Option"
+                }
+              },
+              "style" : {
+                "type" : "string"
+              },
+              "text" : {
+                "type" : "string"
+              },
+              "type" : {
+                "type" : "string",
+                "enum" : [ "BUTTON", "SELECT" ]
+              },
+              "url" : {
+                "type" : "string"
+              },
+              "value" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "appUnfurlUrl" : {
+          "type" : "string"
+        },
+        "authorIcon" : {
+          "type" : "string"
+        },
+        "authorId" : {
+          "type" : "string"
+        },
+        "authorLink" : {
+          "type" : "string"
+        },
+        "authorName" : {
+          "type" : "string"
+        },
+        "authorSubname" : {
+          "type" : "string"
+        },
+        "blocks" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/$defs/LayoutBlock"
+          }
+        },
+        "botId" : {
+          "type" : "string"
+        },
+        "callbackId" : {
+          "type" : "string"
+        },
+        "channelId" : {
+          "type" : "string"
+        },
+        "channelName" : {
+          "type" : "string"
+        },
+        "color" : {
+          "type" : "string"
+        },
+        "fallback" : {
+          "type" : "string"
+        },
+        "fields" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "short" : {
+                "type" : "boolean"
+              },
+              "title" : {
+                "type" : "string"
+              },
+              "value" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "filename" : {
+          "type" : "string"
+        },
+        "files" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/$defs/File"
+          }
+        },
+        "footer" : {
+          "type" : "string"
+        },
+        "footerIcon" : {
+          "type" : "string"
+        },
+        "fromUrl" : {
+          "type" : "string"
+        },
+        "id" : {
+          "type" : "integer"
+        },
+        "imageBytes" : {
+          "type" : "integer"
+        },
+        "imageHeight" : {
+          "type" : "integer"
+        },
+        "imageUrl" : {
+          "type" : "string"
+        },
+        "imageWidth" : {
+          "type" : "integer"
+        },
+        "indent" : {
+          "type" : "boolean"
+        },
+        "is_app_unfurl" : {
+          "type" : "boolean"
+        },
+        "is_msg_unfurl" : {
+          "type" : "boolean"
+        },
+        "is_reply_unfurl" : {
+          "type" : "boolean"
+        },
+        "is_thread_root_unfurl" : {
+          "type" : "boolean"
+        },
+        "metadata" : {
+          "type" : "object",
+          "properties" : {
+            "extension" : {
+              "type" : "string"
+            },
+            "format" : {
+              "type" : "string"
+            },
+            "original_h" : {
+              "type" : "integer"
+            },
+            "original_w" : {
+              "type" : "integer"
+            },
+            "rotation" : {
+              "type" : "integer"
+            },
+            "thumbTiny" : {
+              "type" : "string"
+            },
+            "thumb_160" : {
+              "type" : "boolean"
+            },
+            "thumb_360_h" : {
+              "type" : "integer"
+            },
+            "thumb_360_w" : {
+              "type" : "integer"
+            },
+            "thumb_64" : {
+              "type" : "boolean"
+            },
+            "thumb_80" : {
+              "type" : "boolean"
+            }
+          }
+        },
+        "mimetype" : {
+          "type" : "string"
+        },
+        "mrkdwnIn" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "msgSubtype" : {
+          "type" : "string"
+        },
+        "originalUrl" : {
+          "type" : "string"
+        },
+        "pretext" : {
+          "type" : "string"
+        },
+        "serviceIcon" : {
+          "type" : "string"
+        },
+        "serviceName" : {
+          "type" : "string"
+        },
+        "serviceUrl" : {
+          "type" : "string"
+        },
+        "size" : {
+          "type" : "integer"
+        },
+        "text" : {
+          "type" : "string"
+        },
+        "thumbHeight" : {
+          "type" : "integer"
+        },
+        "thumbUrl" : {
+          "type" : "string"
+        },
+        "thumbWidth" : {
+          "type" : "integer"
+        },
+        "title" : {
+          "type" : "string"
+        },
+        "titleLink" : {
+          "type" : "string"
+        },
+        "ts" : {
+          "type" : "string"
+        },
+        "url" : {
+          "type" : "string"
+        },
+        "videoHtml" : {
+          "type" : "string"
+        },
+        "videoHtmlHeight" : {
+          "type" : "integer"
+        },
+        "videoHtmlWidth" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "BotProfile" : {
+      "type" : "object",
+      "properties" : {
+        "appId" : {
+          "type" : "string"
+        },
+        "deleted" : {
+          "type" : "boolean"
+        },
+        "icons" : {
+          "type" : "object",
+          "properties" : {
+            "image_36" : {
+              "type" : "string"
+            },
+            "image_48" : {
+              "type" : "string"
+            },
+            "image_72" : {
+              "type" : "string"
+            }
+          }
+        },
+        "id" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "teamId" : {
+          "type" : "string"
+        },
+        "updated" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "Edited" : {
+      "type" : "object",
+      "properties" : {
+        "ts" : {
+          "type" : "string"
+        },
+        "user" : {
+          "type" : "string"
+        }
+      }
+    },
+    "File" : {
+      "type" : "object",
+      "properties" : {
+        "appId" : {
+          "type" : "string"
+        },
+        "appName" : {
+          "type" : "string"
+        },
+        "attachments" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/$defs/Attachment"
+          }
+        },
+        "blocks" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/$defs/LayoutBlock"
+          }
+        },
+        "botId" : {
+          "type" : "string"
+        },
+        "cc" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/$defs/Address"
+          }
+        },
+        "channelActionsCount" : {
+          "type" : "integer"
+        },
+        "channelActionsTs" : {
+          "type" : "string"
+        },
+        "channels" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "commentsCount" : {
+          "type" : "integer"
+        },
+        "convertedPdf" : {
+          "type" : "string"
+        },
+        "created" : {
+          "type" : "integer"
+        },
+        "deanimateGif" : {
+          "type" : "string"
+        },
+        "displayAsBot" : {
+          "type" : "boolean"
+        },
+        "editLink" : {
+          "type" : "string"
+        },
+        "editable" : {
+          "type" : "boolean"
+        },
+        "editor" : {
+          "type" : "string"
+        },
+        "externalId" : {
+          "type" : "string"
+        },
+        "externalType" : {
+          "type" : "string"
+        },
+        "externalUrl" : {
+          "type" : "string"
+        },
+        "filetype" : {
+          "type" : "string"
+        },
+        "from" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/$defs/Address"
+          }
+        },
+        "groups" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "hasMore" : {
+          "type" : "boolean"
+        },
+        "hasRichPreview" : {
+          "type" : "boolean"
+        },
+        "id" : {
+          "type" : "string"
+        },
+        "imageExifRotation" : {
+          "type" : "integer"
+        },
+        "ims" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "initialComment" : {
+          "type" : "object",
+          "properties" : {
+            "channel" : {
+              "type" : "string"
+            },
+            "comment" : {
+              "type" : "string"
+            },
+            "created" : {
+              "type" : "integer"
+            },
+            "id" : {
+              "type" : "string"
+            },
+            "is_intro" : {
+              "type" : "boolean"
+            },
+            "timestamp" : {
+              "type" : "integer"
+            },
+            "user" : {
+              "type" : "string"
+            }
+          }
+        },
+        "is_external" : {
+          "type" : "boolean"
+        },
+        "is_public" : {
+          "type" : "boolean"
+        },
+        "is_starred" : {
+          "type" : "boolean"
+        },
+        "lastEditor" : {
+          "type" : "string"
+        },
+        "lines" : {
+          "type" : "integer"
+        },
+        "linesMore" : {
+          "type" : "integer"
+        },
+        "mimetype" : {
+          "type" : "string"
+        },
+        "mode" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "nonOwnerEditable" : {
+          "type" : "boolean"
+        },
+        "numStars" : {
+          "type" : "integer"
+        },
+        "original_h" : {
+          "type" : "string"
+        },
+        "original_w" : {
+          "type" : "string"
+        },
+        "permalink" : {
+          "type" : "string"
+        },
+        "permalinkPublic" : {
+          "type" : "string"
+        },
+        "pinnedInfo" : {
+          "type" : "object"
+        },
+        "pinnedTo" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "pjpeg" : {
+          "type" : "string"
+        },
+        "plainText" : {
+          "type" : "string"
+        },
+        "prettyType" : {
+          "type" : "string"
+        },
+        "preview" : {
+          "type" : "string"
+        },
+        "previewHighlight" : {
+          "type" : "string"
+        },
+        "previewPlainText" : {
+          "type" : "string"
+        },
+        "preview_is_truncated" : {
+          "type" : "boolean"
+        },
+        "publicUrlShared" : {
+          "type" : "boolean"
+        },
+        "reactions" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/$defs/Reaction"
+          }
+        },
+        "sentToSelf" : {
+          "type" : "boolean"
+        },
+        "shares" : {
+          "type" : "object",
+          "properties" : {
+            "private" : {
+              "$ref" : "#/$defs/Map(String,List(ShareDetail))"
+            },
+            "public" : {
+              "$ref" : "#/$defs/Map(String,List(ShareDetail))"
+            }
+          }
+        },
+        "size" : {
+          "type" : "integer"
+        },
+        "subject" : {
+          "type" : "string"
+        },
+        "thumbTiny" : {
+          "type" : "string"
+        },
+        "thumbVideo" : {
+          "type" : "string"
+        },
+        "thumb_1024" : {
+          "type" : "string"
+        },
+        "thumb_1024_gif" : {
+          "type" : "string"
+        },
+        "thumb_1024_h" : {
+          "type" : "string"
+        },
+        "thumb_1024_w" : {
+          "type" : "string"
+        },
+        "thumb_160" : {
+          "type" : "string"
+        },
+        "thumb_160_gif" : {
+          "type" : "string"
+        },
+        "thumb_160_h" : {
+          "type" : "string"
+        },
+        "thumb_160_w" : {
+          "type" : "string"
+        },
+        "thumb_360" : {
+          "type" : "string"
+        },
+        "thumb_360_gif" : {
+          "type" : "string"
+        },
+        "thumb_360_h" : {
+          "type" : "string"
+        },
+        "thumb_360_w" : {
+          "type" : "string"
+        },
+        "thumb_480" : {
+          "type" : "string"
+        },
+        "thumb_480_gif" : {
+          "type" : "string"
+        },
+        "thumb_480_h" : {
+          "type" : "string"
+        },
+        "thumb_480_w" : {
+          "type" : "string"
+        },
+        "thumb_64" : {
+          "type" : "string"
+        },
+        "thumb_64_gif" : {
+          "type" : "string"
+        },
+        "thumb_64_h" : {
+          "type" : "string"
+        },
+        "thumb_64_w" : {
+          "type" : "string"
+        },
+        "thumb_720" : {
+          "type" : "string"
+        },
+        "thumb_720_gif" : {
+          "type" : "string"
+        },
+        "thumb_720_h" : {
+          "type" : "string"
+        },
+        "thumb_720_w" : {
+          "type" : "string"
+        },
+        "thumb_80" : {
+          "type" : "string"
+        },
+        "thumb_800" : {
+          "type" : "string"
+        },
+        "thumb_800_gif" : {
+          "type" : "string"
+        },
+        "thumb_800_h" : {
+          "type" : "string"
+        },
+        "thumb_800_w" : {
+          "type" : "string"
+        },
+        "thumb_80_gif" : {
+          "type" : "string"
+        },
+        "thumb_80_h" : {
+          "type" : "string"
+        },
+        "thumb_80_w" : {
+          "type" : "string"
+        },
+        "thumb_960" : {
+          "type" : "string"
+        },
+        "thumb_960_gif" : {
+          "type" : "string"
+        },
+        "thumb_960_h" : {
+          "type" : "string"
+        },
+        "thumb_960_w" : {
+          "type" : "string"
+        },
+        "thumb_pdf" : {
+          "type" : "string"
+        },
+        "thumb_pdf_h" : {
+          "type" : "string"
+        },
+        "thumb_pdf_w" : {
+          "type" : "string"
+        },
+        "timestamp" : {
+          "type" : "integer"
+        },
+        "title" : {
+          "type" : "string"
+        },
+        "to" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/$defs/Address"
+          }
+        },
+        "updated" : {
+          "type" : "integer"
+        },
+        "urlPrivate" : {
+          "type" : "string"
+        },
+        "urlPrivateDownload" : {
+          "type" : "string"
+        },
+        "user" : {
+          "type" : "string"
+        },
+        "username" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Icons" : {
+      "type" : "object",
+      "properties" : {
+        "emoji" : {
+          "type" : "string"
+        },
+        "image_36" : {
+          "type" : "string"
+        },
+        "image_48" : {
+          "type" : "string"
+        },
+        "image_64" : {
+          "type" : "string"
+        },
+        "image_72" : {
+          "type" : "string"
+        }
+      }
+    },
+    "LayoutBlock" : {
+      "type" : "object"
+    },
+    "Map(String,List(ShareDetail))" : {
+      "type" : "object"
+    },
+    "MessageItem" : {
+      "type" : "object",
+      "properties" : {
+        "comment" : {
+          "type" : "string"
+        },
+        "created" : {
+          "type" : "string"
+        },
+        "displayAsBot" : {
+          "type" : "boolean"
+        },
+        "editLink" : {
+          "type" : "string"
+        },
+        "editable" : {
+          "type" : "boolean"
+        },
+        "externalType" : {
+          "type" : "string"
+        },
+        "filetype" : {
+          "type" : "string"
+        },
+        "hasRichPreview" : {
+          "type" : "boolean"
+        },
+        "id" : {
+          "type" : "string"
+        },
+        "is_external" : {
+          "type" : "boolean"
+        },
+        "is_intro" : {
+          "type" : "boolean"
+        },
+        "is_public" : {
+          "type" : "boolean"
+        },
+        "is_starred" : {
+          "type" : "boolean"
+        },
+        "lines" : {
+          "type" : "integer"
+        },
+        "linesMore" : {
+          "type" : "integer"
+        },
+        "mimetype" : {
+          "type" : "string"
+        },
+        "mode" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "permalink" : {
+          "type" : "string"
+        },
+        "permalinkPublic" : {
+          "type" : "boolean"
+        },
+        "prettyType" : {
+          "type" : "string"
+        },
+        "preview" : {
+          "type" : "string"
+        },
+        "previewHighlight" : {
+          "type" : "string"
+        },
+        "preview_is_truncated" : {
+          "type" : "boolean"
+        },
+        "publicUrlShared" : {
+          "type" : "boolean"
+        },
+        "size" : {
+          "type" : "integer"
+        },
+        "timestamp" : {
+          "type" : "string"
+        },
+        "title" : {
+          "type" : "string"
+        },
+        "urlPrivate" : {
+          "type" : "string"
+        },
+        "urlPrivateDownload" : {
+          "type" : "boolean"
+        },
+        "user" : {
+          "type" : "string"
+        },
+        "username" : {
+          "type" : "string"
+        }
+      }
+    },
+    "MessageRootReply" : {
+      "type" : "object",
+      "properties" : {
+        "ts" : {
+          "type" : "string"
+        },
+        "user" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Option" : {
+      "type" : "object",
+      "properties" : {
+        "text" : {
+          "type" : "string"
+        },
+        "value" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Reaction" : {
+      "type" : "object",
+      "properties" : {
+        "count" : {
+          "type" : "integer"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "url" : {
+          "type" : "string"
+        },
+        "users" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    }
+  },
+  "type" : "object",
+  "properties" : {
+    "attachments" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/$defs/Attachment"
+      }
+    },
+    "blocks" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/$defs/LayoutBlock"
+      }
+    },
+    "botId" : {
+      "type" : "string"
+    },
+    "botLink" : {
+      "type" : "string"
+    },
+    "botProfile" : {
+      "$ref" : "#/$defs/BotProfile"
+    },
+    "channel" : {
+      "type" : "string"
+    },
+    "clientMsgId" : {
+      "type" : "string"
+    },
+    "comment" : {
+      "$ref" : "#/$defs/MessageItem"
+    },
+    "displayAsBot" : {
+      "type" : "boolean"
+    },
+    "edited" : {
+      "$ref" : "#/$defs/Edited"
+    },
+    "file" : {
+      "$ref" : "#/$defs/File"
+    },
+    "files" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/$defs/File"
+      }
+    },
+    "hidden" : {
+      "type" : "boolean"
+    },
+    "icons" : {
+      "$ref" : "#/$defs/Icons"
+    },
+    "inviter" : {
+      "type" : "string"
+    },
+    "is_intro" : {
+      "type" : "boolean"
+    },
+    "is_locked" : {
+      "type" : "boolean"
+    },
+    "is_starred" : {
+      "type" : "boolean"
+    },
+    "is_thread_broadcast" : {
+      "type" : "boolean"
+    },
+    "item" : {
+      "$ref" : "#/$defs/MessageItem"
+    },
+    "itemType" : {
+      "type" : "string"
+    },
+    "lastRead" : {
+      "type" : "string"
+    },
+    "latestReply" : {
+      "type" : "string"
+    },
+    "parentUserId" : {
+      "type" : "string"
+    },
+    "pinnedTo" : {
+      "type" : "array",
+      "items" : {
+        "type" : "string"
+      }
+    },
+    "purpose" : {
+      "type" : "string"
+    },
+    "reactions" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/$defs/Reaction"
+      }
+    },
+    "replies" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/$defs/MessageRootReply"
+      }
+    },
+    "replyCount" : {
+      "type" : "integer"
+    },
+    "replyUsers" : {
+      "type" : "array",
+      "items" : {
+        "type" : "string"
+      }
+    },
+    "replyUsersCount" : {
+      "type" : "integer"
+    },
+    "root" : {
+      "type" : "object",
+      "properties" : {
+        "botId" : {
+          "type" : "string"
+        },
+        "botProfile" : {
+          "$ref" : "#/$defs/BotProfile"
+        },
+        "edited" : {
+          "$ref" : "#/$defs/Edited"
+        },
+        "icons" : {
+          "$ref" : "#/$defs/Icons"
+        },
+        "lastRead" : {
+          "type" : "string"
+        },
+        "latestReply" : {
+          "type" : "string"
+        },
+        "mrkdwn" : {
+          "type" : "boolean"
+        },
+        "parentUserId" : {
+          "type" : "string"
+        },
+        "replies" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/$defs/MessageRootReply"
+          }
+        },
+        "replyCount" : {
+          "type" : "integer"
+        },
+        "replyUsers" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "replyUsersCount" : {
+          "type" : "integer"
+        },
+        "subscribed" : {
+          "type" : "boolean"
+        },
+        "subtype" : {
+          "type" : "string"
+        },
+        "team" : {
+          "type" : "string"
+        },
+        "text" : {
+          "type" : "string"
+        },
+        "threadTs" : {
+          "type" : "string"
+        },
+        "ts" : {
+          "type" : "string"
+        },
+        "type" : {
+          "type" : "string"
+        },
+        "unreadCount" : {
+          "type" : "integer"
+        },
+        "user" : {
+          "type" : "string"
+        },
+        "username" : {
+          "type" : "string"
+        }
+      }
+    },
+    "subscribed" : {
+      "type" : "boolean"
+    },
+    "subtype" : {
+      "type" : "string"
+    },
+    "team" : {
+      "type" : "string"
+    },
+    "text" : {
+      "type" : "string"
+    },
+    "threadTs" : {
+      "type" : "string"
+    },
+    "topic" : {
+      "type" : "string"
+    },
+    "ts" : {
+      "type" : "string"
+    },
+    "type" : {
+      "type" : "string"
+    },
+    "unfurlLinks" : {
+      "type" : "boolean"
+    },
+    "unfurlMedia" : {
+      "type" : "boolean"
+    },
+    "upload" : {
+      "type" : "boolean"
+    },
+    "user" : {
+      "type" : "string"
+    },
+    "username" : {
+      "type" : "string"
+    },
+    "wibblr" : {
+      "type" : "boolean"
+    },
+    "xFiles" : {
+      "type" : "array",
+      "items" : {
+        "type" : "string"
+      }
+    }
+  }
+}

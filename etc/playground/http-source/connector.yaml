@@ -1,0 +1,18 @@
+- route:
+    id: binding
+    from:
+      uri: "kamelet:cos-http-source/source"
+    steps:
+      - to: "kamelet:cos-decoder-json-action"
+      - to: "kamelet:cos-log-action/_decoder"
+
+      - to: "kamelet:cos-jsonpath-extract-action/extract"
+      - to: "kamelet:cos-log-action/_extract"
+
+      - to: "kamelet:cos-jsonpath-set-action/set"
+      - to: "kamelet:cos-log-action/_set"
+
+      - to: "kamelet:cos-encoder-json-action"
+      - to: "kamelet:cos-log-action/_encoder"
+
+      - to: "kamelet:cos-kafka-sink/sink"

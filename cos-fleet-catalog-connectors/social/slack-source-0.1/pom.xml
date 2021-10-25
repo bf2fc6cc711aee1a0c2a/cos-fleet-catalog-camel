@@ -9,6 +9,7 @@
         <version>999-SNAPSHOT</version>
     </parent>
 
+
     <modelVersion>4.0.0</modelVersion>
     <artifactId>slack-source-0.1</artifactId>
     <version>0.1</version>
@@ -26,21 +27,57 @@
         <plugins>
             <plugin>
                 <groupId>org.bf2</groupId>
-                <artifactId>cos-fleet-catalog-camel-maven-plugin</artifactId>
+                <artifactId>camel-connector-schema-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate-json-schema</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <classNames>
+                        <className>com.slack.api.model.Message</className>
+                    </classNames>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.slack.api</groupId>
+                        <artifactId>slack-api-model</artifactId>
+                        <version>1.8.1</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.bf2</groupId>
+                <artifactId>camel-connector-catalog-maven-plugin</artifactId>
                 <configuration>
                     <connectors>
                         <connector>
                             <adapter>
-                                <name>slack-source</name>
-                                <version>${camel-kamelets-catalog.version}</version>
+                                <prefix>slack</prefix>
+                                <name>cos-slack-source</name>
+                                <version>${cos.kamelets.version}</version>
                             </adapter>
                             <kafka>
-                                <name>managed-kafka-sink</name>
-                                <version>0.0.1</version>
+                                <prefix>kafka</prefix>
+                                <name>cos-kafka-sink</name>
+                                <version>${cos.kamelets.version}</version>
                             </kafka>
+                            <dataShape>
+                                <produces>
+                                    <formats>
+                                        <format>application/json</format>
+                                    </formats>
+                                </produces>
+                            </dataShape>
                         </connector>
                     </connectors>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

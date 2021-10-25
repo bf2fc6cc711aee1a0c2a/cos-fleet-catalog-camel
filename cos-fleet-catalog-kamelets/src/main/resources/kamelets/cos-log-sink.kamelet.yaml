@@ -1,0 +1,43 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-log-sink
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.group: "Misc"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "sink"
+spec:
+  definition:
+    title: "Log"
+    description: |-
+      Log payload.
+    type: object
+    properties:
+      multiLine:
+        title: Multi Line
+        description: Multi Line
+        type: boolean
+        default: false
+        x-descriptors:
+          - urn:camel:group:common
+      showAll:
+        title: Show All
+        description: Show All
+        type: boolean
+        default: false
+        x-descriptors:
+          - urn:camel:group:common
+  dependencies:
+    - "camel:log"
+    - "camel:kamelet"
+  flow:
+    from:
+      uri: "kamelet:source"
+      steps:
+        - to:
+            uri: "log:{{routeId}}"
+            parameters:
+              multiline: "{{multiLine}}"
+              showAll: "{{showAll}}"

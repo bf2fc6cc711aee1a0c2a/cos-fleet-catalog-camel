@@ -9,17 +9,23 @@
     <version>999-SNAPSHOT</version>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <encoding>UTF-8</encoding>
 
+        <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
+        <project.resources.sourceEncoding>${encoding}</project.resources.sourceEncoding>
 
-        <quarkus.version>2.4.2.Final</quarkus.version>
-        <camel-k-runtime.version>1.10.0</camel-k-runtime.version>
-        <camel-quarkus.version>2.4.0</camel-quarkus.version>
+        <quarkus.version>2.6.3.Final</quarkus.version>
+        <camel-k-runtime.version>1.11.0</camel-k-runtime.version>
+        <camel-quarkus.version>2.6.0</camel-quarkus.version>
         <camel-kamelets-catalog.version>main-SNAPSHOT</camel-kamelets-catalog.version>
+        <camel.version>3.14.0</camel.version>
 
-        <jackson.version>2.12.3</jackson.version>
         <classgraph.version>4.8.132</classgraph.version>
+        <jsonschema-generator.version>4.22.0</jsonschema-generator.version>
+        <apicurio.version>2.1.5.Final</apicurio.version>
+        <apicurio-client.version>0.1.5.Final</apicurio-client.version>
+        <json-schema-avro.version>0.1.8</json-schema-avro.version>
 
         <maven.version>3.8.3</maven.version>
         <maven-plugin-tools.version>3.6.1</maven-plugin-tools.version>
@@ -37,18 +43,55 @@
         <formatter-maven-plugin.version>2.16.0</formatter-maven-plugin.version>
         <impsort-maven-plugin.version>1.6.2</impsort-maven-plugin.version>
         <build-helper-maven-plugin.version>3.2.0</build-helper-maven-plugin.version>
-        <directory-maven-plugin.version>1.0</directory-maven-plugin.version>
         <git-commit-id-maven-plugin.version>5.0.0</git-commit-id-maven-plugin.version>
+        <exec-maven-plugin.version>3.0.0</exec-maven-plugin.version>
+        <maven-resources-plugin.version>3.2.0</maven-resources-plugin.version>
+
+        <!-- cos -->
+        <cos.connector.operator.type>camel-connector-operator</cos.connector.operator.type>
+        <cos.connector.container.repository>quay.io</cos.connector.container.repository>
+        <cos.connector.container.organization>cos</cos.connector.container.organization>
+        <cos.connector.catalog.root>${maven.multiModuleProjectDirectory}/etc/connectors</cos.connector.catalog.root>
+        <cos.connector.catalog.group>all</cos.connector.catalog.group>
+
+        <cos.connector.revision>7</cos.connector.revision>
+        <cos.connector.operator.version>[1.0.0,2.0.0)</cos.connector.operator.version>
+        <cos.kamelets.version>0.0.1</cos.kamelets.version>
     </properties>
 
     <modules>
-        <module>cos-fleet-catalog-camel-maven-plugin</module>
+        <module>cos-connector-camel-kamelets</module>
+        <module>cos-connector-camel</module>
         <module>cos-fleet-catalog-kamelets</module>
+        <module>cos-fleet-catalog-tools</module>
         <module>cos-fleet-catalog-connectors</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
+            <!-- boms -->
+            <dependency>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-bom</artifactId>
+                <version>${quarkus.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel.k</groupId>
+                <artifactId>camel-k-runtime-bom</artifactId>
+                <version>${camel-k-runtime.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel.quarkus</groupId>
+                <artifactId>camel-quarkus-bom</artifactId>
+                <version>${camel-quarkus.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
             <!-- maven -->
             <dependency>
                 <groupId>org.apache.maven</groupId>
@@ -70,22 +113,88 @@
                 <artifactId>maven-plugin-api</artifactId>
                 <version>${maven.version}</version>
             </dependency>
+
             <!-- local -->
             <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>cos-fleet-catalog-camel-maven-plugin</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
+                <groupId>org.bf2</groupId>
                 <artifactId>cos-fleet-catalog-kamelets</artifactId>
                 <version>999-SNAPSHOT</version>
             </dependency>
             <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>cos-fleet-catalog-camel</artifactId>
-                <version>${project.version}</version>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-fleet-catalog-conenctors</artifactId>
+                <version>999-SNAPSHOT</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-camel</artifactId>
+                <version>999-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-camel-deployment</artifactId>
+                <version>999-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-camel-serdes</artifactId>
+                <version>999-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-camel-action-jsonpath</artifactId>
+                <version>999-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-camel-action-serdes</artifactId>
+                <version>999-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-camel-kafka</artifactId>
+                <version>999-SNAPSHOT</version>
+            </dependency>
+
+            <!-- deps -->
+            <dependency>
+                <groupId>com.github.victools</groupId>
+                <artifactId>jsonschema-generator</artifactId>
+                <version>${jsonschema-generator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.victools</groupId>
+                <artifactId>jsonschema-module-jackson</artifactId>
+                <version>${jsonschema-generator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.apicurio</groupId>
+                <artifactId>apicurio-registry-serdes-avro-serde</artifactId>
+                <version>${apicurio.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.apicurio</groupId>
+                <artifactId>apicurio-registry-serdes-jsonschema-serde</artifactId>
+                <version>${apicurio.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.apicurio</groupId>
+                <artifactId>apicurio-registry-serdes-protobuf-serde</artifactId>
+                <version>${apicurio.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.apicurio</groupId>
+                <artifactId>apicurio-common-rest-client-common</artifactId>
+                <version>${apicurio-client.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.java-json-tools</groupId>
+                <artifactId>json-schema-avro</artifactId>
+                <version>${json-schema-avro.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -104,6 +213,7 @@
                 <enabled>false</enabled>
             </releases>
         </repository>
+        <!--
         <repository>
             <id>oss-sonatype</id>
             <name>oss-sonatype</name>
@@ -112,6 +222,7 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+        -->
     </repositories>
     <pluginRepositories>
         <pluginRepository>
@@ -128,6 +239,7 @@
                 <enabled>false</enabled>
             </releases>
         </pluginRepository>
+        <!--
         <pluginRepository>
             <id>oss-sonatype</id>
             <name>oss-sonatype</name>
@@ -136,11 +248,22 @@
                 <enabled>true</enabled>
             </snapshots>
         </pluginRepository>
+        -->
     </pluginRepositories>
 
     <build>
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>org.bf2</groupId>
+                    <artifactId>camel-connector-catalog-maven-plugin</artifactId>
+                    <version>999-SNAPSHOT</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.bf2</groupId>
+                    <artifactId>camel-connector-schema-maven-plugin</artifactId>
+                    <version>999-SNAPSHOT</version>
+                </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
@@ -180,26 +303,19 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${maven-compiler-plugin.version}</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${maven-resources-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.camel</groupId>
+                    <artifactId>camel-package-maven-plugin</artifactId>
+                    <version>${camel.version}</version>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
-            <plugin>
-                <groupId>org.commonjava.maven.plugins</groupId>
-                <artifactId>directory-maven-plugin</artifactId>
-                <version>${directory-maven-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>directories</id>
-                        <goals>
-                            <goal>highest-basedir</goal>
-                        </goals>
-                        <phase>initialize</phase>
-                        <configuration>
-                            <property>cos.project.root</property>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>io.github.git-commit-id</groupId>
                 <artifactId>git-commit-id-maven-plugin</artifactId>
@@ -220,7 +336,7 @@
                 <version>${formatter-maven-plugin.version}</version>
                 <configuration>
                     <skip>${format.skip}</skip>
-                    <configFile>${cos.project.root}/etc/eclipse-formatter-config.xml</configFile>
+                    <configFile>${maven.multiModuleProjectDirectory}/etc/eclipse-formatter-config.xml</configFile>
                     <lineEnding>KEEP</lineEnding>
                 </configuration>
                 <executions>

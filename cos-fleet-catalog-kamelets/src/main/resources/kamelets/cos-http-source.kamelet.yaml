@@ -1,0 +1,26 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-http-source
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.group: "Misc"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "source"
+spec:
+  definition:
+    title: "Http Source"
+    description: |-
+      Http source data.
+    type: object
+  dependencies:
+    - "camel:platform-http"
+    - "camel:kamelet"
+  flow:
+    from:
+      uri: "platform-http:/"
+      parameters:
+        httpMethodRestrict: "POST"
+      steps:
+      - to: "kamelet:sink"
