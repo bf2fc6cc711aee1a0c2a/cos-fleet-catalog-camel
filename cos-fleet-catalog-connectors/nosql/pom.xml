@@ -11,20 +11,12 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>cos-fleet-catalog-connectors-nosql</artifactId>
     <packaging>pom</packaging>
+    <name>NoSQL Connectors</name>
+    <description>NoSQL Connectors</description>
 
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.bf2</groupId>
-                    <artifactId>cos-fleet-catalog-camel-maven-plugin</artifactId>
-                    <configuration>
-                        <outputPath>${cos.connector.catalog.root}/connector-catalog-camel-nosql</outputPath>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-    </build>
+    <properties>
+        <cos.connector.catalog.group>nosql</cos.connector.catalog.group>
+    </properties>
 
     <modules>
        <module>mongodb-sink-0.1</module>

@@ -1,0 +1,69 @@
+# ---------------------------------------------------------------------------
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ---------------------------------------------------------------------------
+
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-decoder-avro-action
+  labels:
+    camel.apache.org/kamelet.type: "action"
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+    camel.apache.org/kamelet.group: "Actions"
+spec:
+  definition:
+    title: "Avro Deserialize Action"
+    description: "Deserialize payload to Avro"
+    type: object
+    properties:
+      schema:
+        title: The schema
+        description: The schema
+        type: string
+        x-descriptors:
+          - urn:camel:group:common
+      contentClass:
+        title: The content class
+        description: The content class
+        type: string
+        x-descriptors:
+          - urn:camel:group:common
+  dependencies:
+    - "camel:kamelet"
+    - "camel:core"
+    - "camel:jackson-avro"
+  flow:
+    beans:
+      - name: "schema-resolver"
+        type: "#class:org.bf2.cos.connector.camel.serdes.avro.AvroSchemaResolver"
+        properties:
+          schema: '{{schema:}}'
+          contentClass: '{{contentClass:}}'
+    from:
+      uri: "kamelet:source"
+      steps:
+        - process:
+            ref: "{{schema-resolver}}"
+        - unmarshal:
+            avro:
+              library: "Jackson"
+              unmarshal-type: "com.fasterxml.jackson.databind.JsonNode"
+              schema-resolver: "{{schema-resolver}}"
+        - set-header:
+            name: "Content-Type"
+            constant: "application/x-struct"
