@@ -26,21 +26,27 @@
         <plugins>
             <plugin>
                 <groupId>org.bf2</groupId>
-                <artifactId>cos-fleet-catalog-camel-maven-plugin</artifactId>
+                <artifactId>camel-connector-maven-plugin</artifactId>
                 <configuration>
                     <connectors>
                         <connector>
                             <adapter>
+                                <prefix>db</prefix>
                                 <name>sqlserver-source</name>
                                 <version>${camel-kamelets-catalog.version}</version>
                             </adapter>
                             <kafka>
-                                <name>managed-kafka-sink</name>
-                                <version>0.0.1</version>
+                                <prefix>kafka</prefix>
+                                <name>cos-kafka-sink</name>
+                                <version>${cos.kamelets.version}</version>
                             </kafka>
                         </connector>
                     </connectors>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

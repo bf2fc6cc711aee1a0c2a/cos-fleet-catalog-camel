@@ -11,20 +11,12 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>cos-fleet-catalog-connectors-storage</artifactId>
     <packaging>pom</packaging>
+    <name>Storage Connectors</name>
+    <description>Storage Connectors</description>
 
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.bf2</groupId>
-                    <artifactId>cos-fleet-catalog-camel-maven-plugin</artifactId>
-                    <configuration>
-                        <outputPath>${cos.connector.catalog.root}/connector-catalog-camel-storage</outputPath>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-    </build>
+    <properties>
+        <cos.connector.catalog.group>storage</cos.connector.catalog.group>
+    </properties>
 
     <modules>
         <module>minio-sink-0.1</module>

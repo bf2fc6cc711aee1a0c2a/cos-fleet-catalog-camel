@@ -1,0 +1,49 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: test-kafka-source
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.version: "999"
+  labels:
+    camel.apache.org/kamelet.type: "source"
+spec:
+  definition:
+    title: "Managed Kafka Source"
+    required:
+      - topic
+    type: object
+    properties:
+      topic:
+        title: Topic Names
+        description: Comma separated list of Kafka topic names
+        type: string
+      registryUrl:
+        title: Topic Service Registry URL
+        description: Topic Service registry URL
+        type: string
+  dependencies:
+    - "camel:kafka"
+    - "camel:kamelet"
+  flow:
+    beans:
+      - name: "kafka-client-factory"
+        type: "#class:org.bf2.cos.connector.camel.kafka.ClientFactory"
+        properties:
+          bootstrapUrl: "{{bootstrapServers}}"
+          registryUrl: '{{registryUrl:}}'
+          username: '{{user}}'
+          password: '{{password}}'
+    from:
+      uri: "kafka:{{topic}}"
+      parameters:
+        securityProtocol: "{{securityProtocol:SASL_SSL}}"
+        saslMechanism: "{{saslMechanism:PLAIN}}"
+        saslJaasConfig: "org.apache.kafka.common.security.plain.PlainLoginModule required username='{{user}}' password='{{password}}';"
+        autoOffsetReset: "{{autoOffsetReset:latest}}"
+        groupId: "{{?consumerGroup}}"
+        keyDeserializer: "{{keyDeserializer:org.apache.kafka.common.serialization.ByteArrayDeserializer}}"
+        valueDeserializer: "{{valueDeserializer:org.apache.kafka.common.serialization.ByteArrayDeserializer}}"
+        kafkaClientFactory: "#{{kafka-client-factory}}"
+      steps:
+      - to: "kamelet:sink"
