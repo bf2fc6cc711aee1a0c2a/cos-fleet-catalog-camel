@@ -43,11 +43,6 @@
             <artifactId>classgraph</artifactId>
             <version>${classgraph.version}</version>
         </dependency>
-        <dependency>
-            <groupId>io.fabric8</groupId>
-            <artifactId>kubernetes-model</artifactId>
-            <version>${fabric8-kubernetes-client.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>org.apache.maven</groupId>
