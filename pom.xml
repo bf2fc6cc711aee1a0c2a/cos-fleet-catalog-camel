@@ -42,7 +42,6 @@
         <impsort-maven-plugin.version>1.6.2</impsort-maven-plugin.version>
         <build-helper-maven-plugin.version>3.1.0</build-helper-maven-plugin.version>
         <directory-maven-plugin.version>0.3.1</directory-maven-plugin.version>
-        <openapi-generator-maven-plugin.version>5.2.1</openapi-generator-maven-plugin.version>
         <git-commit-id-maven-plugin.version>5.0.0</git-commit-id-maven-plugin.version>
     </properties>
 
