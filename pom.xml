@@ -20,7 +20,6 @@
 
         <jackson.version>2.12.3</jackson.version>
         <classgraph.version>4.8.126</classgraph.version>
-        <swagger-annotations.version>1.6.2</swagger-annotations.version>
         <maven-version>3.8.3</maven-version>
         <maven-plugin-tools-version>3.6.1</maven-plugin-tools-version>
         <maven-shaded-version>3.2.0</maven-shaded-version>
