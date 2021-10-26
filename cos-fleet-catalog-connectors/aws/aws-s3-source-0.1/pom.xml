@@ -48,6 +48,10 @@
                           <name>trait.camel.apache.org/container.request-memory</name>
                           <value>128m</value>
                        </annotation>
+                       <annotation>
+                          <name>trait.camel.apache.org/container.request-cpu</name>
+                          <value>1</value>
+                       </annotation>
                     </annotations>
                 </configuration>
             </plugin>
