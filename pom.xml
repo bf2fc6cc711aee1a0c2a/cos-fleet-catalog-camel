@@ -22,8 +22,8 @@
         <classgraph.version>4.8.126</classgraph.version>
         <swagger-annotations.version>1.6.2</swagger-annotations.version>
         <maven-version>3.6.3</maven-version>
-        <maven-plugin-tools-version>3.6.0</maven-plugin-tools-version>
-        <maven-shaded-version>3.1.0</maven-shaded-version>
+        <maven-plugin-tools-version>3.6.1</maven-plugin-tools-version>
+        <maven-shaded-version>3.2.0</maven-shaded-version>
         <jakarta-annotation-api.version>1.3.5</jakarta-annotation-api.version>
         <jackson-databind-nullable.version>0.2.1</jackson-databind-nullable.version>
         <jsr305.version>3.0.2</jsr305.version>
@@ -37,7 +37,7 @@
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
         <maven-failsafe-plugin.version>3.0.0-M5</maven-failsafe-plugin.version>
         <maven-jar-plugin-version>3.2.0</maven-jar-plugin-version>
-        <maven-plugin-plugin-version>3.6.0</maven-plugin-plugin-version>
+        <maven-plugin-plugin-version>3.6.1</maven-plugin-plugin-version>
         <formatter-maven-plugin.version>2.16.0</formatter-maven-plugin.version>
         <impsort-maven-plugin.version>1.6.2</impsort-maven-plugin.version>
         <build-helper-maven-plugin.version>3.2.0</build-helper-maven-plugin.version>
