@@ -27,7 +27,7 @@
     </build>
 
     <modules>
-        <module>aws-storage-blob-sink-0.1</module>
+        <module>azure-storage-blob-sink-0.1</module>
     </modules>
 
 </project>
