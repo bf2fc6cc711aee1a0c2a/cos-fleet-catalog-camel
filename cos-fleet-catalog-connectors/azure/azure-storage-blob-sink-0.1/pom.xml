@@ -10,7 +10,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>aws-storage-blob-sink-0.1</artifactId>
+    <artifactId>azure-storage-blob-sink-0.1</artifactId>
     <version>0.1</version>
     <name>Azure Storage Blob Sink</name>
     <description>Azure Storage Blob Sink</description>
