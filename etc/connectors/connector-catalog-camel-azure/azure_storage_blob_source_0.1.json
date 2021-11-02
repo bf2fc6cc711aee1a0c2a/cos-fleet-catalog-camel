@@ -41,7 +41,7 @@
         },
         "kafka" : {
           "type" : "object",
-          "title" : "Managed Kafka Source",
+          "title" : "Managed Kafka Sink",
           "required" : [ "topic" ],
           "properties" : {
             "topic" : {
@@ -140,7 +140,7 @@
         } ],
         "kamelets" : {
           "connector" : "azure-storage-blob-source",
-          "kafka" : "managed-kafka-source",
+          "kafka" : "managed-kafka-sink",
           "insert-field" : "insert-field-action",
           "extract-field" : "extract-field-action",
           "has-header-filter" : "has-header-filter-action"

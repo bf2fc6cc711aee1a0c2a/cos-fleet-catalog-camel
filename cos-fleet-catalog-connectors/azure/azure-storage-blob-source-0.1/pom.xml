@@ -38,7 +38,7 @@
                                 <version>${camel-kamelets-catalog.version}</version>
                             </adapter>
                             <kafka>
-                                <name>managed-kafka-source</name>
+                                <name>managed-kafka-sink</name>
                                 <version>0.0.1</version>
                             </kafka>
                         </connector>
