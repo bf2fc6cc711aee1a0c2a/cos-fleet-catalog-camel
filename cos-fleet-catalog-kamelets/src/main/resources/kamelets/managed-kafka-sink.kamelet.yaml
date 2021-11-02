@@ -15,9 +15,9 @@ spec:
 
       The Kamelet is able to understand the following headers to be set:
 
-      - `key` / `ce-key`: as message key
+      - `key`: as message key
 
-      - `partition-key` / `ce-partitionkey`: as message partition key
+      - `partition-key`: as message partition key
 
       Both the headers are optional.
     required:
@@ -42,11 +42,6 @@ spec:
             - set-header:
                 name: kafka.KEY
                 simple: "${header[key]}"
-          - simple: "${header[ce-key]}"
-            steps:
-            - set-header:
-                name: kafka.KEY
-                simple: "${header[ce-key]}"
       - choice:
           when:
           - simple: "${header[partition-key]}"
@@ -54,11 +49,6 @@ spec:
             - set-header:
                 name: kafka.PARTITION_KEY
                 simple: "${header[partition-key]}"
-          - simple: "${header[ce-partitionkey]}"
-            steps:
-            - set-header:
-                name: kafka.PARTITION_KEY
-                simple: "${header[ce-partitionkey]}"
       - to:
           uri: "kafka:{{topic}}"
           parameters:
