@@ -29,6 +29,8 @@
     <modules>
        <module>slack-sink-0.1</module>
        <module>slack-source-0.1</module>
+       <module>telegram-sink-0.1</module>
+       <module>telegram-source-0.1</module>
     </modules>
 
 </project>
