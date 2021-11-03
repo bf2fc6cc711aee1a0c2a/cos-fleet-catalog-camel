@@ -117,6 +117,12 @@
                       "description" : "The header name to evaluate",
                       "type" : "string",
                       "example" : "headerName"
+                    },
+                    "value" : {
+                      "title" : "Header Value",
+                      "description" : "An optional header value to compare the header to",
+                      "type" : "string",
+                      "example" : "headerValue"
                     }
                   },
                   "type" : "object"
@@ -139,9 +145,9 @@
   "channels" : {
     "stable" : {
       "shard_metadata" : {
-        "connector_revision" : "3",
+        "connector_revision" : "4",
         "connector_type" : "source",
-        "connector_image" : "quay.io/lburgazzoli/mci:0.1.3-aws-kinesis-source-0.1",
+        "connector_image" : "quay.io/lburgazzoli/mci:0.1.4-aws-kinesis-source-0.1",
         "operators" : [ {
           "type" : "camel-connector-operator",
           "version" : "[1.0.0,2.0.0)"

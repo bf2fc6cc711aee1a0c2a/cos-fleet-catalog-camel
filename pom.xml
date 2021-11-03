@@ -16,7 +16,10 @@
         <quarkus.version>2.2.2.Final</quarkus.version>
         <camel-k-runtime.version>1.9.0</camel-k-runtime.version>
         <camel-quarkus.version>2.2.0</camel-quarkus.version>
+        <!--
         <camel-kamelets-catalog.version>0.4.0</camel-kamelets-catalog.version>
+        -->
+        <camel-kamelets-catalog.version>main-SNAPSHOT</camel-kamelets-catalog.version>
 
         <jackson.version>2.12.3</jackson.version>
         <classgraph.version>4.8.126</classgraph.version>
