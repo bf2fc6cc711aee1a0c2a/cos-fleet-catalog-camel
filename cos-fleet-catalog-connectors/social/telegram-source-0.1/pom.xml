@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <parent>
+        <groupId>org.bf2</groupId>
+        <artifactId>cos-fleet-catalog-connectors-social</artifactId>
+        <version>999-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>telegram-source-0.1</artifactId>
+    <version>0.1</version>
+    <name>Telegram Source</name>
+    <description>Telegram Source</description>
+
+    <packaging>jar</packaging>
+
+    <properties>
+
+
+
+        <quarkus.container-image.name>mci</quarkus.container-image.name>
+        <quarkus.container-image.tag>${project.version}.${cos.connector.revision}-${project.artifactId}</quarkus.container-image.tag>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-fleet-catalog-camel-maven-plugin</artifactId>
+                <configuration>
+                    <connectors>
+                        <connector>
+                            <adapter>
+                                <name>telegram-source</name>
+                                <version>${camel-kamelets-catalog.version}</version>
+                            </adapter>
+                            <kafka>
+                                <name>managed-kafka-sink</name>
+                                <version>0.0.1</version>
+                            </kafka>
+                        </connector>
+                    </connectors>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
