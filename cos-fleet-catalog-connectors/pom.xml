@@ -84,6 +84,11 @@
             <groupId>org.apache.camel.quarkus</groupId>
             <artifactId>camel-quarkus-kafka</artifactId>
         </dependency>
+        <dependency>
+            <!-- For stopping the route on error -->
+            <groupId>org.apache.camel.quarkus</groupId>
+            <artifactId>camel-quarkus-controlbus</artifactId>
+        </dependency>
         <!--
         <dependency>
             <groupId>com.github.apache.camel-kamelets</groupId>

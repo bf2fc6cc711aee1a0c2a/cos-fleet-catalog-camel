@@ -14,20 +14,24 @@ spec:
       Receive data from Managed Kafka topics.
     required:
       - topic
+    type: object
     properties:
       topic:
-        title: Topic names
+        title: Topic Names
         description: Comma separated list of Kafka topic names
         type: string
   dependencies:
-    - mvn:org.apache.kafka:kafka-clients:2.6.0
+    - "camel:kafka"
+    - "camel:kamelet"
   flow:
     from:
       uri: "kafka:{{topic}}"
       parameters:
-        brokers: "{{bootstrapServers:}}"
+        brokers: "{{?bootstrapServers}}"
         securityProtocol: "{{securityProtocol:SASL_SSL}}"
         saslMechanism: "{{saslMechanism:PLAIN}}"
         saslJaasConfig: "org.apache.kafka.common.security.plain.PlainLoginModule required username='{{user}}' password='{{password}}';"
+        autoOffsetReset: "{{autoOffsetReset:latest}}"
+        groupId: "{{?consumerGroup}}"
       steps:
-        - to: "kamelet:sink"
+      - to: "kamelet:sink"
