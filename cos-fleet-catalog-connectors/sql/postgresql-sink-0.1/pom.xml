@@ -18,11 +18,8 @@
     <packaging>jar</packaging>
 
     <properties>
-
-
-
-        <quarkus.container-image.name>mci</quarkus.container-image.name>
-        <quarkus.container-image.tag>${project.version}.${cos.connector.revision}-${project.artifactId}</quarkus.container-image.tag>
+        <quarkus.container-image.name>cos-connector-postgresql-sink</quarkus.container-image.name>
+        <quarkus.container-image.tag>${project.version}.${cos.connector.revision}</quarkus.container-image.tag>
     </properties>
 
     <build>
