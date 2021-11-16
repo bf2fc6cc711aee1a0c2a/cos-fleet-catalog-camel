@@ -13,16 +13,16 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 
-        <quarkus.version>2.2.2.Final</quarkus.version>
-        <camel-k-runtime.version>1.9.0</camel-k-runtime.version>
-        <camel-quarkus.version>2.2.0</camel-quarkus.version>
+        <quarkus.version>2.4.2.Final</quarkus.version>
+        <camel-k-runtime.version>1.10.0</camel-k-runtime.version>
+        <camel-quarkus.version>2.4.0</camel-quarkus.version>
+        <camel-kamelets-catalog.version>0.5.0</camel-kamelets-catalog.version>
         <!--
-        <camel-kamelets-catalog.version>0.4.0</camel-kamelets-catalog.version>
-        -->
         <camel-kamelets-catalog.version>main-SNAPSHOT</camel-kamelets-catalog.version>
+        -->
 
         <jackson.version>2.12.3</jackson.version>
-        <classgraph.version>4.8.126</classgraph.version>
+        <classgraph.version>4.8.132</classgraph.version>
 
         <maven.version>3.8.3</maven.version>
         <maven-plugin-tools.version>3.6.1</maven-plugin-tools.version>
@@ -93,6 +93,7 @@
     </dependencyManagement>
 
     <repositories>
+        <!--
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
@@ -115,8 +116,10 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+        -->
     </repositories>
     <pluginRepositories>
+        <!--
         <pluginRepository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
@@ -139,6 +142,7 @@
                 <enabled>true</enabled>
             </snapshots>
         </pluginRepository>
+        -->
     </pluginRepositories>
 
     <build>

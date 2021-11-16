@@ -12,6 +12,24 @@
     <artifactId>cos-fleet-catalog-connectors-azure</artifactId>
     <packaging>pom</packaging>
 
+    <!--
+      https://github.com/apache/camel-quarkus/issues/3115
+      https://github.com/apache/camel-quarkus/pull/3293
+    -->
+    <properties>
+        <tcnative.version>2.0.43.Final</tcnative.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-tcnative-boringssl-static</artifactId>
+                <version>${tcnative.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <build>
         <pluginManagement>
             <plugins>

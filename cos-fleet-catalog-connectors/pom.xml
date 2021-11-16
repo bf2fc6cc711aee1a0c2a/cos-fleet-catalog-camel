@@ -18,7 +18,7 @@
         <cos.connector.container.organization>cos</cos.connector.container.organization>
         <cos.connector.catalog.root>${cos.project.root}/etc/connectors</cos.connector.catalog.root>
 
-        <cos.connector.revision>4</cos.connector.revision>
+        <cos.connector.revision>5</cos.connector.revision>
         <cos.connector.operator.version>[1.0.0,2.0.0)</cos.connector.operator.version>
 
         <quarkus.container-image.build>false</quarkus.container-image.build>
@@ -26,7 +26,7 @@
         <quarkus.container-image.registry>quay.io</quarkus.container-image.registry>
         <quarkus.container-image.group>rhoas</quarkus.container-image.group>
 
-        <quarkus.jib.base-jvm-image>adoptopenjdk/openjdk11:ubi-minimal</quarkus.jib.base-jvm-image>
+        <quarkus.jib.base-jvm-image>registry.access.redhat.com/ubi8/openjdk-11@sha256:ebad9aee9dd3059bcd0442b3442f5a91241dfc9c09a28d5478737b92fd39685a</quarkus.jib.base-jvm-image>
         <quarkus.jib.jvm-entrypoint>java,-XX:+UseShenandoahGC,-Djava.util.logging.manager=org.jboss.logmanager.LogManager,-jar,/work/quarkus-run.jar</quarkus.jib.jvm-entrypoint>
     </properties>
 
@@ -92,19 +92,19 @@
             <groupId>org.apache.camel.quarkus</groupId>
             <artifactId>camel-quarkus-controlbus</artifactId>
         </dependency>
+        <!--
         <dependency>
             <groupId>com.github.apache.camel-kamelets</groupId>
             <artifactId>camel-kamelets</artifactId>
             <version>${camel-kamelets-catalog.version}</version>
         </dependency>
+        -->
 
-        <!--
         <dependency>
             <groupId>org.apache.camel.kamelets</groupId>
             <artifactId>camel-kamelets</artifactId>
             <version>${camel-kamelets-catalog.version}</version>
         </dependency>
-        -->
 
     </dependencies>
 

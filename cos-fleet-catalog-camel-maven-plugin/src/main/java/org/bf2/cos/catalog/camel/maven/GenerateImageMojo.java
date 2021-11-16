@@ -1,18 +1,7 @@
 package org.bf2.cos.catalog.camel.maven;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import io.quarkus.bootstrap.app.AugmentAction;
-import io.quarkus.bootstrap.app.AugmentResult;
-import io.quarkus.bootstrap.app.CuratedApplication;
-import io.quarkus.bootstrap.app.QuarkusBootstrap;
-import io.quarkus.bootstrap.model.AppArtifact;
-import io.quarkus.bootstrap.model.AppArtifactKey;
-import io.quarkus.bootstrap.model.AppDependency;
-import io.quarkus.bootstrap.model.PathsCollection;
-import io.quarkus.bootstrap.resolver.maven.BootstrapMavenException;
-import io.quarkus.bootstrap.resolver.maven.MavenArtifactResolver;
-import io.quarkus.bootstrap.util.IoUtils;
+import static org.bf2.cos.catalog.camel.maven.suport.CatalogSupport.getClassLoader;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -28,10 +17,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
 import org.apache.maven.artifact.Artifact;
-import org.apache.maven.execution.MavenSession;
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -50,7 +39,21 @@ import org.eclipse.aether.artifact.DefaultArtifact;
 import org.eclipse.aether.impl.RemoteRepositoryManager;
 import org.eclipse.aether.repository.RemoteRepository;
 
-import static org.bf2.cos.catalog.camel.maven.suport.CatalogSupport.getClassLoader;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import io.quarkus.bootstrap.app.AugmentAction;
+import io.quarkus.bootstrap.app.AugmentResult;
+import io.quarkus.bootstrap.app.CuratedApplication;
+import io.quarkus.bootstrap.app.QuarkusBootstrap;
+import io.quarkus.bootstrap.model.AppArtifact;
+import io.quarkus.bootstrap.model.AppArtifactKey;
+import io.quarkus.bootstrap.model.AppDependency;
+import io.quarkus.bootstrap.model.PathsCollection;
+import io.quarkus.bootstrap.resolver.maven.BootstrapMavenException;
+import io.quarkus.bootstrap.resolver.maven.MavenArtifactResolver;
+import io.quarkus.bootstrap.util.IoUtils;
+import io.quarkus.maven.dependency.Dependency;
 
 /**
  * Builds the Quarkus application.
@@ -278,8 +281,11 @@ public class GenerateImageMojo extends AbstractConnectorMojo {
             if (camelQuarkusVersion == null) {
                 throw new MojoExecutionException("The camelQuarkusVersion should be configured on the plugin");
             }
+
+            final List<Dependency> kameletDependencies = new ArrayList<>();
+            final List<Dependency> projectDependencies = new ArrayList<>();
+
             // find dependencies
-            List<AppDependency> forcedDependencies = new ArrayList();
             final KameletsCatalog catalog = getKameletsCatalog();
             for (Connector connector : getConnectors()) {
                 final ObjectNode connectorSpec = catalog.kamelet(
@@ -293,26 +299,34 @@ public class GenerateImageMojo extends AbstractConnectorMojo {
                         String dep = depNode.asText();
                         if (dep.startsWith("mvn:")) {
                             String[] coords = dep.substring("mvn:".length()).split(":");
-                            forcedDependencies
-                                    .add(new AppDependency(new AppArtifact(coords[0], coords[1], coords[2]), "compile"));
+                            kameletDependencies.add(
+                                    new AppDependency(new AppArtifact(coords[0], coords[1], coords[2]), "compile"));
                         } else if (dep.startsWith("camel:")) {
                             String coord = dep.substring("camel:".length());
-                            forcedDependencies
-                                    .add(new AppDependency(
-                                            new AppArtifact("org.apache.camel.quarkus", "camel-quarkus-" + coord,
-                                                    camelQuarkusVersion),
-                                            "compile"));
+                            kameletDependencies.add(new AppDependency(
+                                    new AppArtifact(
+                                            "org.apache.camel.quarkus", "camel-quarkus-" + coord,
+                                            camelQuarkusVersion),
+                                    "compile"));
                         } else {
                             throw new MojoExecutionException("Unsupported dependency: " + dep);
                         }
                     }
                 }
             }
-            for (Artifact artifact : project.getArtifacts()) {
-                forcedDependencies
+
+            for (org.apache.maven.model.Dependency dependency : project.getDependencies()) {
+                projectDependencies
                         .add(new AppDependency(
-                                new AppArtifact(artifact.getGroupId(), artifact.getArtifactId(), artifact.getVersion()),
-                                artifact.getScope()));
+                                new AppArtifact(dependency.getGroupId(), dependency.getArtifactId(), dependency.getVersion()),
+                                "compile"));
+            }
+
+            for (Dependency dependency : kameletDependencies) {
+                getLog().info("Kamelet dependency: " + dependency.toString());
+            }
+            for (Dependency dependency : projectDependencies) {
+                getLog().info("Project dependency: " + dependency.toString());
             }
 
             final Properties projectProperties = project.getProperties();
@@ -344,7 +358,9 @@ public class GenerateImageMojo extends AbstractConnectorMojo {
                     .setProjectRoot(project.getBasedir().toPath())
                     .setBaseName(finalName)
                     .setTargetDirectory(buildDir.toPath())
-                    .setForcedDependencies(forcedDependencies);
+                    .setForcedDependencies(
+                            Stream.concat(kameletDependencies.stream(), projectDependencies.stream())
+                                    .collect(Collectors.toList()));
 
             for (MavenProject project : project.getCollectedProjects()) {
                 builder.addLocalArtifact(new AppArtifactKey(project.getGroupId(), project.getArtifactId(), null,
