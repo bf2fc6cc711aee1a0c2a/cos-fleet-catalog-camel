@@ -149,9 +149,9 @@
   "channels" : {
     "stable" : {
       "shard_metadata" : {
-        "connector_revision" : "4",
+        "connector_revision" : "5",
         "connector_type" : "sink",
-        "connector_image" : "quay.io/rhoas/cos-connector-postgresql-sink:0.1.4",
+        "connector_image" : "quay.io/rhoas/cos-connector-postgresql-sink:0.1.5",
         "operators" : [ {
           "type" : "camel-connector-operator",
           "version" : "[1.0.0,2.0.0)"
