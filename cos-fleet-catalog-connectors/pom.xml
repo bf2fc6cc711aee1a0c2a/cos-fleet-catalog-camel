@@ -156,7 +156,11 @@
                                         <version>${camel-kamelets-catalog.version}</version>
                                     </step>
                                     <step>
-                                        <name> has-header-filter-action</name>
+                                        <name>has-header-filter-action</name>
+                                        <version>${camel-kamelets-catalog.version}</version>
+                                    </step>
+                                    <step>
+                                        <name>throttle-action</name>
                                         <version>${camel-kamelets-catalog.version}</version>
                                     </step>
                                 </steps>
