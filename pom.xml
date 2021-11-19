@@ -93,7 +93,6 @@
     </dependencyManagement>
 
     <repositories>
-        <!--
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
@@ -116,10 +115,8 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
-        -->
     </repositories>
     <pluginRepositories>
-        <!--
         <pluginRepository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
@@ -142,7 +139,6 @@
                 <enabled>true</enabled>
             </snapshots>
         </pluginRepository>
-        -->
     </pluginRepositories>
 
     <build>
