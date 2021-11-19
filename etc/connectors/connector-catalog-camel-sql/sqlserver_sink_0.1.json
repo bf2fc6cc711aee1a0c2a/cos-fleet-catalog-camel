@@ -132,6 +132,31 @@
                   "type" : "object"
                 }
               }
+            }, {
+              "type" : "object",
+              "required" : [ "throttle" ],
+              "properties" : {
+                "throttle" : {
+                  "title" : "Throttle Action",
+                  "description" : "The Throttl action allows to ensure that a specific sink does not get overloaded.",
+                  "required" : [ "messages" ],
+                  "properties" : {
+                    "messages" : {
+                      "title" : "Messages Number",
+                      "description" : "The number of messages to send in the time period set",
+                      "type" : "int",
+                      "example" : 10
+                    },
+                    "timePeriod" : {
+                      "title" : "Time Period",
+                      "description" : "Sets the time period during which the maximum request count is valid for, in milliseconds",
+                      "type" : "string",
+                      "default" : "1000"
+                    }
+                  },
+                  "type" : "object"
+                }
+              }
             } ]
           }
         }
@@ -161,7 +186,8 @@
           "kafka" : "managed-kafka-source",
           "insert-field" : "insert-field-action",
           "extract-field" : "extract-field-action",
-          "has-header-filter" : "has-header-filter-action"
+          "has-header-filter" : "has-header-filter-action",
+          "throttle" : "throttle-action"
         }
       }
     }

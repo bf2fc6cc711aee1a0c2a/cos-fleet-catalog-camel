@@ -16,10 +16,7 @@
         <quarkus.version>2.4.2.Final</quarkus.version>
         <camel-k-runtime.version>1.10.0</camel-k-runtime.version>
         <camel-quarkus.version>2.4.0</camel-quarkus.version>
-        <camel-kamelets-catalog.version>0.5.0</camel-kamelets-catalog.version>
-        <!--
         <camel-kamelets-catalog.version>main-SNAPSHOT</camel-kamelets-catalog.version>
-        -->
 
         <jackson.version>2.12.3</jackson.version>
         <classgraph.version>4.8.132</classgraph.version>
@@ -93,7 +90,6 @@
     </dependencyManagement>
 
     <repositories>
-        <!--
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
@@ -116,10 +112,8 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
-        -->
     </repositories>
     <pluginRepositories>
-        <!--
         <pluginRepository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
@@ -142,7 +136,6 @@
                 <enabled>true</enabled>
             </snapshots>
         </pluginRepository>
-        -->
     </pluginRepositories>
 
     <build>
