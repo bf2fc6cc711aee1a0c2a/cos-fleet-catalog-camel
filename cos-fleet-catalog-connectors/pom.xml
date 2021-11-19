@@ -92,20 +92,20 @@
             <groupId>org.apache.camel.quarkus</groupId>
             <artifactId>camel-quarkus-controlbus</artifactId>
         </dependency>
-        <!--
+
         <dependency>
             <groupId>com.github.apache.camel-kamelets</groupId>
             <artifactId>camel-kamelets</artifactId>
             <version>${camel-kamelets-catalog.version}</version>
         </dependency>
-        -->
 
+        <!--
         <dependency>
             <groupId>org.apache.camel.kamelets</groupId>
             <artifactId>camel-kamelets</artifactId>
             <version>${camel-kamelets-catalog.version}</version>
         </dependency>
-
+        -->
     </dependencies>
 
     <build>

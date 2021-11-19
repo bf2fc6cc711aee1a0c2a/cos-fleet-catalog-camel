@@ -147,7 +147,7 @@
                 "throttle" : {
                   "title" : "Throttle Action",
                   "description" : "The Throttl action allows to ensure that a specific sink does not get overloaded.",
-                  "required" : [ "messages", "timePeriod" ],
+                  "required" : [ "messages" ],
                   "properties" : {
                     "messages" : {
                       "title" : "Messages Number",
