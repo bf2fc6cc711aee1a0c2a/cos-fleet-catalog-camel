@@ -28,7 +28,7 @@ jobs:
           distribution: 'adopt'
       - name: Build Project
         run: |
-          ./mvnw ${MAVEN_ARGS} clean install
+          ./mvnw ${MAVEN_ARGS} clean install -U
       - name: Check for uncommitted changes
         id: check-changes
         uses: mskri/check-uncommitted-changes-action@v1.0.1
@@ -48,7 +48,7 @@ jobs:
           distribution: 'adopt'
       - name: Build Images
         run: |
-          ./mvnw ${MAVEN_ARGS} clean install \
+          ./mvnw ${MAVEN_ARGS} clean install -U \
             -Dquarkus.container-image.username=${{ secrets.QUAY_MCI_USR }} \
             -Dquarkus.container-image.password=${{ secrets.QUAY_MCI_PWD }} \
             -Dquarkus.container-image.registry=quay.io \

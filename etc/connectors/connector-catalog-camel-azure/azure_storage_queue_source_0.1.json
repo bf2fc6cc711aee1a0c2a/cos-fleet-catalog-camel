@@ -34,7 +34,7 @@
             "maxMessages" : {
               "title" : "Maximum Messages",
               "description" : "Maximum number of messages to get, if there are less messages exist in the queue than requested all the messages will be returned. By default it will consider 1 message to be retrieved, the allowed range is 1 to 32 messages.",
-              "type" : "int",
+              "type" : "integer",
               "default" : 1
             }
           }
@@ -126,13 +126,13 @@
               "properties" : {
                 "throttle" : {
                   "title" : "Throttle Action",
-                  "description" : "The Throttl action allows to ensure that a specific sink does not get overloaded.",
+                  "description" : "The Throttle action allows to ensure that a specific sink does not get overloaded.",
                   "required" : [ "messages" ],
                   "properties" : {
                     "messages" : {
                       "title" : "Messages Number",
                       "description" : "The number of messages to send in the time period set",
-                      "type" : "int",
+                      "type" : "integer",
                       "example" : 10
                     },
                     "timePeriod" : {
