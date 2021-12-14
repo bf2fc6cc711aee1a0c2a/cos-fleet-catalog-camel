@@ -35,6 +35,8 @@
        <module>mysql-source-0.1</module>
        <module>sqlserver-sink-0.1</module>
        <module>sqlserver-source-0.1</module>
+       <module>aws-redshift-sink-0.1</module>
+       <module>aws-redshift-source-0.1</module>
     </modules>
 
 </project>
