@@ -188,6 +188,7 @@
     <modules>
         <module>aws</module>
         <module>azure</module>
+        <module>gcp</module>
         <module>misc</module>
         <module>nosql</module>
         <module>social</module>
