@@ -29,6 +29,8 @@
     <modules>
         <module>google-storage-sink-0.1</module>
         <module>google-storage-source-0.1</module>
+        <module>google-pubsub-sink-0.1</module>
+        <module>google-pubsub-source-0.1</module>
     </modules>
 
 </project>
