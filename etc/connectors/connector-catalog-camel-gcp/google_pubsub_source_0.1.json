@@ -1,0 +1,187 @@
+{
+  "connector_type" : {
+    "json_schema" : {
+      "type" : "object",
+      "properties" : {
+        "connector" : {
+          "type" : "object",
+          "title" : "Google Pubsub Source",
+          "required" : [ "projectId", "subscriptionName", "serviceAccountKey" ],
+          "properties" : {
+            "projectId" : {
+              "title" : "Project Id",
+              "description" : "The Google Cloud PubSub Project Id",
+              "type" : "string"
+            },
+            "subscriptionName" : {
+              "title" : "Subscription Name",
+              "description" : "The Subscription Name",
+              "type" : "string"
+            },
+            "serviceAccountKey" : {
+              "title" : "Service Account Key",
+              "description" : "The Service account key that can be used as credentials for the PubSub publisher/subscriber",
+              "type" : "binary"
+            },
+            "synchronousPull" : {
+              "title" : "Synchronous Pull",
+              "description" : "If Synchronously pull batches of messages is enabled or not",
+              "type" : "boolean",
+              "default" : false
+            },
+            "maxMessagesPerPoll" : {
+              "title" : "Max Messages Per Poll",
+              "description" : "The max number of messages to receive from the server in a single API call",
+              "type" : "integer",
+              "default" : 1
+            },
+            "concurrentConsumers" : {
+              "title" : "Concurrent Consumers",
+              "description" : "The number of parallel streams consuming from the subscription",
+              "type" : "integer",
+              "default" : 1
+            }
+          }
+        },
+        "kafka" : {
+          "type" : "object",
+          "title" : "Managed Kafka Sink",
+          "required" : [ "topic" ],
+          "properties" : {
+            "topic" : {
+              "title" : "Topic Names",
+              "description" : "Comma separated list of Kafka topic names",
+              "type" : "string"
+            }
+          }
+        },
+        "steps" : {
+          "type" : "array",
+          "items" : {
+            "oneOf" : [ {
+              "type" : "object",
+              "required" : [ "insert-field" ],
+              "properties" : {
+                "insert-field" : {
+                  "title" : "Insert Field Action",
+                  "description" : "Adds a custom field with a constant value to the message in transit.\n\nThis action works with Json Object. So it will expect a Json Array or a Json Object.\n\nIf for example you have an array like '{ \"foo\":\"John\", \"bar\":30 }' and your action has been configured with field as 'element' and value as 'hello', you'll get '{ \"foo\":\"John\", \"bar\":30, \"element\":\"hello\" }'\n\nNo headers mapping supported, only constant values.",
+                  "required" : [ "field", "value" ],
+                  "properties" : {
+                    "field" : {
+                      "title" : "Field",
+                      "description" : "The name of the field to be added",
+                      "type" : "string"
+                    },
+                    "value" : {
+                      "title" : "Value",
+                      "description" : "The value of the field",
+                      "type" : "string"
+                    }
+                  },
+                  "type" : "object"
+                }
+              }
+            }, {
+              "type" : "object",
+              "required" : [ "extract-field" ],
+              "properties" : {
+                "extract-field" : {
+                  "title" : "Extract Field Action",
+                  "description" : "Extract a field from the body",
+                  "required" : [ "field" ],
+                  "properties" : {
+                    "field" : {
+                      "title" : "Field",
+                      "description" : "The name of the field to be added",
+                      "type" : "string"
+                    }
+                  },
+                  "type" : "object"
+                }
+              }
+            }, {
+              "type" : "object",
+              "required" : [ "has-header-filter" ],
+              "properties" : {
+                "has-header-filter" : {
+                  "title" : "Has Header Filter Action",
+                  "description" : "Filter based on the presence of one header",
+                  "required" : [ "name" ],
+                  "properties" : {
+                    "name" : {
+                      "title" : "Header Name",
+                      "description" : "The header name to evaluate",
+                      "type" : "string",
+                      "example" : "headerName"
+                    },
+                    "value" : {
+                      "title" : "Header Value",
+                      "description" : "An optional header value to compare the header to",
+                      "type" : "string",
+                      "example" : "headerValue"
+                    }
+                  },
+                  "type" : "object"
+                }
+              }
+            }, {
+              "type" : "object",
+              "required" : [ "throttle" ],
+              "properties" : {
+                "throttle" : {
+                  "title" : "Throttle Action",
+                  "description" : "The Throttle action allows to ensure that a specific sink does not get overloaded.",
+                  "required" : [ "messages" ],
+                  "properties" : {
+                    "messages" : {
+                      "title" : "Messages Number",
+                      "description" : "The number of messages to send in the time period set",
+                      "type" : "integer",
+                      "example" : 10
+                    },
+                    "timePeriod" : {
+                      "title" : "Time Period",
+                      "description" : "Sets the time period during which the maximum request count is valid for, in milliseconds",
+                      "type" : "string",
+                      "default" : "1000"
+                    }
+                  },
+                  "type" : "object"
+                }
+              }
+            } ]
+          }
+        }
+      }
+    },
+    "id" : "google_pubsub_source_0.1",
+    "kind" : "ConnectorType",
+    "icon_href" : "TODO",
+    "name" : "Google Cloud Pubsub Source",
+    "description" : "Google Cloud Pubsub Source",
+    "version" : "0.1",
+    "labels" : [ "source" ],
+    "channels" : [ "stable" ]
+  },
+  "channels" : {
+    "stable" : {
+      "shard_metadata" : {
+        "connector_revision" : "5",
+        "connector_type" : "source",
+        "connector_image" : "quay.io/rhoas/cos-connector-google-pubsub-source:0.1.5",
+        "operators" : [ {
+          "type" : "camel-connector-operator",
+          "version" : "[1.0.0,2.0.0)"
+        } ],
+        "kamelets" : {
+          "connector" : "google-pubsub-source",
+          "kafka" : "managed-kafka-sink",
+          "insert-field" : "insert-field-action",
+          "extract-field" : "extract-field-action",
+          "has-header-filter" : "has-header-filter-action",
+          "throttle" : "throttle-action"
+        }
+      }
+    }
+  }
+}
