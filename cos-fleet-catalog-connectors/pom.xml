@@ -18,7 +18,7 @@
         <cos.connector.container.organization>cos</cos.connector.container.organization>
         <cos.connector.catalog.root>${cos.project.root}/etc/connectors</cos.connector.catalog.root>
 
-        <cos.connector.revision>5</cos.connector.revision>
+        <cos.connector.revision>6</cos.connector.revision>
         <cos.connector.operator.version>[1.0.0,2.0.0)</cos.connector.operator.version>
 
         <quarkus.container-image.build>false</quarkus.container-image.build>
@@ -86,6 +86,10 @@
         <dependency>
             <groupId>org.apache.camel.quarkus</groupId>
             <artifactId>camel-quarkus-kafka</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel.quarkus</groupId>
+            <artifactId>camel-quarkus-microprofile-health</artifactId>
         </dependency>
         <dependency>
             <!-- For stopping the route on error -->
