@@ -68,7 +68,7 @@
               "properties" : {
                 "insert-field" : {
                   "title" : "Insert Field Action",
-                  "description" : "Adds a custom field with a constant value to the message in transit.\n\nThis action works with Json Object. So it will expect a Json Array or a Json Object.\n\nIf for example you have an array like '{ \"foo\":\"John\", \"bar\":30 }' and your action has been configured with field as 'element' and value as 'hello', you'll get '{ \"foo\":\"John\", \"bar\":30, \"element\":\"hello\" }'\n\nNo headers mapping supported, only constant values.",
+                  "description" : "Adds a custom field with a simple language parsed value to the message in transit.\n\nThe extract field action expected an application/json content type. \n\nIf for example you have an array like '{ \"foo\":\"John\", \"bar\":30 }' and your action has been configured with field as 'element' and value as 'hello', you'll get '{ \"foo\":\"John\", \"bar\":30, \"element\":\"hello\" }'",
                   "required" : [ "field", "value" ],
                   "properties" : {
                     "field" : {
@@ -91,13 +91,33 @@
               "properties" : {
                 "extract-field" : {
                   "title" : "Extract Field Action",
-                  "description" : "Extract a field from the body",
+                  "description" : "Extract a field from the message body.\n\nThe extract field action expects an application/json content type. \n\nThe field parameter allows you to specify which field of the json the user wants to extract. By default the message body will be overriden with the extracted field.\n\nThe optional parameter headerOutput allows the user to specify wheter the extracted field should be stored in a message header named 'CamelKameletsExtractFieldName', leaving the message body untouched.\n\nThe optional parameter headerOutputName allows the user to specify a custom header name instead of the default 'CamelKameletsExtractFieldName'. This parameter must be used in conjunction with headerOutput. \nIf no headerOutputName parameter will be provided, the default 'CamelKameletsExtractFieldName' will be used.\n\nThe optional parameter strictHeaderCheck allows to user to enable a strict header name check. If enabled the action will check if the header output name (custom or default) has been used already in the     exchange. If so, the extracted field will be stored in the message body, if not, the extracted field will be stored in the selected header (custom or default).\n\nThe headerOutput/headerOutputName/strictHeaderCheck parameters are particulary useful in case you would like to reuse an extracted field as parameter for another header, for example.",
                   "required" : [ "field" ],
                   "properties" : {
                     "field" : {
                       "title" : "Field",
-                      "description" : "The name of the field to be added",
+                      "description" : "The name of the field to extract",
                       "type" : "string"
+                    },
+                    "headerOutput" : {
+                      "title" : "Header Output",
+                      "description" : "If enable the action will store the extracted field in an header named CamelKameletsExtractFieldName",
+                      "type" : "boolean",
+                      "default" : false,
+                      "x-descriptors" : [ "urn:alm:descriptor:com.tectonic.ui:checkbox" ]
+                    },
+                    "headerOutputName" : {
+                      "title" : "Header Output Name",
+                      "description" : "A custom name for the header containing the extracted field",
+                      "default" : "none",
+                      "type" : "string"
+                    },
+                    "strictHeaderCheck" : {
+                      "title" : "Strict Header Check",
+                      "description" : "If enabled the action will check if the header output name (custom or default) has been used already in the exchange. If so, the extracted field will be stored in the message body, if not, the extracted field will be stored in the selected header (custom or default).",
+                      "type" : "boolean",
+                      "default" : false,
+                      "x-descriptors" : [ "urn:alm:descriptor:com.tectonic.ui:checkbox" ]
                     }
                   },
                   "type" : "object"
@@ -109,7 +129,7 @@
               "properties" : {
                 "has-header-filter" : {
                   "title" : "Has Header Filter Action",
-                  "description" : "Filter based on the presence of one header",
+                  "description" : "Filter message based on the presence of one header",
                   "required" : [ "name" ],
                   "properties" : {
                     "name" : {
@@ -170,9 +190,9 @@
   "channels" : {
     "stable" : {
       "shard_metadata" : {
-        "connector_revision" : "5",
+        "connector_revision" : "6",
         "connector_type" : "sink",
-        "connector_image" : "quay.io/rhoas/cos-connector-aws-kinesis-sink:0.1.5",
+        "connector_image" : "quay.io/rhoas/cos-connector-aws-kinesis-sink:0.1.6",
         "operators" : [ {
           "type" : "camel-connector-operator",
           "version" : "[1.0.0,2.0.0)"
