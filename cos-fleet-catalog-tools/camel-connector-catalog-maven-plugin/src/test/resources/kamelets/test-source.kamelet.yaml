@@ -1,0 +1,59 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: test-source
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.group: "Misc"
+    camel.apache.org/kamelet.version: "999"
+  labels:
+    camel.apache.org/kamelet.type: "source"
+spec:
+  definition:
+    title: "Injector"
+    description: |-
+      Inject data.
+    required:
+      - delay
+    type: object
+    properties:
+      delay:
+        title: Delay
+        description: Delay
+        type: string
+        x-descriptors:
+          - urn:camel:group:common
+      multiLine:
+        title: Multi Line
+        description: Multi Line
+        type: boolean
+        default: false
+        x-descriptors:
+          - urn:camel:group:common
+      showAll:
+        title: Show All
+        description: Show All
+        type: boolean
+        default: false
+        x-descriptors:
+          - urn:camel:group:common
+  dependencies:
+    - "camel:timer"
+    - "camel:kamelet"
+    - "camel:log"
+  flow:
+    from:
+      uri: "timer:{{routeId}}"
+      parameters:
+        period: "{{delay}}"
+      steps:
+      - set-body:
+          simple: "${exchangeProperty.CamelTimerCounter}"
+      - convert-body-to:
+          type: "java.lang.String"
+      - to:
+          uri: "log:{{routeId}}"
+          parameters:
+            multiline: "{{multiLine}}"
+            showAll: "{{showAll}}"
+      - to: "kamelet:sink"

@@ -1,0 +1,78 @@
+# ---------------------------------------------------------------------------
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ---------------------------------------------------------------------------
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: test-slack-source
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.group: "Misc"
+    camel.apache.org/kamelet.version: "999"
+  labels:
+    camel.apache.org/kamelet.type: "source"
+spec:
+  definition:
+    title: "Slack Source"
+    description: |-
+      Receive messages from a Slack channel.
+    required:
+      - channel
+      - token
+    type: object
+    properties:
+      channel:
+        title: Channel
+        description: The Slack channel to receive messages from
+        type: string
+        example: "#myroom"
+      token:
+        title: Token
+        description: Token.
+        type: string
+        format: password
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:password
+        - urn:camel:group:credentials
+      delay:
+        title: Delay
+        description: The delay between polls
+        type: string
+        example: "1s"
+  types:
+    out:
+      mediaType: application/json
+  dependencies:
+  - "camel:gson"
+  - "camel:slack"
+  - "camel:kamelet"
+  flow:
+    from:
+      uri: "slack:{{channel}}"
+      parameters:
+        token: "{{token}}"
+        delay: "{{?delay}}"
+      steps:
+      - marshal:
+          json:
+            library: "Gson"
+      - set-header:
+          name: "Content-Type"
+          constant: "application/json"
+      - set-header:
+          name: "KameletOutputType"
+          constant: "com.slack.api.model.Message"
+      - to: "kamelet:sink"

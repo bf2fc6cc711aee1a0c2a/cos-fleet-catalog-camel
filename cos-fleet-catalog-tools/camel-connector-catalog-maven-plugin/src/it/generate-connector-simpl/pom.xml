@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.bf2.it</groupId>
+    <artifactId>generate-connector</artifactId>
+    <version>999-SNAPSHOT</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <catalog.path>${project.basedir}</catalog.path>
+        <catalog.runtime>quarkus</catalog.runtime>
+        <catalog.file>catalog.yaml</catalog.file>
+        <!-- If needed, components can be excluded with the exclusion.list property -->
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.bf2</groupId>
+                <artifactId>camel-connector-catalog-maven-plugin</artifactId>
+                <version>@project.version@</version>
+                <executions>
+                    <execution>
+                        <id>generate-catalog</id>
+                        <goals>
+                            <goal>generate-catalog</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <connectors>
+                        <connector>
+                            <adapter>
+                                <prefix>slack</prefix>
+                                <name>test-source</name>
+                                <version>999</version>
+                            </adapter>
+                            <kafka>
+                                <prefix>kafka</prefix>
+                                <name>test-kafka-sink</name>
+                                <version>990</version>
+                            </kafka>
+                            <dataShape>
+                                <produces>
+                                    <formats>
+                                        <format>application/json</format>
+                                    </formats>
+                                </produces>
+                            </dataShape>
+                            <channels>
+                                <stable/>
+                            </channels>
+                        </connector>
+                    </connectors>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

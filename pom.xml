@@ -26,6 +26,7 @@
         <apicurio.version>2.1.5.Final</apicurio.version>
         <apicurio-client.version>0.1.5.Final</apicurio-client.version>
         <json-schema-avro.version>0.1.8</json-schema-avro.version>
+        <groovy.version>3.0.9</groovy.version>
 
         <maven.version>3.8.3</maven.version>
         <maven-plugin-tools.version>3.6.1</maven-plugin-tools.version>
@@ -46,6 +47,7 @@
         <git-commit-id-maven-plugin.version>5.0.0</git-commit-id-maven-plugin.version>
         <exec-maven-plugin.version>3.0.0</exec-maven-plugin.version>
         <maven-resources-plugin.version>3.2.0</maven-resources-plugin.version>
+        <maven-invoker-plugin.version>3.2.1</maven-invoker-plugin.version>
 
         <!-- cos -->
         <cos.connector.operator.type>camel-connector-operator</cos.connector.operator.type>
@@ -312,6 +314,11 @@
                     <groupId>org.apache.camel</groupId>
                     <artifactId>camel-package-maven-plugin</artifactId>
                     <version>${camel.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-invoker-plugin</artifactId>
+                    <version>${maven-invoker-plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
