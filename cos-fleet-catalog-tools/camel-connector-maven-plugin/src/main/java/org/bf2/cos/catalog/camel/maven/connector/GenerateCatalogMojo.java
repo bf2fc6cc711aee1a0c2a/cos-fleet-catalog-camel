@@ -7,6 +7,8 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.maven.execution.MavenSession;
+import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -18,6 +20,7 @@ import org.bf2.cos.catalog.camel.maven.connector.model.ConnectorDefinition;
 import org.bf2.cos.catalog.camel.maven.connector.support.Annotation;
 import org.bf2.cos.catalog.camel.maven.connector.support.Connector;
 import org.bf2.cos.catalog.camel.maven.connector.support.KameletsCatalog;
+import org.bf2.cos.catalog.camel.maven.connector.support.MojoSupport;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -33,7 +36,7 @@ import static org.bf2.cos.catalog.camel.maven.connector.support.CatalogSupport.d
 import static org.bf2.cos.catalog.camel.maven.connector.support.CatalogSupport.kameletType;
 
 @Mojo(name = "generate-catalog", defaultPhase = LifecyclePhase.GENERATE_RESOURCES, threadSafe = true, requiresDependencyResolution = ResolutionScope.COMPILE_PLUS_RUNTIME, requiresDependencyCollection = ResolutionScope.COMPILE_PLUS_RUNTIME)
-public class GenerateCatalogMojo extends AbstractConnectorMojo {
+public class GenerateCatalogMojo extends AbstractMojo {
 
     @Parameter(defaultValue = "false", property = "cos.catalog.skip")
     private boolean skip = false;
@@ -48,6 +51,13 @@ public class GenerateCatalogMojo extends AbstractConnectorMojo {
     @Parameter
     private List<Annotation> annotations;
 
+    @Parameter(defaultValue = "${session}", readonly = true)
+    protected MavenSession session;
+    @Parameter
+    private Connector defaults;
+    @Parameter
+    private List<Connector> connectors;
+
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         if (skip) {
@@ -57,7 +67,7 @@ public class GenerateCatalogMojo extends AbstractConnectorMojo {
         try {
             final KameletsCatalog catalog = KameletsCatalog.get(project, getLog());
 
-            for (Connector connector : getConnectors()) {
+            for (Connector connector : MojoSupport.inject(session, defaults, connectors)) {
                 generateDefinitions(catalog, connector);
             }
         } catch (Exception e) {

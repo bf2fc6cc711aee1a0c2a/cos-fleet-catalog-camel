@@ -54,7 +54,7 @@
                     <outputPath>${project.basedir}</outputPath>
                     <connectors>
                         <connector>
-                            <name>connector</name>
+                            <name>connector-source</name>
                             <adapter>
                                 <prefix>test</prefix>
                                 <name>test-source</name>
@@ -71,6 +71,30 @@
                                         <format>application/json</format>
                                     </formats>
                                     <contentClass>com.acme.Foo</contentClass>
+                                </produces>
+                            </dataShape>
+                            <channels>
+                                <stable/>
+                            </channels>
+                        </connector>
+                        <connector>
+                            <name>connector-sink</name>
+                            <adapter>
+                                <prefix>test</prefix>
+                                <name>test-sink</name>
+                                <version>999</version>
+                            </adapter>
+                            <kafka>
+                                <prefix>kafka</prefix>
+                                <name>test-kafka-source</name>
+                                <version>999</version>
+                            </kafka>
+                            <dataShape>
+                                <produces>
+                                    <formats>
+                                        <format>application/xml</format>
+                                    </formats>
+                                    <contentClass>com.acme.Bar</contentClass>
                                 </produces>
                             </dataShape>
                             <channels>

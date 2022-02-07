@@ -3,7 +3,10 @@ package org.bf2.cos.catalog.camel.maven.connector;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
+import org.apache.maven.execution.MavenSession;
+import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -13,6 +16,7 @@ import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
 import org.bf2.cos.catalog.camel.maven.connector.support.CatalogSupport;
 import org.bf2.cos.catalog.camel.maven.connector.support.Connector;
+import org.bf2.cos.catalog.camel.maven.connector.support.MojoSupport;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.victools.jsonschema.generator.OptionPreset;
@@ -23,7 +27,7 @@ import com.github.victools.jsonschema.generator.SchemaVersion;
 import com.google.gson.annotations.SerializedName;
 
 @Mojo(name = "generate-json-schema", defaultPhase = LifecyclePhase.GENERATE_RESOURCES, threadSafe = true, requiresDependencyResolution = ResolutionScope.COMPILE_PLUS_RUNTIME, requiresDependencyCollection = ResolutionScope.COMPILE_PLUS_RUNTIME)
-public class GenerateJsonSchemaMojo extends AbstractConnectorMojo {
+public class GenerateJsonSchemaMojo extends AbstractMojo {
     @Parameter(defaultValue = "false", property = "cos.schema.skip")
     private boolean skip = false;
 
@@ -31,6 +35,13 @@ public class GenerateJsonSchemaMojo extends AbstractConnectorMojo {
     private MavenProject project;
     @Parameter(defaultValue = "${project.basedir}/src/generated/resources/schemas/json")
     private String outputPath;
+
+    @Parameter(defaultValue = "${session}", readonly = true)
+    protected MavenSession session;
+    @Parameter
+    private Connector defaults;
+    @Parameter
+    private List<Connector> connectors;
 
     private final SchemaGenerator generator;
 
@@ -63,7 +74,7 @@ public class GenerateJsonSchemaMojo extends AbstractConnectorMojo {
 
         final ClassLoader cl = CatalogSupport.getClassLoader(project);
 
-        for (Connector connector : getConnectors()) {
+        for (Connector connector : MojoSupport.inject(session, defaults, connectors)) {
             if (connector.getDataShape() == null) {
                 continue;
             }

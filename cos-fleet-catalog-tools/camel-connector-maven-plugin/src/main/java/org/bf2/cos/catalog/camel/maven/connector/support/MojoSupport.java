@@ -1,4 +1,4 @@
-package org.bf2.cos.catalog.camel.maven.connector;
+package org.bf2.cos.catalog.camel.maven.connector.support;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -8,46 +8,18 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.apache.maven.execution.MavenSession;
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.PluginParameterExpressionEvaluator;
-import org.apache.maven.plugins.annotations.Parameter;
-import org.bf2.cos.catalog.camel.maven.connector.support.Connector;
-import org.bf2.cos.catalog.camel.maven.connector.support.Param;
 import org.codehaus.plexus.component.configurator.expression.ExpressionEvaluationException;
 import org.codehaus.plexus.component.configurator.expression.ExpressionEvaluator;
 
-public abstract class AbstractConnectorMojo extends AbstractMojo {
-    @Parameter(defaultValue = "${session}", readonly = true)
-    protected MavenSession session;
-    @Parameter
-    private List<Connector> connectors;
-
-    private boolean injected = false;
-    private ExpressionEvaluator expressionEvaluator;
-
-    protected List<Connector> getConnectors() throws MojoExecutionException {
-        if (connectors == null) {
-            connectors = Collections.emptyList();
-        }
-        if (!injected) {
-            expressionEvaluator = new PluginParameterExpressionEvaluator(
-                    Objects.requireNonNull(session, "session required"),
-                    new MojoExecution(null));
-            try {
-                for (Connector connector : connectors) {
-                    doInject(connector);
-                }
-            } catch (Exception e) {
-                throw new MojoExecutionException("Unable to inject connectors", e);
-            }
-            injected = true;
-        }
-        return connectors;
+public final class MojoSupport {
+    private MojoSupport() {
     }
 
-    private void doInject(Object pojo) throws ExpressionEvaluationException, IllegalAccessException {
+    public static void inject(ExpressionEvaluator expressionEvaluator, Object pojo)
+            throws ExpressionEvaluationException, IllegalAccessException {
         if (pojo != null) {
             Class<?> clazz = pojo.getClass();
             // Do not introspect JDK classes to avoid useless --add-opens requirements
@@ -68,12 +40,12 @@ public abstract class AbstractConnectorMojo extends AbstractMojo {
                             }
                         } else if (value instanceof Collection) {
                             for (Object o : (Collection<?>) value) {
-                                doInject(o);
+                                inject(expressionEvaluator, o);
                             }
                         } else if (value instanceof Map) {
                             for (Map.Entry<?, ?> e : ((Map<?, ?>) value).entrySet()) {
-                                doInject(e.getKey());
-                                doInject(e.getValue());
+                                inject(expressionEvaluator, e.getKey());
+                                inject(expressionEvaluator, e.getValue());
                             }
                         }
                     }
@@ -81,7 +53,44 @@ public abstract class AbstractConnectorMojo extends AbstractMojo {
                 clazz = clazz.getSuperclass();
             }
         }
-
     }
 
+    public static List<Connector> inject(MavenSession session, Connector defaults, List<Connector> connectors)
+            throws MojoExecutionException {
+
+        if (connectors == null) {
+            connectors = Collections.emptyList();
+        }
+
+        ExpressionEvaluator expressionEvaluator = new PluginParameterExpressionEvaluator(
+                Objects.requireNonNull(session, "session required"),
+                new MojoExecution(null));
+
+        try {
+            MojoSupport.inject(expressionEvaluator, defaults);
+
+            for (Connector connector : connectors) {
+                MojoSupport.inject(expressionEvaluator, connector);
+
+                if (defaults != null) {
+                    if (connector.getDataShape() == null) {
+                        connector.setDataShape(defaults.getDataShape());
+                    }
+                    if (connector.getActions() == null) {
+                        connector.setActions(defaults.getActions());
+                    }
+                    if (connector.getChannels() == null) {
+                        connector.setChannels(defaults.getChannels());
+                    }
+                    if (connector.getErrorHandler() == null) {
+                        connector.setErrorHandler(defaults.getErrorHandler());
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new MojoExecutionException("Unable to inject connectors", e);
+        }
+
+        return connectors;
+    }
 }
