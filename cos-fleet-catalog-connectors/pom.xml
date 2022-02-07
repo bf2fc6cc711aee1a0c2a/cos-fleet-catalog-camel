@@ -121,117 +121,70 @@
                         </execution>
                     </executions>
                     <configuration>
-                        <connectors>
-                            <connector>
-                                <!--
-                                  configure the default actions.
+                        <defaults>
+                            <!--
+                              configure the default actions.
+                            -->
+                            <actions>
+                                <action>
+                                    <name>throttle-action</name>
+                                    <version>${camel-kamelets-catalog.version}</version>
+                                </action>
 
-                                  If connector-specific actions have to be included, use combine.children to
-                                  properly configure the merge behavior, i.e.:
+                                <action>
+                                    <name>cos-log-action</name>
+                                    <version>${cos.kamelets.version}</version>
+                                </action>
 
-                                  <actions combine.children="append">
-                                    <action>
-                                        <name>my-action</name>
-                                        <version>${camel-kamelets-catalog.version}</version>
-                                    </action>
-                                  </actions>
-                                -->
-                                <actions>
-                                    <action>
-                                        <name>throttle-action</name>
-                                        <version>${camel-kamelets-catalog.version}</version>
-                                    </action>
+                                <action>
+                                    <name>cos-jsonpath-extract-action</name>
+                                    <version>${cos.kamelets.version}</version>
+                                    <metadata>
+                                        <supported.content-type>application/x-struct</supported.content-type>
+                                    </metadata>
+                                </action>
+                                <action>
+                                    <name>cos-jsonpath-remove-action</name>
+                                    <version>${cos.kamelets.version}</version>
+                                    <metadata>
+                                        <supported.content-type>application/x-struct</supported.content-type>
+                                    </metadata>
+                                </action>
+                                <action>
+                                    <name>cos-jsonpath-rename-action</name>
+                                    <version>${cos.kamelets.version}</version>
+                                    <metadata>
+                                        <supported.content-type>application/x-struct</supported.content-type>
+                                    </metadata>
+                                </action>
+                                <action>
+                                    <name>cos-jsonpath-set-action</name>
+                                    <version>${cos.kamelets.version}</version>
+                                    <metadata>
+                                        <supported.content-type>application/x-struct</supported.content-type>
+                                    </metadata>
+                                </action>
+                            </actions>
 
-                                    <action>
-                                        <name>cos-log-action</name>
-                                        <version>${cos.kamelets.version}</version>
-                                    </action>
+                            <!--
+                              configure the default channel.
+                            -->
+                            <channels>
+                                <stable/>
+                            </channels>
 
-                                    <action>
-                                        <name>cos-jsonpath-extract-action</name>
-                                        <version>${cos.kamelets.version}</version>
-                                        <metadata>
-                                            <supported.content-type>application/x-struct</supported.content-type>
-                                        </metadata>
-                                    </action>
-                                    <action>
-                                        <name>cos-jsonpath-remove-action</name>
-                                        <version>${cos.kamelets.version}</version>
-                                        <metadata>
-                                            <supported.content-type>application/x-struct</supported.content-type>
-                                        </metadata>
-                                    </action>
-                                    <action>
-                                        <name>cos-jsonpath-rename-action</name>
-                                        <version>${cos.kamelets.version}</version>
-                                        <metadata>
-                                            <supported.content-type>application/x-struct</supported.content-type>
-                                        </metadata>
-                                    </action>
-                                    <action>
-                                        <name>cos-jsonpath-set-action</name>
-                                        <version>${cos.kamelets.version}</version>
-                                        <metadata>
-                                            <supported.content-type>application/x-struct</supported.content-type>
-                                        </metadata>
-                                    </action>
-                                </actions>
-
-                                <!--
-                                  configure the default channel.
-
-                                  If connector-specific channels have to be included, use combine.children to
-                                  properly configure the merge behavior, i.e.:
-
-                                  <channels combine.children="append">
-                                    <beta/>
-                                  </channels>
-                                -->
-                                <channels>
-                                    <stable/>
-                                </channels>
-
-                                <!--
-                                  configure the data shape.
-
-                                  If connector-specific data shape have to be included, use combine.children to
-                                  properly configure the merge behavior, i.e.:
-
-                                  <dataShape combine.children="append">
-                                  </channels>
-                                -->
-
-                                <!--
-                                <dataShape>
-                                    <output>
-                                        <formats>
-                                            <format>STRING</format>
-                                            <format>JSON</format>
-                                        </formats>
-                                        <defaultFormat>STRING</defaultFormat>
-                                    </output>
-                                </dataShape>
-                                -->
-
-                                <!--
-                                  configure error handler.
-
-                                  If connector-specific error handler have to be included, use combine.children to
-                                  properly configure the merge behavior, i.e.:
-
-                                  <errorHandler combine.children="append">
-                                  </channels>
-                                -->
-                                <errorHandler>
-                                    <strategies>
-                                        <stratgey>LOG</stratgey>
-                                        <stratgey>STOP</stratgey>
-                                        <stratgey>DEAD_LETTER_QUEUE</stratgey>
-                                    </strategies>
-                                    <defaultStrategy>LOG</defaultStrategy>
-                                </errorHandler>
-                            </connector>
-                        </connectors>
+                            <!--
+                              configure error handler.
+                            -->
+                            <errorHandler>
+                                <strategies>
+                                    <stratgey>LOG</stratgey>
+                                    <stratgey>STOP</stratgey>
+                                    <stratgey>DEAD_LETTER_QUEUE</stratgey>
+                                </strategies>
+                                <defaultStrategy>LOG</defaultStrategy>
+                            </errorHandler>
+                        </defaults>
                     </configuration>
                 </plugin>
                 <plugin>

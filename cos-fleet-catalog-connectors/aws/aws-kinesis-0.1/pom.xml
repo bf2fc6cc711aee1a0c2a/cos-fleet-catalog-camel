@@ -10,15 +10,16 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>aws-kinesis-source-0.1</artifactId>
+    <artifactId>aws-kinesis-0.1</artifactId>
     <version>0.1</version>
-    <name>AWS Kinesis Source</name>
-    <description>AWS Kinesis Source</description>
+    <name>AWS Kinesis</name>
+    <description>AWS Kinesis</description>
 
     <packaging>jar</packaging>
 
     <properties>
-        <quarkus.container-image.name>cos-connector-aws-kinesis-source</quarkus.container-image.name>
+        <cos.connector.type>aws-kinesis</cos.connector.type>
+        <quarkus.container-image.name>cos-connector-aws-kinesis</quarkus.container-image.name>
         <quarkus.container-image.tag>${project.version}.${cos.connector.revision}</quarkus.container-image.tag>
     </properties>
 
@@ -29,7 +30,13 @@
                 <artifactId>camel-connector-maven-plugin</artifactId>
                 <configuration>
                     <connectors>
+
+                        <!-- source -->
                         <connector>
+                            <name>${cos.connector.type}-source-${project.version}</name>
+                            <title>${project.name} Source</title>
+                            <description>${project.description} Source</description>
+
                             <adapter>
                                 <prefix>aws</prefix>
                                 <name>aws-kinesis-source</name>
@@ -38,6 +45,24 @@
                             <kafka>
                                 <prefix>kafka</prefix>
                                 <name>cos-kafka-sink</name>
+                                <version>${cos.kamelets.version}</version>
+                            </kafka>
+                        </connector>
+
+                        <!-- sink -->
+                        <connector>
+                            <name>${cos.connector.type}-sink-${project.version}</name>
+                            <title>${project.name} Sink</title>
+                            <description>${project.description} Sink</description>
+
+                            <adapter>
+                                <prefix>aws</prefix>
+                                <name>aws-kinesis-sink</name>
+                                <version>${camel-kamelets-catalog.version}</version>
+                            </adapter>
+                            <kafka>
+                                <prefix>kafka</prefix>
+                                <name>cos-kafka-source</name>
                                 <version>${cos.kamelets.version}</version>
                             </kafka>
                         </connector>
