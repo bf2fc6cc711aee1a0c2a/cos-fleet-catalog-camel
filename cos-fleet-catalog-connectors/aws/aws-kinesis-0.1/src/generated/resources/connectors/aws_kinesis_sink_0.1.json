@@ -4,7 +4,7 @@
       "shard_metadata" : {
         "connector_revision" : "7",
         "connector_type" : "sink",
-        "connector_image" : "quay.io/rhoas/cos-connector-aws-kinesis-sink:0.1.7",
+        "connector_image" : "quay.io/rhoas/cos-connector-aws-kinesis:0.1.7",
         "operators" : [ {
           "type" : "camel-connector-operator",
           "version" : "[1.0.0,2.0.0)"
