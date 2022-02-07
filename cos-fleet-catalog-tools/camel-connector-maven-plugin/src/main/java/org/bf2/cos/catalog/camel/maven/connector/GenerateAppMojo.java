@@ -18,6 +18,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.maven.artifact.Artifact;
+import org.apache.maven.execution.MavenSession;
+import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -32,6 +34,7 @@ import org.bf2.cos.catalog.camel.maven.connector.support.Connector;
 import org.bf2.cos.catalog.camel.maven.connector.support.ConnectorDependency;
 import org.bf2.cos.catalog.camel.maven.connector.support.ConnectorSupport;
 import org.bf2.cos.catalog.camel.maven.connector.support.KameletsCatalog;
+import org.bf2.cos.catalog.camel.maven.connector.support.MojoSupport;
 import org.codehaus.plexus.component.annotations.Requirement;
 import org.eclipse.aether.RepositorySystem;
 import org.eclipse.aether.RepositorySystemSession;
@@ -55,7 +58,7 @@ import io.quarkus.bootstrap.util.IoUtils;
  * Builds the Quarkus application.
  */
 @Mojo(name = "generate-app", defaultPhase = LifecyclePhase.PACKAGE, requiresDependencyResolution = ResolutionScope.COMPILE_PLUS_RUNTIME, threadSafe = true)
-public class GenerateAppMojo extends AbstractConnectorMojo {
+public class GenerateAppMojo extends AbstractMojo {
 
     private static final String PACKAGE_TYPE_PROP = "quarkus.package.type";
     private static final String NATIVE_PROFILE_NAME = "native";
@@ -136,6 +139,13 @@ public class GenerateAppMojo extends AbstractConnectorMojo {
 
     @Parameter(defaultValue = "${quarkus.native.builder-image}")
     private String builderImage;
+
+    @Parameter(defaultValue = "${session}", readonly = true)
+    protected MavenSession session;
+    @Parameter
+    private Connector defaults;
+    @Parameter
+    private List<Connector> connectors;
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
@@ -281,7 +291,7 @@ public class GenerateAppMojo extends AbstractConnectorMojo {
             final Set<ConnectorDependency> connectorsDependecies = new HashSet<>();
             final Set<ConnectorDependency> projectDependencies = new HashSet<>();
 
-            for (Connector connector : getConnectors()) {
+            for (Connector connector : MojoSupport.inject(session, defaults, connectors)) {
                 try {
                     connectorsDependecies.addAll(
                             ConnectorSupport.dependencies(KameletsCatalog.get(project, getLog()), connector,
