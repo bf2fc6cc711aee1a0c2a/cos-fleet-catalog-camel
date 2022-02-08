@@ -19,16 +19,11 @@
     </properties>
 
     <modules>
-       <module>postgresql-sink-0.1</module>
-       <module>postgresql-source-0.1</module>
-       <module>mariadb-sink-0.1</module>
-       <module>mariadb-source-0.1</module>
-       <module>mysql-sink-0.1</module>
-       <module>mysql-source-0.1</module>
-       <module>sqlserver-sink-0.1</module>
-       <module>sqlserver-source-0.1</module>
-       <module>aws-redshift-sink-0.1</module>
-       <module>aws-redshift-source-0.1</module>
+       <module>postgresql-0.1</module>
+       <module>mariadb-0.1</module>
+       <module>mysql-0.1</module>
+       <module>sqlserver-0.1</module>
+       <module>aws-redshift-0.1</module>
     </modules>
 
 </project>

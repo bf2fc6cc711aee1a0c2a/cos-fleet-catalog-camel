@@ -19,8 +19,7 @@
     </properties>
 
     <modules>
-        <module>minio-sink-0.1</module>
-        <module>minio-source-0.1</module>
+        <module>minio-0.1</module>
     </modules>
 
 </project>

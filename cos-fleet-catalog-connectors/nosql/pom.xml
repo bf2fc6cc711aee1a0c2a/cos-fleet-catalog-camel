@@ -19,10 +19,8 @@
     </properties>
 
     <modules>
-       <module>mongodb-sink-0.1</module>
-       <module>mongodb-source-0.1</module>
-       <module>cassandra-sink-0.1</module>
-       <module>cassandra-source-0.1</module>
+       <module>mongodb-0.1</module>
+       <module>cassandra-0.1</module>
     </modules>
 
 </project>

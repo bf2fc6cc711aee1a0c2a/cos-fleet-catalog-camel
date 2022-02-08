@@ -32,10 +32,8 @@
     </dependencyManagement>
 
     <modules>
-        <module>azure-storage-blob-sink-0.1</module>
-        <module>azure-storage-blob-source-0.1</module>
-        <module>azure-storage-queue-sink-0.1</module>
-        <module>azure-storage-queue-source-0.1</module>
+        <module>azure-storage-blob-0.1</module>
+        <module>azure-storage-queue-0.1</module>
     </modules>
 
 </project>

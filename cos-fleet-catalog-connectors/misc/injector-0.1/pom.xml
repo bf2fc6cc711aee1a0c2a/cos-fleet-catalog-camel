@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <parent>
+        <groupId>org.bf2</groupId>
+        <artifactId>cos-fleet-catalog-connectors-misc</artifactId>
+        <version>999-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>injector-0.1</artifactId>
+    <version>0.1</version>
+    <name>Injector</name>
+    <description>Injector</description>
+
+    <packaging>jar</packaging>
+
+    <properties>
+        <quarkus.container-image.name>cos-connector-injector</quarkus.container-image.name>
+        <quarkus.container-image.tag>${project.version}.${cos.connector.revision}</quarkus.container-image.tag>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.bf2</groupId>
+                <artifactId>camel-connector-maven-plugin</artifactId>
+                <configuration>
+                    <connectors>
+                        <connector>
+                            <name>injector-source-${project.version}</name>
+                            <title>${project.name} Source</title>
+                            <description>${project.description} Source</description>
+                            <adapter>
+                                <prefix>injector</prefix>
+                                <name>cos-injector-source</name>
+                                <version>${cos.kamelets.version}</version>
+                            </adapter>
+                            <kafka>
+                                <prefix>kafka</prefix>
+                                <name>cos-kafka-sink</name>
+                                <version>${cos.kamelets.version}</version>
+                            </kafka>
+                        </connector>
+                    </connectors>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
