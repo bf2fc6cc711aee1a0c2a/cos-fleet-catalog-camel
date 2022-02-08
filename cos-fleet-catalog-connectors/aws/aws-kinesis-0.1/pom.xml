@@ -19,7 +19,7 @@
 
     <properties>
         <cos.connector.type>aws-kinesis</cos.connector.type>
-        <quarkus.container-image.name>cos-connector-aws-kinesis</quarkus.container-image.name>
+        <quarkus.container-image.name>cos-connector-${cos.connector.type}</quarkus.container-image.name>
         <quarkus.container-image.tag>${project.version}.${cos.connector.revision}</quarkus.container-image.tag>
     </properties>
 
@@ -30,16 +30,13 @@
                 <artifactId>camel-connector-maven-plugin</artifactId>
                 <configuration>
                     <connectors>
-
-                        <!-- source -->
                         <connector>
                             <name>${cos.connector.type}-source-${project.version}</name>
                             <title>${project.name} Source</title>
                             <description>${project.description} Source</description>
-
                             <adapter>
                                 <prefix>aws</prefix>
-                                <name>aws-kinesis-source</name>
+                                <name>${cos.connector.type}-source</name>
                                 <version>${camel-kamelets-catalog.version}</version>
                             </adapter>
                             <kafka>
@@ -48,16 +45,13 @@
                                 <version>${cos.kamelets.version}</version>
                             </kafka>
                         </connector>
-
-                        <!-- sink -->
                         <connector>
                             <name>${cos.connector.type}-sink-${project.version}</name>
                             <title>${project.name} Sink</title>
                             <description>${project.description} Sink</description>
-
                             <adapter>
                                 <prefix>aws</prefix>
-                                <name>aws-kinesis-sink</name>
+                                <name>${cos.connector.type}-sink</name>
                                 <version>${camel-kamelets-catalog.version}</version>
                             </adapter>
                             <kafka>

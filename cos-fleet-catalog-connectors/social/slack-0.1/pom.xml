@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <parent>
+        <groupId>org.bf2</groupId>
+        <artifactId>cos-fleet-catalog-connectors-social</artifactId>
+        <version>999-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>slack-0.1</artifactId>
+    <version>0.1</version>
+    <name>Slack</name>
+    <description>Slack</description>
+
+    <packaging>jar</packaging>
+
+    <properties>
+        <cos.connector.type>slack</cos.connector.type>
+        <quarkus.container-image.name>cos-connector-${cos.connector.type}</quarkus.container-image.name>
+        <quarkus.container-image.tag>${project.version}.${cos.connector.revision}</quarkus.container-image.tag>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.bf2</groupId>
+                <artifactId>camel-connector-maven-plugin</artifactId>
+                <configuration>
+                    <connectors>
+                        <connector>
+                            <name>${cos.connector.type}-source-${project.version}</name>
+                            <title>${project.name} Source</title>
+                            <description>${project.description} Source</description>
+                            <adapter>
+                                <prefix>slack</prefix>
+                                <name>cos-${cos.connector.type}-source</name>
+                                <version>${cos.kamelets.version}</version>
+                            </adapter>
+                            <kafka>
+                                <prefix>kafka</prefix>
+                                <name>cos-kafka-sink</name>
+                                <version>${cos.kamelets.version}</version>
+                            </kafka>
+                            <dataShape>
+                                <consumes>
+                                    <contentClass>com.slack.api.model.Message</contentClass>
+                                </consumes>
+                                <produces>
+                                    <formats>
+                                        <format>application/json</format>
+                                    </formats>
+                                </produces>
+                            </dataShape>
+                        </connector>
+                        <connector>
+                            <name>${cos.connector.type}-sink-${project.version}</name>
+                            <title>${project.name} Sink</title>
+                            <description>${project.description} Sink</description>
+                            <adapter>
+                                <prefix>slack</prefix>
+                                <name>${cos.connector.type}-sink</name>
+                                <version>${camel-kamelets-catalog.version}</version>
+                            </adapter>
+                            <kafka>
+                                <prefix>kafka</prefix>
+                                <name>cos-kafka-source</name>
+                                <version>${cos.kamelets.version}</version>
+                            </kafka>
+                        </connector>
+                    </connectors>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.slack.api</groupId>
+                        <artifactId>slack-api-model</artifactId>
+                        <version>1.8.1</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

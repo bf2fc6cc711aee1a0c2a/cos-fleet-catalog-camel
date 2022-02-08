@@ -20,11 +20,8 @@
 
     <modules>
         <module>aws-kinesis-0.1</module>
-        <module>aws-s3-sink-0.1</module>
-        <module>aws-s3-source-0.1</module>
-        <module>aws-sns-sink-0.1</module>
-        <module>aws-sqs-sink-0.1</module>
-        <module>aws-sqs-source-0.1</module>
+        <module>aws-s3-0.1</module>
+        <module>aws-sns-0.1</module>
+        <module>aws-sqs-0.1</module>
     </modules>
-
 </project>
