@@ -19,6 +19,7 @@
     <modules>
         <module>google-storage-0.1</module>
         <module>google-pubsub-0.1</module>
+        <module>google-functions-0.1</module>
     </modules>
 
 </project>
