@@ -9,22 +9,19 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>cos-fleet-catalog-connectors-aws</artifactId>
+    <artifactId>cos-fleet-catalog-connectors-messaging</artifactId>
     <packaging>pom</packaging>
-    <description>AWS Connectors</description>
+    <name>Messaging Connectors</name>
+    <description>Messaging Connectors</description>
 
     <properties>
-        <cos.connector.catalog.group>aws</cos.connector.catalog.group>
+        <cos.connector.catalog.group>messaging</cos.connector.catalog.group>
     </properties>
 
-
     <modules>
-        <module>aws-cloudwatch-0.1</module>
-        <module>aws-dynamodb-streams-0.1</module>
-        <module>aws-kinesis-0.1</module>
-        <module>aws-lambda-0.1</module>
-        <module>aws-s3-0.1</module>
-        <module>aws-sns-0.1</module>
-        <module>aws-sqs-0.1</module>
+        <module>http-0.1</module>
+        <module>jms-amqp-0.1</module>
+        <module>jms-artemis-0.1</module>
     </modules>
+
 </project>

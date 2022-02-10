@@ -19,8 +19,9 @@
     </properties>
 
     <modules>
-       <module>mongodb-0.1</module>
-       <module>cassandra-0.1</module>
+        <module>cassandra-0.1</module>
+        <module>elasticsearch-0.1</module>
+        <module>mongodb-0.1</module>
     </modules>
 
 </project>

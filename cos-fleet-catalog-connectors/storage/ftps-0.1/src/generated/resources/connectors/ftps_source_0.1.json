@@ -1,0 +1,357 @@
+{
+  "channels" : {
+    "stable" : {
+      "shard_metadata" : {
+        "connector_revision" : "7",
+        "connector_type" : "source",
+        "connector_image" : "quay.io/rhoas/cos-connector-ftps:0.1.7",
+        "operators" : [ {
+          "type" : "camel-connector-operator",
+          "version" : "[1.0.0,2.0.0)"
+        } ],
+        "kamelets" : {
+          "adapter" : {
+            "name" : "ftps-source",
+            "prefix" : "ftps"
+          },
+          "kafka" : {
+            "name" : "cos-kafka-sink",
+            "prefix" : "kafka"
+          },
+          "processors" : {
+            "throttle" : "throttle-action",
+            "jsonpath_set" : "cos-jsonpath-set-action",
+            "log" : "cos-log-action",
+            "jsonpath_rename" : "cos-jsonpath-rename-action",
+            "jsonpath_extract" : "cos-jsonpath-extract-action",
+            "jsonpath_remove" : "cos-jsonpath-remove-action"
+          }
+        }
+      }
+    }
+  },
+  "connector_type" : {
+    "id" : "ftps_source_0.1",
+    "kind" : "ConnectorType",
+    "iconRef" : "TODO",
+    "name" : "FTPS Source",
+    "description" : "FTPS Source",
+    "version" : "0.1",
+    "labels" : [ "source" ],
+    "capabilities" : [ "error_handler", "processors" ],
+    "channels" : [ "stable" ],
+    "schema" : {
+      "type" : "object",
+      "required" : [ "ftps_connection_host", "ftps_connection_port", "ftps_username", "ftps_password", "ftps_directory_name", "kafka_topic" ],
+      "properties" : {
+        "ftps_connection_host" : {
+          "title" : "Connection Host",
+          "description" : "Hostname of the FTPS server",
+          "type" : "string"
+        },
+        "ftps_connection_port" : {
+          "title" : "Connection Port",
+          "description" : "Port of the FTPS server",
+          "type" : "string",
+          "default" : 21
+        },
+        "ftps_username" : {
+          "title" : "Username",
+          "description" : "The username to access the FTPS server",
+          "type" : "string",
+          "x-group" : "credentials"
+        },
+        "ftps_password" : {
+          "title" : "Password",
+          "x-group" : "credentials",
+          "oneOf" : [ {
+            "title" : "Password",
+            "description" : "The password to access the FTPS server",
+            "type" : "string",
+            "format" : "password"
+          }, {
+            "description" : "An opaque reference to the ftps_password",
+            "type" : "object",
+            "properties" : { }
+          } ]
+        },
+        "ftps_directory_name" : {
+          "title" : "Directory Name",
+          "description" : "The starting directory",
+          "type" : "string"
+        },
+        "ftps_passive_mode" : {
+          "title" : "Passive Mode",
+          "description" : "Sets passive mode connection",
+          "type" : "boolean",
+          "default" : false
+        },
+        "ftps_recursive" : {
+          "title" : "Recursive",
+          "description" : "If a directory, will look for files in all the sub-directories as well.",
+          "type" : "boolean",
+          "default" : false
+        },
+        "ftps_idempotent" : {
+          "title" : "Idempotency",
+          "description" : "Skip already processed files.",
+          "type" : "boolean",
+          "default" : true
+        },
+        "kafka_topic" : {
+          "title" : "Topic Names",
+          "description" : "Comma separated list of Kafka topic names",
+          "type" : "string"
+        },
+        "kafka_registry_url" : {
+          "title" : "Topic Service Registry URL",
+          "description" : "Topic Service registry URL",
+          "type" : "string"
+        },
+        "processors" : {
+          "type" : "array",
+          "items" : {
+            "oneOf" : [ {
+              "type" : "object",
+              "required" : [ "throttle" ],
+              "properties" : {
+                "throttle" : {
+                  "$ref" : "#/$defs/processors/throttle"
+                }
+              }
+            }, {
+              "type" : "object",
+              "required" : [ "log" ],
+              "properties" : {
+                "log" : {
+                  "$ref" : "#/$defs/processors/log"
+                }
+              }
+            }, {
+              "type" : "object",
+              "required" : [ "jsonpath_extract" ],
+              "properties" : {
+                "jsonpath_extract" : {
+                  "$ref" : "#/$defs/processors/jsonpath_extract"
+                }
+              }
+            }, {
+              "type" : "object",
+              "required" : [ "jsonpath_remove" ],
+              "properties" : {
+                "jsonpath_remove" : {
+                  "$ref" : "#/$defs/processors/jsonpath_remove"
+                }
+              }
+            }, {
+              "type" : "object",
+              "required" : [ "jsonpath_rename" ],
+              "properties" : {
+                "jsonpath_rename" : {
+                  "$ref" : "#/$defs/processors/jsonpath_rename"
+                }
+              }
+            }, {
+              "type" : "object",
+              "required" : [ "jsonpath_set" ],
+              "properties" : {
+                "jsonpath_set" : {
+                  "$ref" : "#/$defs/processors/jsonpath_set"
+                }
+              }
+            } ]
+          }
+        },
+        "error_handler" : {
+          "type" : "object",
+          "oneOf" : [ {
+            "type" : "object",
+            "additionalProperties" : false,
+            "required" : [ "dead_letter_queue" ],
+            "properties" : {
+              "dead_letter_queue" : {
+                "$ref" : "#/$defs/error_handler/dead_letter_queue"
+              }
+            }
+          }, {
+            "type" : "object",
+            "additionalProperties" : false,
+            "required" : [ "log" ],
+            "properties" : {
+              "log" : {
+                "$ref" : "#/$defs/error_handler/log"
+              }
+            }
+          }, {
+            "type" : "object",
+            "additionalProperties" : false,
+            "required" : [ "stop" ],
+            "properties" : {
+              "stop" : {
+                "$ref" : "#/$defs/error_handler/stop"
+              }
+            }
+          } ]
+        }
+      },
+      "$defs" : {
+        "processors" : {
+          "throttle" : {
+            "title" : "Throttle Action",
+            "description" : "The Throttle action allows to ensure that a specific sink does not get overloaded.",
+            "required" : [ "messages" ],
+            "properties" : {
+              "messages" : {
+                "title" : "Messages Number",
+                "description" : "The number of messages to send in the time period set",
+                "type" : "integer",
+                "example" : 10
+              },
+              "timePeriod" : {
+                "title" : "Time Period",
+                "description" : "Sets the time period during which the maximum request count is valid for, in milliseconds",
+                "type" : "string",
+                "default" : "1000"
+              }
+            },
+            "type" : "object"
+          },
+          "log" : {
+            "title" : "Log",
+            "description" : "Log payload.",
+            "type" : "object",
+            "properties" : {
+              "multiLine" : {
+                "title" : "Multi Line",
+                "description" : "Multi Line",
+                "type" : "boolean",
+                "default" : false,
+                "x-descriptors" : [ "urn:camel:group:common" ]
+              },
+              "showProperties" : {
+                "title" : "Show Properties",
+                "description" : "Show Properties",
+                "type" : "boolean",
+                "default" : false,
+                "x-descriptors" : [ "urn:camel:group:common" ]
+              },
+              "showHeaders" : {
+                "title" : "Show Headers",
+                "description" : "Show Headers",
+                "type" : "boolean",
+                "default" : false,
+                "x-descriptors" : [ "urn:camel:group:common" ]
+              }
+            }
+          },
+          "jsonpath_extract" : {
+            "title" : "Transform with JsonPath",
+            "description" : "TBD",
+            "type" : "object",
+            "required" : [ "expression" ],
+            "properties" : {
+              "expression" : {
+                "title" : "Expression",
+                "description" : "Expression",
+                "type" : "string"
+              }
+            },
+            "x-metadata" : {
+              "supported.content-type" : "application/x-struct"
+            }
+          },
+          "jsonpath_remove" : {
+            "title" : "Transform with JsonPath",
+            "description" : "TBD",
+            "type" : "object",
+            "required" : [ "expression" ],
+            "properties" : {
+              "expression" : {
+                "title" : "Expression",
+                "description" : "Expression",
+                "type" : "string"
+              }
+            },
+            "x-metadata" : {
+              "supported.content-type" : "application/x-struct"
+            }
+          },
+          "jsonpath_rename" : {
+            "title" : "Transform with JsonPath",
+            "description" : "TBD",
+            "type" : "object",
+            "required" : [ "expression" ],
+            "properties" : {
+              "expression" : {
+                "title" : "Expression",
+                "description" : "Expression",
+                "type" : "string"
+              },
+              "key" : {
+                "title" : "Key",
+                "description" : "Key",
+                "type" : "string"
+              },
+              "newKey" : {
+                "title" : "NewKey",
+                "description" : "NewKey",
+                "type" : "string"
+              }
+            },
+            "x-metadata" : {
+              "supported.content-type" : "application/x-struct"
+            }
+          },
+          "jsonpath_set" : {
+            "title" : "Transform with JsonPath",
+            "description" : "TBD",
+            "type" : "object",
+            "required" : [ "expression" ],
+            "properties" : {
+              "expression" : {
+                "title" : "Expression",
+                "description" : "Expression",
+                "type" : "string"
+              },
+              "key" : {
+                "title" : "Key",
+                "description" : "Key",
+                "type" : "string"
+              },
+              "value" : {
+                "title" : "Value",
+                "description" : "Value",
+                "type" : "string"
+              }
+            },
+            "x-metadata" : {
+              "supported.content-type" : "application/x-struct"
+            }
+          }
+        },
+        "error_handler" : {
+          "dead_letter_queue" : {
+            "type" : "object",
+            "additionalProperties" : false,
+            "required" : [ "topic" ],
+            "properties" : {
+              "topic" : {
+                "type" : "string",
+                "title" : "Dead Letter Topic Name",
+                "description" : "The name of the Kafka topic used as dead letter queue"
+              }
+            }
+          },
+          "log" : {
+            "type" : "object",
+            "additionalProperties" : false
+          },
+          "stop" : {
+            "type" : "object",
+            "additionalProperties" : false
+          }
+        }
+      }
+    }
+  }
+}
