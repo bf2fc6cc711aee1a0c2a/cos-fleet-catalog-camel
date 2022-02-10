@@ -19,7 +19,9 @@
     </properties>
 
     <modules>
+        <module>ftps-0.1</module>
         <module>minio-0.1</module>
+        <module>sftp-0.1</module>
     </modules>
 
 </project>
