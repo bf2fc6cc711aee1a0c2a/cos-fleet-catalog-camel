@@ -4,7 +4,7 @@
       "shard_metadata" : {
         "connector_revision" : "7",
         "connector_type" : "sink",
-        "connector_image" : "quay.io/rhoas/cos-connector-elasticsearch-index:0.1.7",
+        "connector_image" : "quay.io/rhoas/cos-connector-elasticsearch:0.1.7",
         "operators" : [ {
           "type" : "camel-connector-operator",
           "version" : "[1.0.0,2.0.0)"
@@ -33,7 +33,7 @@
     }
   },
   "connector_type" : {
-    "id" : "elasticsearch_index_sink_0.1",
+    "id" : "elasticsearch_sink_0.1",
     "kind" : "ConnectorType",
     "iconRef" : "TODO",
     "name" : "Elasticsearch Sink",

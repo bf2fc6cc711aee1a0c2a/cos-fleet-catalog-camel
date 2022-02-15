@@ -18,7 +18,7 @@
     <packaging>jar</packaging>
 
     <properties>
-        <cos.connector.type>elasticsearch-index</cos.connector.type>
+        <cos.connector.type>elasticsearch</cos.connector.type>
         <quarkus.container-image.name>cos-connector-${cos.connector.type}</quarkus.container-image.name>
         <quarkus.container-image.tag>${project.version}.${cos.connector.revision}</quarkus.container-image.tag>
     </properties>
@@ -36,7 +36,7 @@
                             <description>${project.description} Sink</description>
                             <adapter>
                                 <prefix>elasticsearch</prefix>
-                                <name>${cos.connector.type}-sink</name>
+                                <name>${cos.connector.type}-index-sink</name>
                                 <version>${camel-kamelets-catalog.version}</version>
                             </adapter>
                             <kafka>
