@@ -4,7 +4,7 @@
       "shard_metadata" : {
         "connector_revision" : "7",
         "connector_type" : "source",
-        "connector_image" : "quay.io/rhoas/cos-connector-timer:0.1.7",
+        "connector_image" : "quay.io/rhoas/cos-connector-data-generator:0.1.7",
         "operators" : [ {
           "type" : "camel-connector-operator",
           "version" : "[1.0.0,2.0.0)"
@@ -12,7 +12,7 @@
         "kamelets" : {
           "adapter" : {
             "name" : "timer-source",
-            "prefix" : "jira"
+            "prefix" : "timer"
           },
           "kafka" : {
             "name" : "cos-kafka-sink",
@@ -42,21 +42,21 @@
     "channels" : [ "stable" ],
     "schema" : {
       "type" : "object",
-      "required" : [ "jira_message", "kafka_topic" ],
+      "required" : [ "timer_message", "kafka_topic" ],
       "properties" : {
-        "jira_period" : {
+        "timer_period" : {
           "title" : "Period",
           "description" : "The interval between two events in milliseconds",
           "type" : "integer",
           "default" : 1000
         },
-        "jira_message" : {
+        "timer_message" : {
           "title" : "Message",
           "description" : "The message to generate",
           "type" : "string",
           "example" : "hello world"
         },
-        "jira_content_type" : {
+        "timer_content_type" : {
           "title" : "Content Type",
           "description" : "The content type of the message being generated",
           "type" : "string",
