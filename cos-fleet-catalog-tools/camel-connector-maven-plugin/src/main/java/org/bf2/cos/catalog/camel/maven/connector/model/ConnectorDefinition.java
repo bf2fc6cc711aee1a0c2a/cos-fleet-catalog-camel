@@ -59,7 +59,7 @@ public class ConnectorDefinition {
         @JsonProperty(value = "kind", defaultValue = "ConnectorType")
         private String kind = "ConnectorType";
 
-        @JsonProperty("iconRef")
+        @JsonProperty("icon_href")
         private String iconRef;
 
         @JsonProperty("name")

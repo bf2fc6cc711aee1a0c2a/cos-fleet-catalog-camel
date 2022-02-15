@@ -33,7 +33,7 @@
   "connector_type" : {
     "id" : "mariadb_source_0.1",
     "kind" : "ConnectorType",
-    "iconRef" : "TODO",
+    "icon_href" : "TODO",
     "name" : "MariaDB Source",
     "description" : "MariaDB Source",
     "version" : "0.1",

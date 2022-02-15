@@ -36,7 +36,7 @@
   "connector_type" : {
     "id" : "minio_sink_0.1",
     "kind" : "ConnectorType",
-    "iconRef" : "TODO",
+    "icon_href" : "TODO",
     "name" : "Minio Sink",
     "description" : "Minio Sink",
     "version" : "0.1",
