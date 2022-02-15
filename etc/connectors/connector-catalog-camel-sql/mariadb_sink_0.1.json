@@ -35,7 +35,7 @@
   "connector_type" : {
     "id" : "mariadb_sink_0.1",
     "kind" : "ConnectorType",
-    "iconRef" : "TODO",
+    "icon_href" : "TODO",
     "name" : "MariaDB Sink",
     "description" : "MariaDB Sink",
     "version" : "0.1",

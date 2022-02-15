@@ -33,7 +33,7 @@
   "connector_type" : {
     "id" : "sqlserver_source_0.1",
     "kind" : "ConnectorType",
-    "iconRef" : "TODO",
+    "icon_href" : "TODO",
     "name" : "SQL Server Source",
     "description" : "SQL Server Source",
     "version" : "0.1",

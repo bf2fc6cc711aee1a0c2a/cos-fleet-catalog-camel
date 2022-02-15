@@ -35,7 +35,7 @@
   "connector_type" : {
     "id" : "aws_ddb_streams_source_0.1",
     "kind" : "ConnectorType",
-    "iconRef" : "TODO",
+    "icon_href" : "TODO",
     "name" : "AWS DynamoDB Streams Source",
     "description" : "AWS DynamoDB Streams Source",
     "version" : "0.1",

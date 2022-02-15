@@ -38,7 +38,7 @@
   "connector_type" : {
     "id" : "postgresql_source_0.1",
     "kind" : "ConnectorType",
-    "iconRef" : "TODO",
+    "icon_href" : "TODO",
     "name" : "PostgreSQL Source",
     "description" : "PostgreSQL Source",
     "version" : "0.1",

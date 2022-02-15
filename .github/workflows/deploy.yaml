@@ -90,7 +90,7 @@ jobs:
               --namespace ${CONNECTORS_NS} \
               --from-file="${CONNECTORS_DIR}/${CM_NAME}/" \
               --dry-run=client \
-              -o yaml | kubectl apply -f -
+              -o yaml | kubectl replace -f -
           done
       - name: Restart FleetManager
         run: |
