@@ -50,6 +50,7 @@
         <maven-resources-plugin.version>3.2.0</maven-resources-plugin.version>
         <maven-invoker-plugin.version>3.2.2</maven-invoker-plugin.version>
         <gmavenplus-plugin.version>1.13.1</gmavenplus-plugin.version>
+        <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
 
         <!-- cos -->
         <cos.connector.operator.type>camel-connector-operator</cos.connector.operator.type>
@@ -381,6 +382,17 @@
                     <groups>java.,javax.,org.,com.</groups>
                     <staticGroups>*</staticGroups>
                     <removeUnused>true</removeUnused>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>${maven-clean-plugin.version}</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>etc/connectors</directory>
+                        </fileset>
+                    </filesets>
                 </configuration>
             </plugin>
         </plugins>
