@@ -58,7 +58,7 @@ spec:
             name: "Content-Type"
             constant: "avro/binary"
         - set-header:
-            name: 'cos.CONTENT_SCHEMA'
+            name: 'X-Content-Schema'
             simple:
-              expression: '${exchangeProperty[cos.CONTENT_SCHEMA]}'
+              expression: '${exchangeProperty[X-Content-Schema]}'
               result-type: 'java.lang.String'

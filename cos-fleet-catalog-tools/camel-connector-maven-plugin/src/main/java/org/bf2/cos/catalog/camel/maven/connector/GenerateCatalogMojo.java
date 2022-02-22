@@ -35,7 +35,7 @@ import static org.bf2.cos.catalog.camel.maven.connector.support.CatalogSupport.c
 import static org.bf2.cos.catalog.camel.maven.connector.support.CatalogSupport.dataShape;
 import static org.bf2.cos.catalog.camel.maven.connector.support.CatalogSupport.kameletType;
 
-@Mojo(name = "generate-catalog", defaultPhase = LifecyclePhase.GENERATE_RESOURCES, threadSafe = true, requiresDependencyResolution = ResolutionScope.COMPILE_PLUS_RUNTIME, requiresDependencyCollection = ResolutionScope.COMPILE_PLUS_RUNTIME)
+@Mojo(name = "generate-catalog", defaultPhase = LifecyclePhase.PREPARE_PACKAGE, threadSafe = true, requiresDependencyResolution = ResolutionScope.COMPILE_PLUS_RUNTIME, requiresDependencyCollection = ResolutionScope.COMPILE_PLUS_RUNTIME)
 public class GenerateCatalogMojo extends AbstractMojo {
 
     @Parameter(defaultValue = "false", property = "cos.catalog.skip")
