@@ -53,6 +53,7 @@ public abstract class BaseSerializer<S> extends AbstractKafkaSerializer<S, byte[
         if (headers == null) {
             throw new IllegalStateException("headers are required");
         }
+
         if (headers.lastHeader(Serdes.CONTENT_SCHEMA) == null) {
             throw new IllegalStateException("schema header is required");
         }

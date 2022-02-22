@@ -1,0 +1,10 @@
+- route:
+    id: binding
+    from:
+      uri: "kamelet:cos-salesforce-streaming-source/lb-cos"
+    steps:
+      - to: "kamelet:cos-decoder-json-action"
+      - to: "kamelet:cos-log-action/_decoder"
+      - to: "kamelet:cos-encoder-json-action"
+      - to: "kamelet:cos-log-action/_encoder"
+      - to: "kamelet:cos-kafka-sink/sink"
