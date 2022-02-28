@@ -20,10 +20,6 @@ spec:
         title: Topic Names
         description: Comma separated list of Kafka topic names
         type: string
-      registryUrl:
-        title: Topic Service Registry URL
-        description: Topic Service registry URL
-        type: string
   dependencies:
     - "camel:kafka"
     - "camel:kamelet"

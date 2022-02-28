@@ -11,7 +11,7 @@
         } ],
         "kamelets" : {
           "adapter" : {
-            "name" : "cos-salesforce-source",
+            "name" : "cos-salesforce-streaming-source",
             "prefix" : "salesforce"
           },
           "kafka" : {
@@ -36,7 +36,7 @@
     "id" : "salesforce_source_0.1",
     "kind" : "ConnectorType",
     "icon_href" : "TODO",
-    "name" : "Salesforce Source",
+    "name" : "Salesforce Streaming Source",
     "description" : "Salesforce Source",
     "version" : "0.1",
     "labels" : [ "source" ],
@@ -100,11 +100,6 @@
         "kafka_topic" : {
           "title" : "Topic Names",
           "description" : "Comma separated list of Kafka topic names",
-          "type" : "string"
-        },
-        "kafka_registry_url" : {
-          "title" : "Topic Service Registry URL",
-          "description" : "Topic Service registry URL",
           "type" : "string"
         },
         "processors" : {
