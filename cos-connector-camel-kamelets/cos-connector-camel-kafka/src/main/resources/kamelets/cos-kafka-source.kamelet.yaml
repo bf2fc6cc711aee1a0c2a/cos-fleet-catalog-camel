@@ -40,8 +40,8 @@ spec:
         saslJaasConfig: "org.apache.kafka.common.security.plain.PlainLoginModule required username='{{user}}' password='{{password}}';"
         autoOffsetReset: "{{autoOffsetReset:latest}}"
         groupId: "{{?consumerGroup}}"
-        keyDeserializer: "{{keyDeserializer:org.apache.kafka.common.serialization.ByteArrayDeserializer}}"
-        valueDeserializer: "{{valueDeserializer:org.apache.kafka.common.serialization.ByteArrayDeserializer}}"
+        keyDeserializer: "{{keyDeserializer:org.bf2.cos.connector.camel.serdes.bytes.ByteArrayDeserializer}}"
+        valueDeserializer: "{{valueDeserializer:org.bf2.cos.connector.camel.serdes.bytes.ByteArrayDeserializer}}"
         kafkaClientFactory: "#{{kafka-client-factory}}"
       steps:
       - to: "kamelet:sink"
