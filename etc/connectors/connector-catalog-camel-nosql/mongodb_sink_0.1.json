@@ -101,11 +101,6 @@
           "description" : "Comma separated list of Kafka topic names",
           "type" : "string"
         },
-        "kafka_registry_url" : {
-          "title" : "Topic Service Registry URL",
-          "description" : "Topic Service registry URL",
-          "type" : "string"
-        },
         "processors" : {
           "type" : "array",
           "items" : {
