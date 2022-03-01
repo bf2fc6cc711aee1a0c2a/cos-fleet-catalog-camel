@@ -3,19 +3,19 @@
     "stable" : {
       "shard_metadata" : {
         "connector_revision" : "8",
-        "connector_type" : "sink",
-        "connector_image" : "quay.io/rhoas/cos-connector-slack:0.1.8",
+        "connector_type" : "source",
+        "connector_image" : "quay.io/rhoas/cos-connector-salesforce:0.1.8",
         "operators" : [ {
           "type" : "camel-connector-operator",
           "version" : "[1.0.0,2.0.0)"
         } ],
         "kamelets" : {
           "adapter" : {
-            "name" : "slack-sink",
-            "prefix" : "slack"
+            "name" : "cos-salesforce-streaming-source",
+            "prefix" : "salesforce"
           },
           "kafka" : {
-            "name" : "cos-kafka-source",
+            "name" : "cos-kafka-sink",
             "prefix" : "kafka"
           },
           "processors" : {
@@ -26,58 +26,76 @@
             "jsonpath_extract" : "cos-jsonpath-extract-action",
             "jsonpath_remove" : "cos-jsonpath-remove-action"
           }
-        }
+        },
+        "consumes" : "application/json",
+        "produces" : "application/json"
       }
     }
   },
   "connector_type" : {
-    "id" : "slack_sink_0.1",
+    "id" : "salesforce_streaming_source_0.1",
     "kind" : "ConnectorType",
     "icon_href" : "TODO",
-    "name" : "Slack Sink",
-    "description" : "Slack Sink",
+    "name" : "Salesforce Streaming Source",
+    "description" : "Salesforce Source",
     "version" : "0.1",
-    "labels" : [ "sink" ],
-    "capabilities" : [ "error_handler", "processors" ],
+    "labels" : [ "source" ],
+    "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
     "schema" : {
       "type" : "object",
-      "required" : [ "slack_channel", "slack_webhook_url", "kafka_topic" ],
+      "required" : [ "salesforce_object_name", "salesforce_client_id", "salesforce_client_secret", "salesforce_user_name", "salesforce_password", "kafka_topic" ],
       "properties" : {
-        "slack_channel" : {
-          "title" : "Channel",
-          "description" : "The Slack channel to send messages to.",
-          "type" : "string",
-          "example" : "#myroom"
+        "salesforce_object_name" : {
+          "title" : "objectName",
+          "description" : "The sObjectName",
+          "type" : "string"
         },
-        "slack_webhook_url" : {
-          "title" : "Webhook URL",
+        "salesforce_login_url" : {
+          "title" : "Login URL",
+          "description" : "The Salesforce instance login URL",
+          "type" : "string",
+          "default" : "https://login.salesforce.com"
+        },
+        "salesforce_client_id" : {
+          "title" : "Consumer Key",
+          "description" : "The Salesforce application consumer key",
+          "type" : "string",
+          "x-group" : "credentials"
+        },
+        "salesforce_client_secret" : {
+          "title" : "Consumer Secret",
           "x-group" : "credentials",
           "oneOf" : [ {
-            "title" : "Webhook URL",
-            "description" : "The webhook URL used by the Slack channel to handle incoming messages.",
+            "title" : "Consumer Secret",
+            "description" : "The Salesforce application consumer secret",
             "type" : "string",
             "format" : "password"
           }, {
-            "description" : "An opaque reference to the slack_webhook_url",
+            "description" : "An opaque reference to the salesforce_client_secret",
             "type" : "object",
             "properties" : { }
           } ]
         },
-        "slack_icon_emoji" : {
-          "title" : "Icon Emoji",
-          "description" : "Use a Slack emoji as an avatar.",
-          "type" : "string"
-        },
-        "slack_icon_url" : {
-          "title" : "Icon URL",
-          "description" : "The avatar that the component will use when sending message to a channel or user.",
-          "type" : "string"
-        },
-        "slack_username" : {
+        "salesforce_user_name" : {
           "title" : "Username",
-          "description" : "This is the username that the bot will have when sending messages to a channel or user.",
-          "type" : "string"
+          "description" : "The Salesforce username",
+          "type" : "string",
+          "x-group" : "credentials"
+        },
+        "salesforce_password" : {
+          "title" : "Password",
+          "x-group" : "credentials",
+          "oneOf" : [ {
+            "title" : "Password",
+            "description" : "The Salesforce user password",
+            "type" : "string",
+            "format" : "password"
+          }, {
+            "description" : "An opaque reference to the salesforce_password",
+            "type" : "object",
+            "properties" : { }
+          } ]
         },
         "kafka_topic" : {
           "title" : "Topic Names",
@@ -136,6 +154,15 @@
                 }
               }
             } ]
+          }
+        },
+        "data_shape" : {
+          "type" : "object",
+          "additionalProperties" : false,
+          "properties" : {
+            "produces" : {
+              "$ref" : "#/$defs/data_shape/produces"
+            }
           }
         },
         "error_handler" : {
@@ -302,6 +329,20 @@
             },
             "x-metadata" : {
               "supported.content-type" : "application/x-struct"
+            }
+          }
+        },
+        "data_shape" : {
+          "produces" : {
+            "type" : "object",
+            "additionalProperties" : false,
+            "required" : [ "format" ],
+            "properties" : {
+              "format" : {
+                "type" : "string",
+                "default" : "application/json",
+                "enum" : [ "application/json" ]
+              }
             }
           }
         },
