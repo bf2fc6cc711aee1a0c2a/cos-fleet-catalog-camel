@@ -16,16 +16,20 @@
           },
           "kafka" : {
             "name" : "cos-kafka-source",
-            "prefix" : "kafka"
+            "prefix": "kafka"
           },
-          "processors" : {
-            "throttle" : "throttle-action",
-            "jsonpath_set" : "cos-jsonpath-set-action",
-            "log" : "cos-log-action",
-            "jsonpath_rename" : "cos-jsonpath-rename-action",
-            "jsonpath_extract" : "cos-jsonpath-extract-action",
-            "jsonpath_remove" : "cos-jsonpath-remove-action"
+          "processors": {
+            "throttle": "throttle-action",
+            "jsonpath_set": "cos-jsonpath-set-action",
+            "log": "cos-log-action",
+            "jsonpath_rename": "cos-jsonpath-rename-action",
+            "jsonpath_extract": "cos-jsonpath-extract-action",
+            "jsonpath_remove": "cos-jsonpath-remove-action"
           }
+        },
+        "annotations": {
+          "trait.camel.apache.org/container.request-memory": "256m",
+          "trait.camel.apache.org/container.request-cpu": "1"
         }
       }
     }
