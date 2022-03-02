@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 
-name: build
+name: Cos-fleet-catalog-camel Regen Bot Build
 
 on:
   push:
