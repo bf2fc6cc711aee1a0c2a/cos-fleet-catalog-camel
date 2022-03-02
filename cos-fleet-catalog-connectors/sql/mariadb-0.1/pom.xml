@@ -44,6 +44,13 @@
                                 <name>cos-kafka-sink</name>
                                 <version>${cos.kamelets.version}</version>
                             </kafka>
+                            <dataShape>
+                                <produces>
+                                    <formats>
+                                        <format>application/json</format>
+                                    </formats>
+                                </produces>
+                            </dataShape>
                         </connector>
                         <connector>
                             <name>${cos.connector.type}-sink-${project.version}</name>
