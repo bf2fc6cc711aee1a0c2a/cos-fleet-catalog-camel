@@ -68,7 +68,7 @@ jobs:
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           signoff: true
           branch: regen_bot
-          title: "Generated sources regen"
+          title: "Regen cos-fleet-catalog-camel build"
           body: |
             Regen bot :robot: found some uncommited changes after running build on cos-fleet-catalog-camel main branch.
             Please do not delete `regen_bot` branch after merge/rebase.
