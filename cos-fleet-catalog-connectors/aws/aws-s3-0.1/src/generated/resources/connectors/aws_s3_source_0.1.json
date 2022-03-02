@@ -30,7 +30,8 @@
         "annotations" : {
           "trait.camel.apache.org/container.request-memory" : "128m",
           "trait.camel.apache.org/container.request-cpu" : "1"
-        }
+        },
+        "produces" : "application/octet-stream"
       }
     }
   },
@@ -42,7 +43,7 @@
     "description" : "AWS S3 Source",
     "version" : "0.1",
     "labels" : [ "source" ],
-    "capabilities" : [ "error_handler", "processors" ],
+    "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
     "schema" : {
       "type" : "object",
@@ -180,6 +181,15 @@
                 }
               }
             } ]
+          }
+        },
+        "data_shape" : {
+          "type" : "object",
+          "additionalProperties" : false,
+          "properties" : {
+            "produces" : {
+              "$ref" : "#/$defs/data_shape/produces"
+            }
           }
         },
         "error_handler" : {
@@ -346,6 +356,20 @@
             },
             "x-metadata" : {
               "supported.content-type" : "application/x-struct"
+            }
+          }
+        },
+        "data_shape" : {
+          "produces" : {
+            "type" : "object",
+            "additionalProperties" : false,
+            "required" : [ "format" ],
+            "properties" : {
+              "format" : {
+                "type" : "string",
+                "default" : "application/octet-stream",
+                "enum" : [ "application/octet-stream" ]
+              }
             }
           }
         },
