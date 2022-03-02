@@ -27,6 +27,10 @@
             "jsonpath_remove" : "cos-jsonpath-remove-action"
           }
         },
+        "annotations" : {
+          "trait.camel.apache.org/container.request-memory" : "256m",
+          "trait.camel.apache.org/container.request-cpu" : "1"
+        },
         "consumes" : "application/json",
         "produces" : "application/json"
       }
