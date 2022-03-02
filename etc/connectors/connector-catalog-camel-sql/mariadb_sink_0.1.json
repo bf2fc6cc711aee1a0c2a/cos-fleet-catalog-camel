@@ -27,7 +27,7 @@
             "jsonpath_remove" : "cos-jsonpath-remove-action"
           }
         },
-        "consumes" : "application/octet-stream",
+        "consumes" : "application/json",
         "produces" : "application/json"
       }
     }
@@ -332,8 +332,8 @@
             "properties" : {
               "format" : {
                 "type" : "string",
-                "default" : "application/octet-stream",
-                "enum" : [ "application/octet-stream" ]
+                "default" : "application/json",
+                "enum" : [ "application/json", "avro/binary" ]
               }
             }
           }
