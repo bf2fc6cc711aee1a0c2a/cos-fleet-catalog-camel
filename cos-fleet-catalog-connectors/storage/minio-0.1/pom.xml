@@ -45,6 +45,7 @@
                                 <version>${cos.kamelets.version}</version>
                             </kafka>
                         </connector>
+                        <!--
                         <connector>
                             <name>${cos.connector.type}-sink-${project.version}</name>
                             <title>${project.name} Sink</title>
@@ -67,6 +68,7 @@
                                 </consumes>
                             </dataShape>
                         </connector>
+                        -->
                     </connectors>
                     <annotations>
                        <annotation>

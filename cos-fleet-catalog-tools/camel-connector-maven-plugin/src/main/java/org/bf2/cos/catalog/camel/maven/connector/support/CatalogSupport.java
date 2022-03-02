@@ -233,16 +233,22 @@ public final class CatalogSupport {
                         ds.setProduces(new Connector.DataShape());
                     }
                     ds.getProduces().setDefaultFormat(ds.getConsumes().getDefaultFormat());
+                    ds.getProduces().setFormats(Set.of(ds.getConsumes().getDefaultFormat()));
 
-                    switch (ds.getConsumes().getDefaultFormat()) {
-                        case "application/json":
-                        case "avro/binary":
-                            ds.getProduces().setFormats(Set.of("application/json", "avro/binary"));
-                            break;
-                        default:
-                            ds.getProduces().setFormats(null);
-                            break;
-                    }
+                    /*
+                     * 
+                     * Don't do data conversion for now
+                     * 
+                     * switch (ds.getConsumes().getDefaultFormat()) {
+                     * case "application/json":
+                     * case "avro/binary":
+                     * ds.getProduces().setFormats(Set.of("application/json", "avro/binary"));
+                     * break;
+                     * default:
+                     * ds.getProduces().setFormats(null);
+                     * break;
+                     * }
+                     */
                 }
             }
         } else {
@@ -279,16 +285,22 @@ public final class CatalogSupport {
                     }
 
                     ds.getConsumes().setDefaultFormat(ds.getProduces().getDefaultFormat());
+                    ds.getConsumes().setFormats(Set.of(ds.getProduces().getDefaultFormat()));
 
-                    switch (ds.getProduces().getDefaultFormat()) {
-                        case "application/json":
-                        case "avro/binary":
-                            ds.getConsumes().setFormats(Set.of("application/json", "avro/binary"));
-                            break;
-                        default:
-                            ds.getConsumes().setFormats(null);
-                            break;
-                    }
+                    /*
+                     * 
+                     * Don't do data conversion for now
+                     * 
+                     * switch (ds.getProduces().getDefaultFormat()) {
+                     * case "application/json":
+                     * case "avro/binary":
+                     * ds.getConsumes().setFormats(Set.of("application/json", "avro/binary"));
+                     * break;
+                     * default:
+                     * ds.getConsumes().setFormats(null);
+                     * break;
+                     * }
+                     */
                 }
             }
         }

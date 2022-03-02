@@ -89,24 +89,24 @@ new File(basedir, "connector_sink.json").withReader {
         assert kamelets.kafka.name == 'test-kafka-source'
         assert kamelets.kafka.prefix == 'kafka'
 
-        assert produces == 'application/xml'
-        assert produces_class == 'com.acme.Bar'
+        assert consumes == 'application/xml'
+        assert consumes_class == 'com.acme.Bar'
     }
 
     catalog.connector_type.schema.properties.with {
         data_shape.with {
-            assert properties.produces != null
-            assert properties.consumes == null
+            assert properties.consumes != null
+            assert properties.produces == null
 
-            assert properties.produces['$ref'] == '#/$defs/data_shape/produces'
+            assert properties.consumes['$ref'] == '#/$defs/data_shape/consumes'
         }
     }
 
     catalog.connector_type.schema['$defs'].data_shape.with {
-        assert produces != null
-        assert consumes == null
+        assert produces == null
+        assert consumes != null
 
-        produces.with {
+        consumes.with {
             assert properties.format.type == 'string'
             assert properties.format.default == 'application/xml'
             assert properties.format.enum.size() == 1

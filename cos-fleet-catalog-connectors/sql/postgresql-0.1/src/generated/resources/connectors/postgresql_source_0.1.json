@@ -342,7 +342,7 @@
               "format" : {
                 "type" : "string",
                 "default" : "application/json",
-                "enum" : [ "application/json", "avro/binary" ]
+                "enum" : [ "application/json" ]
               }
             }
           }
