@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.execution.MavenSession;
@@ -18,6 +19,7 @@ import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
 import org.bf2.cos.catalog.camel.maven.connector.model.ConnectorDefinition;
 import org.bf2.cos.catalog.camel.maven.connector.support.Annotation;
+import org.bf2.cos.catalog.camel.maven.connector.support.CatalogConstants;
 import org.bf2.cos.catalog.camel.maven.connector.support.Connector;
 import org.bf2.cos.catalog.camel.maven.connector.support.KameletsCatalog;
 import org.bf2.cos.catalog.camel.maven.connector.support.MojoSupport;
@@ -217,6 +219,17 @@ public class GenerateCatalogMojo extends AbstractMojo {
 
                     metadata.getKamelets().getKafka().setName(kafka.getName());
                     metadata.getKamelets().getKafka().setPrefix(kafka.getPrefix());
+
+                    if (Objects.equals(CatalogConstants.SOURCE, kameletType(adapterSpec))) {
+                        if (ds.getConsumes() == null && ds.getProduces() != null) {
+                            ds.setConsumes(ds.getProduces());
+                        }
+                    }
+                    if (Objects.equals(CatalogConstants.SINK, kameletType(adapterSpec))) {
+                        if (ds.getProduces() == null && ds.getConsumes() != null) {
+                            ds.setProduces(ds.getConsumes());
+                        }
+                    }
 
                     if (ds.getConsumes() != null) {
                         metadata.setConsumes(ds.getConsumes().getDefaultFormat());

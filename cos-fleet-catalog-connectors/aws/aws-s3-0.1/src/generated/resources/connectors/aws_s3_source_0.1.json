@@ -31,6 +31,7 @@
           "trait.camel.apache.org/container.request-memory" : "128m",
           "trait.camel.apache.org/container.request-cpu" : "0.20"
         },
+        "consumes" : "application/octet-stream",
         "produces" : "application/octet-stream"
       }
     }

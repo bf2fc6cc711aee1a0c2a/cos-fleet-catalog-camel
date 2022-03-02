@@ -20,7 +20,7 @@ class GenerateCatalogMojoTest extends Spec {
 
             shape.produces != null
             shape.produces.defaultFormat == 'application/json'
-            shape.produces.formats.containsAll(['application/json','avro/binary'])
+            shape.produces.formats.containsAll(['application/json'])
     }
 
     def 'structured source connector with custom config'() {
@@ -38,7 +38,7 @@ class GenerateCatalogMojoTest extends Spec {
 
             shape.produces != null
             shape.produces.defaultFormat == 'avro/binary'
-            shape.produces.formats.containsAll(['application/json', 'avro/binary'])
+            shape.produces.formats.containsAll(['avro/binary'])
     }
 
     def 'structured sink connector with no custom config'() {
@@ -52,7 +52,7 @@ class GenerateCatalogMojoTest extends Spec {
         then:
             shape.consumes != null
             shape.consumes.defaultFormat == 'application/json'
-            shape.consumes.formats.containsAll(['application/json', 'avro/binary'])
+            shape.consumes.formats.containsAll(['application/json'])
 
             shape.produces != null
             shape.produces.defaultFormat == 'application/json'
@@ -71,7 +71,7 @@ class GenerateCatalogMojoTest extends Spec {
 
             shape.consumes != null
             shape.consumes.defaultFormat == 'avro/binary'
-            shape.consumes.formats.containsAll(['application/json', 'avro/binary'])
+            shape.consumes.formats.containsAll(['avro/binary'])
 
             shape.produces != null
             shape.produces.defaultFormat == 'avro/binary'

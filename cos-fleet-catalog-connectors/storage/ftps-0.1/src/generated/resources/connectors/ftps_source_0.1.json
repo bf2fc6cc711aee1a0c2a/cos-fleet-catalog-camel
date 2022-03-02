@@ -27,6 +27,7 @@
             "jsonpath_remove" : "cos-jsonpath-remove-action"
           }
         },
+        "consumes" : "application/octet-stream",
         "produces" : "application/octet-stream"
       }
     }

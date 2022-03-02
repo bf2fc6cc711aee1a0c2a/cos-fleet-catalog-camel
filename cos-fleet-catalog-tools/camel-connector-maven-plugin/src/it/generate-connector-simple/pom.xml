@@ -90,12 +90,12 @@
                                 <version>999</version>
                             </kafka>
                             <dataShape>
-                                <produces>
+                                <consumes>
                                     <formats>
                                         <format>application/xml</format>
                                     </formats>
                                     <contentClass>com.acme.Bar</contentClass>
-                                </produces>
+                                </consumes>
                             </dataShape>
                             <channels>
                                 <stable/>

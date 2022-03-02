@@ -66,6 +66,13 @@
                                 <name>cos-kafka-source</name>
                                 <version>${cos.kamelets.version}</version>
                             </kafka>
+                            <dataShape>
+                                <consumes>
+                                    <formats>
+                                        <format>application/json</format>
+                                    </formats>
+                                </consumes>
+                            </dataShape>
                         </connector>
                     </connectors>
                 </configuration>
