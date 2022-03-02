@@ -43,6 +43,13 @@
                                 <name>cos-kafka-sink</name>
                                 <version>${cos.kamelets.version}</version>
                             </kafka>
+                            <dataShape>
+                                <produces>
+                                    <formats>
+                                        <format>application/octet-stream</format>
+                                    </formats>
+                                </produces>
+                            </dataShape>
                         </connector>
                     </connectors>
                 </configuration>
