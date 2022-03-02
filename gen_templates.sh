@@ -39,7 +39,7 @@ for D in "${CONNECTORS_DIR}"/*; do
 
   echo "Adding configmap ${CM_NAME} to template ${TEMPLATE}"
   echo "-" >> ${TEMPLATE}
-  oc create configmap "${CM_NAME}" \
+  kubectl create configmap "${CM_NAME}" \
     --from-file="${CONNECTORS_DIR}/${CM_NAME}/" \
     --dry-run=client \
     -o yaml | sed -e 's/^/  /' >> $TEMPLATE
