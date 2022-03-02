@@ -42,8 +42,9 @@ objects:
               },
               "annotations" : {
                 "trait.camel.apache.org/container.request-memory" : "256m",
-                "trait.camel.apache.org/container.request-cpu" : "1"
-              }
+                "trait.camel.apache.org/container.request-cpu" : "0.20"
+              },
+              "consumes" : "application/octet-stream"
             }
           }
         },
@@ -55,7 +56,7 @@ objects:
           "description" : "AWS Cloudwatch Sink",
           "version" : "0.1",
           "labels" : [ "sink" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -163,6 +164,15 @@ objects:
                       }
                     }
                   } ]
+                }
+              },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "consumes" : {
+                    "$ref" : "#/$defs/data_shape/consumes"
+                  }
                 }
               },
               "error_handler" : {
@@ -332,6 +342,20 @@ objects:
                   }
                 }
               },
+              "data_shape" : {
+                "consumes" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
+                  }
+                }
+              },
               "error_handler" : {
                 "dead_letter_queue" : {
                   "type" : "object",
@@ -390,7 +414,7 @@ objects:
               },
               "annotations" : {
                 "trait.camel.apache.org/container.request-memory" : "256m",
-                "trait.camel.apache.org/container.request-cpu" : "1"
+                "trait.camel.apache.org/container.request-cpu" : "0.20"
               },
               "consumes" : "application/json",
               "produces" : "application/json"
@@ -773,7 +797,8 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
-              }
+              },
+              "consumes" : "application/octet-stream"
             }
           }
         },
@@ -785,7 +810,7 @@ objects:
           "description" : "AWS Kinesis Sink",
           "version" : "0.1",
           "labels" : [ "sink" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -893,6 +918,15 @@ objects:
                       }
                     }
                   } ]
+                }
+              },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "consumes" : {
+                    "$ref" : "#/$defs/data_shape/consumes"
+                  }
                 }
               },
               "error_handler" : {
@@ -1059,6 +1093,20 @@ objects:
                   },
                   "x-metadata" : {
                     "supported.content-type" : "application/x-struct"
+                  }
+                }
+              },
+              "data_shape" : {
+                "consumes" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
                   }
                 }
               },
@@ -1489,8 +1537,9 @@ objects:
               },
               "annotations" : {
                 "trait.camel.apache.org/container.request-memory" : "256m",
-                "trait.camel.apache.org/container.request-cpu" : "1"
-              }
+                "trait.camel.apache.org/container.request-cpu" : "0.20"
+              },
+              "consumes" : "application/octet-stream"
             }
           }
         },
@@ -1502,7 +1551,7 @@ objects:
           "description" : "AWS Lambda Sink",
           "version" : "0.1",
           "labels" : [ "sink" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -1610,6 +1659,15 @@ objects:
                       }
                     }
                   } ]
+                }
+              },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "consumes" : {
+                    "$ref" : "#/$defs/data_shape/consumes"
+                  }
                 }
               },
               "error_handler" : {
@@ -1779,6 +1837,20 @@ objects:
                   }
                 }
               },
+              "data_shape" : {
+                "consumes" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
+                  }
+                }
+              },
               "error_handler" : {
                 "dead_letter_queue" : {
                   "type" : "object",
@@ -1837,8 +1909,9 @@ objects:
               },
               "annotations" : {
                 "trait.camel.apache.org/container.request-memory" : "128m",
-                "trait.camel.apache.org/container.request-cpu" : "1"
-              }
+                "trait.camel.apache.org/container.request-cpu" : "0.20"
+              },
+              "consumes" : "application/octet-stream"
             }
           }
         },
@@ -1850,7 +1923,7 @@ objects:
           "description" : "AWS S3 Sink",
           "version" : "0.1",
           "labels" : [ "sink" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -1966,6 +2039,15 @@ objects:
                   } ]
                 }
               },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "consumes" : {
+                    "$ref" : "#/$defs/data_shape/consumes"
+                  }
+                }
+              },
               "error_handler" : {
                 "type" : "object",
                 "oneOf" : [ {
@@ -2133,6 +2215,20 @@ objects:
                   }
                 }
               },
+              "data_shape" : {
+                "consumes" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
+                  }
+                }
+              },
               "error_handler" : {
                 "dead_letter_queue" : {
                   "type" : "object",
@@ -2191,8 +2287,9 @@ objects:
               },
               "annotations" : {
                 "trait.camel.apache.org/container.request-memory" : "128m",
-                "trait.camel.apache.org/container.request-cpu" : "1"
-              }
+                "trait.camel.apache.org/container.request-cpu" : "0.20"
+              },
+              "produces" : "application/octet-stream"
             }
           }
         },
@@ -2204,7 +2301,7 @@ objects:
           "description" : "AWS S3 Source",
           "version" : "0.1",
           "labels" : [ "source" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -2344,6 +2441,15 @@ objects:
                   } ]
                 }
               },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "produces" : {
+                    "$ref" : "#/$defs/data_shape/produces"
+                  }
+                }
+              },
               "error_handler" : {
                 "type" : "object",
                 "oneOf" : [ {
@@ -2511,6 +2617,20 @@ objects:
                   }
                 }
               },
+              "data_shape" : {
+                "produces" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
+                  }
+                }
+              },
               "error_handler" : {
                 "dead_letter_queue" : {
                   "type" : "object",
@@ -2566,7 +2686,8 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
-              }
+              },
+              "consumes" : "application/octet-stream"
             }
           }
         },
@@ -2578,7 +2699,7 @@ objects:
           "description" : "AWS SNS Sink",
           "version" : "0.1",
           "labels" : [ "sink" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -2694,6 +2815,15 @@ objects:
                   } ]
                 }
               },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "consumes" : {
+                    "$ref" : "#/$defs/data_shape/consumes"
+                  }
+                }
+              },
               "error_handler" : {
                 "type" : "object",
                 "oneOf" : [ {
@@ -2861,6 +2991,20 @@ objects:
                   }
                 }
               },
+              "data_shape" : {
+                "consumes" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
+                  }
+                }
+              },
               "error_handler" : {
                 "dead_letter_queue" : {
                   "type" : "object",
@@ -2919,8 +3063,9 @@ objects:
               },
               "annotations" : {
                 "trait.camel.apache.org/container.request-memory" : "128m",
-                "trait.camel.apache.org/container.request-cpu" : "1"
-              }
+                "trait.camel.apache.org/container.request-cpu" : "0.20"
+              },
+              "consumes" : "application/octet-stream"
             }
           }
         },
@@ -2932,7 +3077,7 @@ objects:
           "description" : "AWS SQS Sink",
           "version" : "0.1",
           "labels" : [ "sink" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -3060,6 +3205,15 @@ objects:
                   } ]
                 }
               },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "consumes" : {
+                    "$ref" : "#/$defs/data_shape/consumes"
+                  }
+                }
+              },
               "error_handler" : {
                 "type" : "object",
                 "oneOf" : [ {
@@ -3227,6 +3381,20 @@ objects:
                   }
                 }
               },
+              "data_shape" : {
+                "consumes" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
+                  }
+                }
+              },
               "error_handler" : {
                 "dead_letter_queue" : {
                   "type" : "object",
@@ -3285,8 +3453,9 @@ objects:
               },
               "annotations" : {
                 "trait.camel.apache.org/container.request-memory" : "128m",
-                "trait.camel.apache.org/container.request-cpu" : "1"
-              }
+                "trait.camel.apache.org/container.request-cpu" : "0.20"
+              },
+              "produces" : "application/octet-stream"
             }
           }
         },
@@ -3298,7 +3467,7 @@ objects:
           "description" : "AWS SQS Source",
           "version" : "0.1",
           "labels" : [ "source" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -3437,6 +3606,15 @@ objects:
                   } ]
                 }
               },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "produces" : {
+                    "$ref" : "#/$defs/data_shape/produces"
+                  }
+                }
+              },
               "error_handler" : {
                 "type" : "object",
                 "oneOf" : [ {
@@ -3604,6 +3782,20 @@ objects:
                   }
                 }
               },
+              "data_shape" : {
+                "produces" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
+                  }
+                }
+              },
               "error_handler" : {
                 "dead_letter_queue" : {
                   "type" : "object",
@@ -3669,8 +3861,9 @@ objects:
               },
               "annotations" : {
                 "trait.camel.apache.org/container.request-memory" : "128m",
-                "trait.camel.apache.org/container.request-cpu" : "1"
-              }
+                "trait.camel.apache.org/container.request-cpu" : "0.20"
+              },
+              "consumes" : "application/octet-stream"
             }
           }
         },
@@ -3682,7 +3875,7 @@ objects:
           "description" : "Azure Storage Blob Sink",
           "version" : "0.1",
           "labels" : [ "sink" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -3778,6 +3971,15 @@ objects:
                   } ]
                 }
               },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "consumes" : {
+                    "$ref" : "#/$defs/data_shape/consumes"
+                  }
+                }
+              },
               "error_handler" : {
                 "type" : "object",
                 "oneOf" : [ {
@@ -3945,6 +4147,20 @@ objects:
                   }
                 }
               },
+              "data_shape" : {
+                "consumes" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
+                  }
+                }
+              },
               "error_handler" : {
                 "dead_letter_queue" : {
                   "type" : "object",
@@ -4003,8 +4219,9 @@ objects:
               },
               "annotations" : {
                 "trait.camel.apache.org/container.request-memory" : "128m",
-                "trait.camel.apache.org/container.request-cpu" : "1"
-              }
+                "trait.camel.apache.org/container.request-cpu" : "0.20"
+              },
+              "produces" : "application/octet-stream"
             }
           }
         },
@@ -4016,7 +4233,7 @@ objects:
           "description" : "Azure Storage Blob Source",
           "version" : "0.1",
           "labels" : [ "source" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -4112,6 +4329,15 @@ objects:
                   } ]
                 }
               },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "produces" : {
+                    "$ref" : "#/$defs/data_shape/produces"
+                  }
+                }
+              },
               "error_handler" : {
                 "type" : "object",
                 "oneOf" : [ {
@@ -4279,6 +4505,20 @@ objects:
                   }
                 }
               },
+              "data_shape" : {
+                "produces" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
+                  }
+                }
+              },
               "error_handler" : {
                 "dead_letter_queue" : {
                   "type" : "object",
@@ -4334,7 +4574,8 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
-              }
+              },
+              "consumes" : "application/octet-stream"
             }
           }
         },
@@ -4346,7 +4587,7 @@ objects:
           "description" : "Azure Storage Queue Sink",
           "version" : "0.1",
           "labels" : [ "sink" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -4436,6 +4677,15 @@ objects:
                   } ]
                 }
               },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "consumes" : {
+                    "$ref" : "#/$defs/data_shape/consumes"
+                  }
+                }
+              },
               "error_handler" : {
                 "type" : "object",
                 "oneOf" : [ {
@@ -4603,6 +4853,20 @@ objects:
                   }
                 }
               },
+              "data_shape" : {
+                "consumes" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
+                  }
+                }
+              },
               "error_handler" : {
                 "dead_letter_queue" : {
                   "type" : "object",
@@ -4658,7 +4922,8 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
-              }
+              },
+              "produces" : "application/octet-stream"
             }
           }
         },
@@ -4670,7 +4935,7 @@ objects:
           "description" : "Azure Storage Queue Source",
           "version" : "0.1",
           "labels" : [ "source" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -4766,6 +5031,15 @@ objects:
                   } ]
                 }
               },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "produces" : {
+                    "$ref" : "#/$defs/data_shape/produces"
+                  }
+                }
+              },
               "error_handler" : {
                 "type" : "object",
                 "oneOf" : [ {
@@ -4933,6 +5207,20 @@ objects:
                   }
                 }
               },
+              "data_shape" : {
+                "produces" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
+                  }
+                }
+              },
               "error_handler" : {
                 "dead_letter_queue" : {
                   "type" : "object",
@@ -4995,7 +5283,8 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
-              }
+              },
+              "consumes" : "application/octet-stream"
             }
           }
         },
@@ -5007,7 +5296,7 @@ objects:
           "description" : "Google Cloud Functions Sink",
           "version" : "0.1",
           "labels" : [ "sink" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -5093,6 +5382,15 @@ objects:
                   } ]
                 }
               },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "consumes" : {
+                    "$ref" : "#/$defs/data_shape/consumes"
+                  }
+                }
+              },
               "error_handler" : {
                 "type" : "object",
                 "oneOf" : [ {
@@ -5260,6 +5558,20 @@ objects:
                   }
                 }
               },
+              "data_shape" : {
+                "consumes" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
+                  }
+                }
+              },
               "error_handler" : {
                 "dead_letter_queue" : {
                   "type" : "object",
@@ -5315,7 +5627,8 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
-              }
+              },
+              "consumes" : "application/octet-stream"
             }
           }
         },
@@ -5327,7 +5640,7 @@ objects:
           "description" : "Google Cloud Pubsub Sink",
           "version" : "0.1",
           "labels" : [ "sink" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -5408,6 +5721,15 @@ objects:
                   } ]
                 }
               },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "consumes" : {
+                    "$ref" : "#/$defs/data_shape/consumes"
+                  }
+                }
+              },
               "error_handler" : {
                 "type" : "object",
                 "oneOf" : [ {
@@ -5575,6 +5897,20 @@ objects:
                   }
                 }
               },
+              "data_shape" : {
+                "consumes" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
+                  }
+                }
+              },
               "error_handler" : {
                 "dead_letter_queue" : {
                   "type" : "object",
@@ -5630,7 +5966,8 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
-              }
+              },
+              "produces" : "application/octet-stream"
             }
           }
         },
@@ -5642,7 +5979,7 @@ objects:
           "description" : "Google Cloud Pubsub Source",
           "version" : "0.1",
           "labels" : [ "source" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -5741,6 +6078,15 @@ objects:
                   } ]
                 }
               },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "produces" : {
+                    "$ref" : "#/$defs/data_shape/produces"
+                  }
+                }
+              },
               "error_handler" : {
                 "type" : "object",
                 "oneOf" : [ {
@@ -5908,6 +6254,20 @@ objects:
                   }
                 }
               },
+              "data_shape" : {
+                "produces" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
+                  }
+                }
+              },
               "error_handler" : {
                 "dead_letter_queue" : {
                   "type" : "object",
@@ -5963,7 +6323,8 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
-              }
+              },
+              "consumes" : "application/octet-stream"
             }
           }
         },
@@ -5975,7 +6336,7 @@ objects:
           "description" : "Google Cloud Storage Sink",
           "version" : "0.1",
           "labels" : [ "sink" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -6057,6 +6418,15 @@ objects:
                   } ]
                 }
               },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "consumes" : {
+                    "$ref" : "#/$defs/data_shape/consumes"
+                  }
+                }
+              },
               "error_handler" : {
                 "type" : "object",
                 "oneOf" : [ {
@@ -6224,6 +6594,20 @@ objects:
                   }
                 }
               },
+              "data_shape" : {
+                "consumes" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
+                  }
+                }
+              },
               "error_handler" : {
                 "dead_letter_queue" : {
                   "type" : "object",
@@ -6279,7 +6663,8 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
-              }
+              },
+              "produces" : "application/octet-stream"
             }
           }
         },
@@ -6291,7 +6676,7 @@ objects:
           "description" : "Google Cloud Storage Source",
           "version" : "0.1",
           "labels" : [ "source" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -6379,6 +6764,15 @@ objects:
                   } ]
                 }
               },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "produces" : {
+                    "$ref" : "#/$defs/data_shape/produces"
+                  }
+                }
+              },
               "error_handler" : {
                 "type" : "object",
                 "oneOf" : [ {
@@ -6546,6 +6940,20 @@ objects:
                   }
                 }
               },
+              "data_shape" : {
+                "produces" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
+                  }
+                }
+              },
               "error_handler" : {
                 "dead_letter_queue" : {
                   "type" : "object",
@@ -6608,7 +7016,8 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
-              }
+              },
+              "consumes" : "application/octet-stream"
             }
           }
         },
@@ -6620,7 +7029,7 @@ objects:
           "description" : "HTTP Sink",
           "version" : "0.1",
           "labels" : [ "sink" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -6698,6 +7107,15 @@ objects:
                   } ]
                 }
               },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "consumes" : {
+                    "$ref" : "#/$defs/data_shape/consumes"
+                  }
+                }
+              },
               "error_handler" : {
                 "type" : "object",
                 "oneOf" : [ {
@@ -6862,6 +7280,20 @@ objects:
                   },
                   "x-metadata" : {
                     "supported.content-type" : "application/x-struct"
+                  }
+                }
+              },
+              "data_shape" : {
+                "consumes" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
                   }
                 }
               },
@@ -6920,7 +7352,8 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
-              }
+              },
+              "consumes" : "application/octet-stream"
             }
           }
         },
@@ -6932,7 +7365,7 @@ objects:
           "description" : "JMS AMQP 1.0 Sink",
           "version" : "0.1",
           "labels" : [ "sink" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -7012,6 +7445,15 @@ objects:
                       }
                     }
                   } ]
+                }
+              },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "consumes" : {
+                    "$ref" : "#/$defs/data_shape/consumes"
+                  }
                 }
               },
               "error_handler" : {
@@ -7178,6 +7620,20 @@ objects:
                   },
                   "x-metadata" : {
                     "supported.content-type" : "application/x-struct"
+                  }
+                }
+              },
+              "data_shape" : {
+                "consumes" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
                   }
                 }
               },
@@ -7236,7 +7692,8 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
-              }
+              },
+              "produces" : "application/octet-stream"
             }
           }
         },
@@ -7248,7 +7705,7 @@ objects:
           "description" : "JMS AMQP 1.0 Source",
           "version" : "0.1",
           "labels" : [ "source" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -7328,6 +7785,15 @@ objects:
                       }
                     }
                   } ]
+                }
+              },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "produces" : {
+                    "$ref" : "#/$defs/data_shape/produces"
+                  }
                 }
               },
               "error_handler" : {
@@ -7497,6 +7963,20 @@ objects:
                   }
                 }
               },
+              "data_shape" : {
+                "produces" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
+                  }
+                }
+              },
               "error_handler" : {
                 "dead_letter_queue" : {
                   "type" : "object",
@@ -7552,7 +8032,8 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
-              }
+              },
+              "consumes" : "application/octet-stream"
             }
           }
         },
@@ -7564,7 +8045,7 @@ objects:
           "description" : "JMS Apache Artemis Sink",
           "version" : "0.1",
           "labels" : [ "sink" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -7647,6 +8128,15 @@ objects:
                   } ]
                 }
               },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "consumes" : {
+                    "$ref" : "#/$defs/data_shape/consumes"
+                  }
+                }
+              },
               "error_handler" : {
                 "type" : "object",
                 "oneOf" : [ {
@@ -7814,6 +8304,20 @@ objects:
                   }
                 }
               },
+              "data_shape" : {
+                "consumes" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
+                  }
+                }
+              },
               "error_handler" : {
                 "dead_letter_queue" : {
                   "type" : "object",
@@ -7869,7 +8373,8 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
-              }
+              },
+              "produces" : "application/octet-stream"
             }
           }
         },
@@ -7881,7 +8386,7 @@ objects:
           "description" : "JMS Apache Artemis Source",
           "version" : "0.1",
           "labels" : [ "source" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -7963,6 +8468,15 @@ objects:
                   } ]
                 }
               },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "produces" : {
+                    "$ref" : "#/$defs/data_shape/produces"
+                  }
+                }
+              },
               "error_handler" : {
                 "type" : "object",
                 "oneOf" : [ {
@@ -8130,6 +8644,20 @@ objects:
                   }
                 }
               },
+              "data_shape" : {
+                "produces" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
+                  }
+                }
+              },
               "error_handler" : {
                 "dead_letter_queue" : {
                   "type" : "object",
@@ -8192,7 +8720,8 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
-              }
+              },
+              "produces" : "application/octet-stream"
             }
           }
         },
@@ -8204,7 +8733,7 @@ objects:
           "description" : "Injector Source",
           "version" : "0.1",
           "labels" : [ "source" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -8289,6 +8818,15 @@ objects:
                   } ]
                 }
               },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "produces" : {
+                    "$ref" : "#/$defs/data_shape/produces"
+                  }
+                }
+              },
               "error_handler" : {
                 "type" : "object",
                 "oneOf" : [ {
@@ -8456,6 +8994,20 @@ objects:
                   }
                 }
               },
+              "data_shape" : {
+                "produces" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
+                  }
+                }
+              },
               "error_handler" : {
                 "dead_letter_queue" : {
                   "type" : "object",
@@ -8511,7 +9063,8 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
-              }
+              },
+              "consumes" : "application/octet-stream"
             }
           }
         },
@@ -8523,7 +9076,7 @@ objects:
           "description" : "Log Sink",
           "version" : "0.1",
           "labels" : [ "sink" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -8599,6 +9152,15 @@ objects:
                       }
                     }
                   } ]
+                }
+              },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "consumes" : {
+                    "$ref" : "#/$defs/data_shape/consumes"
+                  }
                 }
               },
               "error_handler" : {
@@ -8769,6 +9331,20 @@ objects:
                   }
                 }
               },
+              "data_shape" : {
+                "consumes" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
+                  }
+                }
+              },
               "error_handler" : {
                 "dead_letter_queue" : {
                   "type" : "object",
@@ -8824,7 +9400,8 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
-              }
+              },
+              "produces" : "application/octet-stream"
             }
           }
         },
@@ -8836,7 +9413,7 @@ objects:
           "description" : "Data Generator Source",
           "version" : "0.1",
           "labels" : [ "source" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -8917,6 +9494,15 @@ objects:
                       }
                     }
                   } ]
+                }
+              },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "produces" : {
+                    "$ref" : "#/$defs/data_shape/produces"
+                  }
                 }
               },
               "error_handler" : {
@@ -9086,6 +9672,20 @@ objects:
                   }
                 }
               },
+              "data_shape" : {
+                "produces" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
+                  }
+                }
+              },
               "error_handler" : {
                 "dead_letter_queue" : {
                   "type" : "object",
@@ -9151,7 +9751,7 @@ objects:
               },
               "annotations" : {
                 "trait.camel.apache.org/container.request-memory" : "256m",
-                "trait.camel.apache.org/container.request-cpu" : "1"
+                "trait.camel.apache.org/container.request-cpu" : "0.20"
               },
               "consumes" : "application/json",
               "produces" : "application/json"
@@ -9534,7 +10134,7 @@ objects:
               },
               "annotations" : {
                 "trait.camel.apache.org/container.request-memory" : "256m",
-                "trait.camel.apache.org/container.request-cpu" : "1"
+                "trait.camel.apache.org/container.request-cpu" : "0.20"
               },
               "consumes" : "application/json",
               "produces" : "application/json"
@@ -10285,7 +10885,7 @@ objects:
               },
               "annotations" : {
                 "trait.camel.apache.org/container.request-memory" : "256m",
-                "trait.camel.apache.org/container.request-cpu" : "1"
+                "trait.camel.apache.org/container.request-cpu" : "0.20"
               },
               "consumes" : "application/json",
               "produces" : "application/json"
@@ -10659,8 +11259,9 @@ objects:
               },
               "annotations" : {
                 "trait.camel.apache.org/container.request-memory" : "256m",
-                "trait.camel.apache.org/container.request-cpu" : "1"
-              }
+                "trait.camel.apache.org/container.request-cpu" : "0.20"
+              },
+              "produces" : "application/json"
             }
           }
         },
@@ -10672,7 +11273,7 @@ objects:
           "description" : "MongoDB Source",
           "version" : "0.1",
           "labels" : [ "source" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -10781,6 +11382,15 @@ objects:
                       }
                     }
                   } ]
+                }
+              },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "produces" : {
+                    "$ref" : "#/$defs/data_shape/produces"
+                  }
                 }
               },
               "error_handler" : {
@@ -10947,6 +11557,20 @@ objects:
                   },
                   "x-metadata" : {
                     "supported.content-type" : "application/x-struct"
+                  }
+                }
+              },
+              "data_shape" : {
+                "produces" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/json",
+                      "enum" : [ "application/json" ]
+                    }
                   }
                 }
               },
@@ -11309,381 +11933,6 @@ objects:
                       "type" : "string",
                       "default" : "application/json",
                       "enum" : [ "application/json", "avro/binary" ]
-                    }
-                  }
-                }
-              },
-              "error_handler" : {
-                "dead_letter_queue" : {
-                  "type" : "object",
-                  "additionalProperties" : false,
-                  "required" : [ "topic" ],
-                  "properties" : {
-                    "topic" : {
-                      "type" : "string",
-                      "title" : "Dead Letter Topic Name",
-                      "description" : "The name of the Kafka topic used as dead letter queue"
-                    }
-                  }
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                }
-              }
-            }
-          }
-        }
-      }
-    salesforce_source_0.1.json: |-
-      {
-        "channels" : {
-          "stable" : {
-            "shard_metadata" : {
-              "connector_revision" : "7",
-              "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-salesforce:0.1.7",
-              "operators" : [ {
-                "type" : "camel-connector-operator",
-                "version" : "[1.0.0,2.0.0)"
-              } ],
-              "kamelets" : {
-                "adapter" : {
-                  "name" : "cos-salesforce-streaming-source",
-                  "prefix" : "salesforce"
-                },
-                "kafka" : {
-                  "name" : "cos-kafka-sink",
-                  "prefix" : "kafka"
-                },
-                "processors" : {
-                  "throttle" : "throttle-action",
-                  "jsonpath_set" : "cos-jsonpath-set-action",
-                  "log" : "cos-log-action",
-                  "jsonpath_rename" : "cos-jsonpath-rename-action",
-                  "jsonpath_extract" : "cos-jsonpath-extract-action",
-                  "jsonpath_remove" : "cos-jsonpath-remove-action"
-                }
-              },
-              "consumes" : "application/json",
-              "produces" : "application/json"
-            }
-          }
-        },
-        "connector_type" : {
-          "id" : "salesforce_source_0.1",
-          "kind" : "ConnectorType",
-          "icon_href" : "TODO",
-          "name" : "Salesforce Streaming Source",
-          "description" : "Salesforce Source",
-          "version" : "0.1",
-          "labels" : [ "source" ],
-          "capabilities" : [ "data_shape", "error_handler", "processors" ],
-          "channels" : [ "stable" ],
-          "schema" : {
-            "type" : "object",
-            "required" : [ "salesforce_object_name", "salesforce_client_id", "salesforce_client_secret", "salesforce_user_name", "salesforce_password", "kafka_topic" ],
-            "properties" : {
-              "salesforce_object_name" : {
-                "title" : "objectName",
-                "description" : "The sObjectName",
-                "type" : "string"
-              },
-              "salesforce_login_url" : {
-                "title" : "Login URL",
-                "description" : "The Salesforce instance login URL",
-                "type" : "string",
-                "default" : "https://login.salesforce.com"
-              },
-              "salesforce_client_id" : {
-                "title" : "Consumer Key",
-                "description" : "The Salesforce application consumer key",
-                "type" : "string",
-                "x-group" : "credentials"
-              },
-              "salesforce_client_secret" : {
-                "title" : "Consumer Secret",
-                "x-group" : "credentials",
-                "oneOf" : [ {
-                  "title" : "Consumer Secret",
-                  "description" : "The Salesforce application consumer secret",
-                  "type" : "string",
-                  "format" : "password"
-                }, {
-                  "description" : "An opaque reference to the salesforce_client_secret",
-                  "type" : "object",
-                  "properties" : { }
-                } ]
-              },
-              "salesforce_user_name" : {
-                "title" : "Username",
-                "description" : "The Salesforce username",
-                "type" : "string",
-                "x-group" : "credentials"
-              },
-              "salesforce_password" : {
-                "title" : "Password",
-                "x-group" : "credentials",
-                "oneOf" : [ {
-                  "title" : "Password",
-                  "description" : "The Salesforce user password",
-                  "type" : "string",
-                  "format" : "password"
-                }, {
-                  "description" : "An opaque reference to the salesforce_password",
-                  "type" : "object",
-                  "properties" : { }
-                } ]
-              },
-              "kafka_topic" : {
-                "title" : "Topic Names",
-                "description" : "Comma separated list of Kafka topic names",
-                "type" : "string"
-              },
-              "processors" : {
-                "type" : "array",
-                "items" : {
-                  "oneOf" : [ {
-                    "type" : "object",
-                    "required" : [ "throttle" ],
-                    "properties" : {
-                      "throttle" : {
-                        "$ref" : "#/$defs/processors/throttle"
-                      }
-                    }
-                  }, {
-                    "type" : "object",
-                    "required" : [ "log" ],
-                    "properties" : {
-                      "log" : {
-                        "$ref" : "#/$defs/processors/log"
-                      }
-                    }
-                  }, {
-                    "type" : "object",
-                    "required" : [ "jsonpath_extract" ],
-                    "properties" : {
-                      "jsonpath_extract" : {
-                        "$ref" : "#/$defs/processors/jsonpath_extract"
-                      }
-                    }
-                  }, {
-                    "type" : "object",
-                    "required" : [ "jsonpath_remove" ],
-                    "properties" : {
-                      "jsonpath_remove" : {
-                        "$ref" : "#/$defs/processors/jsonpath_remove"
-                      }
-                    }
-                  }, {
-                    "type" : "object",
-                    "required" : [ "jsonpath_rename" ],
-                    "properties" : {
-                      "jsonpath_rename" : {
-                        "$ref" : "#/$defs/processors/jsonpath_rename"
-                      }
-                    }
-                  }, {
-                    "type" : "object",
-                    "required" : [ "jsonpath_set" ],
-                    "properties" : {
-                      "jsonpath_set" : {
-                        "$ref" : "#/$defs/processors/jsonpath_set"
-                      }
-                    }
-                  } ]
-                }
-              },
-              "data_shape" : {
-                "type" : "object",
-                "additionalProperties" : false,
-                "properties" : {
-                  "produces" : {
-                    "$ref" : "#/$defs/data_shape/produces"
-                  }
-                }
-              },
-              "error_handler" : {
-                "type" : "object",
-                "oneOf" : [ {
-                  "type" : "object",
-                  "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
-                  "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
-                    }
-                  }
-                }, {
-                  "type" : "object",
-                  "additionalProperties" : false,
-                  "required" : [ "log" ],
-                  "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
-                    }
-                  }
-                }, {
-                  "type" : "object",
-                  "additionalProperties" : false,
-                  "required" : [ "stop" ],
-                  "properties" : {
-                    "stop" : {
-                      "$ref" : "#/$defs/error_handler/stop"
-                    }
-                  }
-                } ]
-              }
-            },
-            "$defs" : {
-              "processors" : {
-                "throttle" : {
-                  "title" : "Throttle Action",
-                  "description" : "The Throttle action allows to ensure that a specific sink does not get overloaded.",
-                  "required" : [ "messages" ],
-                  "properties" : {
-                    "messages" : {
-                      "title" : "Messages Number",
-                      "description" : "The number of messages to send in the time period set",
-                      "type" : "integer",
-                      "example" : 10
-                    },
-                    "timePeriod" : {
-                      "title" : "Time Period",
-                      "description" : "Sets the time period during which the maximum request count is valid for, in milliseconds",
-                      "type" : "string",
-                      "default" : "1000"
-                    }
-                  },
-                  "type" : "object"
-                },
-                "log" : {
-                  "title" : "Log",
-                  "description" : "Log payload.",
-                  "type" : "object",
-                  "properties" : {
-                    "multiLine" : {
-                      "title" : "Multi Line",
-                      "description" : "Multi Line",
-                      "type" : "boolean",
-                      "default" : false,
-                      "x-descriptors" : [ "urn:camel:group:common" ]
-                    },
-                    "showProperties" : {
-                      "title" : "Show Properties",
-                      "description" : "Show Properties",
-                      "type" : "boolean",
-                      "default" : false,
-                      "x-descriptors" : [ "urn:camel:group:common" ]
-                    },
-                    "showHeaders" : {
-                      "title" : "Show Headers",
-                      "description" : "Show Headers",
-                      "type" : "boolean",
-                      "default" : false,
-                      "x-descriptors" : [ "urn:camel:group:common" ]
-                    }
-                  }
-                },
-                "jsonpath_extract" : {
-                  "title" : "Transform with JsonPath",
-                  "description" : "TBD",
-                  "type" : "object",
-                  "required" : [ "expression" ],
-                  "properties" : {
-                    "expression" : {
-                      "title" : "Expression",
-                      "description" : "Expression",
-                      "type" : "string"
-                    }
-                  },
-                  "x-metadata" : {
-                    "supported.content-type" : "application/x-struct"
-                  }
-                },
-                "jsonpath_remove" : {
-                  "title" : "Transform with JsonPath",
-                  "description" : "TBD",
-                  "type" : "object",
-                  "required" : [ "expression" ],
-                  "properties" : {
-                    "expression" : {
-                      "title" : "Expression",
-                      "description" : "Expression",
-                      "type" : "string"
-                    }
-                  },
-                  "x-metadata" : {
-                    "supported.content-type" : "application/x-struct"
-                  }
-                },
-                "jsonpath_rename" : {
-                  "title" : "Transform with JsonPath",
-                  "description" : "TBD",
-                  "type" : "object",
-                  "required" : [ "expression" ],
-                  "properties" : {
-                    "expression" : {
-                      "title" : "Expression",
-                      "description" : "Expression",
-                      "type" : "string"
-                    },
-                    "key" : {
-                      "title" : "Key",
-                      "description" : "Key",
-                      "type" : "string"
-                    },
-                    "newKey" : {
-                      "title" : "NewKey",
-                      "description" : "NewKey",
-                      "type" : "string"
-                    }
-                  },
-                  "x-metadata" : {
-                    "supported.content-type" : "application/x-struct"
-                  }
-                },
-                "jsonpath_set" : {
-                  "title" : "Transform with JsonPath",
-                  "description" : "TBD",
-                  "type" : "object",
-                  "required" : [ "expression" ],
-                  "properties" : {
-                    "expression" : {
-                      "title" : "Expression",
-                      "description" : "Expression",
-                      "type" : "string"
-                    },
-                    "key" : {
-                      "title" : "Key",
-                      "description" : "Key",
-                      "type" : "string"
-                    },
-                    "value" : {
-                      "title" : "Value",
-                      "description" : "Value",
-                      "type" : "string"
-                    }
-                  },
-                  "x-metadata" : {
-                    "supported.content-type" : "application/x-struct"
-                  }
-                }
-              },
-              "data_shape" : {
-                "produces" : {
-                  "type" : "object",
-                  "additionalProperties" : false,
-                  "required" : [ "format" ],
-                  "properties" : {
-                    "format" : {
-                      "type" : "string",
-                      "default" : "application/json",
-                      "enum" : [ "application/json" ]
                     }
                   }
                 }
@@ -12125,7 +12374,8 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
-              }
+              },
+              "consumes" : "application/octet-stream"
             }
           }
         },
@@ -12137,7 +12387,7 @@ objects:
           "description" : "Slack Sink",
           "version" : "0.1",
           "labels" : [ "sink" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -12235,6 +12485,15 @@ objects:
                       }
                     }
                   } ]
+                }
+              },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "consumes" : {
+                    "$ref" : "#/$defs/data_shape/consumes"
+                  }
                 }
               },
               "error_handler" : {
@@ -12401,6 +12660,20 @@ objects:
                   },
                   "x-metadata" : {
                     "supported.content-type" : "application/x-struct"
+                  }
+                }
+              },
+              "data_shape" : {
+                "consumes" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
                   }
                 }
               },
@@ -12810,7 +13083,8 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
-              }
+              },
+              "consumes" : "application/octet-stream"
             }
           }
         },
@@ -12822,7 +13096,7 @@ objects:
           "description" : "Telegram Sink",
           "version" : "0.1",
           "labels" : [ "sink" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -12904,6 +13178,15 @@ objects:
                       }
                     }
                   } ]
+                }
+              },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "consumes" : {
+                    "$ref" : "#/$defs/data_shape/consumes"
+                  }
                 }
               },
               "error_handler" : {
@@ -13070,6 +13353,20 @@ objects:
                   },
                   "x-metadata" : {
                     "supported.content-type" : "application/x-struct"
+                  }
+                }
+              },
+              "data_shape" : {
+                "consumes" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
                   }
                 }
               },
@@ -14580,7 +14877,8 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
-              }
+              },
+              "produces" : "application/json"
             }
           }
         },
@@ -14592,7 +14890,7 @@ objects:
           "description" : "MariaDB Source",
           "version" : "0.1",
           "labels" : [ "source" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -14704,6 +15002,15 @@ objects:
                       }
                     }
                   } ]
+                }
+              },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "produces" : {
+                    "$ref" : "#/$defs/data_shape/produces"
+                  }
                 }
               },
               "error_handler" : {
@@ -14870,6 +15177,20 @@ objects:
                   },
                   "x-metadata" : {
                     "supported.content-type" : "application/x-struct"
+                  }
+                }
+              },
+              "data_shape" : {
+                "produces" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/json",
+                      "enum" : [ "application/json" ]
+                    }
                   }
                 }
               },
@@ -16781,7 +17102,8 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
-              }
+              },
+              "produces" : "application/json"
             }
           }
         },
@@ -16793,7 +17115,7 @@ objects:
           "description" : "SQL Server Source",
           "version" : "0.1",
           "labels" : [ "source" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -16907,6 +17229,15 @@ objects:
                   } ]
                 }
               },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "produces" : {
+                    "$ref" : "#/$defs/data_shape/produces"
+                  }
+                }
+              },
               "error_handler" : {
                 "type" : "object",
                 "oneOf" : [ {
@@ -17074,6 +17405,20 @@ objects:
                   }
                 }
               },
+              "data_shape" : {
+                "produces" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/json",
+                      "enum" : [ "application/json" ]
+                    }
+                  }
+                }
+              },
               "error_handler" : {
                 "dead_letter_queue" : {
                   "type" : "object",
@@ -17136,7 +17481,8 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
-              }
+              },
+              "consumes" : "application/octet-stream"
             }
           }
         },
@@ -17148,7 +17494,7 @@ objects:
           "description" : "FTPS Sink",
           "version" : "0.1",
           "labels" : [ "sink" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -17261,6 +17607,15 @@ objects:
                   } ]
                 }
               },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "consumes" : {
+                    "$ref" : "#/$defs/data_shape/consumes"
+                  }
+                }
+              },
               "error_handler" : {
                 "type" : "object",
                 "oneOf" : [ {
@@ -17428,6 +17783,20 @@ objects:
                   }
                 }
               },
+              "data_shape" : {
+                "consumes" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
+                  }
+                }
+              },
               "error_handler" : {
                 "dead_letter_queue" : {
                   "type" : "object",
@@ -17483,7 +17852,8 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
-              }
+              },
+              "produces" : "application/octet-stream"
             }
           }
         },
@@ -17495,7 +17865,7 @@ objects:
           "description" : "FTPS Source",
           "version" : "0.1",
           "labels" : [ "source" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -17614,6 +17984,15 @@ objects:
                   } ]
                 }
               },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "produces" : {
+                    "$ref" : "#/$defs/data_shape/produces"
+                  }
+                }
+              },
               "error_handler" : {
                 "type" : "object",
                 "oneOf" : [ {
@@ -17781,6 +18160,20 @@ objects:
                   }
                 }
               },
+              "data_shape" : {
+                "produces" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
+                  }
+                }
+              },
               "error_handler" : {
                 "dead_letter_queue" : {
                   "type" : "object",
@@ -17839,7 +18232,8 @@ objects:
               },
               "annotations" : {
                 "trait.camel.apache.org/container.request-memory" : "256m"
-              }
+              },
+              "consumes" : "application/octet-stream"
             }
           }
         },
@@ -17851,7 +18245,7 @@ objects:
           "description" : "Minio Sink",
           "version" : "0.1",
           "labels" : [ "sink" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -17961,6 +18355,15 @@ objects:
                   } ]
                 }
               },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "consumes" : {
+                    "$ref" : "#/$defs/data_shape/consumes"
+                  }
+                }
+              },
               "error_handler" : {
                 "type" : "object",
                 "oneOf" : [ {
@@ -18125,6 +18528,20 @@ objects:
                   },
                   "x-metadata" : {
                     "supported.content-type" : "application/x-struct"
+                  }
+                }
+              },
+              "data_shape" : {
+                "consumes" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
                   }
                 }
               },
@@ -18561,7 +18978,8 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
-              }
+              },
+              "consumes" : "application/octet-stream"
             }
           }
         },
@@ -18573,7 +18991,7 @@ objects:
           "description" : "SFTP Sink",
           "version" : "0.1",
           "labels" : [ "sink" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -18684,6 +19102,15 @@ objects:
                       }
                     }
                   } ]
+                }
+              },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "consumes" : {
+                    "$ref" : "#/$defs/data_shape/consumes"
+                  }
                 }
               },
               "error_handler" : {
@@ -18853,6 +19280,20 @@ objects:
                   }
                 }
               },
+              "data_shape" : {
+                "consumes" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
+                  }
+                }
+              },
               "error_handler" : {
                 "dead_letter_queue" : {
                   "type" : "object",
@@ -18908,7 +19349,8 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
-              }
+              },
+              "produces" : "application/octet-stream"
             }
           }
         },
@@ -18920,7 +19362,7 @@ objects:
           "description" : "SFTP Source",
           "version" : "0.1",
           "labels" : [ "source" ],
-          "capabilities" : [ "error_handler", "processors" ],
+          "capabilities" : [ "data_shape", "error_handler", "processors" ],
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
@@ -19039,6 +19481,15 @@ objects:
                   } ]
                 }
               },
+              "data_shape" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                  "produces" : {
+                    "$ref" : "#/$defs/data_shape/produces"
+                  }
+                }
+              },
               "error_handler" : {
                 "type" : "object",
                 "oneOf" : [ {
@@ -19203,6 +19654,20 @@ objects:
                   },
                   "x-metadata" : {
                     "supported.content-type" : "application/x-struct"
+                  }
+                }
+              },
+              "data_shape" : {
+                "produces" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
                   }
                 }
               },
