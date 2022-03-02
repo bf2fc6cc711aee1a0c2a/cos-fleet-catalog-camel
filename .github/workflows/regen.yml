@@ -46,14 +46,17 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Build Project
+      - name: Build Project with Tests
         run: mvn clean install
 
-      - name: Build Project
+      - name: Build Project and copy to etc if needed
         run: mvn clean install -DskipTests
 
-      - name: Generate Templates
-        run: sh gen_templates.sh
+      - name: Run script file
+        run: |
+          chmod +x ./gen_templates.sh
+          ./gen_templates.sh
+        shell: bash
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
@@ -67,9 +70,9 @@ jobs:
           branch: regen_bot
           title: "Generated sources regen"
           body: |
-            Regen bot :robot: found some uncommited changes after running build on :cos-fleet-catalog-camel: main.
+            Regen bot :robot: found some uncommited changes after running build on cos-fleet-catalog-camel main branch.
             Please do not delete `regen_bot` branch after merge/rebase.
           labels: |
             regen
             automated pr
-          assignees: oscerd
+          assignees: oscerd, lburgazzoli
