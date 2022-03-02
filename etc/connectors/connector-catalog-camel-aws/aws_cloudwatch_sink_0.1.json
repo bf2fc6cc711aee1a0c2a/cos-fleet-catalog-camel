@@ -30,7 +30,8 @@
         "annotations" : {
           "trait.camel.apache.org/container.request-memory" : "256m",
           "trait.camel.apache.org/container.request-cpu" : "1"
-        }
+        },
+        "consumes" : "application/octet-stream"
       }
     }
   },
@@ -42,7 +43,7 @@
     "description" : "AWS Cloudwatch Sink",
     "version" : "0.1",
     "labels" : [ "sink" ],
-    "capabilities" : [ "error_handler", "processors" ],
+    "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
     "schema" : {
       "type" : "object",
@@ -150,6 +151,15 @@
                 }
               }
             } ]
+          }
+        },
+        "data_shape" : {
+          "type" : "object",
+          "additionalProperties" : false,
+          "properties" : {
+            "consumes" : {
+              "$ref" : "#/$defs/data_shape/consumes"
+            }
           }
         },
         "error_handler" : {
@@ -316,6 +326,20 @@
             },
             "x-metadata" : {
               "supported.content-type" : "application/x-struct"
+            }
+          }
+        },
+        "data_shape" : {
+          "consumes" : {
+            "type" : "object",
+            "additionalProperties" : false,
+            "required" : [ "format" ],
+            "properties" : {
+              "format" : {
+                "type" : "string",
+                "default" : "application/octet-stream",
+                "enum" : [ "application/octet-stream" ]
+              }
             }
           }
         },
