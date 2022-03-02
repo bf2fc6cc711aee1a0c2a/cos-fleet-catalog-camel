@@ -116,11 +116,15 @@
                             <id>generate</id>
                             <goals>
                                 <goal>generate-catalog</goal>
+                                <goal>validate-catalog</goal>
                                 <goal>generate-json-schema</goal>
                             </goals>
                         </execution>
                     </executions>
                     <configuration>
+                        <validators>
+                            <validator>${project.basedir}/src/test/resources/validate.groovy</validator>
+                        </validators>
                         <defaults>
                             <!--
                               configure the default actions.
