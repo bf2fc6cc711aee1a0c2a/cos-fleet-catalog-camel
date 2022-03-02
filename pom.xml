@@ -62,6 +62,7 @@
         <cos.connector.revision>8</cos.connector.revision>
         <cos.connector.operator.version>[1.0.0,2.0.0)</cos.connector.operator.version>
         <cos.kamelets.version>0.0.1</cos.kamelets.version>
+        <cos.connector.request.cpu>0.20</cos.connector.request.cpu>
     </properties>
 
     <modules>

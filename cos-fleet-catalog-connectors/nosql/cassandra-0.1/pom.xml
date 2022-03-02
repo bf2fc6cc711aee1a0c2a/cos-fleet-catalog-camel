@@ -68,7 +68,7 @@
                         </annotation>
                         <annotation>
                             <name>trait.camel.apache.org/container.request-cpu</name>
-                            <value>1</value>
+                            <value>${cos.connector.request.cpu}</value>
                         </annotation>
                     </annotations>
                 </configuration>
