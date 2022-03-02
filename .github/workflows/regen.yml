@@ -46,8 +46,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: build
+      - name: Build Project
         run: mvn clean install
+
+      - name: Build Project
+        run: mvn clean install -DskipTests
+
+      - name: Generate Templates
+        run: sh gen_templates.sh
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
