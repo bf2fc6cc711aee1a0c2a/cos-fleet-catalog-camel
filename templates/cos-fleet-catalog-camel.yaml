@@ -15,9 +15,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-cloudwatch:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-cloudwatch:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -61,6 +61,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "aws_cw_namespace", "aws_region", "kafka_topic" ],
             "properties" : {
               "aws_cw_namespace" : {
@@ -388,9 +389,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-ddb-streams:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-ddb-streams:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -434,6 +435,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "aws_table", "aws_region", "kafka_topic" ],
             "properties" : {
               "aws_table" : {
@@ -774,9 +776,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-kinesis:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-kinesis:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -820,6 +822,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "aws_stream", "aws_region", "kafka_topic" ],
             "properties" : {
               "aws_stream" : {
@@ -1147,9 +1150,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-kinesis:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-kinesis:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -1193,6 +1196,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "aws_stream", "aws_region", "kafka_topic" ],
             "properties" : {
               "aws_stream" : {
@@ -1520,9 +1524,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-lambda:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-lambda:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -1566,6 +1570,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "aws_function", "aws_region", "kafka_topic" ],
             "properties" : {
               "aws_function" : {
@@ -1893,9 +1898,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-s3:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-s3:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -1939,6 +1944,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "aws_bucket_name_or_arn", "aws_region", "kafka_topic" ],
             "properties" : {
               "aws_bucket_name_or_arn" : {
@@ -2272,9 +2278,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-s3:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-s3:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -2318,6 +2324,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "aws_bucket_name_or_arn", "aws_region", "kafka_topic" ],
             "properties" : {
               "aws_bucket_name_or_arn" : {
@@ -2675,9 +2682,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-sns:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-sns:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -2721,6 +2728,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "aws_topic_name_or_arn", "aws_region", "kafka_topic" ],
             "properties" : {
               "aws_topic_name_or_arn" : {
@@ -3054,9 +3062,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-sqs:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-sqs:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -3100,6 +3108,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "aws_queue_name_or_arn", "aws_region", "kafka_topic" ],
             "properties" : {
               "aws_queue_name_or_arn" : {
@@ -3445,9 +3454,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-sqs:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-sqs:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -3491,6 +3500,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "aws_queue_name_or_arn", "aws_region", "kafka_topic" ],
             "properties" : {
               "aws_queue_name_or_arn" : {
@@ -3854,9 +3864,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-blob:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-blob:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -3900,6 +3910,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "azure_account_name", "azure_container_name", "azure_access_key", "kafka_topic" ],
             "properties" : {
               "azure_account_name" : {
@@ -4213,9 +4224,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-blob:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-blob:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -4259,6 +4270,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "azure_period", "azure_account_name", "azure_container_name", "azure_access_key", "kafka_topic" ],
             "properties" : {
               "azure_period" : {
@@ -4572,9 +4584,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-queue:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-queue:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -4618,6 +4630,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "azure_account_name", "azure_queue_name", "azure_access_key", "kafka_topic" ],
             "properties" : {
               "azure_account_name" : {
@@ -4925,9 +4938,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-queue:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-queue:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -4971,6 +4984,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "azure_account_name", "azure_queue_name", "azure_access_key", "kafka_topic" ],
             "properties" : {
               "azure_account_name" : {
@@ -5291,9 +5305,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-google-functions:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-google-functions:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -5333,6 +5347,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "gcp_project_id", "gcp_function_name", "gcp_region", "gcp_service_account_key", "kafka_topic" ],
             "properties" : {
               "gcp_project_id" : {
@@ -5636,9 +5651,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-google-pubsub:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-google-pubsub:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -5678,6 +5693,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "gcp_project_id", "gcp_destination_name", "gcp_service_account_key", "kafka_topic" ],
             "properties" : {
               "gcp_project_id" : {
@@ -5976,9 +5992,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-google-pubsub:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-google-pubsub:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -6018,6 +6034,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "gcp_project_id", "gcp_subscription_name", "gcp_service_account_key", "kafka_topic" ],
             "properties" : {
               "gcp_project_id" : {
@@ -6334,9 +6351,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-google-storage:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-google-storage:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -6376,6 +6393,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "gcp_bucket_name_or_arn", "gcp_service_account_key", "kafka_topic" ],
             "properties" : {
               "gcp_bucket_name_or_arn" : {
@@ -6675,9 +6693,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-google-storage:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-google-storage:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -6717,6 +6735,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "gcp_bucket_name_or_arn", "gcp_service_account_key", "kafka_topic" ],
             "properties" : {
               "gcp_bucket_name_or_arn" : {
@@ -7029,9 +7048,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-http:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-http:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -7071,6 +7090,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "http_url", "kafka_topic" ],
             "properties" : {
               "http_url" : {
@@ -7366,9 +7386,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-jms-amqp-10:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-jms-amqp-10:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -7408,6 +7428,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "jms_amqp_destination_name", "jms_amqp_remote_u_r_i", "kafka_topic" ],
             "properties" : {
               "jms_amqp_destination_type" : {
@@ -7707,9 +7728,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-jms-amqp-10:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-jms-amqp-10:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -7749,6 +7770,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "jms_amqp_destination_name", "jms_amqp_remote_u_r_i", "kafka_topic" ],
             "properties" : {
               "jms_amqp_destination_type" : {
@@ -8389,9 +8411,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-jms-apache-artemis:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-jms-apache-artemis:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -8431,6 +8453,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "jms_artemis_destination_name", "jms_artemis_broker_u_r_l", "kafka_topic" ],
             "properties" : {
               "jms_artemis_destination_type" : {
@@ -8737,9 +8760,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-injector:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-injector:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -8779,6 +8802,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "injector_delay", "kafka_topic" ],
             "properties" : {
               "injector_delay" : {
@@ -9081,9 +9105,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-log:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-log:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -9123,6 +9147,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "properties" : {
               "log_multi_line" : {
                 "title" : "Multi Line",
@@ -9419,9 +9444,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-data-generator:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-data-generator:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -9461,6 +9486,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "timer_message", "kafka_topic" ],
             "properties" : {
               "timer_period" : {
@@ -9768,9 +9794,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-cassandra:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-cassandra:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -9814,6 +9840,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "cassandra_connection_host", "cassandra_connection_port", "cassandra_keyspace", "cassandra_query", "kafka_topic" ],
             "properties" : {
               "cassandra_connection_host" : {
@@ -10151,9 +10178,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-cassandra:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-cassandra:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -10197,6 +10224,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "cassandra_connection_host", "cassandra_connection_port", "cassandra_keyspace", "cassandra_query", "kafka_topic" ],
             "properties" : {
               "cassandra_connection_host" : {
@@ -10534,9 +10562,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-elasticsearch:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-elasticsearch:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -10576,6 +10604,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "elasticsearch_cluster_name", "elasticsearch_host_addresses", "kafka_topic" ],
             "properties" : {
               "elasticsearch_user" : {
@@ -10902,9 +10931,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-mongodb:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-mongodb:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -10948,6 +10977,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "mongodb_hosts", "mongodb_collection", "mongodb_database", "kafka_topic" ],
             "properties" : {
               "mongodb_hosts" : {
@@ -11276,9 +11306,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-mongodb:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-mongodb:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -11322,6 +11352,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "mongodb_hosts", "mongodb_collection", "mongodb_database", "kafka_topic" ],
             "properties" : {
               "mongodb_hosts" : {
@@ -11657,9 +11688,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-jira:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-jira:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -11699,6 +11730,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "jira_jira_url", "jira_username", "jira_password", "kafka_topic" ],
             "properties" : {
               "jira_jira_url" : {
@@ -12013,9 +12045,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-salesforce:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-salesforce:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -12055,6 +12087,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "salesforce_object_name", "salesforce_client_id", "salesforce_client_secret", "salesforce_user_name", "salesforce_password", "kafka_topic" ],
             "properties" : {
               "salesforce_object_name" : {
@@ -12395,9 +12428,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-slack:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-slack:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -12437,6 +12470,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "slack_channel", "slack_webhook_url", "kafka_topic" ],
             "properties" : {
               "slack_channel" : {
@@ -12754,9 +12788,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-slack:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-slack:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -12797,6 +12831,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "slack_channel", "slack_token", "kafka_topic" ],
             "properties" : {
               "slack_channel" : {
@@ -13105,9 +13140,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-telegram:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-telegram:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -13147,6 +13182,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "telegram_authorization_token", "kafka_topic" ],
             "properties" : {
               "telegram_authorization_token" : {
@@ -13448,9 +13484,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-telegram:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-telegram:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -13490,6 +13526,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "telegram_authorization_token", "kafka_topic" ],
             "properties" : {
               "telegram_authorization_token" : {
@@ -13793,9 +13830,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-redshift:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-redshift:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -13835,6 +13872,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "sql_server_name", "sql_username", "sql_password", "sql_query", "sql_database_name", "kafka_topic" ],
             "properties" : {
               "sql_server_name" : {
@@ -14160,9 +14198,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-redshift:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-redshift:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -14202,6 +14240,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "sql_server_name", "sql_username", "sql_password", "sql_query", "sql_database_name", "kafka_topic" ],
             "properties" : {
               "sql_server_name" : {
@@ -14533,9 +14572,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-mariadb:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-mariadb:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -14575,6 +14614,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "db_server_name", "db_username", "db_password", "db_query", "db_database_name", "kafka_topic" ],
             "properties" : {
               "db_server_name" : {
@@ -14900,9 +14940,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-mariadb:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-mariadb:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -14942,6 +14982,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "db_server_name", "db_username", "db_password", "db_query", "db_database_name", "kafka_topic" ],
             "properties" : {
               "db_server_name" : {
@@ -15273,9 +15314,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-mysql:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-mysql:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -15315,6 +15356,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "db_server_name", "db_username", "db_password", "db_query", "db_database_name", "kafka_topic" ],
             "properties" : {
               "db_server_name" : {
@@ -15640,9 +15682,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-mysql:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-mysql:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -15682,6 +15724,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "db_server_name", "db_username", "db_password", "db_query", "db_database_name", "kafka_topic" ],
             "properties" : {
               "db_server_name" : {
@@ -16013,9 +16056,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-postgresql:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-postgresql:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -16058,6 +16101,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "db_server_name", "db_username", "db_password", "db_query", "db_database_name", "kafka_topic" ],
             "properties" : {
               "db_server_name" : {
@@ -16383,9 +16427,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-postgresql:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-postgresql:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -16428,6 +16472,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "db_server_name", "db_username", "db_password", "db_query", "db_database_name", "kafka_topic" ],
             "properties" : {
               "db_server_name" : {
@@ -16759,9 +16804,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-sqlserver:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-sqlserver:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -16801,6 +16846,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "db_server_name", "db_username", "db_password", "db_query", "db_database_name", "kafka_topic" ],
             "properties" : {
               "db_server_name" : {
@@ -17126,9 +17172,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-sqlserver:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-sqlserver:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -17168,6 +17214,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "db_server_name", "db_username", "db_password", "db_query", "db_database_name", "kafka_topic" ],
             "properties" : {
               "db_server_name" : {
@@ -17506,9 +17553,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-ftps:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-ftps:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -17548,6 +17595,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "ftps_connection_host", "ftps_connection_port", "ftps_username", "ftps_password", "ftps_directory_name", "kafka_topic" ],
             "properties" : {
               "ftps_connection_host" : {
@@ -17878,9 +17926,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-ftps:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-ftps:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -17920,6 +17968,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "ftps_connection_host", "ftps_connection_port", "ftps_username", "ftps_password", "ftps_directory_name", "kafka_topic" ],
             "properties" : {
               "ftps_connection_host" : {
@@ -18627,9 +18676,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-minio:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-minio:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -18672,6 +18721,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "minio_bucket_name", "minio_access_key", "minio_secret_key", "minio_endpoint", "kafka_topic" ],
             "properties" : {
               "minio_bucket_name" : {
@@ -19005,9 +19055,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-sftp:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-sftp:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -19047,6 +19097,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "sftp_connection_host", "sftp_connection_port", "sftp_username", "sftp_password", "sftp_directory_name", "kafka_topic" ],
             "properties" : {
               "sftp_connection_host" : {
@@ -19377,9 +19428,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "8",
+              "connector_revision" : "9",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-sftp:0.1.8",
+              "connector_image" : "quay.io/rhoas/cos-connector-sftp:0.1.9",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -19419,6 +19470,7 @@ objects:
           "channels" : [ "stable" ],
           "schema" : {
             "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "sftp_connection_host", "sftp_connection_port", "sftp_username", "sftp_password", "sftp_directory_name", "kafka_topic" ],
             "properties" : {
               "sftp_connection_host" : {

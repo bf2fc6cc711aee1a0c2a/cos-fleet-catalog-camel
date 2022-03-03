@@ -2,9 +2,9 @@
   "channels" : {
     "stable" : {
       "shard_metadata" : {
-        "connector_revision" : "8",
+        "connector_revision" : "9",
         "connector_type" : "source",
-        "connector_image" : "quay.io/rhoas/cos-connector-sqlserver:0.1.8",
+        "connector_image" : "quay.io/rhoas/cos-connector-sqlserver:0.1.9",
         "operators" : [ {
           "type" : "camel-connector-operator",
           "version" : "[1.0.0,2.0.0)"
@@ -44,6 +44,7 @@
     "channels" : [ "stable" ],
     "schema" : {
       "type" : "object",
+      "additionalProperties" : false,
       "required" : [ "db_server_name", "db_username", "db_password", "db_query", "db_database_name", "kafka_topic" ],
       "properties" : {
         "db_server_name" : {

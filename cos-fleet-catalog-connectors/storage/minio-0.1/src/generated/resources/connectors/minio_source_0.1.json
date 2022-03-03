@@ -2,9 +2,9 @@
   "channels" : {
     "stable" : {
       "shard_metadata" : {
-        "connector_revision" : "8",
+        "connector_revision" : "9",
         "connector_type" : "source",
-        "connector_image" : "quay.io/rhoas/cos-connector-minio:0.1.8",
+        "connector_image" : "quay.io/rhoas/cos-connector-minio:0.1.9",
         "operators" : [ {
           "type" : "camel-connector-operator",
           "version" : "[1.0.0,2.0.0)"
@@ -47,6 +47,7 @@
     "channels" : [ "stable" ],
     "schema" : {
       "type" : "object",
+      "additionalProperties" : false,
       "required" : [ "minio_bucket_name", "minio_access_key", "minio_secret_key", "minio_endpoint", "kafka_topic" ],
       "properties" : {
         "minio_bucket_name" : {
