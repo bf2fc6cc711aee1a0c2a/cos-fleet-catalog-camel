@@ -2700,6 +2700,10 @@ objects:
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
               },
+              "annotations" : {
+                "trait.camel.apache.org/container.request-memory" : "256m",
+                "trait.camel.apache.org/container.request-cpu" : "0.20"
+              },
               "consumes" : "application/octet-stream",
               "produces" : "application/octet-stream"
             }
