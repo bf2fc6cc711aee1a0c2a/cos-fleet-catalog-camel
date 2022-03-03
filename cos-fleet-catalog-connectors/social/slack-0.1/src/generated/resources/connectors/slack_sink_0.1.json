@@ -2,9 +2,9 @@
   "channels" : {
     "stable" : {
       "shard_metadata" : {
-        "connector_revision" : "8",
+        "connector_revision" : "9",
         "connector_type" : "sink",
-        "connector_image" : "quay.io/rhoas/cos-connector-slack:0.1.8",
+        "connector_image" : "quay.io/rhoas/cos-connector-slack:0.1.9",
         "operators" : [ {
           "type" : "camel-connector-operator",
           "version" : "[1.0.0,2.0.0)"
@@ -44,6 +44,7 @@
     "channels" : [ "stable" ],
     "schema" : {
       "type" : "object",
+      "additionalProperties" : false,
       "required" : [ "slack_channel", "slack_webhook_url", "kafka_topic" ],
       "properties" : {
         "slack_channel" : {

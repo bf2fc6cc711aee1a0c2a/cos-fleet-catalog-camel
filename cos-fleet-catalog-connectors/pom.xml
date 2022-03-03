@@ -20,8 +20,7 @@
         <quarkus.container-image.registry>quay.io</quarkus.container-image.registry>
         <quarkus.container-image.group>rhoas</quarkus.container-image.group>
 
-        <quarkus.jib.base-jvm-image>registry.access.redhat.com/ubi8/openjdk-11@sha256:ebad9aee9dd3059bcd0442b3442f5a91241dfc9c09a28d5478737b92fd39685a</quarkus.jib.base-jvm-image>
-        <quarkus.jib.jvm-entrypoint>java,-XX:+UseShenandoahGC,-Djava.util.logging.manager=org.jboss.logmanager.LogManager,-jar,/work/quarkus-run.jar</quarkus.jib.jvm-entrypoint>
+        <quarkus.jib.jvm-arguments>-XX:+UseShenandoahGC,-Djava.util.logging.manager=org.jboss.logmanager.LogManager</quarkus.jib.jvm-arguments>
     </properties>
 
     <dependencies>

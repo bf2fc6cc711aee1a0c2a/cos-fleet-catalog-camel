@@ -2,9 +2,9 @@
   "channels" : {
     "stable" : {
       "shard_metadata" : {
-        "connector_revision" : "8",
+        "connector_revision" : "9",
         "connector_type" : "source",
-        "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-queue:0.1.8",
+        "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-queue:0.1.9",
         "operators" : [ {
           "type" : "camel-connector-operator",
           "version" : "[1.0.0,2.0.0)"
@@ -48,6 +48,7 @@
     "channels" : [ "stable" ],
     "schema" : {
       "type" : "object",
+      "additionalProperties" : false,
       "required" : [ "azure_account_name", "azure_queue_name", "azure_access_key", "kafka_topic" ],
       "properties" : {
         "azure_account_name" : {
