@@ -15,16 +15,16 @@
         <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
         <project.resources.sourceEncoding>${encoding}</project.resources.sourceEncoding>
 
-        <quarkus.version>2.6.3.Final</quarkus.version>
-        <camel-k-runtime.version>1.11.0</camel-k-runtime.version>
-        <camel-quarkus.version>2.6.0</camel-quarkus.version>
+        <quarkus.version>2.7.3.Final</quarkus.version>
+        <camel-k-runtime.version>1.12.0</camel-k-runtime.version>
+        <camel-quarkus.version>2.7.0</camel-quarkus.version>
         <camel-kamelets-catalog.version>main-SNAPSHOT</camel-kamelets-catalog.version>
-        <camel.version>3.14.0</camel.version>
+        <camel.version>3.14.1</camel.version>
 
         <classgraph.version>4.8.132</classgraph.version>
         <jsonschema-generator.version>4.22.0</jsonschema-generator.version>
-        <apicurio.version>2.1.5.Final</apicurio.version>
-        <apicurio-client.version>0.1.5.Final</apicurio-client.version>
+        <apicurio.version>2.2.0.Final</apicurio.version>
+        <apicurio-client.version>0.1.7.Final</apicurio-client.version>
         <json-schema-avro.version>0.1.8</json-schema-avro.version>
         <groovy.version>3.0.9</groovy.version>
         <spock.version>2.0-groovy-3.0</spock.version>
@@ -60,7 +60,7 @@
         <cos.connector.catalog.root>${maven.multiModuleProjectDirectory}/etc/connectors</cos.connector.catalog.root>
         <cos.connector.catalog.group>all</cos.connector.catalog.group>
 
-        <cos.connector.revision>8</cos.connector.revision>
+        <cos.connector.revision>9</cos.connector.revision>
         <cos.connector.operator.version>[1.0.0,2.0.0)</cos.connector.operator.version>
         <cos.kamelets.version>0.0.1</cos.kamelets.version>
         <cos.connector.request.cpu>0.20</cos.connector.request.cpu>

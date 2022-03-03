@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.apache.kafka.common.header.Headers;
 import org.bf2.cos.connector.camel.serdes.BaseSerializer;
-import org.bf2.cos.connector.camel.serdes.schema.InflightSchemaResolver;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -15,7 +14,7 @@ public class JsonSerializer extends BaseSerializer<JsonNode> {
     private MessageTypeSerdeHeaders serdeHeaders;
 
     public JsonSerializer() {
-        super(Json.SCHEMA_PARSER, new InflightSchemaResolver<>());
+        super(Json.SCHEMA_PARSER);
     }
 
     @Override

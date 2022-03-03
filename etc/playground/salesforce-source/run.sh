@@ -14,4 +14,4 @@ export CONNECTOR_RUNNER="${PLAYGROUND_ROOT}/../../../cos-fleet-catalog-connector
 
 mvn -f "${PLAYGROUND_ROOT}/../../../pom.xml" -pl ":${CONNECTOR_ID}" -am -Pfat-jar clean package
 
-exec java -jar "$CONNECTOR_RUNNER"
+exec java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -jar "$CONNECTOR_RUNNER"

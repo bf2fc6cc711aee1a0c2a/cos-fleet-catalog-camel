@@ -5,14 +5,14 @@ import java.util.Map;
 
 import org.apache.kafka.common.header.Headers;
 
+import io.apicurio.registry.resolver.ParsedSchema;
+import io.apicurio.registry.resolver.SchemaParser;
 import io.apicurio.registry.serde.AbstractKafkaDeserializer;
-import io.apicurio.registry.serde.ParsedSchema;
-import io.apicurio.registry.serde.SchemaParser;
 
 public abstract class BaseDeserializer<S> extends AbstractKafkaDeserializer<S, byte[]> {
-    private final SchemaParser<S> parser;
+    private final SchemaParser<S, byte[]> parser;
 
-    protected BaseDeserializer(SchemaParser<S> parser) {
+    protected BaseDeserializer(SchemaParser<S, byte[]> parser) {
         this.parser = parser;
     }
 
@@ -22,7 +22,7 @@ public abstract class BaseDeserializer<S> extends AbstractKafkaDeserializer<S, b
     }
 
     @Override
-    public SchemaParser<S> schemaParser() {
+    public SchemaParser<S, byte[]> schemaParser() {
         return parser;
     }
 

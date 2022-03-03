@@ -8,7 +8,7 @@ import org.bf2.cos.connector.camel.serdes.Serdes;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import io.apicurio.registry.serde.ParsedSchema;
+import io.apicurio.registry.resolver.ParsedSchema;
 
 public class JsonDeserializer extends BaseDeserializer<JsonNode> {
     public JsonDeserializer() {

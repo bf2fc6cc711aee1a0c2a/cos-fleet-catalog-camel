@@ -6,22 +6,22 @@ import java.util.Map;
 
 import org.apache.kafka.common.header.Headers;
 
+import io.apicurio.registry.resolver.DefaultSchemaResolver;
+import io.apicurio.registry.resolver.ParsedSchema;
+import io.apicurio.registry.resolver.SchemaParser;
 import io.apicurio.registry.serde.AbstractKafkaSerializer;
-import io.apicurio.registry.serde.ParsedSchema;
-import io.apicurio.registry.serde.SchemaParser;
-import io.apicurio.registry.serde.SchemaResolver;
 
 public abstract class BaseSerializer<S> extends AbstractKafkaSerializer<S, byte[]> {
-    private final SchemaParser<S> parser;
+    private final SchemaParser<S, byte[]> parser;
 
-    protected BaseSerializer(SchemaParser<S> parser, SchemaResolver<S, byte[]> resolver) {
-        super(resolver);
+    protected BaseSerializer(SchemaParser<S, byte[]> parser) {
+        super(new DefaultSchemaResolver<>());
 
         this.parser = parser;
     }
 
     @Override
-    public SchemaParser<S> schemaParser() {
+    public SchemaParser<S, byte[]> schemaParser() {
         return parser;
     }
 
