@@ -28,6 +28,7 @@
         <json-schema-avro.version>0.1.8</json-schema-avro.version>
         <groovy.version>3.0.9</groovy.version>
         <spock.version>2.0-groovy-3.0</spock.version>
+        <auto-service.version>1.0.1</auto-service.version>
 
         <maven.version>3.8.3</maven.version>
         <maven-plugin-tools.version>3.6.1</maven-plugin-tools.version>
@@ -204,6 +205,11 @@
                 <groupId>io.github.classgraph</groupId>
                 <artifactId>classgraph</artifactId>
                 <version>${classgraph.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.auto.service</groupId>
+                <artifactId>auto-service</artifactId>
+                <version>${auto-service.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
