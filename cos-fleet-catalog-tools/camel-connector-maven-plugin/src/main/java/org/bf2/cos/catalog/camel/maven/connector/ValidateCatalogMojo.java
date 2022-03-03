@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.ServiceLoader;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -14,9 +15,13 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
+import org.bf2.cos.catalog.camel.maven.connector.support.CatalogSupport;
 import org.bf2.cos.catalog.camel.maven.connector.support.Connector;
+import org.bf2.cos.catalog.camel.maven.connector.validator.Validator;
 import org.codehaus.groovy.control.CompilerConfiguration;
 import org.codehaus.groovy.control.customizers.ImportCustomizer;
+
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import groovy.json.JsonSlurper;
 import groovy.lang.Binding;
@@ -44,10 +49,6 @@ public class ValidateCatalogMojo extends AbstractMojo {
             getLog().info("skip validate-catalog");
             return;
         }
-        if (validators == null) {
-            getLog().info("skip validate-catalog as no validator script is not set");
-            return;
-        }
 
         try {
             ImportCustomizer ic = new ImportCustomizer();
@@ -61,21 +62,30 @@ public class ValidateCatalogMojo extends AbstractMojo {
                 final String name = ofNullable(connector.getName()).orElseGet(project::getArtifactId);
                 final String id = name.replace("-", "_");
                 final Path schemaFile = Paths.get(outputPath).resolve(id + ".json");
-                final Object schema = new JsonSlurper().parse(schemaFile);
+                final ObjectNode on = CatalogSupport.JSON_MAPPER.readValue(schemaFile.toFile(), ObjectNode.class);
 
-                Binding binding = new Binding();
-                binding.setProperty("log", getLog());
-                binding.setProperty("connector", connector);
-                binding.setProperty("connector_id", id);
-                binding.setProperty("schema", schema);
+                for (Validator validator : ServiceLoader.load(Validator.class)) {
+                    getLog().info("Validating: " + schemaFile + " with validator " + validator);
+                    validator.validate(connector, on);
+                }
 
-                for (File validator : validators) {
-                    if (!Files.exists(validator.toPath())) {
-                        getLog().info("skip validate-catalog as validator script " + validator + " does not exists");
-                        return;
+                if (validators != null) {
+                    final Object schema = new JsonSlurper().parse(schemaFile);
+
+                    Binding binding = new Binding();
+                    binding.setProperty("log", getLog());
+                    binding.setProperty("connector", connector);
+                    binding.setProperty("connector_id", id);
+                    binding.setProperty("schema", schema);
+
+                    for (File validator : validators) {
+                        if (!Files.exists(validator.toPath())) {
+                            return;
+                        }
+
+                        getLog().info("Validating: " + schemaFile + " with validator " + validator);
+                        new GroovyShell(cl, binding, cc).run(validator, new String[] {});
                     }
-
-                    new GroovyShell(cl, binding, cc).run(validator, new String[] {});
                 }
             }
         } catch (AssertionError e) {
