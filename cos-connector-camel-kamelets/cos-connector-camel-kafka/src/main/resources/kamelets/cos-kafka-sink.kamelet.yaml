@@ -63,6 +63,6 @@ spec:
             securityProtocol: "{{securityProtocol:SASL_SSL}}"
             saslMechanism: "{{saslMechanism:PLAIN}}"
             saslJaasConfig: "org.apache.kafka.common.security.plain.PlainLoginModule required username='{{user}}' password='{{password}}';"
-            keySerializer: "{{keySerializer:org.bf2.cos.connector.camel.serdes.bytes.ByteArraySerializer}}"
+            keySerializer: "{{keySerializer:org.apache.kafka.common.serialization.ByteArraySerializer}}"
             valueSerializer: "{{valueSerializer:org.bf2.cos.connector.camel.serdes.bytes.ByteArraySerializer}}"
             kafkaClientFactory: "#{{kafka-client-factory}}"

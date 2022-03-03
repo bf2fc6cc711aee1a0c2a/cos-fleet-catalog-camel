@@ -7,7 +7,7 @@ import org.apache.kafka.common.header.Headers;
 import org.bf2.cos.connector.camel.serdes.BaseDeserializer;
 import org.bf2.cos.connector.camel.serdes.Serdes;
 
-import io.apicurio.registry.serde.ParsedSchema;
+import io.apicurio.registry.resolver.ParsedSchema;
 
 public class AvroDeserializer extends BaseDeserializer<Schema> {
     public AvroDeserializer() {
