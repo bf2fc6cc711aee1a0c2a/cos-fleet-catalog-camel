@@ -11,7 +11,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>log-0.1</artifactId>
-    <version>0.1</version>
+
     <name>Log</name>
     <description>Log</description>
 
@@ -19,7 +19,7 @@
 
     <properties>
         <quarkus.container-image.name>cos-connector-log</quarkus.container-image.name>
-        <quarkus.container-image.tag>${project.version}.${cos.connector.revision}</quarkus.container-image.tag>
+        <quarkus.container-image.tag>${cos.connector.version}.${cos.connector.revision}</quarkus.container-image.tag>
     </properties>
 
     <build>
@@ -30,7 +30,7 @@
                 <configuration>
                     <connectors>
                         <connector>
-                            <name>log-sink-${project.version}</name>
+                            <name>log-sink-${cos.connector.version}</name>
                             <title>${project.name} Sink</title>
                             <description>${project.description} Sink</description>
                             <adapter>

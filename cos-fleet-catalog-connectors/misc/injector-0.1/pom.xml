@@ -11,7 +11,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>injector-0.1</artifactId>
-    <version>0.1</version>
+
     <name>Injector</name>
     <description>Injector</description>
 
@@ -19,7 +19,7 @@
 
     <properties>
         <quarkus.container-image.name>cos-connector-injector</quarkus.container-image.name>
-        <quarkus.container-image.tag>${project.version}.${cos.connector.revision}</quarkus.container-image.tag>
+        <quarkus.container-image.tag>${cos.connector.version}.${cos.connector.revision}</quarkus.container-image.tag>
     </properties>
 
     <build>
@@ -30,7 +30,7 @@
                 <configuration>
                     <connectors>
                         <connector>
-                            <name>injector-source-${project.version}</name>
+                            <name>injector-source-${cos.connector.version}</name>
                             <title>${project.name} Source</title>
                             <description>${project.description} Source</description>
                             <adapter>
