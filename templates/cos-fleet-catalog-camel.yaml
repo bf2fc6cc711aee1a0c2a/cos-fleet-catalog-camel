@@ -938,6 +938,9 @@ objects:
                 "properties" : {
                   "consumes" : {
                     "$ref" : "#/$defs/data_shape/consumes"
+                  },
+                  "produces" : {
+                    "$ref" : "#/$defs/data_shape/produces"
                   }
                 }
               },
@@ -1120,6 +1123,18 @@ objects:
                       "enum" : [ "application/octet-stream" ]
                     }
                   }
+                },
+                "produces" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
+                  }
                 }
               },
               "error_handler" : {
@@ -1183,8 +1198,8 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "256m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "consumes" : "application/json",
-              "produces" : "application/json"
+              "consumes" : "application/octet-stream",
+              "produces" : "application/octet-stream"
             }
           }
         },
@@ -1311,6 +1326,9 @@ objects:
                 "type" : "object",
                 "additionalProperties" : false,
                 "properties" : {
+                  "consumes" : {
+                    "$ref" : "#/$defs/data_shape/consumes"
+                  },
                   "produces" : {
                     "$ref" : "#/$defs/data_shape/produces"
                   }
@@ -1484,6 +1502,18 @@ objects:
                 }
               },
               "data_shape" : {
+                "consumes" : {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "format" ],
+                  "properties" : {
+                    "format" : {
+                      "type" : "string",
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
+                    }
+                  }
+                },
                 "produces" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -1491,8 +1521,8 @@ objects:
                   "properties" : {
                     "format" : {
                       "type" : "string",
-                      "default" : "application/json",
-                      "enum" : [ "application/json" ]
+                      "default" : "application/octet-stream",
+                      "enum" : [ "application/octet-stream" ]
                     }
                   }
                 }
