@@ -41,8 +41,9 @@ objects:
                 }
               },
               "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
                 "trait.camel.apache.org/container.request-memory" : "256m",
-                "trait.camel.apache.org/container.request-cpu" : "0.20"
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/octet-stream",
               "produces" : "application/octet-stream"
@@ -415,8 +416,9 @@ objects:
                 }
               },
               "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
                 "trait.camel.apache.org/container.request-memory" : "256m",
-                "trait.camel.apache.org/container.request-cpu" : "0.20"
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/json",
               "produces" : "application/json"
@@ -802,8 +804,9 @@ objects:
                 }
               },
               "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
                 "trait.camel.apache.org/container.request-memory" : "256m",
-                "trait.camel.apache.org/container.request-cpu" : "0.20"
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/octet-stream",
               "produces" : "application/octet-stream"
@@ -1176,8 +1179,9 @@ objects:
                 }
               },
               "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
                 "trait.camel.apache.org/container.request-memory" : "256m",
-                "trait.camel.apache.org/container.request-cpu" : "0.20"
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/json",
               "produces" : "application/json"
@@ -1550,8 +1554,9 @@ objects:
                 }
               },
               "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
                 "trait.camel.apache.org/container.request-memory" : "256m",
-                "trait.camel.apache.org/container.request-cpu" : "0.20"
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/octet-stream",
               "produces" : "application/octet-stream"
@@ -1924,8 +1929,9 @@ objects:
                 }
               },
               "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
                 "trait.camel.apache.org/container.request-memory" : "128m",
-                "trait.camel.apache.org/container.request-cpu" : "0.20"
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/octet-stream",
               "produces" : "application/octet-stream"
@@ -2304,8 +2310,9 @@ objects:
                 }
               },
               "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
                 "trait.camel.apache.org/container.request-memory" : "128m",
-                "trait.camel.apache.org/container.request-cpu" : "0.20"
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/octet-stream",
               "produces" : "application/octet-stream"
@@ -2708,8 +2715,9 @@ objects:
                 }
               },
               "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
                 "trait.camel.apache.org/container.request-memory" : "256m",
-                "trait.camel.apache.org/container.request-cpu" : "0.20"
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/octet-stream",
               "produces" : "application/octet-stream"
@@ -3088,8 +3096,9 @@ objects:
                 }
               },
               "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
                 "trait.camel.apache.org/container.request-memory" : "128m",
-                "trait.camel.apache.org/container.request-cpu" : "0.20"
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/octet-stream",
               "produces" : "application/octet-stream"
@@ -3480,8 +3489,9 @@ objects:
                 }
               },
               "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
                 "trait.camel.apache.org/container.request-memory" : "128m",
-                "trait.camel.apache.org/container.request-cpu" : "0.20"
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/octet-stream",
               "produces" : "application/octet-stream"
@@ -3890,8 +3900,9 @@ objects:
                 }
               },
               "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
                 "trait.camel.apache.org/container.request-memory" : "128m",
-                "trait.camel.apache.org/container.request-cpu" : "0.20"
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/octet-stream",
               "produces" : "application/octet-stream"
@@ -4250,8 +4261,9 @@ objects:
                 }
               },
               "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
                 "trait.camel.apache.org/container.request-memory" : "128m",
-                "trait.camel.apache.org/container.request-cpu" : "0.20"
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/octet-stream",
               "produces" : "application/octet-stream"
@@ -4610,8 +4622,9 @@ objects:
                 }
               },
               "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
                 "trait.camel.apache.org/container.request-memory" : "128m",
-                "trait.camel.apache.org/container.request-cpu" : "0.20"
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/octet-stream",
               "produces" : "application/octet-stream"
@@ -4964,8 +4977,9 @@ objects:
                 }
               },
               "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
                 "trait.camel.apache.org/container.request-memory" : "128m",
-                "trait.camel.apache.org/container.request-cpu" : "0.20"
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/octet-stream",
               "produces" : "application/octet-stream"
@@ -5330,6 +5344,10 @@ objects:
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
               },
+              "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
+              },
               "consumes" : "application/octet-stream",
               "produces" : "application/octet-stream"
             }
@@ -5676,6 +5694,10 @@ objects:
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
               },
+              "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
+              },
               "consumes" : "application/octet-stream",
               "produces" : "application/octet-stream"
             }
@@ -6016,6 +6038,10 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
+              },
+              "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/octet-stream",
               "produces" : "application/octet-stream"
@@ -6376,6 +6402,10 @@ objects:
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
               },
+              "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
+              },
               "consumes" : "application/octet-stream",
               "produces" : "application/octet-stream"
             }
@@ -6717,6 +6747,10 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
+              },
+              "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/octet-stream",
               "produces" : "application/octet-stream"
@@ -7073,6 +7107,10 @@ objects:
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
               },
+              "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
+              },
               "consumes" : "application/octet-stream",
               "produces" : "application/octet-stream"
             }
@@ -7410,6 +7448,10 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
+              },
+              "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/octet-stream",
               "produces" : "application/octet-stream"
@@ -7752,6 +7794,10 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
+              },
+              "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/octet-stream",
               "produces" : "application/octet-stream"
@@ -8436,6 +8482,10 @@ objects:
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
               },
+              "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
+              },
               "consumes" : "application/octet-stream",
               "produces" : "application/octet-stream"
             }
@@ -8785,6 +8835,10 @@ objects:
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
               },
+              "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
+              },
               "consumes" : "application/octet-stream",
               "produces" : "application/octet-stream"
             }
@@ -9130,6 +9184,10 @@ objects:
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
               },
+              "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
+              },
               "consumes" : "application/octet-stream",
               "produces" : "application/octet-stream"
             }
@@ -9468,6 +9526,10 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
+              },
+              "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/octet-stream",
               "produces" : "application/octet-stream"
@@ -9820,8 +9882,9 @@ objects:
                 }
               },
               "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
                 "trait.camel.apache.org/container.request-memory" : "256m",
-                "trait.camel.apache.org/container.request-cpu" : "0.20"
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/json",
               "produces" : "application/json"
@@ -10204,8 +10267,9 @@ objects:
                 }
               },
               "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
                 "trait.camel.apache.org/container.request-memory" : "256m",
-                "trait.camel.apache.org/container.request-cpu" : "0.20"
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/json",
               "produces" : "application/json"
@@ -10587,6 +10651,10 @@ objects:
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
               },
+              "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
+              },
               "consumes" : "application/json",
               "produces" : "application/json"
             }
@@ -10957,8 +11025,9 @@ objects:
                 }
               },
               "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
                 "trait.camel.apache.org/container.request-memory" : "256m",
-                "trait.camel.apache.org/container.request-cpu" : "0.20"
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/json",
               "produces" : "application/json"
@@ -11332,8 +11401,9 @@ objects:
                 }
               },
               "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
                 "trait.camel.apache.org/container.request-memory" : "256m",
-                "trait.camel.apache.org/container.request-cpu" : "0.20"
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/json",
               "produces" : "application/json"
@@ -11713,6 +11783,10 @@ objects:
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
               },
+              "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
+              },
               "consumes" : "application/json",
               "produces" : "application/json"
             }
@@ -12069,6 +12143,10 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
+              },
+              "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/json",
               "produces" : "application/json"
@@ -12453,6 +12531,10 @@ objects:
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
               },
+              "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
+              },
               "consumes" : "application/octet-stream",
               "produces" : "application/octet-stream"
             }
@@ -12813,6 +12895,10 @@ objects:
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
               },
+              "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
+              },
               "consumes" : "application/json",
               "consumes_class" : "com.slack.api.model.Message",
               "produces" : "application/json"
@@ -13165,6 +13251,10 @@ objects:
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
               },
+              "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
+              },
               "consumes" : "application/octet-stream",
               "produces" : "application/octet-stream"
             }
@@ -13508,6 +13598,10 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
+              },
+              "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/json",
               "produces" : "application/json"
@@ -13854,6 +13948,10 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
+              },
+              "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/json",
               "produces" : "application/json"
@@ -14222,6 +14320,10 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
+              },
+              "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/json",
               "produces" : "application/json"
@@ -14597,6 +14699,10 @@ objects:
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
               },
+              "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
+              },
               "consumes" : "application/json",
               "produces" : "application/json"
             }
@@ -14964,6 +15070,10 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
+              },
+              "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/json",
               "produces" : "application/json"
@@ -15339,6 +15449,10 @@ objects:
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
               },
+              "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
+              },
               "consumes" : "application/json",
               "produces" : "application/json"
             }
@@ -15706,6 +15820,10 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
+              },
+              "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/json",
               "produces" : "application/json"
@@ -16082,7 +16200,9 @@ objects:
                 }
               },
               "annotations" : {
-                "trait.camel.apache.org/container.request-memory" : "256m"
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/container.request-memory" : "256m",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/json",
               "produces" : "application/json"
@@ -16453,7 +16573,9 @@ objects:
                 }
               },
               "annotations" : {
-                "trait.camel.apache.org/container.request-memory" : "256m"
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/container.request-memory" : "256m",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/json",
               "produces" : "application/json"
@@ -16829,6 +16951,10 @@ objects:
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
               },
+              "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
+              },
               "consumes" : "application/json",
               "produces" : "application/json"
             }
@@ -17196,6 +17322,10 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
+              },
+              "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/json",
               "produces" : "application/json"
@@ -17578,6 +17708,10 @@ objects:
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
               },
+              "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
+              },
               "consumes" : "application/octet-stream",
               "produces" : "application/octet-stream"
             }
@@ -17950,6 +18084,10 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
+              },
+              "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/octet-stream",
               "produces" : "application/octet-stream"
@@ -18702,7 +18840,9 @@ objects:
                 }
               },
               "annotations" : {
-                "trait.camel.apache.org/container.request-memory" : "256m"
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/container.request-memory" : "256m",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/json",
               "produces" : "application/json"
@@ -19080,6 +19220,10 @@ objects:
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
               },
+              "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
+              },
               "consumes" : "application/octet-stream",
               "produces" : "application/octet-stream"
             }
@@ -19452,6 +19596,10 @@ objects:
                   "jsonpath_extract" : "cos-jsonpath-extract-action",
                   "jsonpath_remove" : "cos-jsonpath-remove-action"
                 }
+              },
+              "annotations" : {
+                "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/octet-stream",
               "produces" : "application/octet-stream"
