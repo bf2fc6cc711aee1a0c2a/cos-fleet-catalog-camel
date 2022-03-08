@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -50,6 +51,8 @@ public class GenerateCatalogMojo extends AbstractMojo {
     private MavenProject project;
     @Parameter(defaultValue = "${project.basedir}/src/generated/resources/connectors")
     private String outputPath;
+    @Parameter
+    private List<Annotation> defaultAnnotations;
     @Parameter
     private List<Annotation> annotations;
 
@@ -241,10 +244,16 @@ public class GenerateCatalogMojo extends AbstractMojo {
                         metadata.setProducesClass(ds.getProduces().getContentClass());
                     }
 
-                    if (annotations != null) {
-                        for (Annotation annotation : annotations) {
+                    if (defaultAnnotations != null) {
+                        defaultAnnotations.stream().sorted(Comparator.comparing(Annotation::getName)).forEach(annotation -> {
                             metadata.getAnnotations().put(annotation.getName(), annotation.getValue());
-                        }
+                        });
+                    }
+
+                    if (annotations != null) {
+                        annotations.stream().sorted(Comparator.comparing(Annotation::getName)).forEach(annotation -> {
+                            metadata.getAnnotations().put(annotation.getName(), annotation.getValue());
+                        });
                     }
 
                     if (connector.getActions() != null) {

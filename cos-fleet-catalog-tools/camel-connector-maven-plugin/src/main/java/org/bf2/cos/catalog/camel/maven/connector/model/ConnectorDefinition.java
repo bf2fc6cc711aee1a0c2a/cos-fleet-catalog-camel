@@ -184,7 +184,7 @@ public class ConnectorDefinition {
 
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         @JsonProperty("annotations")
-        private Map<String, String> annotations = new HashMap<>();
+        private Map<String, String> annotations = new TreeMap<>();
 
         @JsonProperty("consumes")
         private String consumes;

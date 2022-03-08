@@ -188,6 +188,16 @@
                                 <defaultStrategy>LOG</defaultStrategy>
                             </errorHandler>
                         </defaults>
+                        <defaultAnnotations>
+                            <annotation>
+                                <name>trait.camel.apache.org/deployment.progress-deadline-seconds</name>
+                                <value>${cos.connector.deployment.deadline}</value>
+                            </annotation>
+                            <annotation>
+                                <name>trait.camel.apache.org/container.request-cpu</name>
+                                <value>${cos.connector.request.cpu}</value>
+                            </annotation>
+                        </defaultAnnotations>
                     </configuration>
                 </plugin>
                 <plugin>
