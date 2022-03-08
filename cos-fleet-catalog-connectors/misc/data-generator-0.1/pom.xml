@@ -11,7 +11,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>data-generator-0.1</artifactId>
-    <version>0.1</version>
+
     <name>Data Generator</name>
     <description>Data Generator</description>
 
@@ -19,7 +19,7 @@
 
     <properties>
         <quarkus.container-image.name>cos-connector-data-generator</quarkus.container-image.name>
-        <quarkus.container-image.tag>${project.version}.${cos.connector.revision}</quarkus.container-image.tag>
+        <quarkus.container-image.tag>${cos.connector.version}.${cos.connector.revision}</quarkus.container-image.tag>
     </properties>
 
     <build>
@@ -30,7 +30,7 @@
                 <configuration>
                     <connectors>
                         <connector>
-                            <name>timer-source-${project.version}</name>
+                            <name>timer-source-${cos.connector.version}</name>
                             <title>${project.name} Source</title>
                             <description>${project.description} Source</description>
                             <adapter>

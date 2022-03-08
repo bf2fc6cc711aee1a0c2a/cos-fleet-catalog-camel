@@ -11,7 +11,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>aws-s3-0.1</artifactId>
-    <version>0.1</version>
+
     <name>AWS S3</name>
     <description>AWS S3</description>
 
@@ -20,7 +20,7 @@
     <properties>
         <cos.connector.type>aws-s3</cos.connector.type>
         <quarkus.container-image.name>cos-connector-${cos.connector.type}</quarkus.container-image.name>
-        <quarkus.container-image.tag>${project.version}.${cos.connector.revision}</quarkus.container-image.tag>
+        <quarkus.container-image.tag>${cos.connector.version}.${cos.connector.revision}</quarkus.container-image.tag>
     </properties>
 
     <build>
@@ -31,7 +31,7 @@
                 <configuration>
                     <connectors>
                         <connector>
-                            <name>${cos.connector.type}-source-${project.version}</name>
+                            <name>${cos.connector.type}-source-${cos.connector.version}</name>
                             <title>${project.name} Source</title>
                             <description>${project.description} Source</description>
                             <adapter>
@@ -53,7 +53,7 @@
                             </dataShape>
                         </connector>
                         <connector>
-                            <name>${cos.connector.type}-sink-${project.version}</name>
+                            <name>${cos.connector.type}-sink-${cos.connector.version}</name>
                             <title>${project.name} Sink</title>
                             <description>${project.description} Sink</description>
                             <adapter>

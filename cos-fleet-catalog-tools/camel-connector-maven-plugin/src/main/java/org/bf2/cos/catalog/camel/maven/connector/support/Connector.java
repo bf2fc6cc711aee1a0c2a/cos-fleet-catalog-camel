@@ -8,13 +8,13 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class Connector {
-    @Param(defaultValue = "${project.artifactId}")
+    @Param(defaultValue = "${${cos.connector.type}-${cos.connector.version}")
     private String name;
     @Param(defaultValue = "${project.title}")
     private String title;
     @Param(defaultValue = "${project.description}")
     private String description;
-    @Param(defaultValue = "${project.version}")
+    @Param(defaultValue = "${cos.connector.version}")
     private String version;
 
     @Param
