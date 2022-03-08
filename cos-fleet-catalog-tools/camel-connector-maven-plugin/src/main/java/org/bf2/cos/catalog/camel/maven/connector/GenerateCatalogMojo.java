@@ -121,6 +121,7 @@ public class GenerateCatalogMojo extends AbstractMojo {
             def.getConnectorType().getLabels().add(kameletType(adapterSpec));
             def.getConnectorType().setSchema(JSON_MAPPER.createObjectNode());
             def.getConnectorType().getSchema().put("type", "object");
+            def.getConnectorType().getSchema().put("additionalProperties", false);
 
             //
             // Adapter
