@@ -27,8 +27,10 @@
         <apicurio-client.version>0.1.7.Final</apicurio-client.version>
         <json-schema-avro.version>0.1.8</json-schema-avro.version>
         <groovy.version>3.0.9</groovy.version>
-        <spock.version>2.0-groovy-3.0</spock.version>
+        <spock.version>2.1-groovy-3.0</spock.version>
         <auto-service.version>1.0.1</auto-service.version>
+        <logback.version>1.2.11</logback.version>
+        <slf4j.version>1.7.36</slf4j.version>
 
         <maven.version>3.8.3</maven.version>
         <maven-plugin-tools.version>3.6.1</maven-plugin-tools.version>
@@ -41,8 +43,8 @@
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
         <maven-failsafe-plugin.version>3.0.0-M5</maven-failsafe-plugin.version>
-        <maven-jar-plugin-version>3.2.0</maven-jar-plugin-version>
-        <maven-plugin-plugin-version>3.6.1</maven-plugin-plugin-version>
+        <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
+        <maven-plugin-plugin.version>3.6.1</maven-plugin-plugin.version>
         <formatter-maven-plugin.version>2.16.0</formatter-maven-plugin.version>
         <impsort-maven-plugin.version>1.6.2</impsort-maven-plugin.version>
         <build-helper-maven-plugin.version>3.2.0</build-helper-maven-plugin.version>
@@ -52,13 +54,15 @@
         <maven-invoker-plugin.version>3.2.2</maven-invoker-plugin.version>
         <gmavenplus-plugin.version>1.13.1</gmavenplus-plugin.version>
         <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
+        <maven-install-plugin.version>3.0.0-M1</maven-install-plugin.version>
 
         <!-- cos -->
         <cos.connector.operator.type>camel-connector-operator</cos.connector.operator.type>
         <cos.connector.container.repository>quay.io</cos.connector.container.repository>
-        <cos.connector.container.organization>cos</cos.connector.container.organization>
+        <cos.connector.container.organization>rhoas</cos.connector.container.organization>
         <cos.connector.catalog.root>${maven.multiModuleProjectDirectory}/etc/connectors</cos.connector.catalog.root>
         <cos.connector.catalog.group>all</cos.connector.catalog.group>
+
 
         <cos.connector.version>0.1</cos.connector.version>
         <cos.connector.revision>13</cos.connector.revision>
@@ -77,6 +81,7 @@
         <module>cos-fleet-catalog-kamelets</module>
         <module>cos-fleet-catalog-tools</module>
         <module>cos-fleet-catalog-connectors</module>
+        <module>cos-fleet-catalog-connectors-it</module>
     </modules>
 
     <dependencyManagement>
@@ -221,6 +226,51 @@
                 <artifactId>auto-service</artifactId>
                 <version>${auto-service.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>jcl-over-slf4j</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy</artifactId>
+                <version>${groovy.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-test</artifactId>
+                <version>${groovy.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-ant</artifactId>
+                <version>${groovy.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-json</artifactId>
+                <version>${groovy.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-yaml</artifactId>
+                <version>${groovy.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.spockframework</groupId>
+                <artifactId>spock-core</artifactId>
+                <version>${spock.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -283,22 +333,27 @@
                 <plugin>
                     <groupId>org.bf2</groupId>
                     <artifactId>camel-connector-maven-plugin</artifactId>
-                    <version>999-SNAPSHOT</version>
+                    <version>${project.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.bf2</groupId>
                     <artifactId>camel-connector-schema-maven-plugin</artifactId>
-                    <version>999-SNAPSHOT</version>
+                    <version>${project.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>${maven-jar-plugin-version}</version>
+                    <version>${maven-jar-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>${maven-install-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-plugin-plugin</artifactId>
-                    <version>${maven-plugin-plugin-version}</version>
+                    <version>${maven-plugin-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -353,6 +408,11 @@
                     <groupId>org.codehaus.gmavenplus</groupId>
                     <artifactId>gmavenplus-plugin</artifactId>
                     <version>${gmavenplus-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${maven-failsafe-plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>

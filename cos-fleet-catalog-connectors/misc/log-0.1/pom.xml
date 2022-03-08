@@ -10,7 +10,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>log-0.1</artifactId>
+    <artifactId>cos-fleet-catalog-connectors-log-0.1</artifactId>
 
     <name>Log</name>
     <description>Log</description>
