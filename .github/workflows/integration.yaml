@@ -15,6 +15,38 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      - name: Cache m2 repo
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: "Build"
+        run: |
+          ./mvnw ${MAVEN_ARGS} clean verify
+
+      - name: Check for uncommitted changes
+        id: check-changes
+        uses: mskri/check-uncommitted-changes-action@v1.0.1
+
+      - name: Evaluate if there are changes
+        if: steps.check-changes.outputs.outcome == failure()
+        run: echo "There are uncommitted changes"
+
   integration:
     runs-on: ubuntu-latest
     steps:
@@ -25,7 +57,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '11'
-          distribution: 'adopt'
+          distribution: 'temurin'
 
       - name: Cache m2 repo
         uses: actions/cache@v1
@@ -35,21 +67,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: "Integration tests"
+      - name: "Integration"
         run: |
-          mvn ${MAVEN_ARGS} clean verify
-
-      - name: Check for uncommitted changes
-        id: check-changes
-        uses: mskri/check-uncommitted-changes-action@v1.0.1
-
-      - name: Evaluate if there are changes
-        if: steps.check-changes.outputs.outcome == failure()
-        run: echo "There are uncommitted changes"
-
-      - name: Archive results
-        uses: actions/upload-artifact@v2
-        if: failure()
-        with:
-          name: artifacts
-          path: systemtests/target/logs/
+          ./mvnw ${MAVEN_ARGS} clean install \
+            -Pcontainer-build \
+            -Pcontainer-test \
+            -Dcos.connector.container.repository=quay.io \
+            -Dcos.connector.container.organization=cos \
+            -Dcos.connector.version=1 \
+            -Dcos.connector.revision=${{ github.sha }}
