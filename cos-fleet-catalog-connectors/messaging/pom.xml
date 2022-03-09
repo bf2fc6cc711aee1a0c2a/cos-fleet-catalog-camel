@@ -11,6 +11,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>cos-fleet-catalog-connectors-messaging</artifactId>
     <packaging>pom</packaging>
+
     <name>Messaging Connectors</name>
     <description>Messaging Connectors</description>
 

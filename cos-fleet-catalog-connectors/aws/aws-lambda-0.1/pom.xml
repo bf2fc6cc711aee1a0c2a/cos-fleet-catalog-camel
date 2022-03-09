@@ -10,7 +10,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>aws-lambda-0.1</artifactId>
+    <artifactId>cos-connector-aws-lambda-0.1</artifactId>
 
     <name>AWS Lambda</name>
     <description>AWS Lambda</description>

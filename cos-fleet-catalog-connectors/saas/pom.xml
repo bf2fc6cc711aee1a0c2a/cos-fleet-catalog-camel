@@ -11,6 +11,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>cos-fleet-catalog-connectors-saas</artifactId>
     <packaging>pom</packaging>
+
     <name>SaaS Connectors</name>
     <description>SaaS Connectors</description>
 

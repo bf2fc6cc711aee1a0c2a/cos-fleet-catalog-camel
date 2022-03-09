@@ -12,6 +12,9 @@
     <artifactId>cos-fleet-catalog-connectors-azure</artifactId>
     <packaging>pom</packaging>
 
+    <name>Azure Connectors</name>
+    <description>Azure Connectors</description>
+
     <properties>
         <!--
           https://github.com/apache/camel-quarkus/issues/3115

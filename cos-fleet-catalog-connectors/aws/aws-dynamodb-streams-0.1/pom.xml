@@ -10,7 +10,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>aws-dynamodb-streams-0.1</artifactId>
+    <artifactId>cos-connector-aws-dynamodb-streams-0.1</artifactId>
 
     <name>AWS DynamoDB Streams</name>
     <description>AWS DynamoDB Streams</description>

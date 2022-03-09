@@ -12,6 +12,9 @@
     <artifactId>cos-fleet-catalog-connectors-gcp</artifactId>
     <packaging>pom</packaging>
 
+    <name>GCP Connectors</name>
+    <description>GCP Connectors</description>
+
     <properties>
         <cos.connector.catalog.group>gcp</cos.connector.catalog.group>
     </properties>

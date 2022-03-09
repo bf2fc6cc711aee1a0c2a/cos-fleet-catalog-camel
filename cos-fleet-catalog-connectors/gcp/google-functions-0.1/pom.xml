@@ -10,7 +10,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>google-functions-0.1</artifactId>
+    <artifactId>cos-connector-google-functions-0.1</artifactId>
 
     <name>Google Cloud Functions</name>
     <description>Google Cloud Functions</description>

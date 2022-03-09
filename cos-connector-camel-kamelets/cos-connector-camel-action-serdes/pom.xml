@@ -4,18 +4,18 @@
 
     <parent>
         <groupId>org.bf2</groupId>
-        <artifactId>cos-connector-camel-kamelets</artifactId>
+        <artifactId>cos-connector-kamelets</artifactId>
         <version>999-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>cos-connector-camel-action-serdes</artifactId>
+    <artifactId>cos-connector-action-serdes</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
             <groupId>org.bf2</groupId>
-            <artifactId>cos-connector-camel-serdes</artifactId>
+            <artifactId>cos-connector-serdes</artifactId>
         </dependency>
     </dependencies>
 

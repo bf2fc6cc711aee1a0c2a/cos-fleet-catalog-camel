@@ -9,7 +9,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>cos-connector-camel-kamelets</artifactId>
+    <artifactId>cos-connector-kamelets</artifactId>
     <packaging>pom</packaging>
 
     <properties>

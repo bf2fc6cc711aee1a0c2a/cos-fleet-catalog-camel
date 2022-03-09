@@ -15,7 +15,7 @@
         <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
         <project.resources.sourceEncoding>${encoding}</project.resources.sourceEncoding>
 
-        <quarkus.version>2.7.3.Final</quarkus.version>
+        <quarkus.version>2.7.4.Final</quarkus.version>
         <camel-k-runtime.version>1.12.0</camel-k-runtime.version>
         <camel-quarkus.version>2.7.0</camel-quarkus.version>
         <camel-kamelets-catalog.version>main-SNAPSHOT</camel-kamelets-catalog.version>
@@ -31,6 +31,7 @@
         <auto-service.version>1.0.1</auto-service.version>
         <logback.version>1.2.11</logback.version>
         <slf4j.version>1.7.36</slf4j.version>
+        <awaitility.version>4.2.0</awaitility.version>
 
         <maven.version>3.8.3</maven.version>
         <maven-plugin-tools.version>3.6.1</maven-plugin-tools.version>
@@ -55,6 +56,9 @@
         <gmavenplus-plugin.version>1.13.1</gmavenplus-plugin.version>
         <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
         <maven-install-plugin.version>3.0.0-M1</maven-install-plugin.version>
+        <maven-site-plugin.version>3.11.0</maven-site-plugin.version>
+        <maven-deploy-plugin.version>3.0.0-M2</maven-deploy-plugin.version>
+        <maven-enforcer-plugin-version>3.0.0</maven-enforcer-plugin-version>
 
         <!-- cos -->
         <cos.connector.operator.type>camel-connector-operator</cos.connector.operator.type>
@@ -81,6 +85,7 @@
         <module>cos-fleet-catalog-kamelets</module>
         <module>cos-fleet-catalog-tools</module>
         <module>cos-fleet-catalog-connectors</module>
+        <module>cos-fleet-catalog-connectors-it-support</module>
         <module>cos-fleet-catalog-connectors-it</module>
     </modules>
 
@@ -135,44 +140,50 @@
             <dependency>
                 <groupId>org.bf2</groupId>
                 <artifactId>cos-fleet-catalog-kamelets</artifactId>
-                <version>999-SNAPSHOT</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.bf2</groupId>
                 <artifactId>cos-fleet-catalog-conenctors</artifactId>
-                <version>999-SNAPSHOT</version>
+                <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.bf2</groupId>
                 <artifactId>cos-connector-camel</artifactId>
-                <version>999-SNAPSHOT</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.bf2</groupId>
-                <artifactId>cos-connector-camel-deployment</artifactId>
-                <version>999-SNAPSHOT</version>
+                <artifactId>cos-connector-deployment</artifactId>
+                <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.bf2</groupId>
-                <artifactId>cos-connector-camel-serdes</artifactId>
-                <version>999-SNAPSHOT</version>
+                <artifactId>cos-connector-serdes</artifactId>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.bf2</groupId>
-                <artifactId>cos-connector-camel-action-jsonpath</artifactId>
-                <version>999-SNAPSHOT</version>
+                <artifactId>cos-connector-action-jsonpath</artifactId>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.bf2</groupId>
-                <artifactId>cos-connector-camel-action-serdes</artifactId>
-                <version>999-SNAPSHOT</version>
+                <artifactId>cos-connector-action-serdes</artifactId>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.bf2</groupId>
-                <artifactId>cos-connector-camel-kafka</artifactId>
-                <version>999-SNAPSHOT</version>
+                <artifactId>cos-connector-kafka</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-fleet-catalog-connectors-it-support</artifactId>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.bf2</groupId>
@@ -271,6 +282,16 @@
                 <artifactId>spock-core</artifactId>
                 <version>${spock.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.awaitility</groupId>
+                <artifactId>awaitility</artifactId>
+                <version>${awaitility.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.awaitility</groupId>
+                <artifactId>awaitility-groovy</artifactId>
+                <version>${awaitility.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -333,11 +354,6 @@
                 <plugin>
                     <groupId>org.bf2</groupId>
                     <artifactId>camel-connector-maven-plugin</artifactId>
-                    <version>${project.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.bf2</groupId>
-                    <artifactId>camel-connector-schema-maven-plugin</artifactId>
                     <version>${project.version}</version>
                 </plugin>
                 <plugin>
@@ -414,13 +430,62 @@
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>${maven-failsafe-plugin.version}</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>${maven-clean-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>io.github.git-commit-id</groupId>
+                    <artifactId>git-commit-id-maven-plugin</artifactId>
+                    <version>${git-commit-id-maven-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>net.revelc.code.formatter</groupId>
+                    <artifactId>formatter-maven-plugin</artifactId>
+                    <version>${formatter-maven-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>net.revelc.code</groupId>
+                    <artifactId>impsort-maven-plugin</artifactId>
+                    <version>${impsort-maven-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>${maven-deploy-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>${maven-site-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>${maven-enforcer-plugin-version}</version>
+                    <executions>
+                        <execution>
+                            <id>enforce-maven</id>
+                            <goals>
+                                <goal>enforce</goal>
+                            </goals>
+                            <configuration>
+                                <rules>
+                                    <requireMavenVersion>
+                                        <version>${maven.version}</version>
+                                    </requireMavenVersion>
+                                </rules>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>io.github.git-commit-id</groupId>
                 <artifactId>git-commit-id-maven-plugin</artifactId>
-                <version>${git-commit-id-maven-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>get-the-git-infos</id>
@@ -434,7 +499,6 @@
             <plugin>
                 <groupId>net.revelc.code.formatter</groupId>
                 <artifactId>formatter-maven-plugin</artifactId>
-                <version>${formatter-maven-plugin.version}</version>
                 <configuration>
                     <skip>${format.skip}</skip>
                     <configFile>${maven.multiModuleProjectDirectory}/etc/eclipse-formatter-config.xml</configFile>
@@ -453,7 +517,6 @@
             <plugin>
                 <groupId>net.revelc.code</groupId>
                 <artifactId>impsort-maven-plugin</artifactId>
-                <version>${impsort-maven-plugin.version}</version>
                 <configuration>
                     <skip>${format.skip}</skip>
                     <groups>java.,javax.,org.,com.</groups>
@@ -462,8 +525,8 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
-                <version>${maven-clean-plugin.version}</version>
                 <configuration>
                     <filesets>
                         <fileset>

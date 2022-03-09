@@ -10,7 +10,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>ftps-0.1</artifactId>
+    <artifactId>cos-connector-ftps-0.1</artifactId>
 
     <name>FTPS</name>
     <description>FTPS</description>

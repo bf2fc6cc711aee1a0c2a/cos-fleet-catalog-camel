@@ -96,15 +96,15 @@
         </dependency>
         <dependency>
             <groupId>org.bf2</groupId>
-            <artifactId>cos-connector-camel-action-jsonpath</artifactId>
+            <artifactId>cos-connector-action-jsonpath</artifactId>
         </dependency>
         <dependency>
             <groupId>org.bf2</groupId>
-            <artifactId>cos-connector-camel-action-serdes</artifactId>
+            <artifactId>cos-connector-action-serdes</artifactId>
         </dependency>
         <dependency>
             <groupId>org.bf2</groupId>
-            <artifactId>cos-connector-camel-kafka</artifactId>
+            <artifactId>cos-connector-kafka</artifactId>
         </dependency>
     </dependencies>
 
@@ -278,6 +278,7 @@
             </activation>
             <properties>
                 <quarkus.container-image.build>true</quarkus.container-image.build>
+                <quarkus.container-image.additional-tags>${git.commit.id}</quarkus.container-image.additional-tags>
             </properties>
             <build>
                 <pluginManagement>
@@ -305,6 +306,7 @@
             </activation>
             <properties>
                 <quarkus.container-image.push>true</quarkus.container-image.push>
+                <quarkus.container-image.additional-tags>${git.commit.id}</quarkus.container-image.additional-tags>
             </properties>
             <build>
                 <pluginManagement>

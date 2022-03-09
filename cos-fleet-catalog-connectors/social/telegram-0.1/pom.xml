@@ -10,7 +10,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>telegram-0.1</artifactId>
+    <artifactId>cos-connector-telegram-0.1</artifactId>
 
     <name>Telegram</name>
     <description>Telegram</description>

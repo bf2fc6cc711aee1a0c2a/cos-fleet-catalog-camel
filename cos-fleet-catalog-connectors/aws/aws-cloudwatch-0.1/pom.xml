@@ -10,7 +10,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>aws-cloudwatch-0.1</artifactId>
+    <artifactId>cos-connector-aws-cloudwatch-0.1</artifactId>
 
     <name>AWS Cloudwatch</name>
     <description>AWS Cloudwatch</description>
