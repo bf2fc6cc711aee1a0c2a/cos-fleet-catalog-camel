@@ -34,6 +34,7 @@
     <modules>
         <module>azure-storage-blob-0.1</module>
         <module>azure-storage-queue-0.1</module>
+        <module>azure-servicebus-0.1</module>
     </modules>
 
 </project>
