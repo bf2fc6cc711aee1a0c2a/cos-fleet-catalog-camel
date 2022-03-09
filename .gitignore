@@ -11,3 +11,6 @@ target
 .classpath
 /target
 /cos-fleet-catalog-camel/static
+.vscode
+workspace.code-workspace
+/cos-connector-camel-components/cos-connector-camel-component-routecontroller/src/generated/

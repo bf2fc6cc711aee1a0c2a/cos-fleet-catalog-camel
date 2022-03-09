@@ -1,12 +1,17 @@
 package org.bf2.cos.connector.camel.kafka;
 
 import io.apicurio.registry.serde.SerdeConfig;
+import org.apache.camel.CamelContext;
 import org.apache.camel.component.kafka.DefaultKafkaClientFactory;
 import org.apache.camel.component.kafka.KafkaConfiguration;
 import org.apache.camel.util.ObjectHelper;
 import org.apache.kafka.clients.consumer.Consumer;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.consumer.MockConsumer;
+import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 
+import javax.enterprise.inject.spi.CDI;
 import java.util.Properties;
 
 public class ClientFactory extends DefaultKafkaClientFactory {
@@ -50,13 +55,27 @@ public class ClientFactory extends DefaultKafkaClientFactory {
     @Override
     public Producer getProducer(Properties props) {
         enrich(props);
-        return super.getProducer(props);
+        KafkaProducer producer = null;
+        try {
+            return producer = (KafkaProducer) super.getProducer(props);
+        } finally {
+            KafkaHealthCheckRepository.get(getCamelContext())
+                    .addHealthCheck(
+                            new KafkaProducersHealthCheck(bootstrapUrl, producer, props));
+        }
     }
 
     @Override
     public Consumer getConsumer(Properties props) {
         enrich(props);
-        return super.getConsumer(props);
+        KafkaConsumer consumer = null;
+        try {
+            return consumer = (KafkaConsumer) super.getConsumer(props);
+        } finally {
+            KafkaHealthCheckRepository.get(getCamelContext())
+                    .addHealthCheck(
+                            new KafkaConsumersHealthCheck(bootstrapUrl, consumer, props));
+        }
     }
 
     @Override
@@ -79,5 +98,9 @@ public class ClientFactory extends DefaultKafkaClientFactory {
                 props.put(SerdeConfig.AUTH_PASSWORD, password);
             }
         }
+    }
+
+    private CamelContext getCamelContext() {
+        return CDI.current().select(CamelContext.class).get();
     }
 }
