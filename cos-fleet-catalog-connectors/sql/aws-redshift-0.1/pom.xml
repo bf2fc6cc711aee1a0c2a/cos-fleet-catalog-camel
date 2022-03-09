@@ -10,7 +10,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>aws-redshift-0.1</artifactId>
+    <artifactId>cos-connector-aws-redshift-0.1</artifactId>
 
     <name>AWS Redshift</name>
     <description>AWS Redshift</description>

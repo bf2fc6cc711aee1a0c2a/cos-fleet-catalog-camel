@@ -10,7 +10,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>mysql-0.1</artifactId>
+    <artifactId>cos-connector-mysql-0.1</artifactId>
 
     <name>MySQL</name>
     <description>MySQL</description>
@@ -22,6 +22,13 @@
         <quarkus.container-image.name>cos-connector-${cos.connector.type}</quarkus.container-image.name>
         <quarkus.container-image.tag>${cos.connector.version}.${cos.connector.revision}</quarkus.container-image.tag>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>

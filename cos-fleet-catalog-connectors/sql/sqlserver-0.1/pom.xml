@@ -10,7 +10,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>sqlserver-0.1</artifactId>
+    <artifactId>cos-connector-sqlserver-0.1</artifactId>
 
     <name>SQL Server</name>
     <description>SQL Server</description>
@@ -23,6 +23,12 @@
         <quarkus.container-image.tag>${cos.connector.version}.${cos.connector.revision}</quarkus.container-image.tag>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <plugin>
