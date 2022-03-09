@@ -10,7 +10,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>aws-kinesis-0.1</artifactId>
+    <artifactId>cos-connector-aws-kinesis-0.1</artifactId>
 
     <name>AWS Kinesis</name>
     <description>AWS Kinesis</description>

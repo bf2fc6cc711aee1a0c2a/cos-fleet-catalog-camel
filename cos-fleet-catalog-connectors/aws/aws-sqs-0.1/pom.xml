@@ -10,7 +10,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>aws-sqs-0.1</artifactId>
+    <artifactId>cos-connector-aws-sqs-0.1</artifactId>
 
     <name>AWS SQS</name>
     <description>AWS SQS</description>

@@ -10,7 +10,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>mongodb-0.1</artifactId>
+    <artifactId>cos-connector-mongodb-0.1</artifactId>
 
     <name>MongoDB</name>
     <description>MongoDB</description>

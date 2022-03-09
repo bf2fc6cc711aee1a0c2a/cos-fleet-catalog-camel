@@ -10,7 +10,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>http-0.1</artifactId>
+    <artifactId>cos-connector-http-0.1</artifactId>
 
     <name>HTTP</name>
     <description>HTTP</description>

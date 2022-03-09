@@ -10,7 +10,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>data-generator-0.1</artifactId>
+    <artifactId>cos-connector-data-generator-0.1</artifactId>
 
     <name>Data Generator</name>
     <description>Data Generator</description>

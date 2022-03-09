@@ -10,7 +10,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>salesforce-0.1</artifactId>
+    <artifactId>cos-connector-salesforce-0.1</artifactId>
 
     <name>Salesforce</name>
     <description>Salesforce</description>

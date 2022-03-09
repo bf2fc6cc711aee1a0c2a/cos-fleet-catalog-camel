@@ -10,7 +10,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>jms-amqp-0.1</artifactId>
+    <artifactId>cos-connector-jms-amqp-0.1</artifactId>
 
     <name>JMS AMQP 1.0</name>
     <description>JMS AMQP 1.0</description>

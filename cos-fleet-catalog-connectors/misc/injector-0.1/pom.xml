@@ -10,7 +10,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>injector-0.1</artifactId>
+    <artifactId>cos-connector-injector-0.1</artifactId>
 
     <name>Injector</name>
     <description>Injector</description>

@@ -10,7 +10,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>azure-storage-queue-0.1</artifactId>
+    <artifactId>cos-connector-azure-storage-queue-0.1</artifactId>
 
     <name>Azure Storage Queue</name>
     <description>Azure Storage Queue</description>

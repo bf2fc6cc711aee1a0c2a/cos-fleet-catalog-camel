@@ -37,7 +37,10 @@ jobs:
 
       - name: "Build"
         run: |
-          ./mvnw ${MAVEN_ARGS} clean verify
+          ./mvnw ${MAVEN_ARGS} clean install \
+            -Pcontainer-build \
+            -Pcontainer-test \
+            -Dlog.enabled=true
 
       - name: Check for uncommitted changes
         id: check-changes
@@ -47,32 +50,6 @@ jobs:
         if: steps.check-changes.outputs.outcome == failure()
         run: echo "There are uncommitted changes"
 
-  integration:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Set up JDK 11
-        uses: actions/setup-java@v2
-        with:
-          java-version: '11'
-          distribution: 'temurin'
-
-      - name: Cache m2 repo
-        uses: actions/cache@v1
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-
-      - name: "Integration"
+      - name: "List Images"
         run: |
-          ./mvnw ${MAVEN_ARGS} clean install \
-            -Pcontainer-build \
-            -Pcontainer-test \
-            -Dcos.connector.container.repository=quay.io \
-            -Dcos.connector.container.organization=cos \
-            -Dcos.connector.version=1 \
-            -Dcos.connector.revision=${{ github.sha }}
+          docker image ls --format "{{.Repository}}:{{.Tag}}" | grep quay.io/rhoas/cos-connector-

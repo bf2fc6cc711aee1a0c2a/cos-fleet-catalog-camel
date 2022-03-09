@@ -11,6 +11,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>cos-fleet-catalog-connectors-sql</artifactId>
     <packaging>pom</packaging>
+
     <name>SQL Connectors</name>
     <description>SQL Connectors</description>
 
