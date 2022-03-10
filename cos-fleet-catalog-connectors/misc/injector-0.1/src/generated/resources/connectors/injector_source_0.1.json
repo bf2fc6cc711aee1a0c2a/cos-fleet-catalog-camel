@@ -2,9 +2,9 @@
   "channels" : {
     "stable" : {
       "shard_metadata" : {
-        "connector_revision" : "11",
+        "connector_revision" : "12",
         "connector_type" : "source",
-        "connector_image" : "quay.io/rhoas/cos-connector-injector:0.1.11",
+        "connector_image" : "quay.io/rhoas/cos-connector-injector:0.1.12",
         "operators" : [ {
           "type" : "camel-connector-operator",
           "version" : "[1.0.0,2.0.0)"
