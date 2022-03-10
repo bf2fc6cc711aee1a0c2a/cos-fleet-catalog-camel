@@ -71,6 +71,7 @@
 
     <modules>
         <module>cos-connector-camel-kamelets</module>
+        <module>cos-connector-camel-components</module>
         <module>cos-connector-camel</module>
         <module>cos-fleet-catalog-kamelets</module>
         <module>cos-fleet-catalog-tools</module>
