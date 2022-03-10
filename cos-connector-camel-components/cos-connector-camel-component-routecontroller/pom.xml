@@ -45,6 +45,7 @@
                             <goal>jandex</goal>
                             <goal>generate-component</goal>
                             <goal>generate-configurer</goal>
+                            <goal>generate-spi</goal>
                         </goals>
                     </execution>
                 </executions>

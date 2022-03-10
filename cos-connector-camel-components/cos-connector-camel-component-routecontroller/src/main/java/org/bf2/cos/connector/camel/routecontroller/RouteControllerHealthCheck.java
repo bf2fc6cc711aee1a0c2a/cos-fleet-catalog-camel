@@ -1,32 +1,42 @@
 package org.bf2.cos.connector.camel.routecontroller;
 
-import java.util.Locale;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-
 import org.apache.camel.CamelContext;
 import org.apache.camel.Route;
 import org.apache.camel.ServiceStatus;
-import org.eclipse.microprofile.health.HealthCheck;
+import org.apache.camel.health.HealthCheckResultBuilder;
+import org.apache.camel.impl.health.AbstractHealthCheck;
+import org.apache.camel.spi.annotations.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
-import org.eclipse.microprofile.health.Readiness;
 
-@Readiness
-@ApplicationScoped
-public class RoutesHealthCheck implements HealthCheck {
-    private static final String NAME = "custom-camel-routes-health-check";
+import javax.enterprise.inject.spi.CDI;
+import java.util.Locale;
+import java.util.Map;
+
+@HealthCheck("rc-check")
+public class RouteControllerHealthCheck extends AbstractHealthCheck {
     private static final String DATA_ROUTE_ID = "route.id";
     private static final String DATA_ROUTE_STATUS = "route.status";
     private static final String DATA_ERROR_MESSAGE = "error.message";
 
-    @Inject
-    CamelContext context;
+    public RouteControllerHealthCheck() {
+        super("custom-camel-routecontroller-health-check");
+    }
 
     @Override
-    public HealthCheckResponse call() {
-        var builder = HealthCheckResponse.named(NAME);
+    public boolean isReadiness() {
+        return true;
+    }
 
+    @Override
+    public boolean isLiveness() {
+        return false;
+    }
+
+    @Override
+    protected void doCall(HealthCheckResultBuilder builder, Map<String, Object> options) {
+        CamelContext context = getCamelContext();
+
+        builder.unknown();
         for (Route route : context.getRoutes()) {
             final ServiceStatus status = context.getRouteController().getRouteStatus(route.getId());
             if (status.isStopped()) {
@@ -44,18 +54,19 @@ public class RoutesHealthCheck implements HealthCheck {
                     }
 
                     if (cause != null && cause.getMessage() != null) {
-                        builder = builder.withData(DATA_ERROR_MESSAGE, cause.getMessage());
+                        builder = builder.detail(DATA_ERROR_MESSAGE, cause.getMessage());
                     }
                 }
 
-                return builder
-                        .withData(DATA_ROUTE_ID, route.getId())
-                        .withData(DATA_ROUTE_STATUS, status.name().toLowerCase(Locale.US))
-                        .down()
-                        .build();
+                builder
+                        .detail(DATA_ROUTE_ID, route.getId())
+                        .detail(DATA_ROUTE_STATUS, status.name().toLowerCase(Locale.US))
+                        .down();
             }
         }
-
-        return builder.up().build();
+        if (State.UNKNOWN.equals(builder.state())) {
+            builder.up();
+        }
     }
+
 }
