@@ -48,7 +48,7 @@ jobs:
           password: ${{ secrets.QUAY_MCI_PWD }}
       - name: Push Container Images
         run: |
-          IMAGES = $(docker image ls --format "{{.Repository}}:{{.Tag}}" | grep quay.io/rhoas/cos-connector-)
+          IMAGES=$(docker image ls --format "{{.Repository}}:{{.Tag}}" | grep quay.io/rhoas/cos-connector-)
           for IMAGE in ${IMAGES}; do          
               docker push $IMAGE
           done
