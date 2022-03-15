@@ -77,7 +77,7 @@ class ConnectorIT extends ConnectorSpec {
             records.first().value() == payload
 
             await()
-                .atMost(5, TimeUnit.SECONDS)
+                .atMost(10, TimeUnit.SECONDS)
                 .pollDelay(250, TimeUnit.MILLISECONDS)
                 .until {
                     sql.rows("""SELECT * FROM accounts WHERE username='oscerd';""").size() == 1

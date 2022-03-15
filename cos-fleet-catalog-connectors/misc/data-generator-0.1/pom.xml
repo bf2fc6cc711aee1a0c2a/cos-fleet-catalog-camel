@@ -30,7 +30,7 @@
                 <configuration>
                     <connectors>
                         <connector>
-                            <name>timer-source-${cos.connector.version}</name>
+                            <name>data-generator-${cos.connector.version}</name>
                             <title>${project.name} Source</title>
                             <description>${project.description} Source</description>
                             <adapter>

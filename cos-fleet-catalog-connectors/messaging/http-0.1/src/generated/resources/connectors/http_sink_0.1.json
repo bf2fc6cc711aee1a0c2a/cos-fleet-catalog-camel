@@ -2,9 +2,9 @@
   "channels" : {
     "stable" : {
       "shard_metadata" : {
-        "connector_revision" : "13",
+        "connector_revision" : "14",
         "connector_type" : "sink",
-        "connector_image" : "quay.io/rhoas/cos-connector-http:0.1.13",
+        "connector_image" : "quay.io/rhoas/cos-connector-http:0.1.14",
         "operators" : [ {
           "type" : "camel-connector-operator",
           "version" : "[1.0.0,2.0.0)"
@@ -19,12 +19,8 @@
             "prefix" : "kafka"
           },
           "processors" : {
-            "throttle" : "throttle-action",
-            "jsonpath_set" : "cos-jsonpath-set-action",
             "log" : "cos-log-action",
-            "jsonpath_rename" : "cos-jsonpath-rename-action",
-            "jsonpath_extract" : "cos-jsonpath-extract-action",
-            "jsonpath_remove" : "cos-jsonpath-remove-action"
+            "fault" : "cos-fault-action"
           }
         },
         "annotations" : {
@@ -74,14 +70,6 @@
           "items" : {
             "oneOf" : [ {
               "type" : "object",
-              "required" : [ "throttle" ],
-              "properties" : {
-                "throttle" : {
-                  "$ref" : "#/$defs/processors/throttle"
-                }
-              }
-            }, {
-              "type" : "object",
               "required" : [ "log" ],
               "properties" : {
                 "log" : {
@@ -90,34 +78,10 @@
               }
             }, {
               "type" : "object",
-              "required" : [ "jsonpath_extract" ],
+              "required" : [ "fault" ],
               "properties" : {
-                "jsonpath_extract" : {
-                  "$ref" : "#/$defs/processors/jsonpath_extract"
-                }
-              }
-            }, {
-              "type" : "object",
-              "required" : [ "jsonpath_remove" ],
-              "properties" : {
-                "jsonpath_remove" : {
-                  "$ref" : "#/$defs/processors/jsonpath_remove"
-                }
-              }
-            }, {
-              "type" : "object",
-              "required" : [ "jsonpath_rename" ],
-              "properties" : {
-                "jsonpath_rename" : {
-                  "$ref" : "#/$defs/processors/jsonpath_rename"
-                }
-              }
-            }, {
-              "type" : "object",
-              "required" : [ "jsonpath_set" ],
-              "properties" : {
-                "jsonpath_set" : {
-                  "$ref" : "#/$defs/processors/jsonpath_set"
+                "fault" : {
+                  "$ref" : "#/$defs/processors/fault"
                 }
               }
             } ]
@@ -166,26 +130,6 @@
       },
       "$defs" : {
         "processors" : {
-          "throttle" : {
-            "title" : "Throttle Action",
-            "description" : "The Throttle action allows to ensure that a specific sink does not get overloaded.",
-            "required" : [ "messages" ],
-            "properties" : {
-              "messages" : {
-                "title" : "Messages Number",
-                "description" : "The number of messages to send in the time period set",
-                "type" : "integer",
-                "example" : 10
-              },
-              "timePeriod" : {
-                "title" : "Time Period",
-                "description" : "Sets the time period during which the maximum request count is valid for, in milliseconds",
-                "type" : "string",
-                "default" : "1000"
-              }
-            },
-            "type" : "object"
-          },
           "log" : {
             "title" : "Log",
             "description" : "Log payload.",
@@ -195,107 +139,38 @@
                 "title" : "Multi Line",
                 "description" : "Multi Line",
                 "type" : "boolean",
-                "default" : false,
-                "x-descriptors" : [ "urn:camel:group:common" ]
+                "default" : false
               },
               "showProperties" : {
                 "title" : "Show Properties",
                 "description" : "Show Properties",
                 "type" : "boolean",
-                "default" : false,
-                "x-descriptors" : [ "urn:camel:group:common" ]
+                "default" : false
               },
               "showHeaders" : {
                 "title" : "Show Headers",
                 "description" : "Show Headers",
                 "type" : "boolean",
-                "default" : false,
-                "x-descriptors" : [ "urn:camel:group:common" ]
+                "default" : false
               }
             }
           },
-          "jsonpath_extract" : {
-            "title" : "Transform with JsonPath",
-            "description" : "TBD",
+          "fault" : {
             "type" : "object",
-            "required" : [ "expression" ],
+            "title" : "Fault Injection",
+            "description" : "Fail the exchange.",
+            "required" : [ "exceptionType", "exceptionMessage" ],
             "properties" : {
-              "expression" : {
-                "title" : "Expression",
-                "description" : "Expression",
-                "type" : "string"
-              }
-            },
-            "x-metadata" : {
-              "supported.content-type" : "application/x-struct"
-            }
-          },
-          "jsonpath_remove" : {
-            "title" : "Transform with JsonPath",
-            "description" : "TBD",
-            "type" : "object",
-            "required" : [ "expression" ],
-            "properties" : {
-              "expression" : {
-                "title" : "Expression",
-                "description" : "Expression",
-                "type" : "string"
-              }
-            },
-            "x-metadata" : {
-              "supported.content-type" : "application/x-struct"
-            }
-          },
-          "jsonpath_rename" : {
-            "title" : "Transform with JsonPath",
-            "description" : "TBD",
-            "type" : "object",
-            "required" : [ "expression" ],
-            "properties" : {
-              "expression" : {
-                "title" : "Expression",
-                "description" : "Expression",
+              "exceptionType" : {
+                "title" : "The Exception Type",
+                "description" : "The Exception Type",
                 "type" : "string"
               },
-              "key" : {
-                "title" : "Key",
-                "description" : "Key",
-                "type" : "string"
-              },
-              "newKey" : {
-                "title" : "NewKey",
-                "description" : "NewKey",
+              "exceptionMessage" : {
+                "title" : "The Exception Message",
+                "description" : "The Exception Message",
                 "type" : "string"
               }
-            },
-            "x-metadata" : {
-              "supported.content-type" : "application/x-struct"
-            }
-          },
-          "jsonpath_set" : {
-            "title" : "Transform with JsonPath",
-            "description" : "TBD",
-            "type" : "object",
-            "required" : [ "expression" ],
-            "properties" : {
-              "expression" : {
-                "title" : "Expression",
-                "description" : "Expression",
-                "type" : "string"
-              },
-              "key" : {
-                "title" : "Key",
-                "description" : "Key",
-                "type" : "string"
-              },
-              "value" : {
-                "title" : "Value",
-                "description" : "Value",
-                "type" : "string"
-              }
-            },
-            "x-metadata" : {
-              "supported.content-type" : "application/x-struct"
             }
           }
         },
