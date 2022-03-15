@@ -134,42 +134,12 @@
                             -->
                             <actions>
                                 <action>
-                                    <name>throttle-action</name>
-                                    <version>${camel-kamelets-catalog.version}</version>
-                                </action>
-
-                                <action>
                                     <name>cos-log-action</name>
                                     <version>${cos.kamelets.version}</version>
                                 </action>
-
                                 <action>
-                                    <name>cos-jsonpath-extract-action</name>
+                                    <name>cos-fault-action</name>
                                     <version>${cos.kamelets.version}</version>
-                                    <metadata>
-                                        <supported.content-type>application/x-struct</supported.content-type>
-                                    </metadata>
-                                </action>
-                                <action>
-                                    <name>cos-jsonpath-remove-action</name>
-                                    <version>${cos.kamelets.version}</version>
-                                    <metadata>
-                                        <supported.content-type>application/x-struct</supported.content-type>
-                                    </metadata>
-                                </action>
-                                <action>
-                                    <name>cos-jsonpath-rename-action</name>
-                                    <version>${cos.kamelets.version}</version>
-                                    <metadata>
-                                        <supported.content-type>application/x-struct</supported.content-type>
-                                    </metadata>
-                                </action>
-                                <action>
-                                    <name>cos-jsonpath-set-action</name>
-                                    <version>${cos.kamelets.version}</version>
-                                    <metadata>
-                                        <supported.content-type>application/x-struct</supported.content-type>
-                                    </metadata>
                                 </action>
                             </actions>
 

@@ -20,22 +20,16 @@ spec:
         description: Multi Line
         type: boolean
         default: false
-        x-descriptors:
-          - urn:camel:group:common
       showProperties:
         title: Show Properties
         description: Show Properties
         type: boolean
         default: false
-        x-descriptors:
-          - urn:camel:group:common
       showHeaders:
         title: Show Headers
         description: Show Headers
         type: boolean
         default: false
-        x-descriptors:
-          - urn:camel:group:common
   dependencies:
     - "camel:log"
     - "camel:kamelet"

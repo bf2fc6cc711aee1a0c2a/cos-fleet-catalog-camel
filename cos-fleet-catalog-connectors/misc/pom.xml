@@ -21,7 +21,6 @@
 
     <modules>
         <module>data-generator-0.1</module>
-        <module>injector-0.1</module>
         <module>log-0.1</module>
     </modules>
 

@@ -1,0 +1,37 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-fault-action
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.group: "Misc"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "action"
+spec:
+  definition:
+    type: object
+    title: "Fault Injection"
+    description: |-
+      Fail the exchange.
+    required:
+      - exceptionType
+      - exceptionMessage
+    properties:
+      exceptionType:
+        title: The Exception Type
+        description: The Exception Type
+        type: string
+      exceptionMessage:
+        title: The Exception Message
+        description: The Exception Message
+        type: string
+  dependencies:
+    - "camel:kamelet"
+  flow:
+    from:
+      uri: "kamelet:source"
+      steps:
+      - throw-exception:
+          exceptionType: "{{exceptionType}}"
+          message: "{{exceptionMessage}}"
