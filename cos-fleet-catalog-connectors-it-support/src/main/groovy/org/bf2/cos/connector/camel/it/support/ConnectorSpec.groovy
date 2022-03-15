@@ -85,43 +85,61 @@ abstract class ConnectorSpec extends Specification {
     // **********************************
 
     RecordMetadata sendToKafka(String topic, String value) {
-        return sendToKafka(topic, null, value)
+        return sendToKafka(topic, null, value, [:])
+    }
+
+    RecordMetadata sendToKafka(String topic, String value, Map<String, String> headers) {
+        return sendToKafka(topic, null, value, headers)
     }
 
     RecordMetadata sendToKafka(String topic, String key, String value) {
-        Properties config = new Properties();
-        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, this.kafka.getBootstrapServers());
-        config.put(ProducerConfig.CLIENT_ID_CONFIG, UUID.randomUUID().toString());
-        config.put(ProducerConfig.ACKS_CONFIG, "all");
-        config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        return sendToKafka(topic, key, value, [:])
+    }
+
+    RecordMetadata sendToKafka(String topic, String key, String value, Map<String, String> headers) {
+        Properties config = new Properties()
+        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, this.kafka.getBootstrapServers())
+        config.put(ProducerConfig.CLIENT_ID_CONFIG, UUID.randomUUID().toString())
+        config.put(ProducerConfig.ACKS_CONFIG, "all")
+        config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class)
+        config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class)
 
         try (var kp = new KafkaProducer<String, String>(config)) {
-            return kp.send(new ProducerRecord<>(topic, key, value.stripMargin().stripIndent())).get();
+            def record = new ProducerRecord<>(topic, key, value.stripMargin().stripIndent())
+
+            headers.each {
+                record.headers().add(it.key, it.value.getBytes(StandardCharsets.UTF_8))
+            }
+
+            return kp.send(record).get()
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e)
         }
     }
 
     ConsumerRecords<String, String> readFromKafka(String topic) {
-        Properties config = new Properties();
-        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, this.kafka.getBootstrapServers());
-        config.put(ConsumerConfig.ALLOW_AUTO_CREATE_TOPICS_CONFIG, true);
-        config.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, true);
-        config.put(ConsumerConfig.GROUP_ID_CONFIG, this.connector.getContainerId());
-        config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, OffsetResetStrategy.EARLIEST.name().toLowerCase(Locale.US));
+        Properties config = new Properties()
+        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, this.kafka.getBootstrapServers())
+        config.put(ConsumerConfig.ALLOW_AUTO_CREATE_TOPICS_CONFIG, true)
+        config.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, true)
+        config.put(ConsumerConfig.GROUP_ID_CONFIG, this.connector.getContainerId())
+        config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class)
+        config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class)
+        config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, OffsetResetStrategy.EARLIEST.name().toLowerCase(Locale.US))
 
         try (var kp = new KafkaConsumer<String, String>(config)) {
-            kp.subscribe(List.of(topic));
+            kp.subscribe(List.of(topic))
 
-            var answer = kp.poll(Duration.ofSeconds(30));
+            var answer = kp.poll(Duration.ofSeconds(30))
 
-            kp.commitSync();
+            kp.commitSync()
 
-            return answer;
+            return answer
         }
+    }
+
+    void addFileToConnectorContainer(String containerPath, String content) {
+        addFileToContainer(connector, containerPath, content)
     }
 
     void addFileToContainer(GenericContainer<?> container, String containerPath, String content) {

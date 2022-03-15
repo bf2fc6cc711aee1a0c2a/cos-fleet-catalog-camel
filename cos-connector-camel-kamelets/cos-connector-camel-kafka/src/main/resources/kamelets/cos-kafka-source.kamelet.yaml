@@ -32,6 +32,8 @@ spec:
           registryUrl: '{{registryUrl:}}'
           username: '{{user}}'
           password: '{{password}}'
+      - name: "kafka-headers-extractor"
+        type: "#class:org.bf2.cos.connector.camel.kafka.KafkaRecordHeadersExtractor"
     from:
       uri: "kafka:{{topic}}"
       parameters:
@@ -44,4 +46,6 @@ spec:
         valueDeserializer: "{{valueDeserializer:org.bf2.cos.connector.camel.serdes.bytes.ByteArrayDeserializer}}"
         kafkaClientFactory: "#{{kafka-client-factory}}"
       steps:
+      - removeHeader:
+          name: "kafka.HEADERS"
       - to: "kamelet:sink"

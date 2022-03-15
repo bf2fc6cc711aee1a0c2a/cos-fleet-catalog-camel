@@ -61,4 +61,8 @@ public class KafkaContainer extends GenericContainer<KafkaContainer> {
     public String getBootstrapServers() {
         return getKafkaAdvertisedAddresses();
     }
+
+    public String getOutsideBootstrapServers() {
+        return CONTAINER_ALIAS + ":" + KAFKA_OUTSIDE_PORT;
+    }
 }
