@@ -44,6 +44,7 @@
     </dependencies>
 
     <modules>
+        <module>aws</module>
         <module>misc</module>
         <module>sql</module>
     </modules>
