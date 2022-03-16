@@ -22,6 +22,7 @@
 
     <modules>
         <module>aws-cloudwatch-0.1</module>
+        <module>aws-dynamodb-0.1</module>
         <module>aws-dynamodb-streams-0.1</module>
         <module>aws-kinesis-0.1</module>
         <module>aws-lambda-0.1</module>
