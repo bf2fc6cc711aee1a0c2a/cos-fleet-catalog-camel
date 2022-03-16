@@ -83,7 +83,7 @@
                     <dependency>
                         <groupId>com.slack.api</groupId>
                         <artifactId>slack-api-model</artifactId>
-                        <version>1.8.1</version>
+                        <version>1.20.1</version>
                     </dependency>
                 </dependencies>
             </plugin>
