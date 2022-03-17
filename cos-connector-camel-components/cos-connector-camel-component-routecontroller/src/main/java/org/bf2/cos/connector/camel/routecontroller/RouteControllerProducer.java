@@ -86,8 +86,8 @@ public class RouteControllerProducer extends DefaultAsyncProducer {
             try {
                 switch (action) {
                     case "fail":
-                        LOG.debug("Failing route: {}", id);
                         Exception e = exchange.getProperty(Exchange.EXCEPTION_CAUGHT, Exception.class);
+                        LOG.error("Failing route: {}", id, e);
 
                         getEndpoint().getCamelContext().getRouteController().stopRoute(id);
 

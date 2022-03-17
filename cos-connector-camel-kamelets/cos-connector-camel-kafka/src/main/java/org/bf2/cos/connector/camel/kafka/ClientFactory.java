@@ -10,15 +10,24 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.consumer.MockConsumer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
+import org.apache.kafka.common.KafkaException;
+import org.apache.kafka.common.config.ConfigException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.inject.spi.CDI;
 import java.util.Properties;
 
 public class ClientFactory extends DefaultKafkaClientFactory {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ClientFactory.class);
+
     private String bootstrapUrl;
     private String registryUrl;
     private String username;
     private String password;
+    private int consumerCreationRetryMs;
+    private int producerCreationRetryMs;
 
     public String getBootstrapUrl() {
         return bootstrapUrl;
@@ -52,12 +61,33 @@ public class ClientFactory extends DefaultKafkaClientFactory {
         this.password = password;
     }
 
+    public int getConsumerCreationRetryMs() {
+        return consumerCreationRetryMs;
+    }
+
+    public void setConsumerCreationRetryMs(int consumerCreationRetryMs) {
+        this.consumerCreationRetryMs = consumerCreationRetryMs;
+    }
+
+    public int getProducerCreationRetryMs() {
+        return producerCreationRetryMs;
+    }
+
+    public void setProducerCreationRetryMs(int producerCreationRetryMs) {
+        this.producerCreationRetryMs = producerCreationRetryMs;
+    }
+
     @Override
     public Producer getProducer(Properties props) {
         enrich(props);
         KafkaProducer producer = null;
         try {
             return producer = (KafkaProducer) super.getProducer(props);
+        } catch (KafkaException ke) {
+            int retryMs = getProducerCreationRetryMs();
+            LOG.warn("KafkaException when trying to create producer. Will wait {}ms before retry.", retryMs);
+            sleep(retryMs);
+            throw ke;
         } finally {
             KafkaHealthCheckRepository.get(getCamelContext())
                     .addHealthCheck(
@@ -71,6 +101,11 @@ public class ClientFactory extends DefaultKafkaClientFactory {
         KafkaConsumer consumer = null;
         try {
             return consumer = (KafkaConsumer) super.getConsumer(props);
+        } catch (KafkaException ke) {
+            int retryMs = getConsumerCreationRetryMs();
+            LOG.warn("KafkaException when trying to create consumer. Will wait {}ms before retry.", retryMs);
+            sleep(retryMs);
+            throw ke;
         } finally {
             KafkaHealthCheckRepository.get(getCamelContext())
                     .addHealthCheck(
@@ -103,4 +138,14 @@ public class ClientFactory extends DefaultKafkaClientFactory {
     private CamelContext getCamelContext() {
         return CDI.current().select(CamelContext.class).get();
     }
+
+    private void sleep(int retryMs) {
+        try {
+            Thread.sleep(retryMs);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            LOG.warn("Sleep interrupted");
+        }
+    }
+
 }

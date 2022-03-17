@@ -40,6 +40,7 @@ spec:
           bootstrapUrl: "{{bootstrapServers}}"
           username: '{{user}}'
           password: '{{password}}'
+          producerCreationRetryMs: '{{producerCreationRetryMs:5000}}'
     from:
       uri: "kamelet:source"
       steps:
