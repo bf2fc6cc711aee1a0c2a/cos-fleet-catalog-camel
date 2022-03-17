@@ -123,6 +123,17 @@
           "type" : "boolean",
           "default" : false
         },
+        "aws_uri_endpoint_override" : {
+          "title" : "Overwrite Endpoint URI",
+          "description" : "Set the overriding endpoint URI. This option needs to be used in combination with overrideEndpoint option.",
+          "type" : "string"
+        },
+        "aws_override_endpoint" : {
+          "title" : "Endpoint Overwrite",
+          "description" : "Set the need for overiding the endpoint URI. This option needs to be used in combination with uriEndpointOverride setting.",
+          "type" : "boolean",
+          "default" : false
+        },
         "kafka_topic" : {
           "title" : "Topic Names",
           "description" : "Comma separated list of Kafka topic names",
