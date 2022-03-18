@@ -15,6 +15,7 @@ import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.clients.producer.RecordMetadata
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.kafka.common.serialization.StringSerializer
+import org.awaitility.Awaitility
 import org.slf4j.LoggerFactory
 import org.testcontainers.containers.BindMode
 import org.testcontainers.containers.GenericContainer
@@ -29,6 +30,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.attribute.PosixFilePermissions
 import java.time.Duration
+import java.util.concurrent.TimeUnit
 
 @Slf4j
 abstract class ConnectorSpec extends Specification {
@@ -161,6 +163,13 @@ abstract class ConnectorSpec extends Specification {
 
     static Slf4jLogConsumer logger(String name) {
         new Slf4jLogConsumer(LoggerFactory.getLogger(name))
+    }
+
+    static void await(long timeout, TimeUnit unit, Closure<Boolean> condition) {
+        Awaitility.await()
+                .atMost(timeout, unit)
+                .pollDelay(250, TimeUnit.MILLISECONDS)
+                .until(() -> condition())
     }
 
     static void closeQuietly(AutoCloseable closeable) {
