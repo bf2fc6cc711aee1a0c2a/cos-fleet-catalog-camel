@@ -3,11 +3,10 @@ package org.bf2.cos.connector.camel.it
 import groovy.util.logging.Slf4j
 import org.bf2.cos.connector.camel.it.aws.AWSContainer
 import org.bf2.cos.connector.camel.it.support.ConnectorSpec
-import org.testcontainers.containers.localstack.LocalStackContainer
+import software.amazon.awssdk.services.sqs.model.CreateQueueRequest
+import software.amazon.awssdk.services.sqs.model.ReceiveMessageRequest
 
 import java.util.concurrent.TimeUnit
-
-import static org.awaitility.Awaitility.await
 
 @Slf4j
 class ConnectorSinkIT extends ConnectorSpec {
@@ -16,7 +15,7 @@ class ConnectorSinkIT extends ConnectorSpec {
     AWSContainer aws
 
     def doSetup() {
-        this.aws = new AWSContainer(network, LocalStackContainer.Service.SQS)
+        this.aws = new AWSContainer(network, 'sqs')
         this.aws.start()
 
         addFileToConnectorContainer(
@@ -49,8 +48,8 @@ class ConnectorSinkIT extends ConnectorSpec {
                 - to:
                     uri: kamelet:aws-sqs-sink
                     parameters:
-                      accessKey: ${aws.accessKey}
-                      secretKey: ${aws.secretKey}
+                      accessKey: ${aws.credentials.accessKeyId()}
+                      secretKey: ${aws.credentials.secretAccessKey()}
                       region: ${aws.region}
                       queueNameOrArn: $TOPIC
                       amazonAWSHost: ${AWSContainer.CONTAINER_ALIAS}
@@ -67,26 +66,20 @@ class ConnectorSinkIT extends ConnectorSpec {
     def "sink"() {
         setup:
             def payload = '''{ "username":"oscerd", "city":"Rome" }'''
-            def topic = TOPIC
-
-
             def sqs = aws.sqs()
-            def queue = sqs.createQueue(TOPIC)
-            def queueUrl = queue.queueUrl.replace(AWSContainer.CONTAINER_ALIAS, 'localhost')
-
+            def request  = CreateQueueRequest.builder().queueName(TOPIC).build()
+            def queueUrl = sqs.createQueue(request).queueUrl().replace(AWSContainer.CONTAINER_ALIAS, 'localhost')
         when:
-            sendToKafka(topic, payload, ['foo': 'bar'])
+            sendToKafka(TOPIC, payload, ['foo': 'bar'])
         then:
-            await()
-                .atMost(10, TimeUnit.SECONDS)
-                .pollDelay(250, TimeUnit.MILLISECONDS)
-                .until {
-                    def msg = sqs.receiveMessage(queueUrl).messages.find {
-                        it.body == payload
-                    }
-
-                    return msg != null
+            await(10, TimeUnit.SECONDS) {
+                def rmr = ReceiveMessageRequest.builder().queueUrl(queueUrl).build()
+                def msg = sqs.receiveMessage(rmr).messages.find {
+                    it.body == payload
                 }
+
+                return msg != null
+            }
     }
 }
 
