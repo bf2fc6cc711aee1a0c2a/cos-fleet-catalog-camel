@@ -1,0 +1,46 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-filter-action
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.group: "Transform"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "action"
+spec:
+  definition:
+    title: "Filter with Jq"
+    description: |-
+      TBD
+    type: object
+    required:
+      - expression
+    properties:
+      expression:
+        title: Expression
+        description: Expression
+        type: string
+      expressionType:
+        title: Expression Type
+        description: Expression Type
+        type: string
+        default: "jq"
+        enum:
+          - jq
+  dependencies:
+    - "camel:kamelet"
+  flow:
+    beans:
+      - name: "action"
+        type: "#class:org.bf2.cos.connector.camel.actions.FilterAction"
+        properties:
+          expression: '{{expression}}'
+          type: '{{expressionType}}'
+    from:
+      uri: "kamelet:source"
+      steps:
+        - filter:
+            ref: "{{action}}"
+        - to:
+            uri: "kamelet:sink"

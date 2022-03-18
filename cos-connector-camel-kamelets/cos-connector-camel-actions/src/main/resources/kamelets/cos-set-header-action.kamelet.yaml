@@ -1,0 +1,52 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-set-header-action
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.group: "Transform"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "action"
+spec:
+  definition:
+    title: "Set Header"
+    description: |-
+      TBD
+    type: object
+    required:
+      - name
+      - expression
+    properties:
+      name:
+        title: Header Name
+        description: Header Name
+        type: string
+      expression:
+        title: Expression
+        description: Expression
+        type: string
+      expressionType:
+        title: Expression Type
+        description: Expression Type
+        type: string
+        default: "jq"
+        enum:
+          - jq
+          - constant
+  dependencies:
+    - "camel:kamelet"
+  flow:
+    beans:
+      - name: "action"
+        type: "#class:org.bf2.cos.connector.camel.actions.SetHeaderAction"
+        properties:
+          expression: "{{expression}}"
+          type: "{{expressionType}}"
+    from:
+      uri: "kamelet:source"
+      steps:
+        - setHeader:
+            name: "{{name}}"
+            expression:
+              ref: "{{action}}"

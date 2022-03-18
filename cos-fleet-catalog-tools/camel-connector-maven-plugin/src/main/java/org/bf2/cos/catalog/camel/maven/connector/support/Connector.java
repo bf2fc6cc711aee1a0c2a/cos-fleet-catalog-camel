@@ -215,6 +215,8 @@ public class Connector {
         String version;
         @Param
         Map<String, String> metadata;
+        @Param
+        Set<String> dataShapes;
 
         public String getName() {
             return name;
@@ -238,6 +240,14 @@ public class Connector {
 
         public void setMetadata(Map<String, String> metadata) {
             this.metadata = metadata;
+        }
+
+        public Set<String> getDataShapes() {
+            return dataShapes;
+        }
+
+        public void setDataShapes(Set<String> dataShapes) {
+            this.dataShapes = dataShapes;
         }
     }
 

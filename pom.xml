@@ -76,7 +76,7 @@
         <cos.connector.catalog.group>all</cos.connector.catalog.group>
 
         <cos.connector.version>0.1</cos.connector.version>
-        <cos.connector.revision>35</cos.connector.revision>
+        <cos.connector.revision>29</cos.connector.revision>
         <cos.connector.operator.version>[1.0.0,2.0.0)</cos.connector.operator.version>
         <cos.kamelets.version>0.0.1</cos.kamelets.version>
 
@@ -174,17 +174,23 @@
             </dependency>
             <dependency>
                 <groupId>org.bf2</groupId>
-                <artifactId>cos-connector-action-jsonpath</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.bf2</groupId>
                 <artifactId>cos-connector-action-serdes</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-actions</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bf2</groupId>
                 <artifactId>cos-connector-kafka</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-camel-jq</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -200,7 +206,6 @@
             </dependency>
 
             <!-- deps -->
-
 
             <dependency>
                 <groupId>com.networknt</groupId>
@@ -329,6 +334,23 @@
                 <artifactId>commons-text</artifactId>
                 <version>${commons-text.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.quarkiverse.jackson-jq</groupId>
+                <artifactId>quarkus-jackson-jq</artifactId>
+                <version>${quarkus-jackson-jq.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.javacrumbs.json-unit</groupId>
+                <artifactId>json-unit</artifactId>
+                <version>${json-unit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.javacrumbs.json-unit</groupId>
+                <artifactId>json-unit-assertj</artifactId>
+                <version>${json-unit.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>io.strimzi</groupId>
                 <artifactId>strimzi-test-container</artifactId>

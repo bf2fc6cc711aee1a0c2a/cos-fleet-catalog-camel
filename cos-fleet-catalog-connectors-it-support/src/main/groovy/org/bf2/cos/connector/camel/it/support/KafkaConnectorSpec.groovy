@@ -46,7 +46,7 @@ abstract class KafkaConnectorSpec extends ConnectorSpecSupport {
         return topic
     }
 
-    ConnectorContainer connectorContainer(String definition, Map<String, String> properties) {
+    ConnectorContainer connectorContainer(String definition, Map<String, Object> properties) {
         return ConnectorContainer.forDefinition(definition).withProperties(properties).witNetwork(network).build()
     }
 

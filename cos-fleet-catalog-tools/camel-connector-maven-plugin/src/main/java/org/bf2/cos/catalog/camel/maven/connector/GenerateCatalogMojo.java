@@ -30,10 +30,13 @@ import org.apache.maven.project.MavenProjectHelper;
 import org.bf2.cos.catalog.camel.maven.connector.model.ConnectorDefinition;
 import org.bf2.cos.catalog.camel.maven.connector.support.Annotation;
 import org.bf2.cos.catalog.camel.maven.connector.support.Catalog;
+import org.bf2.cos.catalog.camel.maven.connector.support.Catalog;
 import org.bf2.cos.catalog.camel.maven.connector.support.CatalogConstants;
+import org.bf2.cos.catalog.camel.maven.connector.support.CatalogSupport;
 import org.bf2.cos.catalog.camel.maven.connector.support.Connector;
 import org.bf2.cos.catalog.camel.maven.connector.support.KameletsCatalog;
 import org.bf2.cos.catalog.camel.maven.connector.support.MojoSupport;
+import org.bf2.cos.catalog.camel.maven.connector.validator.Validator;
 import org.bf2.cos.catalog.camel.maven.connector.validator.Validator;
 import org.codehaus.groovy.control.CompilerConfiguration;
 import org.codehaus.groovy.control.customizers.ImportCustomizer;
@@ -69,18 +72,8 @@ public class GenerateCatalogMojo extends AbstractMojo {
 
     @Parameter(readonly = true, defaultValue = "${project}")
     private MavenProject project;
-
-    @Parameter
-    private List<Annotation> defaultAnnotations;
-    @Parameter
-    private List<Annotation> annotations;
-
-    @Parameter(defaultValue = "${session}", readonly = true)
-    protected MavenSession session;
-    @Parameter
-    private Connector defaults;
-    @Parameter
-    private List<Connector> connectors;
+    @Parameter(defaultValue = "${project.build.outputDirectory}/connectors")
+    private String outputPath;
 
     @Parameter(defaultValue = "true", property = "cos.catalog.validate")
     private boolean validate;
@@ -94,25 +87,17 @@ public class GenerateCatalogMojo extends AbstractMojo {
     @Parameter(required = true)
     private Catalog catalog;
 
-    @Parameter(required = false, property = "appArtifact")
-    private String appArtifact;
-    @Parameter(defaultValue = "${project.build.directory}")
-    protected File buildDir;
-    @Parameter(defaultValue = "${project.build.finalName}")
-    protected String finalName;
-    @Parameter(defaultValue = "${camel-quarkus.version}")
-    private String camelQuarkusVersion;
-    @Requirement(role = RepositorySystem.class, optional = false)
-    protected RepositorySystem repoSystem;
-    @Requirement(role = RemoteRepositoryManager.class, optional = false)
-    protected RemoteRepositoryManager remoteRepoManager;
-    @Parameter(defaultValue = "${repositorySystemSession}", readonly = true)
-    private RepositorySystemSession repoSession;
     @Parameter
-    private Map<String, String> systemProperties;
+    private List<Annotation> defaultAnnotations;
+    @Parameter
+    private List<Annotation> annotations;
 
-    @Component
-    protected MavenProjectHelper projectHelper;
+    @Parameter(defaultValue = "${session}", readonly = true)
+    protected MavenSession session;
+    @Parameter
+    private Connector defaults;
+    @Parameter
+    private List<Connector> connectors;
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
@@ -254,14 +239,6 @@ public class GenerateCatalogMojo extends AbstractMojo {
                     def.getConnectorType().getSchema());
 
             //
-            // Steps
-            //
-
-            if (connector.getActions() != null) {
-                computeActions(def, connector, kamelets);
-            }
-
-            //
             // DataShape
             //
 
@@ -274,6 +251,14 @@ public class GenerateCatalogMojo extends AbstractMojo {
 
             dataShape(ds.getConsumes(), def, "consumes");
             dataShape(ds.getProduces(), def, "produces");
+
+            //
+            // Steps
+            //
+
+            if (connector.getActions() != null) {
+                computeActions(def, connector, kamelets);
+            }
 
             //
             // ErrorHandler
@@ -398,6 +383,20 @@ public class GenerateCatalogMojo extends AbstractMojo {
                         throw new IllegalArgumentException("Unsupported capability: " + capability);
                 }
             }
+
+            //
+            // Disable additional properties if empty capabilities
+            //
+
+            CatalogSupport.disableAdditionalProperties(
+                    def.getConnectorType().getSchema(),
+                    "/properties/" + CatalogConstants.CAPABILITY_PROCESSORS);
+            CatalogSupport.disableAdditionalProperties(
+                    def.getConnectorType().getSchema(),
+                    "/properties/" + CatalogConstants.CAPABILITY_ERROR_HANDLER);
+            CatalogSupport.disableAdditionalProperties(
+                    def.getConnectorType().getSchema(),
+                    "/properties/" + CatalogConstants.CAPABILITY_DATA_SHAPE);
 
             //
             // Patch

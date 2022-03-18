@@ -18,8 +18,8 @@
 
     <modules>
         <module>cos-connector-camel-serdes</module>
-        <module>cos-connector-camel-action-jsonpath</module>
         <module>cos-connector-camel-action-serdes</module>
+        <module>cos-connector-camel-actions</module>
         <module>cos-connector-camel-kafka</module>
     </modules>
 

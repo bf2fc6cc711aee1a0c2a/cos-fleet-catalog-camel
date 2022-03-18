@@ -20,6 +20,11 @@
           "kafka" : {
             "name" : "cos-kafka-source",
             "prefix" : "kafka"
+          },
+          "processors" : {
+            "filter" : "cos-filter-action",
+            "set_header" : "cos-set-header-action",
+            "transform" : "cos-transform-action"
           }
         },
         "operators" : [ {
@@ -140,7 +145,10 @@
             "stop" : { }
           }
         },
-        "processors" : { }
+        "processors" : {
+          "type" : "object",
+          "additionalProperties" : false
+        }
       },
       "$defs" : {
         "data_shape" : {

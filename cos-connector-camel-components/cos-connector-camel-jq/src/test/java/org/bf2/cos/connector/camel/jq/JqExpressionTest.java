@@ -1,0 +1,258 @@
+package org.bf2.cos.connector.camel.jq;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.camel.CamelContext;
+import org.apache.camel.Exchange;
+import org.apache.camel.impl.DefaultCamelContext;
+import org.apache.camel.support.DefaultExchange;
+import org.junit.jupiter.api.Test;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import net.thisptr.jackson.jq.BuiltinFunctionLoader;
+import net.thisptr.jackson.jq.Function;
+import net.thisptr.jackson.jq.Scope;
+import net.thisptr.jackson.jq.Versions;
+
+import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
+import static org.assertj.core.api.Assertions.assertThat;
+
+public class JqExpressionTest {
+    public static final ObjectMapper MAPPER = new ObjectMapper();
+
+    @Test
+    public void extractHeader() throws Exception {
+        try (CamelContext context = context()) {
+            Exchange exchange = new DefaultExchange(context);
+            exchange.getMessage().setBody(MAPPER.createObjectNode());
+            exchange.getMessage().setHeader("CommitterName", "Andrea");
+
+            JqExpression expression = new JqExpression("header(\"CommitterName\")");
+            expression.init(context);
+
+            JsonNode result = expression.evaluate(exchange, JsonNode.class);
+
+            assertThatJson(result)
+                    .isString()
+                    .isEqualTo("Andrea");
+        }
+    }
+
+    @Test
+    public void extractProperty() throws Exception {
+        try (CamelContext context = context()) {
+            Exchange exchange = new DefaultExchange(context);
+            exchange.getMessage().setBody(MAPPER.createObjectNode());
+            exchange.setProperty("CommitterName", "Andrea");
+
+            JqExpression expression = new JqExpression("property(\"CommitterName\")");
+            expression.init(context);
+
+            JsonNode result = expression.evaluate(exchange, JsonNode.class);
+
+            assertThatJson(result)
+                    .isString()
+                    .isEqualTo("Andrea");
+        }
+    }
+
+    @Test
+    public void extractField() throws Exception {
+        try (CamelContext context = context()) {
+            ObjectNode node = MAPPER.createObjectNode();
+            node.put("foo", "bar");
+            node.put("baz", "bak");
+
+            Exchange exchange = new DefaultExchange(context);
+            exchange.getMessage().setBody(node);
+
+            JqExpression expression = new JqExpression(".baz");
+            expression.init(context);
+
+            JsonNode result = expression.evaluate(exchange, JsonNode.class);
+
+            assertThatJson(result)
+                    .isString()
+                    .isEqualTo("bak");
+        }
+    }
+
+    @Test
+    public void matches() throws Exception {
+        try (CamelContext context = context()) {
+            ObjectNode node = MAPPER.createObjectNode();
+            node.put("foo", "bar");
+            node.put("baz", "bak");
+
+            Exchange exchange = new DefaultExchange(context);
+            exchange.getMessage().setBody(node);
+            exchange.getMessage().setHeader("CommitterName", "Andrea");
+
+            assertThat(Jq.expression(context, "has(\"baz\")").matches(exchange)).isTrue();
+            assertThat(Jq.expression(context, "has(\"bar\")").matches(exchange)).isFalse();
+            assertThat(Jq.expression(context, "header(\"CommitterName\") == \"Andrea\"").matches(exchange)).isTrue();
+            assertThat(Jq.expression(context, "header(\"CommitterName\") != \"Andrea\"").matches(exchange)).isFalse();
+        }
+    }
+
+    @Test
+    public void selectArray() throws Exception {
+        try (CamelContext context = context()) {
+            ArrayNode node = MAPPER.createArrayNode();
+
+            var n1 = MAPPER.createObjectNode().with("commit");
+            n1.with("commit").put("name", "Stephen Dolan");
+            n1.with("commit").put("message", "Merge pull request #163 from stedolan/utf8-fixes\n\nUtf8 fixes. Closes #161");
+
+            var n2 = MAPPER.createObjectNode();
+            n2.with("commit").put("name", "Nicolas Williams");
+            n2.with("commit").put("message", "Reject all overlong UTF8 sequences.");
+
+            node.add(n1);
+            node.add(n2);
+
+            Exchange exchange = new DefaultExchange(context);
+            exchange.getMessage().setBody(node);
+
+            JqExpression expression = new JqExpression(".[] | { message: .commit.message, name: .commit.name} ");
+            expression.init(context);
+
+            List<JsonNode> result = (List<JsonNode>) expression.evaluate(exchange);
+
+            assertThatJson(result.get(0)).isObject().containsEntry("name", "Stephen Dolan");
+            assertThatJson(result.get(1)).isObject().containsEntry("name", "Nicolas Williams");
+        }
+    }
+
+    @Test
+    public void setField() throws Exception {
+        try (CamelContext context = context()) {
+            ObjectNode node = MAPPER.createObjectNode();
+            node.with("commit").put("name", "Nicolas Williams");
+            node.with("commit").put("message", "Reject all overlong UTF8 sequences.");
+
+            Exchange exchange = new DefaultExchange(context);
+            exchange.getMessage().setBody(node);
+
+            JqExpression expression = new JqExpression(".commit.name = \"Andrea\"");
+            expression.init(context);
+
+            JsonNode result = expression.evaluate(exchange, JsonNode.class);
+
+            assertThatJson(result)
+                    .inPath("$.commit.name")
+                    .isString()
+                    .isEqualTo("Andrea");
+        }
+    }
+
+    @Test
+    public void setFieldFromHeader() throws Exception {
+        try (CamelContext context = context()) {
+            ObjectNode node = MAPPER.createObjectNode();
+            node.with("commit").put("name", "Nicolas Williams");
+            node.with("commit").put("message", "Reject all overlong UTF8 sequences.");
+
+            Exchange exchange = new DefaultExchange(context);
+            exchange.getMessage().setHeader("CommitterName", "Andrea");
+            exchange.getMessage().setBody(node);
+
+            JqExpression expression = new JqExpression(".commit.name = header(\"CommitterName\")");
+            expression.init(context);
+
+            JsonNode result = expression.evaluate(exchange, JsonNode.class);
+
+            assertThatJson(result)
+                    .inPath("$.commit.name")
+                    .isString()
+                    .isEqualTo("Andrea");
+        }
+    }
+
+    @Test
+    public void setFieldFromProperty() throws Exception {
+        try (CamelContext context = context()) {
+            ObjectNode node = MAPPER.createObjectNode();
+            node.with("commit").put("name", "Nicolas Williams");
+            node.with("commit").put("message", "Reject all overlong UTF8 sequences.");
+
+            Exchange exchange = new DefaultExchange(context);
+            exchange.setProperty("CommitterName", "Andrea");
+            exchange.getMessage().setBody(node);
+
+            JqExpression expression = new JqExpression(".commit.name = property(\"CommitterName\")");
+            expression.init(context);
+
+            JsonNode result = expression.evaluate(exchange, JsonNode.class);
+
+            assertThatJson(result)
+                    .inPath("$.commit.name")
+                    .isString()
+                    .isEqualTo("Andrea");
+        }
+    }
+
+    @Test
+    public void removeField() throws Exception {
+        try (CamelContext context = context()) {
+            ObjectNode node = MAPPER.createObjectNode();
+            node.with("commit").put("name", "Nicolas Williams");
+            node.with("commit").put("message", "Reject all overlong UTF8 sequences.");
+
+            Exchange exchange = new DefaultExchange(context);
+            exchange.getMessage().setBody(node);
+
+            JqExpression expression = new JqExpression("del(.commit.name)");
+            expression.init(context);
+
+            JsonNode result = expression.evaluate(exchange, JsonNode.class);
+
+            assertThatJson(result)
+                    .inPath("$.commit")
+                    .isObject()
+                    .containsOnlyKeys("message");
+        }
+    }
+
+    private static CamelContext context() {
+        final CamelContext camelContext = new DefaultCamelContext();
+        final Scope scope = Scope.newEmptyScope();
+
+        Map<String, Function> fromServiceLoader = BuiltinFunctionLoader.getInstance()
+                .loadFunctionsFromServiceLoader(
+                        camelContext.getApplicationContextClassLoader() != null
+                                ? camelContext.getApplicationContextClassLoader()
+                                : BuiltinFunctionLoader.class.getClassLoader(),
+                        Versions.JQ_1_6);
+
+        Map<String, Function> fromJq = BuiltinFunctionLoader.getInstance()
+                .loadFunctionsFromJsonJq(
+                        camelContext.getApplicationContextClassLoader() != null
+                                ? camelContext.getApplicationContextClassLoader()
+                                : BuiltinFunctionLoader.class.getClassLoader(),
+                        Versions.JQ_1_6,
+                        scope);
+
+        if (fromServiceLoader != null) {
+            fromServiceLoader.forEach(scope::addFunction);
+        }
+
+        if (fromJq != null) {
+            fromJq.forEach(scope::addFunction);
+        }
+
+        scope.addFunction(JqFunctions.Header.NAME, 1, new JqFunctions.Header());
+        scope.addFunction(JqFunctions.Header.NAME, 2, new JqFunctions.Header());
+        scope.addFunction(JqFunctions.Property.NAME, 1, new JqFunctions.Property());
+        scope.addFunction(JqFunctions.Property.NAME, 2, new JqFunctions.Property());
+
+        camelContext.getRegistry().bind("scope", scope);
+
+        return camelContext;
+    }
+}

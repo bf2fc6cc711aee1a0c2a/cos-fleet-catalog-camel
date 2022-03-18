@@ -20,6 +20,11 @@
           "kafka" : {
             "name" : "cos-kafka-source",
             "prefix" : "kafka"
+          },
+          "processors" : {
+            "filter" : "cos-filter-action",
+            "set_header" : "cos-set-header-action",
+            "transform" : "cos-transform-action"
           }
         },
         "operators" : [ {
@@ -122,6 +127,36 @@
             }
           }
         },
+        "processors" : {
+          "type" : "array",
+          "items" : {
+            "oneOf" : [ {
+              "type" : "object",
+              "required" : [ "transform" ],
+              "properties" : {
+                "transform" : {
+                  "$ref" : "#/$defs/processors/transform"
+                }
+              }
+            }, {
+              "type" : "object",
+              "required" : [ "filter" ],
+              "properties" : {
+                "filter" : {
+                  "$ref" : "#/$defs/processors/filter"
+                }
+              }
+            }, {
+              "type" : "object",
+              "required" : [ "set_header" ],
+              "properties" : {
+                "set_header" : {
+                  "$ref" : "#/$defs/processors/set_header"
+                }
+              }
+            } ]
+          }
+        },
         "error_handler" : {
           "type" : "object",
           "oneOf" : [ {
@@ -155,8 +190,7 @@
           "default" : {
             "stop" : { }
           }
-        },
-        "processors" : { }
+        }
       },
       "$defs" : {
         "data_shape" : {
@@ -171,6 +205,67 @@
                 "enum" : [ "application/json" ]
               }
             }
+          }
+        },
+        "processors" : {
+          "transform" : {
+            "properties" : {
+              "expression" : {
+                "title" : "Expression",
+                "description" : "Expression",
+                "type" : "string"
+              },
+              "expression_type" : {
+                "title" : "Expression Type",
+                "description" : "Expression Type",
+                "type" : "string",
+                "default" : "jq",
+                "enum" : [ "jq", "constant" ]
+              }
+            },
+            "type" : "object",
+            "additionalProperties" : false
+          },
+          "filter" : {
+            "properties" : {
+              "expression" : {
+                "title" : "Expression",
+                "description" : "Expression",
+                "type" : "string"
+              },
+              "expression_type" : {
+                "title" : "Expression Type",
+                "description" : "Expression Type",
+                "type" : "string",
+                "default" : "jq",
+                "enum" : [ "jq" ]
+              }
+            },
+            "type" : "object",
+            "additionalProperties" : false
+          },
+          "set_header" : {
+            "properties" : {
+              "name" : {
+                "title" : "Header Name",
+                "description" : "Header Name",
+                "type" : "string"
+              },
+              "expression" : {
+                "title" : "Expression",
+                "description" : "Expression",
+                "type" : "string"
+              },
+              "expression_type" : {
+                "title" : "Expression Type",
+                "description" : "Expression Type",
+                "type" : "string",
+                "default" : "jq",
+                "enum" : [ "jq", "constant" ]
+              }
+            },
+            "type" : "object",
+            "additionalProperties" : false
           }
         },
         "error_handler" : {

@@ -65,9 +65,14 @@
             <groupId>org.apache.camel.quarkus</groupId>
             <artifactId>camel-quarkus-controlbus</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.bf2</groupId>
             <artifactId>cos-connector-camel-component-routecontroller</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.bf2</groupId>
+            <artifactId>cos-connector-camel-jq</artifactId>
         </dependency>
 
         <!-- kamelets -->
@@ -103,11 +108,11 @@
         </dependency>
         <dependency>
             <groupId>org.bf2</groupId>
-            <artifactId>cos-connector-action-jsonpath</artifactId>
+            <artifactId>cos-connector-action-serdes</artifactId>
         </dependency>
         <dependency>
             <groupId>org.bf2</groupId>
-            <artifactId>cos-connector-action-serdes</artifactId>
+            <artifactId>cos-connector-actions</artifactId>
         </dependency>
         <dependency>
             <groupId>org.bf2</groupId>
@@ -161,18 +166,29 @@
                             <!--
                               configure the default actions.
                             -->
-                            <!--
                             <actions>
                                 <action>
-                                    <name>cos-log-action</name>
+                                    <name>cos-transform-action</name>
                                     <version>${cos.kamelets.version}</version>
+                                    <dataShapes>
+                                        <dataShape>application/json</dataShape>
+                                    </dataShapes>
                                 </action>
                                 <action>
-                                    <name>cos-fault-action</name>
+                                    <name>cos-filter-action</name>
                                     <version>${cos.kamelets.version}</version>
+                                    <dataShapes>
+                                        <dataShape>application/json</dataShape>
+                                    </dataShapes>
+                                </action>
+                                <action>
+                                    <name>cos-set-header-action</name>
+                                    <version>${cos.kamelets.version}</version>
+                                    <dataShapes>
+                                        <dataShape>application/json</dataShape>
+                                    </dataShapes>
                                 </action>
                             </actions>
-                            -->
 
                             <!--
                               configure the default channel.

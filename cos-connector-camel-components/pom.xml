@@ -17,6 +17,7 @@
 
     <modules>
         <module>cos-connector-camel-component-routecontroller</module>
+        <module>cos-connector-camel-jq</module>
     </modules>
 
 

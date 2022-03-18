@@ -193,7 +193,6 @@ public final class CatalogSupport {
     }
 
     public static void computeDataShapes(Connector.DataShapeDefinition ds, ObjectNode adapterSpec) {
-
         if (ds.getConsumes() != null &&
                 ds.getConsumes().getDefaultFormat() == null &&
                 ds.getConsumes().getFormats() != null
@@ -328,29 +327,68 @@ public final class CatalogSupport {
         }
     }
 
+    public static void copyActionProperties(ObjectNode source, ObjectNode schemaRoot) {
+        var fields = source.at("/spec/definition/properties").fields();
+        while (fields.hasNext()) {
+            final var field = fields.next();
+            final var key = asKey(field.getKey());
+            final var value = (ObjectNode) field.getValue();
+
+            // remove json schema extensions from kamelets
+            final var descriptors = (ArrayNode) value.remove("x-descriptors");
+
+            ObjectNode target = schemaRoot;
+
+            var format = value.get("format");
+            if (format != null && Objects.equals("password", format.textValue())) {
+                var property = target.with("properties").putObject(key);
+                property.set("title", value.get("title"));
+
+                var oneOf = property.putArray("oneOf");
+                oneOf.add(value);
+                oneOf.addObject()
+                        .put("description", "An opaque reference to the " + key)
+                        .put("type", "object")
+                        .putObject("properties");
+            } else {
+                target.with("properties").set(key, value);
+            }
+        }
+    }
+
     public static void computeActions(ConnectorDefinition def, Connector connector, KameletsCatalog catalog) {
         def.getConnectorType().getCapabilities().add(CatalogConstants.CAPABILITY_PROCESSORS);
 
-        final var oneOf = (ArrayNode) def.getConnectorType().getSchema()
-                .with("properties")
-                .with(CatalogConstants.CAPABILITY_PROCESSORS)
-                .put("type", "array")
-                .with("items")
-                .withArray("oneOf");
+        ArrayNode oneOf = JSON_MAPPER.createArrayNode();
 
         for (Connector.ActionRef step : connector.getActions()) {
+            if (connector.getDataShape() != null &&
+                    connector.getDataShape().getConsumes() != null &&
+                    connector.getDataShape().getConsumes().getFormats() != null &&
+                    step.getDataShapes() != null) {
+
+                boolean match = step.getDataShapes().stream().anyMatch(
+                        ds -> connector.getDataShape().getConsumes().getFormats().contains(ds));
+
+                if (!match) {
+                    continue;
+                }
+            }
+
             String sanitizedName = step.getName();
             sanitizedName = StringUtils.removeStart(sanitizedName, "cos-");
             sanitizedName = StringUtils.removeEnd(sanitizedName, "-action");
 
             final String stepName = asKey(sanitizedName);
             final ObjectNode stepSchema = oneOf.addObject();
-            final JsonNode kameletSpec = catalog.kamelet(step.getName(), step.getVersion());
+            final ObjectNode kameletSpec = catalog.kamelet(step.getName(), step.getVersion());
 
-            def.getConnectorType().getSchema()
-                    .with("$defs")
-                    .with(CatalogConstants.CAPABILITY_PROCESSORS)
-                    .set(stepName, kameletSpec.requiredAt("/spec/definition"));
+            copyActionProperties(
+                    kameletSpec,
+                    def.getConnectorType().getSchema()
+                            .with("$defs")
+                            .with(CatalogConstants.CAPABILITY_PROCESSORS)
+                            .with(stepName));
 
             if (step.getMetadata() != null) {
                 ObjectNode meta = def.getConnectorType().getSchema()
@@ -366,13 +404,23 @@ public final class CatalogSupport {
                     .with("$defs")
                     .with(CatalogConstants.CAPABILITY_PROCESSORS)
                     .with(stepName)
-                    .put("type", "object");
+                    .put("type", "object")
+                    .put("additionalProperties", false);
 
             stepSchema.put("type", "object");
             stepSchema.withArray("required").add(stepName);
             stepSchema.with("properties").with(stepName).put(
                     "$ref",
                     "#/$defs/" + CatalogConstants.CAPABILITY_PROCESSORS + "/" + stepName);
+        }
+
+        if (!oneOf.isEmpty()) {
+            def.getConnectorType().getSchema()
+                    .with("properties")
+                    .with(CatalogConstants.CAPABILITY_PROCESSORS)
+                    .put("type", "array")
+                    .with("items")
+                    .set("oneOf", oneOf);
         }
     }
 
@@ -506,5 +554,22 @@ public final class CatalogSupport {
                     "$ref",
                     "#/$defs/" + group + "/" + propertyName);
         });
+    }
+
+    public static void disableAdditionalProperties(JsonNode root, String path) {
+        JsonNode node = root.at(path);
+
+        if (node.isMissingNode()) {
+            return;
+        }
+        if (!node.isEmpty()) {
+            return;
+        }
+        if (!node.isObject()) {
+            return;
+        }
+
+        ((ObjectNode) node).put("type", "object");
+        ((ObjectNode) node).put("additionalProperties", false);
     }
 }
