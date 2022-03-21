@@ -5,11 +5,13 @@ import groovy.util.logging.Slf4j
 import org.bf2.cos.connector.camel.it.support.ConnectorSpec
 import org.bf2.cos.connector.camel.it.support.KafkaContainer
 import org.testcontainers.containers.MariaDBContainer
+import spock.lang.Ignore
 
 import java.util.concurrent.TimeUnit
 
 import static org.awaitility.Awaitility.await
 
+@Ignore
 @Slf4j
 class ConnectorIT extends ConnectorSpec {
     MariaDBContainer db
