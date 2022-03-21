@@ -236,9 +236,9 @@ public final class CatalogSupport {
                     ds.getProduces().setFormats(Set.of(ds.getConsumes().getDefaultFormat()));
 
                     /*
-                     * 
+                     *
                      * Don't do data conversion for now
-                     * 
+                     *
                      * switch (ds.getConsumes().getDefaultFormat()) {
                      * case "application/json":
                      * case "avro/binary":
@@ -288,9 +288,9 @@ public final class CatalogSupport {
                     ds.getConsumes().setFormats(Set.of(ds.getProduces().getDefaultFormat()));
 
                     /*
-                     * 
+                     *
                      * Don't do data conversion for now
-                     * 
+                     *
                      * switch (ds.getProduces().getDefaultFormat()) {
                      * case "application/json":
                      * case "avro/binary":
