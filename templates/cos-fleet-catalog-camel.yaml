@@ -15,9 +15,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-cloudwatch:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-cloudwatch:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -276,9 +276,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-ddb:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-ddb:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -550,9 +550,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-ddb-streams:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-ddb-streams:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -813,9 +813,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-kinesis:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-kinesis:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -1078,9 +1078,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-kinesis:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-kinesis:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -1343,9 +1343,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-lambda:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-lambda:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -1593,9 +1593,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-s3:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-s3:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -1860,9 +1860,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-s3:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-s3:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -2151,9 +2151,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-sns:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-sns:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -2418,9 +2418,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-sqs:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-sqs:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -2698,9 +2698,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-sqs:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-sqs:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -2996,9 +2996,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-blob:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-blob:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -3232,9 +3232,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-blob:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-blob:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -3468,9 +3468,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-queue:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-queue:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -3698,9 +3698,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-queue:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-queue:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -3941,9 +3941,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-google-functions:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-google-functions:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -4167,9 +4167,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-google-pubsub:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-google-pubsub:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -4388,9 +4388,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-google-pubsub:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-google-pubsub:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -4627,9 +4627,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-google-storage:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-google-storage:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -4849,9 +4849,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-google-storage:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-google-storage:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -5084,9 +5084,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-http:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-http:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -5302,9 +5302,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-jms-amqp-10:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-jms-amqp-10:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -5524,9 +5524,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-jms-amqp-10:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-jms-amqp-10:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -6087,9 +6087,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-jms-apache-artemis:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-jms-apache-artemis:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -6316,9 +6316,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-data-generator:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-data-generator:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -6538,9 +6538,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-log:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-log:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -6763,9 +6763,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-cassandra:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-cassandra:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -7023,9 +7023,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-cassandra:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-cassandra:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -7283,9 +7283,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-elasticsearch:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-elasticsearch:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -7531,9 +7531,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-mongodb:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-mongodb:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -7782,9 +7782,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-mongodb:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-mongodb:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -8040,9 +8040,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-jira:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-jira:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -8276,9 +8276,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-salesforce:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-salesforce:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -8538,9 +8538,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-slack:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-slack:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -8777,9 +8777,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-slack:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-slack:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -9008,9 +9008,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-telegram:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-telegram:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -9231,9 +9231,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-telegram:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-telegram:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -9456,9 +9456,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-redshift:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-redshift:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -9703,9 +9703,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-redshift:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-redshift:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -9956,9 +9956,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-mariadb:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-mariadb:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -10203,9 +10203,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-mariadb:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-mariadb:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -10456,9 +10456,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-mysql:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-mysql:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -10703,9 +10703,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-mysql:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-mysql:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -10956,9 +10956,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-postgresql:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-postgresql:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -11204,9 +11204,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-postgresql:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-postgresql:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -11458,9 +11458,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-sqlserver:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-sqlserver:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -11705,9 +11705,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-sqlserver:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-sqlserver:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -11965,9 +11965,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-ftps:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-ftps:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -12217,9 +12217,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-ftps:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-ftps:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -12475,9 +12475,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-minio:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-minio:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -12725,9 +12725,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-minio:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-minio:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -12981,9 +12981,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "sink",
-              "connector_image" : "quay.io/rhoas/cos-connector-sftp:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-sftp:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
@@ -13233,9 +13233,9 @@ objects:
         "channels" : {
           "stable" : {
             "shard_metadata" : {
-              "connector_revision" : "15",
+              "connector_revision" : "16",
               "connector_type" : "source",
-              "connector_image" : "quay.io/rhoas/cos-connector-sftp:0.1.15",
+              "connector_image" : "quay.io/rhoas/cos-connector-sftp:0.1.16",
               "operators" : [ {
                 "type" : "camel-connector-operator",
                 "version" : "[1.0.0,2.0.0)"
