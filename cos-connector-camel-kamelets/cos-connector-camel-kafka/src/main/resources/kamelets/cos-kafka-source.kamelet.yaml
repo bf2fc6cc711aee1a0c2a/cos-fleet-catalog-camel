@@ -33,8 +33,6 @@ spec:
           username: '{{user}}'
           password: '{{password}}'
           consumerCreationRetryMs: '{{consumerCreationRetryMs:5000}}'
-      - name: "kafka-headers-extractor"
-        type: "#class:org.bf2.cos.connector.camel.kafka.KafkaRecordHeadersExtractor"
     from:
       uri: "kafka:{{topic}}"
       parameters:
