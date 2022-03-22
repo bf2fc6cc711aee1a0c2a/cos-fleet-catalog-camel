@@ -12003,6 +12003,7 @@ objects:
               },
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/container.request-memory" : "256m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/octet-stream",
@@ -12255,6 +12256,7 @@ objects:
               },
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/container.request-memory" : "256m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/octet-stream",
@@ -13019,6 +13021,7 @@ objects:
               },
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/container.request-memory" : "256m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/octet-stream",
@@ -13271,6 +13274,7 @@ objects:
               },
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
+                "trait.camel.apache.org/container.request-memory" : "256m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "consumes" : "application/octet-stream",
