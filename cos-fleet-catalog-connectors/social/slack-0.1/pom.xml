@@ -78,6 +78,12 @@
                             </dataShape>
                         </connector>
                     </connectors>
+                    <annotations>
+                       <annotation>
+                          <name>trait.camel.apache.org/container.request-memory</name>
+                          <value>256m</value>
+                       </annotation>
+                    </annotations>
                 </configuration>
                 <dependencies>
                     <dependency>
