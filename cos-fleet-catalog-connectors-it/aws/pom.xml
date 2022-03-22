@@ -25,6 +25,7 @@
 
     <modules>
         <module>aws-it</module>
+        <module>aws-s3-0.1-it</module>
         <module>aws-sqs-0.1-it</module>
     </modules>
 
