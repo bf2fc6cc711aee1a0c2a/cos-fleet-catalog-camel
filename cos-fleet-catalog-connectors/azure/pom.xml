@@ -36,6 +36,7 @@
 
     <modules>
         <module>azure-storage-blob-0.1</module>
+        <module>azure-storage-blob-changefeed-0.1</module>
         <module>azure-storage-queue-0.1</module>
     </modules>
 
