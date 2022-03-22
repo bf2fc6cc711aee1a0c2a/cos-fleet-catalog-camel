@@ -1,0 +1,230 @@
+{
+  "channels" : {
+    "stable" : {
+      "shard_metadata" : {
+        "connector_revision" : "16",
+        "connector_type" : "source",
+        "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-blob-changefeed:0.1.16",
+        "operators" : [ {
+          "type" : "camel-connector-operator",
+          "version" : "[1.0.0,2.0.0)"
+        } ],
+        "kamelets" : {
+          "adapter" : {
+            "name" : "azure-storage-blob-changefeed-source",
+            "prefix" : "azure"
+          },
+          "kafka" : {
+            "name" : "cos-kafka-sink",
+            "prefix" : "kafka"
+          },
+          "processors" : {
+            "log" : "cos-log-action",
+            "fault" : "cos-fault-action"
+          }
+        },
+        "annotations" : {
+          "trait.camel.apache.org/container.request-cpu" : "0.20",
+          "trait.camel.apache.org/container.request-memory" : "128m",
+          "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
+        },
+        "consumes" : "application/octet-stream",
+        "produces" : "application/octet-stream"
+      }
+    }
+  },
+  "connector_type" : {
+    "id" : "azure_storage_blob_changefeed_source_0.1",
+    "kind" : "ConnectorType",
+    "icon_href" : "TODO",
+    "name" : "Azure Storage Blob Changefeed Source",
+    "description" : "Azure Storage Blob Changefeed Source",
+    "version" : "0.1",
+    "labels" : [ "source" ],
+    "capabilities" : [ "data_shape", "error_handler", "processors" ],
+    "channels" : [ "stable" ],
+    "schema" : {
+      "type" : "object",
+      "additionalProperties" : false,
+      "required" : [ "azure_period", "azure_account_name", "azure_access_key", "kafka_topic" ],
+      "properties" : {
+        "azure_period" : {
+          "title" : "Period between Polls",
+          "description" : "The interval between fetches to the Azure Storage Changefeed in milliseconds",
+          "type" : "integer",
+          "default" : 10000
+        },
+        "azure_account_name" : {
+          "title" : "Account Name",
+          "description" : "The Azure Storage Blob account name.",
+          "type" : "string",
+          "x-group" : "credentials"
+        },
+        "azure_access_key" : {
+          "title" : "Access Key",
+          "x-group" : "credentials",
+          "oneOf" : [ {
+            "title" : "Access Key",
+            "description" : "The Azure Storage Blob access Key.",
+            "type" : "string",
+            "format" : "password"
+          }, {
+            "description" : "An opaque reference to the azure_access_key",
+            "type" : "object",
+            "properties" : { }
+          } ]
+        },
+        "kafka_topic" : {
+          "title" : "Topic Names",
+          "description" : "Comma separated list of Kafka topic names",
+          "type" : "string"
+        },
+        "processors" : {
+          "type" : "array",
+          "items" : {
+            "oneOf" : [ {
+              "type" : "object",
+              "required" : [ "log" ],
+              "properties" : {
+                "log" : {
+                  "$ref" : "#/$defs/processors/log"
+                }
+              }
+            }, {
+              "type" : "object",
+              "required" : [ "fault" ],
+              "properties" : {
+                "fault" : {
+                  "$ref" : "#/$defs/processors/fault"
+                }
+              }
+            } ]
+          }
+        },
+        "data_shape" : {
+          "type" : "object",
+          "additionalProperties" : false,
+          "properties" : {
+            "produces" : {
+              "$ref" : "#/$defs/data_shape/produces"
+            }
+          }
+        },
+        "error_handler" : {
+          "type" : "object",
+          "oneOf" : [ {
+            "type" : "object",
+            "additionalProperties" : false,
+            "required" : [ "dead_letter_queue" ],
+            "properties" : {
+              "dead_letter_queue" : {
+                "$ref" : "#/$defs/error_handler/dead_letter_queue"
+              }
+            }
+          }, {
+            "type" : "object",
+            "additionalProperties" : false,
+            "required" : [ "log" ],
+            "properties" : {
+              "log" : {
+                "$ref" : "#/$defs/error_handler/log"
+              }
+            }
+          }, {
+            "type" : "object",
+            "additionalProperties" : false,
+            "required" : [ "stop" ],
+            "properties" : {
+              "stop" : {
+                "$ref" : "#/$defs/error_handler/stop"
+              }
+            }
+          } ]
+        }
+      },
+      "$defs" : {
+        "processors" : {
+          "log" : {
+            "title" : "Log",
+            "description" : "Log payload.",
+            "type" : "object",
+            "properties" : {
+              "multiLine" : {
+                "title" : "Multi Line",
+                "description" : "Multi Line",
+                "type" : "boolean",
+                "default" : false
+              },
+              "showProperties" : {
+                "title" : "Show Properties",
+                "description" : "Show Properties",
+                "type" : "boolean",
+                "default" : false
+              },
+              "showHeaders" : {
+                "title" : "Show Headers",
+                "description" : "Show Headers",
+                "type" : "boolean",
+                "default" : false
+              }
+            }
+          },
+          "fault" : {
+            "type" : "object",
+            "title" : "Fault Injection",
+            "description" : "Fail the exchange.",
+            "required" : [ "exceptionType", "exceptionMessage" ],
+            "properties" : {
+              "exceptionType" : {
+                "title" : "The Exception Type",
+                "description" : "The Exception Type",
+                "type" : "string"
+              },
+              "exceptionMessage" : {
+                "title" : "The Exception Message",
+                "description" : "The Exception Message",
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "data_shape" : {
+          "produces" : {
+            "type" : "object",
+            "additionalProperties" : false,
+            "required" : [ "format" ],
+            "properties" : {
+              "format" : {
+                "type" : "string",
+                "default" : "application/octet-stream",
+                "enum" : [ "application/octet-stream" ]
+              }
+            }
+          }
+        },
+        "error_handler" : {
+          "dead_letter_queue" : {
+            "type" : "object",
+            "additionalProperties" : false,
+            "required" : [ "topic" ],
+            "properties" : {
+              "topic" : {
+                "type" : "string",
+                "title" : "Dead Letter Topic Name",
+                "description" : "The name of the Kafka topic used as dead letter queue"
+              }
+            }
+          },
+          "log" : {
+            "type" : "object",
+            "additionalProperties" : false
+          },
+          "stop" : {
+            "type" : "object",
+            "additionalProperties" : false
+          }
+        }
+      }
+    }
+  }
+}
