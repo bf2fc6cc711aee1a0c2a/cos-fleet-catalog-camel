@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit
 @Slf4j
 class ConnectorSourceIT extends ConnectorSpec {
     static String TOPIC = 'foo'
+    static String FILE_NAME = 'filetest.txt'
 
     AWSContainer aws
 
@@ -70,7 +71,7 @@ class ConnectorSourceIT extends ConnectorSpec {
         RequestBody rb = RequestBody.fromString(payload);
             s3.putObject(
                     PutObjectRequest.builder()
-                    .key("filetest.txt")
+                    .key(FILE_NAME)
                     .bucket(TOPIC)
                     .build(), rb
             )

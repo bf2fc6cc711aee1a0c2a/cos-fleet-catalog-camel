@@ -13,6 +13,8 @@ import java.util.concurrent.TimeUnit
 @Slf4j
 class ConnectorSinkIT extends ConnectorSpec {
     static String TOPIC = 'foo'
+    static String FILE_NAME = 'filetest.txt'
+    static String HEADER_FILE_NAME = 'file'
 
     AWSContainer aws
 
@@ -57,7 +59,7 @@ class ConnectorSinkIT extends ConnectorSpec {
                       autoCreateBucket: true
                       uriEndpointOverride: ${aws.endpoint}
                       overrideEndpoint: true
-                      keyName: "filetest.txt"
+                      keyName: $FILE_NAME
             """)
     }
 
@@ -70,10 +72,10 @@ class ConnectorSinkIT extends ConnectorSpec {
             def payload = '''{ "username":"oscerd", "city":"Rome" }'''
             def s3 = aws.s3()
         when:
-            sendToKafka(TOPIC, payload, ['file': 'filetest.txt'])
+            sendToKafka(TOPIC, payload, [ HEADER_FILE_NAME: FILE_NAME])
         then:
             await(10, TimeUnit.SECONDS) {
-                def rmr = GetObjectRequest.builder().bucket(TOPIC).key("filetest.txt").build()
+                def rmr = GetObjectRequest.builder().bucket(TOPIC).key(FILE_NAME).build()
                 def msg = IoUtils.toUtf8String(s3.getObject(rmr))
                 return msg == payload
             }
