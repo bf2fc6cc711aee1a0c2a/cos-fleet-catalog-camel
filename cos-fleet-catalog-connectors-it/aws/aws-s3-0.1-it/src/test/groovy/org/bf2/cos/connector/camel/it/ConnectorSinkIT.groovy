@@ -14,7 +14,6 @@ import java.util.concurrent.TimeUnit
 class ConnectorSinkIT extends ConnectorSpec {
     static String TOPIC = 'foo'
     static String FILE_NAME = 'filetest.txt'
-    static String HEADER_FILE_NAME = 'file'
 
     AWSContainer aws
 
@@ -72,7 +71,7 @@ class ConnectorSinkIT extends ConnectorSpec {
             def payload = '''{ "username":"oscerd", "city":"Rome" }'''
             def s3 = aws.s3()
         when:
-            sendToKafka(TOPIC, payload, [ HEADER_FILE_NAME: FILE_NAME])
+            sendToKafka(TOPIC, payload, [ 'file': FILE_NAME])
         then:
             await(10, TimeUnit.SECONDS) {
                 def rmr = GetObjectRequest.builder().bucket(TOPIC).key(FILE_NAME).build()
