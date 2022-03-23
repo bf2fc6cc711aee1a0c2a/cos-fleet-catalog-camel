@@ -3,6 +3,8 @@ package org.bf2.cos.connector.camel.it
 import groovy.util.logging.Slf4j
 import org.bf2.cos.connector.camel.it.aws.AWSContainer
 import org.bf2.cos.connector.camel.it.support.ConnectorSpec
+import software.amazon.awssdk.core.sync.RequestBody
+import software.amazon.awssdk.services.s3.model.PutObjectRequest
 import software.amazon.awssdk.services.sqs.model.CreateQueueRequest
 import software.amazon.awssdk.services.sqs.model.SendMessageRequest
 
@@ -30,16 +32,15 @@ class ConnectorSourceIT extends ConnectorSpec {
             """
             - route:
                 from:
-                  uri: kamelet:aws-sqs-source
+                  uri: kamelet:aws-s3-source
                   parameters:
-                    accessKey: ${aws.credentials.accessKeyId()}
-                    secretKey: ${aws.credentials.secretAccessKey()}
-                    region: ${aws.region}
-                    queueNameOrArn: $TOPIC
-                    amazonAWSHost: ${AWSContainer.CONTAINER_ALIAS}
-                    autoCreateQueue: true
-                    uriEndpointOverride: ${aws.endpoint}
-                    overrideEndpoint: true
+                      accessKey: ${aws.credentials.accessKeyId()}
+                      secretKey: ${aws.credentials.secretAccessKey()}
+                      region: ${aws.region}
+                      bucketNameOrArn: $TOPIC
+                      autoCreateBucket: true
+                      uriEndpointOverride: ${aws.endpoint}
+                      overrideEndpoint: true
                 steps:
                 - to: 
                     uri: "kamelet:cos-log-action"
@@ -64,15 +65,14 @@ class ConnectorSourceIT extends ConnectorSpec {
     def "source"() {
         setup:
             def payload = '''{ "username":"oscerd", "city":"Rome" }'''
-            def sqs = aws.sqs()
-            def request  = CreateQueueRequest.builder().queueName(TOPIC).build()
-            def queueUrl = sqs.createQueue(request).queueUrl().replace(AWSContainer.CONTAINER_ALIAS, 'localhost')
+            def s3 = aws.s3()
         when:
-            sqs.sendMessage(
-                SendMessageRequest.builder()
-                    .queueUrl(queueUrl)
-                    .messageBody(payload)
-                    .build()
+        RequestBody rb = RequestBody.fromString(payload);
+            s3.putObject(
+                    PutObjectRequest.builder()
+                    .key("filetest.txt")
+                    .bucket(TOPIC)
+                    .build(), rb
             )
         then:
             await(10, TimeUnit.SECONDS) {

@@ -3,8 +3,10 @@ package org.bf2.cos.connector.camel.it
 import groovy.util.logging.Slf4j
 import org.bf2.cos.connector.camel.it.aws.AWSContainer
 import org.bf2.cos.connector.camel.it.support.ConnectorSpec
+import software.amazon.awssdk.services.s3.model.GetObjectRequest
 import software.amazon.awssdk.services.sqs.model.CreateQueueRequest
 import software.amazon.awssdk.services.sqs.model.ReceiveMessageRequest
+import software.amazon.awssdk.utils.IoUtils
 
 import java.util.concurrent.TimeUnit
 
@@ -52,9 +54,10 @@ class ConnectorSinkIT extends ConnectorSpec {
                       secretKey: ${aws.credentials.secretAccessKey()}
                       region: ${aws.region}
                       bucketNameOrArn: $TOPIC
-                      autocreateBucket: true
+                      autoCreateBucket: true
                       uriEndpointOverride: ${aws.endpoint}
                       overrideEndpoint: true
+                      keyName: "filetest.txt"
             """)
     }
 
@@ -65,17 +68,14 @@ class ConnectorSinkIT extends ConnectorSpec {
     def "sink"() {
         setup:
             def payload = '''{ "username":"oscerd", "city":"Rome" }'''
-            def sqs = aws.s3()
+            def s3 = aws.s3()
         when:
-            sendToKafka(TOPIC, payload, ['foo': 'bar'])
+            sendToKafka(TOPIC, payload, ['file': 'filetest.txt'])
         then:
             await(10, TimeUnit.SECONDS) {
-                def rmr = ReceiveMessageRequest.builder().queueUrl(queueUrl).build()
-                def msg = sqs.receiveMessage(rmr).messages.find {
-                    it.body == payload
-                }
-
-                return msg != null
+                def rmr = GetObjectRequest.builder().bucket(TOPIC).key("filetest.txt").build()
+                def msg = IoUtils.toUtf8String(s3.getObject(rmr))
+                return msg == payload
             }
     }
 }
