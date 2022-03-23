@@ -13,6 +13,7 @@ import software.amazon.awssdk.auth.credentials.AwsCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.sns.SnsClient;
 import software.amazon.awssdk.services.sqs.SqsClient;
 
 public class AWSContainer extends GenericContainer<AWSContainer> {
@@ -41,6 +42,14 @@ public class AWSContainer extends GenericContainer<AWSContainer> {
 
     public S3Client s3() {
         return S3Client.builder()
+                .credentialsProvider(getCredentialsProvider())
+                .endpointOverride(getExternalEndpointURI())
+                .region(Region.US_EAST_1)
+                .build();
+    }
+
+    public SnsClient sns() {
+        return SnsClient.builder()
                 .credentialsProvider(getCredentialsProvider())
                 .endpointOverride(getExternalEndpointURI())
                 .region(Region.US_EAST_1)
