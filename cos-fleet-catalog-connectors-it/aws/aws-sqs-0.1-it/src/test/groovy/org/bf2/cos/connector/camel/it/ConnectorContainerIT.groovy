@@ -20,6 +20,12 @@ class ConnectorContainerIT extends ConnectorSpec {
             body.checks.find {
                 it.name == 'camel-liveness-checks' && it.status == 'UP'
             }
+    }
 
+    def "exposes metrics"() {
+        when:
+            def res = request.get("/q/metrics")
+        then:
+            res.statusCode == 200
     }
 }
