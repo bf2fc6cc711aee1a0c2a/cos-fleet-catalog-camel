@@ -15,7 +15,7 @@
         <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
         <project.resources.sourceEncoding>${encoding}</project.resources.sourceEncoding>
 
-        <quarkus.version>2.7.4.Final</quarkus.version>
+        <quarkus.version>2.7.5.Final</quarkus.version>
         <camel-k-runtime.version>1.12.0</camel-k-runtime.version>
         <camel-quarkus.version>2.7.0</camel-quarkus.version>
         <camel-kamelets-catalog.version>main-SNAPSHOT</camel-kamelets-catalog.version>
