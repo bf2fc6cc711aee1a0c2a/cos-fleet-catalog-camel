@@ -2,9 +2,9 @@
   "channels" : {
     "stable" : {
       "shard_metadata" : {
-        "connector_revision" : "16",
+        "connector_revision" : "17",
         "connector_type" : "sink",
-        "connector_image" : "quay.io/rhoas/cos-connector-aws-s3:0.1.16",
+        "connector_image" : "quay.io/rhoas/cos-connector-aws-s3:0.1.17",
         "operators" : [ {
           "type" : "camel-connector-operator",
           "version" : "[1.0.0,2.0.0)"
@@ -109,6 +109,11 @@
           "description" : "Set the need for overiding the endpoint URI. This option needs to be used in combination with uriEndpointOverride setting.",
           "type" : "boolean",
           "default" : false
+        },
+        "aws_key_name" : {
+          "title" : "Key Name",
+          "description" : "The key name for saving an element in the bucket.",
+          "type" : "string"
         },
         "kafka_topic" : {
           "title" : "Topic Names",
