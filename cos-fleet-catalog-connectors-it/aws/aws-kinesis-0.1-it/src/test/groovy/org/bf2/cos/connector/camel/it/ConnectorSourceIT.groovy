@@ -5,6 +5,7 @@ import org.bf2.cos.connector.camel.it.aws.AWSContainer
 import org.bf2.cos.connector.camel.it.support.ConnectorSpec
 import software.amazon.awssdk.core.SdkBytes
 import software.amazon.awssdk.core.sync.RequestBody
+import software.amazon.awssdk.services.kinesis.KinesisClient
 import software.amazon.awssdk.services.kinesis.model.CreateStreamRequest
 import software.amazon.awssdk.services.kinesis.model.DescribeStreamRequest
 import software.amazon.awssdk.services.kinesis.model.PutRecordRequest
@@ -71,15 +72,7 @@ class ConnectorSourceIT extends ConnectorSpec {
         setup:
             def payload = '''{ "username":"oscerd", "city":"Rome" }'''
             def kinesis = aws.kinesis()
-        def createRequest = CreateStreamRequest.builder().streamName(TOPIC).shardCount(1).build()
-        aws.kinesis().createStream(createRequest)
-        DescribeStreamRequest describeStreamRequest = DescribeStreamRequest.builder().streamName(TOPIC).build();
-        String status;
-        do {
-            status = aws.kinesis().describeStream(describeStreamRequest).streamDescription().streamStatus()
-            println("Check Status " + status)
-        } while (!status.equals("ACTIVE"));
-        println("While completed " + status)
+            createStreamAndWait(kinesis)
         when:
             kinesis.putRecord(
                     PutRecordRequest.builder()
@@ -96,6 +89,16 @@ class ConnectorSourceIT extends ConnectorSpec {
 
                 return record != null
             }
+    }
+
+    private void createStreamAndWait(KinesisClient kinesis) {
+        def createRequest = CreateStreamRequest.builder().streamName(TOPIC).shardCount(1).build()
+        kinesis.createStream(createRequest)
+        DescribeStreamRequest describeStreamRequest = DescribeStreamRequest.builder().streamName(TOPIC).build();
+        String status;
+        do {
+            status = aws.kinesis().describeStream(describeStreamRequest).streamDescription().streamStatus()
+        } while (!status.equals("ACTIVE"));
     }
 }
 
