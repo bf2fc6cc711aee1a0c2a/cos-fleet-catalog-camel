@@ -3,7 +3,15 @@ package org.bf2.cos.connector.camel.it
 import groovy.util.logging.Slf4j
 import org.bf2.cos.connector.camel.it.aws.AWSContainer
 import org.bf2.cos.connector.camel.it.support.ConnectorSpec
-import software.amazon.awssdk.utils.IoUtils
+import software.amazon.awssdk.services.kinesis.model.CreateStreamRequest
+import software.amazon.awssdk.services.kinesis.model.DescribeStreamRequest
+import software.amazon.awssdk.services.kinesis.model.DescribeStreamResponse
+import software.amazon.awssdk.services.kinesis.model.GetRecordsRequest
+import software.amazon.awssdk.services.kinesis.model.GetShardIteratorRequest
+import software.amazon.awssdk.services.kinesis.model.GetShardIteratorResponse
+import software.amazon.awssdk.services.kinesis.model.Record
+import software.amazon.awssdk.core.SdkBytes
+import software.amazon.awssdk.services.kinesis.model.Shard
 
 import java.util.concurrent.TimeUnit
 
@@ -64,13 +72,50 @@ class ConnectorSinkIT extends ConnectorSpec {
     def "sink"() {
         setup:
             def payload = '''{ "username":"oscerd", "city":"Rome" }'''
-            def kinesisClient = aws.kinesis()
+            def request = CreateStreamRequest.builder().streamName(TOPIC).shardCount(1).build()
+            aws.kinesis().createStream(request)
         when:
             sendToKafka(TOPIC, payload, [ 'file': FILE_NAME])
         then:
             await(10, TimeUnit.SECONDS) {
-                def rmr = GetObjectRequest.builder().bucket(TOPIC).key(FILE_NAME).build()
-                def msg = IoUtils.toUtf8String(s3.getObject(rmr))
+                def shardIterator;
+                def lastShardId = null;
+
+                // Retrieve the Shards from a Stream
+                DescribeStreamRequest describeStreamRequest = DescribeStreamRequest.builder()
+                        .streamName(TOPIC)
+                        .build();
+                List<Shard> shards = new ArrayList<>();
+
+                DescribeStreamResponse streamRes;
+                do {
+                    streamRes = aws.kinesis().describeStream(describeStreamRequest);
+                    shards.addAll(streamRes.streamDescription().shards());
+
+                    if (shards.size() > 0) {
+                        lastShardId = shards.get(shards.size() - 1).shardId();
+                    }
+                } while (streamRes.streamDescription().hasMoreShards());
+
+                GetShardIteratorRequest itReq = GetShardIteratorRequest.builder()
+                        .streamName(TOPIC)
+                        .shardIteratorType("TRIM_HORIZON")
+                        .shardId(lastShardId)
+                        .build();
+
+                GetShardIteratorResponse shardIteratorResult = aws.kinesis().getShardIterator(itReq);
+                shardIterator = shardIteratorResult.shardIterator();
+                def rmr = GetRecordsRequest
+                        .builder()
+                        .shardIterator(shardIterator)
+                        .build()
+                def msg = aws.kinesis().getRecords(rmr)
+                // Print records
+                for (Record record : msg.records()) {
+                    SdkBytes byteBuffer = record.data();
+                    println(String.format("Seq No: %s - %s", record.sequenceNumber(),
+                            new String(byteBuffer.asByteArray())));
+                }
                 return msg == payload
             }
     }
