@@ -78,46 +78,51 @@ class ConnectorSinkIT extends ConnectorSpec {
             sendToKafka(TOPIC, payload, [ 'file': FILE_NAME])
         then:
             await(10, TimeUnit.SECONDS) {
-                def shardIterator;
-                def lastShardId = null;
-
-                // Retrieve the Shards from a Stream
-                DescribeStreamRequest describeStreamRequest = DescribeStreamRequest.builder()
-                        .streamName(TOPIC)
-                        .build();
-                List<Shard> shards = new ArrayList<>();
-
-                DescribeStreamResponse streamRes;
-                do {
-                    streamRes = aws.kinesis().describeStream(describeStreamRequest);
-                    shards.addAll(streamRes.streamDescription().shards());
-
-                    if (shards.size() > 0) {
-                        lastShardId = shards.get(shards.size() - 1).shardId();
-                    }
-                } while (streamRes.streamDescription().hasMoreShards());
-
-                GetShardIteratorRequest itReq = GetShardIteratorRequest.builder()
-                        .streamName(TOPIC)
-                        .shardIteratorType("TRIM_HORIZON")
-                        .shardId(lastShardId)
-                        .build();
-
-                GetShardIteratorResponse shardIteratorResult = aws.kinesis().getShardIterator(itReq);
-                shardIterator = shardIteratorResult.shardIterator();
+                String shardIterator = getShardIterator()
                 def rmr = GetRecordsRequest
                         .builder()
                         .shardIterator(shardIterator)
                         .build()
                 def msg = aws.kinesis().getRecords(rmr)
                 // Print records
+                def checkValue = false
                 for (Record record : msg.records()) {
                     SdkBytes byteBuffer = record.data();
-                    println(String.format("Seq No: %s - %s", record.sequenceNumber(),
-                            new String(byteBuffer.asByteArray())));
+                           checkValue = (payload == new String(byteBuffer.asByteArray()));
                 }
-                return msg == payload
+                return checkValue
             }
+    }
+
+    private String getShardIterator() {
+        def shardIterator;
+        def lastShardId = null;
+
+        // Retrieve the Shards from a Stream
+        DescribeStreamRequest describeStreamRequest = DescribeStreamRequest.builder()
+                .streamName(TOPIC)
+                .build();
+        List<Shard> shards = new ArrayList<>();
+
+        DescribeStreamResponse streamRes;
+        do {
+            streamRes = aws.kinesis().describeStream(describeStreamRequest);
+            shards.addAll(streamRes.streamDescription().shards());
+
+            if (shards.size() > 0) {
+                lastShardId = shards.get(shards.size() - 1).shardId();
+            }
+        } while (streamRes.streamDescription().hasMoreShards());
+
+        GetShardIteratorRequest itReq = GetShardIteratorRequest.builder()
+                .streamName(TOPIC)
+                .shardIteratorType("TRIM_HORIZON")
+                .shardId(lastShardId)
+                .build();
+
+        GetShardIteratorResponse shardIteratorResult = aws.kinesis().getShardIterator(itReq);
+        shardIterator = shardIteratorResult.shardIterator();
+        return shardIterator
     }
 }
 
