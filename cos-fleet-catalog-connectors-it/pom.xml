@@ -111,7 +111,7 @@
                                 </includes>
                                 <systemPropertyVariables>
                                     <connector.container.image>
-                                        ${cos.connector.container.repository}/${cos.connector.container.organization}/${quarkus.container-image.name}:0.1.16
+                                        ${cos.connector.container.repository}/${cos.connector.container.organization}/${quarkus.container-image.name}:0.1.17
                                     </connector.container.image>
                                 </systemPropertyVariables>
                                 <classesDirectory>${project.build.outputDirectory}</classesDirectory>
