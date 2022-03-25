@@ -3,11 +3,16 @@ package org.bf2.cos.connector.camel.it
 import groovy.util.logging.Slf4j
 import org.bf2.cos.connector.camel.it.aws.AWSContainer
 import org.bf2.cos.connector.camel.it.support.ConnectorSpec
+import software.amazon.awssdk.core.SdkBytes
 import software.amazon.awssdk.core.sync.RequestBody
+import software.amazon.awssdk.services.kinesis.model.CreateStreamRequest
+import software.amazon.awssdk.services.kinesis.model.DescribeStreamRequest
+import software.amazon.awssdk.services.kinesis.model.PutRecordRequest
 import software.amazon.awssdk.services.s3.model.PutObjectRequest
 import software.amazon.awssdk.services.sqs.model.CreateQueueRequest
 import software.amazon.awssdk.services.sqs.model.SendMessageRequest
 
+import java.nio.charset.Charset
 import java.util.concurrent.TimeUnit
 
 @Slf4j
@@ -18,7 +23,7 @@ class ConnectorSourceIT extends ConnectorSpec {
     AWSContainer aws
 
     def doSetup() {
-        this.aws = new AWSContainer(network, 'sqs')
+        this.aws = new AWSContainer(network, 'kinesis')
         this.aws.start()
 
         addFileToConnectorContainer(
@@ -33,13 +38,12 @@ class ConnectorSourceIT extends ConnectorSpec {
             """
             - route:
                 from:
-                  uri: kamelet:aws-s3-source
+                  uri: kamelet:aws-kinesis-source
                   parameters:
                       accessKey: ${aws.credentials.accessKeyId()}
                       secretKey: ${aws.credentials.secretAccessKey()}
                       region: ${aws.region}
-                      bucketNameOrArn: $TOPIC
-                      autoCreateBucket: true
+                      stream: $TOPIC
                       uriEndpointOverride: ${aws.endpoint}
                       overrideEndpoint: true
                 steps:
@@ -66,14 +70,23 @@ class ConnectorSourceIT extends ConnectorSpec {
     def "source"() {
         setup:
             def payload = '''{ "username":"oscerd", "city":"Rome" }'''
-            def s3 = aws.s3()
+            def kinesis = aws.kinesis()
+        def createRequest = CreateStreamRequest.builder().streamName(TOPIC).shardCount(1).build()
+        aws.kinesis().createStream(createRequest)
+        DescribeStreamRequest describeStreamRequest = DescribeStreamRequest.builder().streamName(TOPIC).build();
+        String status;
+        do {
+            status = aws.kinesis().describeStream(describeStreamRequest).streamDescription().streamStatus()
+            println("Check Status " + status)
+        } while (!status.equals("ACTIVE"));
+        println("While completed " + status)
         when:
-        RequestBody rb = RequestBody.fromString(payload);
-            s3.putObject(
-                    PutObjectRequest.builder()
-                    .key(FILE_NAME)
-                    .bucket(TOPIC)
-                    .build(), rb
+            kinesis.putRecord(
+                    PutRecordRequest.builder()
+                    .streamName(TOPIC)
+                    .partitionKey("test")
+                    .data(SdkBytes.fromString(payload, Charset.defaultCharset()))
+                    .build()
             )
         then:
             await(10, TimeUnit.SECONDS) {
