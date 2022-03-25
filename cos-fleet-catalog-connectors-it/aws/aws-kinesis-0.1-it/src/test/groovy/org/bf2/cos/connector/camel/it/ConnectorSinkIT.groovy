@@ -18,7 +18,6 @@ import java.util.concurrent.TimeUnit
 @Slf4j
 class ConnectorSinkIT extends ConnectorSpec {
     static String TOPIC = 'foo'
-    static String FILE_NAME = 'filetest.txt'
 
     AWSContainer aws
 
@@ -75,7 +74,7 @@ class ConnectorSinkIT extends ConnectorSpec {
             def request = CreateStreamRequest.builder().streamName(TOPIC).shardCount(1).build()
             aws.kinesis().createStream(request)
         when:
-            sendToKafka(TOPIC, payload, [ 'file': FILE_NAME])
+            sendToKafka(TOPIC, payload, [ 'foo': 'bar'])
         then:
             await(10, TimeUnit.SECONDS) {
                 String shardIterator = getShardIterator()
@@ -84,7 +83,6 @@ class ConnectorSinkIT extends ConnectorSpec {
                         .shardIterator(shardIterator)
                         .build()
                 def msg = aws.kinesis().getRecords(rmr)
-                // Print records
                 def checkValue = false
                 for (Record record : msg.records()) {
                     SdkBytes byteBuffer = record.data();
@@ -98,21 +96,20 @@ class ConnectorSinkIT extends ConnectorSpec {
         def shardIterator;
         def lastShardId = null;
 
-        // Retrieve the Shards from a Stream
         DescribeStreamRequest describeStreamRequest = DescribeStreamRequest.builder()
                 .streamName(TOPIC)
                 .build();
         List<Shard> shards = new ArrayList<>();
 
-        DescribeStreamResponse streamRes;
+        DescribeStreamResponse describeStreamResponse;
         do {
-            streamRes = aws.kinesis().describeStream(describeStreamRequest);
-            shards.addAll(streamRes.streamDescription().shards());
+            describeStreamResponse = aws.kinesis().describeStream(describeStreamRequest);
+            shards.addAll(describeStreamResponse.streamDescription().shards());
 
             if (shards.size() > 0) {
                 lastShardId = shards.get(shards.size() - 1).shardId();
             }
-        } while (streamRes.streamDescription().hasMoreShards());
+        } while (describeStreamResponse.streamDescription().hasMoreShards());
 
         GetShardIteratorRequest itReq = GetShardIteratorRequest.builder()
                 .streamName(TOPIC)
