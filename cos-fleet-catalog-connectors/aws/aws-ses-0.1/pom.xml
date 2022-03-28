@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <parent>
+        <groupId>org.bf2</groupId>
+        <artifactId>cos-fleet-catalog-connectors-aws</artifactId>
+        <version>999-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>cos-connector-aws-ses-0.1</artifactId>
+
+    <name>AWS SES</name>
+    <description>AWS SES</description>
+
+    <packaging>jar</packaging>
+
+    <properties>
+        <cos.connector.type>aws-ses</cos.connector.type>
+        <quarkus.container-image.name>cos-connector-${cos.connector.type}</quarkus.container-image.name>
+        <quarkus.container-image.tag>${cos.connector.version}.${cos.connector.revision}</quarkus.container-image.tag>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.bf2</groupId>
+                <artifactId>camel-connector-maven-plugin</artifactId>
+                <configuration>
+                    <connectors>
+                        <connector>
+                            <name>${cos.connector.type}-sink-${cos.connector.version}</name>
+                            <title>${project.name} Sink</title>
+                            <description>${project.description} Sink</description>
+                            <adapter>
+                                <prefix>aws</prefix>
+                                <name>${cos.connector.type}-sink</name>
+                                <version>${camel-kamelets-catalog.version}</version>
+                            </adapter>
+                            <kafka>
+                                <prefix>kafka</prefix>
+                                <name>cos-kafka-source</name>
+                                <version>${cos.kamelets.version}</version>
+                            </kafka>
+                            <dataShape>
+                                <consumes>
+                                    <formats>
+                                        <format>application/octet-stream</format>
+                                    </formats>
+                                </consumes>
+                            </dataShape>
+                        </connector>
+                    </connectors>
+                    <annotations>
+                       <annotation>
+                          <name>trait.camel.apache.org/container.request-memory</name>
+                          <value>256m</value>
+                       </annotation>
+                    </annotations>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
