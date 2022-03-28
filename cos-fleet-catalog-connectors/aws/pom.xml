@@ -27,6 +27,7 @@
         <module>aws-kinesis-0.1</module>
         <module>aws-lambda-0.1</module>
         <module>aws-s3-0.1</module>
+        <module>aws-ses-0.1</module>
         <module>aws-sns-0.1</module>
         <module>aws-sqs-0.1</module>
     </modules>
