@@ -377,10 +377,26 @@ public final class CatalogSupport {
                 .put("type", "object")
                 .withArray("oneOf");
 
-        for (String strategy : connector.getErrorHandler().getStrategies()) {
+        if (connector.getErrorHandler().getDefaultStrategy() != null) {
+            switch (connector.getErrorHandler().getDefaultStrategy()) {
+                case LOG:
+                case STOP:
+                    def.getConnectorType().getSchema()
+                            .with("properties")
+                            .with(CatalogConstants.CAPABILITY_ERROR_HANDLER)
+                            .with("default")
+                            .putObject(connector.getErrorHandler().getDefaultStrategy().name().toLowerCase(Locale.US));
+                    break;
+                default:
+                    throw new IllegalArgumentException(
+                            "Unsupported default strategy: " + connector.getErrorHandler().getDefaultStrategy());
+            }
+        }
+
+        for (Connector.ErrorHandler.Strategy strategy : connector.getErrorHandler().getStrategies()) {
             final ObjectNode eh = oneOf.addObject();
 
-            String strategyName = strategy.toLowerCase(Locale.US);
+            String strategyName = strategy.name().toLowerCase(Locale.US);
 
             eh.put("type", "object");
             eh.put("additionalProperties", false);
@@ -392,7 +408,7 @@ public final class CatalogSupport {
                 d.put("type", "object");
                 d.put("additionalProperties", false);
 
-                if ("DEAD_LETTER_QUEUE".equals(strategy)) {
+                if (strategy == Connector.ErrorHandler.Strategy.DEAD_LETTER_QUEUE) {
                     d.putArray("required")
                             .add("topic");
                     d.with("properties")

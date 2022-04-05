@@ -354,24 +354,30 @@ public class Connector {
     }
 
     public static class ErrorHandler {
-        @Param
-        String defaultStrategy;
-        @Param
-        Set<String> strategies;
+        public enum Strategy {
+            LOG,
+            STOP,
+            DEAD_LETTER_QUEUE
+        }
 
-        public String getDefaultStrategy() {
+        @Param
+        Strategy defaultStrategy;
+        @Param
+        Set<Strategy> strategies;
+
+        public Strategy getDefaultStrategy() {
             return defaultStrategy;
         }
 
-        public void setDefaultStrategy(String defaultStrategy) {
+        public void setDefaultStrategy(Strategy defaultStrategy) {
             this.defaultStrategy = defaultStrategy;
         }
 
-        public Set<String> getStrategies() {
+        public Set<Strategy> getStrategies() {
             return strategies;
         }
 
-        public void setStrategies(Set<String> strategies) {
+        public void setStrategies(Set<Strategy> strategies) {
             this.strategies = strategies;
         }
     }
