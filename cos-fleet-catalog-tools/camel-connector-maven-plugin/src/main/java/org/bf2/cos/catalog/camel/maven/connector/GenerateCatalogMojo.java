@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
@@ -266,6 +267,11 @@ public class GenerateCatalogMojo extends AbstractMojo {
                                     asKey(sanitizedName),
                                     step.getName());
                         }
+                    }
+
+                    if (connector.getErrorHandler() != null && connector.getErrorHandler().getDefaultStrategy() != null) {
+                        metadata.setErrorHandlerStrategy(
+                                connector.getErrorHandler().getDefaultStrategy().name().toLowerCase(Locale.US));
                     }
                 }
             }

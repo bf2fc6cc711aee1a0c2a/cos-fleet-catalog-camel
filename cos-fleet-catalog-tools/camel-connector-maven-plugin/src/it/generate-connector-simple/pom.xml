@@ -73,6 +73,14 @@
                                     <contentClass>com.acme.Foo</contentClass>
                                 </produces>
                             </dataShape>
+                            <errorHandler>
+                                <strategies>
+                                    <stratgey>LOG</stratgey>
+                                    <stratgey>STOP</stratgey>
+                                    <stratgey>DEAD_LETTER_QUEUE</stratgey>
+                                </strategies>
+                                <defaultStrategy>LOG</defaultStrategy>
+                            </errorHandler>
                             <channels>
                                 <stable/>
                             </channels>
@@ -97,6 +105,14 @@
                                     <contentClass>com.acme.Bar</contentClass>
                                 </consumes>
                             </dataShape>
+                            <errorHandler>
+                                <strategies>
+                                    <stratgey>LOG</stratgey>
+                                    <stratgey>STOP</stratgey>
+                                    <stratgey>DEAD_LETTER_QUEUE</stratgey>
+                                </strategies>
+                                <defaultStrategy>STOP</defaultStrategy>
+                            </errorHandler>
                             <channels>
                                 <stable/>
                             </channels>

@@ -27,6 +27,7 @@ new File(basedir, "connector_source.json").withReader {
 
         assert produces == 'application/json'
         assert produces_class == 'com.acme.Foo'
+        assert error_handler_strategy == 'log'
     }
 
     catalog.connector_type.schema.properties.with {
@@ -91,6 +92,7 @@ new File(basedir, "connector_sink.json").withReader {
 
         assert consumes == 'application/xml'
         assert consumes_class == 'com.acme.Bar'
+        assert error_handler_strategy == 'stop'
     }
 
     catalog.connector_type.schema.properties.with {

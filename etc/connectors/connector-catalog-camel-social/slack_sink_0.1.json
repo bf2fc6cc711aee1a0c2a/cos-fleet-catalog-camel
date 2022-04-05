@@ -29,7 +29,8 @@
           "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
         },
         "consumes" : "application/octet-stream",
-        "produces" : "application/octet-stream"
+        "produces" : "application/octet-stream",
+        "error_handler_strategy" : "log"
       }
     }
   },
@@ -124,19 +125,19 @@
           "oneOf" : [ {
             "type" : "object",
             "additionalProperties" : false,
-            "required" : [ "dead_letter_queue" ],
+            "required" : [ "log" ],
             "properties" : {
-              "dead_letter_queue" : {
-                "$ref" : "#/$defs/error_handler/dead_letter_queue"
+              "log" : {
+                "$ref" : "#/$defs/error_handler/log"
               }
             }
           }, {
             "type" : "object",
             "additionalProperties" : false,
-            "required" : [ "log" ],
+            "required" : [ "dead_letter_queue" ],
             "properties" : {
-              "log" : {
-                "$ref" : "#/$defs/error_handler/log"
+              "dead_letter_queue" : {
+                "$ref" : "#/$defs/error_handler/dead_letter_queue"
               }
             }
           }, {
@@ -148,7 +149,10 @@
                 "$ref" : "#/$defs/error_handler/stop"
               }
             }
-          } ]
+          } ],
+          "default" : {
+            "log" : { }
+          }
         }
       },
       "$defs" : {
@@ -212,6 +216,10 @@
           }
         },
         "error_handler" : {
+          "log" : {
+            "type" : "object",
+            "additionalProperties" : false
+          },
           "dead_letter_queue" : {
             "type" : "object",
             "additionalProperties" : false,
@@ -223,10 +231,6 @@
                 "description" : "The name of the Kafka topic used as dead letter queue"
               }
             }
-          },
-          "log" : {
-            "type" : "object",
-            "additionalProperties" : false
           },
           "stop" : {
             "type" : "object",

@@ -196,6 +196,9 @@ public class ConnectorDefinition {
         @JsonProperty("produces_class")
         private String producesClass;
 
+        @JsonProperty("error_handler_strategy")
+        private String errorHandlerStrategy;
+
         public String getConnectorRevision() {
             return connectorRevision;
         }
@@ -274,6 +277,14 @@ public class ConnectorDefinition {
 
         public void setProducesClass(String producesClass) {
             this.producesClass = producesClass;
+        }
+
+        public String getErrorHandlerStrategy() {
+            return errorHandlerStrategy;
+        }
+
+        public void setErrorHandlerStrategy(String errorHandlerStrategy) {
+            this.errorHandlerStrategy = errorHandlerStrategy;
         }
     }
 
