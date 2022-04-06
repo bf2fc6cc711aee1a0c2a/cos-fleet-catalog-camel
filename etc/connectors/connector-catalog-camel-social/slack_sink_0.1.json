@@ -125,6 +125,15 @@
           "oneOf" : [ {
             "type" : "object",
             "additionalProperties" : false,
+            "required" : [ "stop" ],
+            "properties" : {
+              "stop" : {
+                "$ref" : "#/$defs/error_handler/stop"
+              }
+            }
+          }, {
+            "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "log" ],
             "properties" : {
               "log" : {
@@ -138,15 +147,6 @@
             "properties" : {
               "dead_letter_queue" : {
                 "$ref" : "#/$defs/error_handler/dead_letter_queue"
-              }
-            }
-          }, {
-            "type" : "object",
-            "additionalProperties" : false,
-            "required" : [ "stop" ],
-            "properties" : {
-              "stop" : {
-                "$ref" : "#/$defs/error_handler/stop"
               }
             }
           } ],
@@ -216,6 +216,10 @@
           }
         },
         "error_handler" : {
+          "stop" : {
+            "type" : "object",
+            "additionalProperties" : false
+          },
           "log" : {
             "type" : "object",
             "additionalProperties" : false
@@ -231,10 +235,6 @@
                 "description" : "The name of the Kafka topic used as dead letter queue"
               }
             }
-          },
-          "stop" : {
-            "type" : "object",
-            "additionalProperties" : false
           }
         }
       }
