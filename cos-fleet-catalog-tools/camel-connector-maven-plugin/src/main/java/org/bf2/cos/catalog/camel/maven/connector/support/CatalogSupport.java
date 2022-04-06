@@ -17,7 +17,10 @@ import org.apache.maven.project.MavenProject;
 import org.bf2.cos.catalog.camel.maven.connector.model.ConnectorDefinition;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -31,7 +34,10 @@ public final class CatalogSupport {
             .configure(YAMLGenerator.Feature.LITERAL_BLOCK_STYLE, true)
             .configure(YAMLGenerator.Feature.MINIMIZE_QUOTES, true);
 
-    public static final ObjectMapper JSON_MAPPER = new ObjectMapper();
+    public static final ObjectMapper JSON_MAPPER = JsonMapper.builder()
+            .configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true)
+            .configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true)
+            .build();
 
     private CatalogSupport() {
     }
