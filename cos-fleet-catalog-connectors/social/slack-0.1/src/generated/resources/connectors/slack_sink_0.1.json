@@ -2,13 +2,16 @@
   "channels" : {
     "stable" : {
       "shard_metadata" : {
+        "annotations" : {
+          "trait.camel.apache.org/container.request-cpu" : "0.20",
+          "trait.camel.apache.org/container.request-memory" : "256m",
+          "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
+        },
+        "connector_image" : "quay.io/rhoas/cos-connector-slack:0.1.17",
         "connector_revision" : "17",
         "connector_type" : "sink",
-        "connector_image" : "quay.io/rhoas/cos-connector-slack:0.1.17",
-        "operators" : [ {
-          "type" : "camel-connector-operator",
-          "version" : "[1.0.0,2.0.0)"
-        } ],
+        "consumes" : "application/octet-stream",
+        "error_handler_strategy" : "log",
         "kamelets" : {
           "adapter" : {
             "name" : "slack-sink",
@@ -19,31 +22,27 @@
             "prefix" : "kafka"
           },
           "processors" : {
-            "log" : "cos-log-action",
-            "fault" : "cos-fault-action"
+            "fault" : "cos-fault-action",
+            "log" : "cos-log-action"
           }
         },
-        "annotations" : {
-          "trait.camel.apache.org/container.request-cpu" : "0.20",
-          "trait.camel.apache.org/container.request-memory" : "256m",
-          "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
-        },
-        "consumes" : "application/octet-stream",
-        "produces" : "application/octet-stream",
-        "error_handler_strategy" : "log"
+        "operators" : [ {
+          "type" : "camel-connector-operator",
+          "version" : "[1.0.0,2.0.0)"
+        } ],
+        "produces" : "application/octet-stream"
       }
     }
   },
   "connector_type" : {
-    "id" : "slack_sink_0.1",
-    "kind" : "ConnectorType",
-    "icon_href" : "TODO",
-    "name" : "Slack Sink",
-    "description" : "Slack Sink",
-    "version" : "0.1",
-    "labels" : [ "sink" ],
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
+    "description" : "Slack Sink",
+    "icon_href" : "TODO",
+    "id" : "slack_sink_0.1",
+    "kind" : "ConnectorType",
+    "labels" : [ "sink" ],
+    "name" : "Slack Sink",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,
@@ -125,6 +124,15 @@
           "oneOf" : [ {
             "type" : "object",
             "additionalProperties" : false,
+            "required" : [ "dead_letter_queue" ],
+            "properties" : {
+              "dead_letter_queue" : {
+                "$ref" : "#/$defs/error_handler/dead_letter_queue"
+              }
+            }
+          }, {
+            "type" : "object",
+            "additionalProperties" : false,
             "required" : [ "log" ],
             "properties" : {
               "log" : {
@@ -138,15 +146,6 @@
             "properties" : {
               "stop" : {
                 "$ref" : "#/$defs/error_handler/stop"
-              }
-            }
-          }, {
-            "type" : "object",
-            "additionalProperties" : false,
-            "required" : [ "dead_letter_queue" ],
-            "properties" : {
-              "dead_letter_queue" : {
-                "$ref" : "#/$defs/error_handler/dead_letter_queue"
               }
             }
           } ],
@@ -216,14 +215,6 @@
           }
         },
         "error_handler" : {
-          "log" : {
-            "type" : "object",
-            "additionalProperties" : false
-          },
-          "stop" : {
-            "type" : "object",
-            "additionalProperties" : false
-          },
           "dead_letter_queue" : {
             "type" : "object",
             "additionalProperties" : false,
@@ -235,9 +226,18 @@
                 "description" : "The name of the Kafka topic used as dead letter queue"
               }
             }
+          },
+          "log" : {
+            "type" : "object",
+            "additionalProperties" : false
+          },
+          "stop" : {
+            "type" : "object",
+            "additionalProperties" : false
           }
         }
       }
-    }
+    },
+    "version" : "0.1"
   }
 }

@@ -2,13 +2,16 @@
   "channels" : {
     "stable" : {
       "shard_metadata" : {
+        "annotations" : {
+          "trait.camel.apache.org/container.request-cpu" : "0.20",
+          "trait.camel.apache.org/container.request-memory" : "256m",
+          "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
+        },
+        "connector_image" : "quay.io/rhoas/cos-connector-mysql:0.1.17",
         "connector_revision" : "17",
         "connector_type" : "source",
-        "connector_image" : "quay.io/rhoas/cos-connector-mysql:0.1.17",
-        "operators" : [ {
-          "type" : "camel-connector-operator",
-          "version" : "[1.0.0,2.0.0)"
-        } ],
+        "consumes" : "application/json",
+        "error_handler_strategy" : "log",
         "kamelets" : {
           "adapter" : {
             "name" : "mysql-source",
@@ -19,31 +22,27 @@
             "prefix" : "kafka"
           },
           "processors" : {
-            "log" : "cos-log-action",
-            "fault" : "cos-fault-action"
+            "fault" : "cos-fault-action",
+            "log" : "cos-log-action"
           }
         },
-        "annotations" : {
-          "trait.camel.apache.org/container.request-cpu" : "0.20",
-          "trait.camel.apache.org/container.request-memory" : "256m",
-          "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
-        },
-        "consumes" : "application/json",
-        "produces" : "application/json",
-        "error_handler_strategy" : "log"
+        "operators" : [ {
+          "type" : "camel-connector-operator",
+          "version" : "[1.0.0,2.0.0)"
+        } ],
+        "produces" : "application/json"
       }
     }
   },
   "connector_type" : {
-    "id" : "mysql_source_0.1",
-    "kind" : "ConnectorType",
-    "icon_href" : "TODO",
-    "name" : "MySQL Source",
-    "description" : "MySQL Source",
-    "version" : "0.1",
-    "labels" : [ "source" ],
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
+    "description" : "MySQL Source",
+    "icon_href" : "TODO",
+    "id" : "mysql_source_0.1",
+    "kind" : "ConnectorType",
+    "labels" : [ "source" ],
+    "name" : "MySQL Source",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,
@@ -252,6 +251,7 @@
           }
         }
       }
-    }
+    },
+    "version" : "0.1"
   }
 }
