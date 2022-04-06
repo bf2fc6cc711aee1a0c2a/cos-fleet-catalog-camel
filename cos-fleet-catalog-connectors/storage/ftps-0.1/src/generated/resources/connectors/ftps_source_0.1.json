@@ -2,13 +2,16 @@
   "channels" : {
     "stable" : {
       "shard_metadata" : {
+        "annotations" : {
+          "trait.camel.apache.org/container.request-cpu" : "0.20",
+          "trait.camel.apache.org/container.request-memory" : "256m",
+          "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
+        },
+        "connector_image" : "quay.io/rhoas/cos-connector-ftps:0.1.17",
         "connector_revision" : "17",
         "connector_type" : "source",
-        "connector_image" : "quay.io/rhoas/cos-connector-ftps:0.1.17",
-        "operators" : [ {
-          "type" : "camel-connector-operator",
-          "version" : "[1.0.0,2.0.0)"
-        } ],
+        "consumes" : "application/octet-stream",
+        "error_handler_strategy" : "log",
         "kamelets" : {
           "adapter" : {
             "name" : "ftps-source",
@@ -19,31 +22,27 @@
             "prefix" : "kafka"
           },
           "processors" : {
-            "log" : "cos-log-action",
-            "fault" : "cos-fault-action"
+            "fault" : "cos-fault-action",
+            "log" : "cos-log-action"
           }
         },
-        "annotations" : {
-          "trait.camel.apache.org/container.request-cpu" : "0.20",
-          "trait.camel.apache.org/container.request-memory" : "256m",
-          "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
-        },
-        "consumes" : "application/octet-stream",
-        "produces" : "application/octet-stream",
-        "error_handler_strategy" : "log"
+        "operators" : [ {
+          "type" : "camel-connector-operator",
+          "version" : "[1.0.0,2.0.0)"
+        } ],
+        "produces" : "application/octet-stream"
       }
     }
   },
   "connector_type" : {
-    "id" : "ftps_source_0.1",
-    "kind" : "ConnectorType",
-    "icon_href" : "TODO",
-    "name" : "FTPS Source",
-    "description" : "FTPS Source",
-    "version" : "0.1",
-    "labels" : [ "source" ],
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
+    "description" : "FTPS Source",
+    "icon_href" : "TODO",
+    "id" : "ftps_source_0.1",
+    "kind" : "ConnectorType",
+    "labels" : [ "source" ],
+    "name" : "FTPS Source",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,
@@ -257,6 +256,7 @@
           }
         }
       }
-    }
+    },
+    "version" : "0.1"
   }
 }

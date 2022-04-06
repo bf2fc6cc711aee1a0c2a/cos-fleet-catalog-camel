@@ -2,13 +2,16 @@
   "channels" : {
     "stable" : {
       "shard_metadata" : {
+        "annotations" : {
+          "trait.camel.apache.org/container.request-cpu" : "0.20",
+          "trait.camel.apache.org/container.request-memory" : "256m",
+          "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
+        },
+        "connector_image" : "quay.io/rhoas/cos-connector-minio:0.1.17",
         "connector_revision" : "17",
         "connector_type" : "sink",
-        "connector_image" : "quay.io/rhoas/cos-connector-minio:0.1.17",
-        "operators" : [ {
-          "type" : "camel-connector-operator",
-          "version" : "[1.0.0,2.0.0)"
-        } ],
+        "consumes" : "application/octet-stream",
+        "error_handler_strategy" : "log",
         "kamelets" : {
           "adapter" : {
             "name" : "minio-sink",
@@ -19,31 +22,27 @@
             "prefix" : "kafka"
           },
           "processors" : {
-            "log" : "cos-log-action",
-            "fault" : "cos-fault-action"
+            "fault" : "cos-fault-action",
+            "log" : "cos-log-action"
           }
         },
-        "annotations" : {
-          "trait.camel.apache.org/container.request-cpu" : "0.20",
-          "trait.camel.apache.org/container.request-memory" : "256m",
-          "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
-        },
-        "consumes" : "application/octet-stream",
-        "produces" : "application/octet-stream",
-        "error_handler_strategy" : "log"
+        "operators" : [ {
+          "type" : "camel-connector-operator",
+          "version" : "[1.0.0,2.0.0)"
+        } ],
+        "produces" : "application/octet-stream"
       }
     }
   },
   "connector_type" : {
-    "id" : "minio_sink_0.1",
-    "kind" : "ConnectorType",
-    "icon_href" : "TODO",
-    "name" : "Minio Sink",
-    "description" : "Minio Sink",
-    "version" : "0.1",
-    "labels" : [ "sink" ],
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
+    "description" : "Minio Sink",
+    "icon_href" : "TODO",
+    "id" : "minio_sink_0.1",
+    "kind" : "ConnectorType",
+    "labels" : [ "sink" ],
+    "name" : "Minio Sink",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,
@@ -248,6 +247,7 @@
           }
         }
       }
-    }
+    },
+    "version" : "0.1"
   }
 }
