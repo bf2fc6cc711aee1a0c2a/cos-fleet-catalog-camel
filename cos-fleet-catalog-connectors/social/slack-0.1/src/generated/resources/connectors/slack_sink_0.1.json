@@ -125,19 +125,19 @@
           "oneOf" : [ {
             "type" : "object",
             "additionalProperties" : false,
-            "required" : [ "stop" ],
+            "required" : [ "log" ],
             "properties" : {
-              "stop" : {
-                "$ref" : "#/$defs/error_handler/stop"
+              "log" : {
+                "$ref" : "#/$defs/error_handler/log"
               }
             }
           }, {
             "type" : "object",
             "additionalProperties" : false,
-            "required" : [ "log" ],
+            "required" : [ "stop" ],
             "properties" : {
-              "log" : {
-                "$ref" : "#/$defs/error_handler/log"
+              "stop" : {
+                "$ref" : "#/$defs/error_handler/stop"
               }
             }
           }, {
@@ -216,11 +216,11 @@
           }
         },
         "error_handler" : {
-          "stop" : {
+          "log" : {
             "type" : "object",
             "additionalProperties" : false
           },
-          "log" : {
+          "stop" : {
             "type" : "object",
             "additionalProperties" : false
           },
