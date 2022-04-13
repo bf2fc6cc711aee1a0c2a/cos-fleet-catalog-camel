@@ -399,7 +399,7 @@ public final class CatalogSupport {
             }
         }
 
-        for (Connector.ErrorHandler.Strategy strategy : connector.getErrorHandler().getStrategies()) {
+        connector.getErrorHandler().getStrategies().stream().sorted().forEach(strategy -> {
             final ObjectNode eh = oneOf.addObject();
 
             String strategyName = strategy.name().toLowerCase(Locale.US);
@@ -424,7 +424,7 @@ public final class CatalogSupport {
                             .put("description", "The name of the Kafka topic used as dead letter queue");
                 }
             });
-        }
+        });
     }
 
     public static void dataShape(Connector.DataShape dataShape, ConnectorDefinition definition, String id) {
