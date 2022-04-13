@@ -11,7 +11,7 @@
         "connector_revision" : "17",
         "connector_type" : "sink",
         "consumes" : "application/octet-stream",
-        "error_handler_strategy" : "log",
+        "error_handler_strategy" : "stop",
         "kamelets" : {
           "adapter" : {
             "name" : "slack-sink",
@@ -124,15 +124,6 @@
           "oneOf" : [ {
             "type" : "object",
             "additionalProperties" : false,
-            "required" : [ "dead_letter_queue" ],
-            "properties" : {
-              "dead_letter_queue" : {
-                "$ref" : "#/$defs/error_handler/dead_letter_queue"
-              }
-            }
-          }, {
-            "type" : "object",
-            "additionalProperties" : false,
             "required" : [ "log" ],
             "properties" : {
               "log" : {
@@ -148,9 +139,18 @@
                 "$ref" : "#/$defs/error_handler/stop"
               }
             }
+          }, {
+            "type" : "object",
+            "additionalProperties" : false,
+            "required" : [ "dead_letter_queue" ],
+            "properties" : {
+              "dead_letter_queue" : {
+                "$ref" : "#/$defs/error_handler/dead_letter_queue"
+              }
+            }
           } ],
           "default" : {
-            "log" : { }
+            "stop" : { }
           }
         }
       },
@@ -215,6 +215,14 @@
           }
         },
         "error_handler" : {
+          "log" : {
+            "type" : "object",
+            "additionalProperties" : false
+          },
+          "stop" : {
+            "type" : "object",
+            "additionalProperties" : false
+          },
           "dead_letter_queue" : {
             "type" : "object",
             "additionalProperties" : false,
@@ -226,14 +234,6 @@
                 "description" : "The name of the Kafka topic used as dead letter queue"
               }
             }
-          },
-          "log" : {
-            "type" : "object",
-            "additionalProperties" : false
-          },
-          "stop" : {
-            "type" : "object",
-            "additionalProperties" : false
           }
         }
       }
