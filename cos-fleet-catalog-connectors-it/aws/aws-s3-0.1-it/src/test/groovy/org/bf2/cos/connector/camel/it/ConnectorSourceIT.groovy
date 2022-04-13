@@ -18,7 +18,7 @@ class ConnectorSourceIT extends ConnectorSpec {
     AWSContainer aws
 
     def doSetup() {
-        this.aws = new AWSContainer(network, 'sqs')
+        this.aws = new AWSContainer(network, 's3')
         this.aws.start()
 
         addFileToConnectorContainer(
