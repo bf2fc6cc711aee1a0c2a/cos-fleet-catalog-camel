@@ -21,6 +21,7 @@
         <cos.connector.type>elasticsearch</cos.connector.type>
         <quarkus.container-image.name>cos-connector-${cos.connector.type}</quarkus.container-image.name>
         <quarkus.container-image.tag>${cos.connector.version}.${cos.connector.revision}</quarkus.container-image.tag>
+        <quarkus.elasticsearch.health.enabled>false</quarkus.elasticsearch.health.enabled>
     </properties>
 
     <build>
