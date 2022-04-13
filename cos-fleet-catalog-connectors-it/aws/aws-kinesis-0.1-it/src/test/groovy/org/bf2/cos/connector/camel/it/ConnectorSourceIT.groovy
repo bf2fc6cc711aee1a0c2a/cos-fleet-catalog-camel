@@ -17,7 +17,6 @@ import java.util.concurrent.TimeUnit
 @Slf4j
 class ConnectorSourceIT extends ConnectorSpec {
     static String TOPIC = 'foo'
-    static String FILE_NAME = 'filetest.txt'
 
     AWSContainer aws
 

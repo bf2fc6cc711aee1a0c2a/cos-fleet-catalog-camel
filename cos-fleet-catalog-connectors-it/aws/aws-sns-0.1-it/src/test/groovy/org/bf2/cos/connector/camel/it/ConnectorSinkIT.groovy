@@ -18,12 +18,11 @@ import java.util.concurrent.TimeUnit
 @Slf4j
 class ConnectorSinkIT extends ConnectorSpec {
     static String TOPIC = 'foo'
-    static String FILE_NAME = 'filetest.txt'
 
     AWSContainer aws
 
     def doSetup() {
-        this.aws = new AWSContainer(network, 's3')
+        this.aws = new AWSContainer(network, 'sns')
         this.aws.start()
 
         addFileToConnectorContainer(
