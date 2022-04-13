@@ -163,7 +163,7 @@
                                     <stratgey>STOP</stratgey>
                                     <stratgey>DEAD_LETTER_QUEUE</stratgey>
                                 </strategies>
-                                <defaultStrategy>LOG</defaultStrategy>
+                                <defaultStrategy>STOP</defaultStrategy>
                             </errorHandler>
                         </defaults>
                         <defaultAnnotations>
