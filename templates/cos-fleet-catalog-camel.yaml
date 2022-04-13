@@ -24,7 +24,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "aws-cloudwatch-sink",
@@ -158,10 +158,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -176,15 +176,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -249,6 +249,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -260,14 +268,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -289,7 +289,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "aws-ddb-sink",
@@ -436,10 +436,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -454,15 +454,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -527,6 +527,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -538,14 +546,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -567,7 +567,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "source",
               "consumes" : "application/json",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "aws-ddb-streams-source",
@@ -714,10 +714,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -732,15 +732,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -805,6 +805,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -816,14 +824,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -845,7 +845,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "aws-kinesis-sink",
@@ -982,10 +982,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -1000,15 +1000,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -1085,6 +1085,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -1096,14 +1104,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -1125,7 +1125,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "source",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "aws-kinesis-source",
@@ -1262,10 +1262,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -1280,15 +1280,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -1365,6 +1365,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -1376,14 +1384,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -1405,7 +1405,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "aws-lambda-sink",
@@ -1528,10 +1528,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -1546,15 +1546,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -1619,6 +1619,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -1630,14 +1638,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -1659,7 +1659,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "aws-s3-sink",
@@ -1804,10 +1804,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -1822,15 +1822,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -1895,6 +1895,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -1906,14 +1914,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -1935,7 +1935,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "source",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "aws-s3-source",
@@ -2099,10 +2099,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -2117,15 +2117,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -2190,6 +2190,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -2201,14 +2209,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -2230,7 +2230,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "aws-ses-sink",
@@ -2354,10 +2354,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -2372,15 +2372,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -2445,6 +2445,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -2456,14 +2464,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -2485,7 +2485,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "aws-sns-sink",
@@ -2625,10 +2625,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -2643,15 +2643,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -2716,6 +2716,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -2727,14 +2735,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -2756,7 +2756,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "aws-sqs-sink",
@@ -2909,10 +2909,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -2927,15 +2927,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -3000,6 +3000,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -3011,14 +3019,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -3040,7 +3040,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "source",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "aws-sqs-source",
@@ -3204,10 +3204,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -3222,15 +3222,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -3295,6 +3295,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -3306,14 +3314,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -3342,7 +3342,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "source",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "azure-storage-blob-changefeed-source",
@@ -3446,10 +3446,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -3464,15 +3464,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -3537,6 +3537,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -3548,14 +3556,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -3577,7 +3577,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "azure-storage-blob-sink",
@@ -3686,10 +3686,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -3704,15 +3704,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -3777,6 +3777,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -3788,14 +3796,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -3817,7 +3817,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "source",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "azure-storage-blob-source",
@@ -3926,10 +3926,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -3944,15 +3944,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -4017,6 +4017,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -4028,14 +4036,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -4057,7 +4057,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "azure-storage-queue-sink",
@@ -4160,10 +4160,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -4178,15 +4178,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -4251,6 +4251,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -4262,14 +4270,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -4291,7 +4291,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "source",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "azure-storage-queue-source",
@@ -4400,10 +4400,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -4418,15 +4418,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -4491,6 +4491,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -4502,14 +4510,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -4538,7 +4538,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "google-functions-sink",
@@ -4637,10 +4637,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -4655,15 +4655,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -4728,6 +4728,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -4739,14 +4747,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -4768,7 +4768,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "google-pubsub-sink",
@@ -4862,10 +4862,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -4880,15 +4880,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -4953,6 +4953,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -4964,14 +4972,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -4993,7 +4993,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "source",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "google-pubsub-source",
@@ -5105,10 +5105,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -5123,15 +5123,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -5196,6 +5196,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -5207,14 +5215,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -5236,7 +5236,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "google-storage-sink",
@@ -5331,10 +5331,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -5349,15 +5349,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -5422,6 +5422,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -5433,14 +5441,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -5462,7 +5462,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "source",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "google-storage-source",
@@ -5563,10 +5563,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -5581,15 +5581,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -5654,6 +5654,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -5665,14 +5673,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -5701,7 +5701,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "http-sink",
@@ -5792,10 +5792,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -5810,15 +5810,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -5883,6 +5883,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -5894,14 +5902,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -5923,7 +5923,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "jms-amqp-10-sink",
@@ -6018,10 +6018,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -6036,15 +6036,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -6109,6 +6109,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -6120,14 +6128,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -6149,7 +6149,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "source",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "jms-amqp-10-source",
@@ -6244,10 +6244,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -6262,15 +6262,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -6335,6 +6335,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -6346,14 +6354,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -6716,7 +6716,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "source",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "jms-apache-artemis-source",
@@ -6811,10 +6811,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -6829,15 +6829,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -6902,6 +6902,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -6913,14 +6921,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -6948,7 +6948,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "source",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "timer-source",
@@ -7044,10 +7044,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -7062,15 +7062,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -7135,6 +7135,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -7146,14 +7154,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -7174,7 +7174,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "cos-log-sink",
@@ -7265,10 +7265,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -7283,15 +7283,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -7357,6 +7357,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -7368,14 +7376,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -7404,7 +7404,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "sink",
               "consumes" : "application/json",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "cassandra-sink",
@@ -7537,10 +7537,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -7555,15 +7555,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -7628,6 +7628,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -7639,14 +7647,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -7668,7 +7668,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "source",
               "consumes" : "application/json",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "cassandra-source",
@@ -7801,10 +7801,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -7819,15 +7819,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -7892,6 +7892,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -7903,14 +7911,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -7932,7 +7932,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "sink",
               "consumes" : "application/json",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "elasticsearch-index-sink",
@@ -8054,10 +8054,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -8072,15 +8072,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -8145,6 +8145,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -8156,14 +8164,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -8185,7 +8185,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "sink",
               "consumes" : "application/json",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "mongodb-sink",
@@ -8309,10 +8309,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -8327,15 +8327,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -8400,6 +8400,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -8411,14 +8419,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -8440,7 +8440,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "source",
               "consumes" : "application/json",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "mongodb-source",
@@ -8564,10 +8564,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -8582,15 +8582,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -8655,6 +8655,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -8666,14 +8674,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -8702,7 +8702,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "source",
               "consumes" : "application/json",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "jira-source",
@@ -8812,10 +8812,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -8830,15 +8830,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -8903,6 +8903,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -8914,14 +8922,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -8943,7 +8943,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "source",
               "consumes" : "application/json",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "cos-salesforce-streaming-source",
@@ -9072,10 +9072,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -9090,15 +9090,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -9163,6 +9163,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -9174,14 +9182,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -9210,7 +9210,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "slack-sink",
@@ -9323,15 +9323,6 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
-                  "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
-                    }
-                  }
-                }, {
-                  "type" : "object",
-                  "additionalProperties" : false,
                   "required" : [ "log" ],
                   "properties" : {
                     "log" : {
@@ -9347,9 +9338,18 @@ objects:
                       "$ref" : "#/$defs/error_handler/stop"
                     }
                   }
+                }, {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "dead_letter_queue" ],
+                  "properties" : {
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    }
+                  }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -9414,6 +9414,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -9425,14 +9433,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -9455,7 +9455,7 @@ objects:
               "connector_type" : "source",
               "consumes" : "application/json",
               "consumes_class" : "com.slack.api.model.Message",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "cos-slack-source",
@@ -9559,15 +9559,6 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
-                  "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
-                    }
-                  }
-                }, {
-                  "type" : "object",
-                  "additionalProperties" : false,
                   "required" : [ "log" ],
                   "properties" : {
                     "log" : {
@@ -9583,9 +9574,18 @@ objects:
                       "$ref" : "#/$defs/error_handler/stop"
                     }
                   }
+                }, {
+                  "type" : "object",
+                  "additionalProperties" : false,
+                  "required" : [ "dead_letter_queue" ],
+                  "properties" : {
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    }
+                  }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -9650,6 +9650,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -9661,14 +9669,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -9690,7 +9690,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "telegram-sink",
@@ -9787,10 +9787,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -9805,15 +9805,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -9878,6 +9878,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -9889,14 +9897,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -9918,7 +9918,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "source",
               "consumes" : "application/json",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "telegram-source",
@@ -10010,10 +10010,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -10028,15 +10028,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -10101,6 +10101,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -10112,14 +10120,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -10148,7 +10148,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "sink",
               "consumes" : "application/json",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "aws-redshift-sink",
@@ -10269,10 +10269,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -10287,15 +10287,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -10360,6 +10360,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -10371,14 +10379,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -10400,7 +10400,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "source",
               "consumes" : "application/json",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "aws-redshift-source",
@@ -10527,10 +10527,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -10545,15 +10545,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -10618,6 +10618,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -10629,14 +10637,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -10658,7 +10658,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "sink",
               "consumes" : "application/json",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "mariadb-sink",
@@ -10779,10 +10779,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -10797,15 +10797,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -10870,6 +10870,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -10881,14 +10889,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -10910,7 +10910,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "source",
               "consumes" : "application/json",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "mariadb-source",
@@ -11037,10 +11037,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -11055,15 +11055,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -11128,6 +11128,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -11139,14 +11147,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -11168,7 +11168,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "sink",
               "consumes" : "application/json",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "mysql-sink",
@@ -11289,10 +11289,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -11307,15 +11307,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -11380,6 +11380,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -11391,14 +11399,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -11420,7 +11420,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "source",
               "consumes" : "application/json",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "mysql-source",
@@ -11547,10 +11547,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -11565,15 +11565,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -11638,6 +11638,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -11649,14 +11657,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -11678,7 +11678,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "sink",
               "consumes" : "application/json",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "postgresql-sink",
@@ -11799,10 +11799,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -11817,15 +11817,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -11890,6 +11890,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -11901,14 +11909,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -11930,7 +11930,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "source",
               "consumes" : "application/json",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "postgresql-source",
@@ -12057,10 +12057,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -12075,15 +12075,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -12148,6 +12148,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -12159,14 +12167,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -12188,7 +12188,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "sink",
               "consumes" : "application/json",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "sqlserver-sink",
@@ -12309,10 +12309,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -12327,15 +12327,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -12400,6 +12400,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -12411,14 +12419,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -12440,7 +12440,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "source",
               "consumes" : "application/json",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "sqlserver-source",
@@ -12567,10 +12567,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -12585,15 +12585,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -12658,6 +12658,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -12669,14 +12677,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -12705,7 +12705,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "ftps-sink",
@@ -12831,10 +12831,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -12849,15 +12849,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -12922,6 +12922,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -12933,14 +12941,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -12962,7 +12962,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "source",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "ftps-source",
@@ -13094,10 +13094,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -13112,15 +13112,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -13185,6 +13185,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -13196,14 +13204,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -13225,7 +13225,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "minio-sink",
@@ -13348,10 +13348,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -13366,15 +13366,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -13439,6 +13439,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -13450,14 +13458,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -13479,7 +13479,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "source",
               "consumes" : "application/json",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "minio-source",
@@ -13608,10 +13608,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -13626,15 +13626,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -13699,6 +13699,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -13710,14 +13718,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -13739,7 +13739,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "sftp-sink",
@@ -13865,10 +13865,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -13883,15 +13883,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -13956,6 +13956,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -13967,14 +13975,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
@@ -13996,7 +13996,7 @@ objects:
               "connector_revision" : "17",
               "connector_type" : "source",
               "consumes" : "application/octet-stream",
-              "error_handler_strategy" : "log",
+              "error_handler_strategy" : "stop",
               "kamelets" : {
                 "adapter" : {
                   "name" : "sftp-source",
@@ -14128,10 +14128,10 @@ objects:
                 "oneOf" : [ {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "dead_letter_queue" ],
+                  "required" : [ "log" ],
                   "properties" : {
-                    "dead_letter_queue" : {
-                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
+                    "log" : {
+                      "$ref" : "#/$defs/error_handler/log"
                     }
                   }
                 }, {
@@ -14146,15 +14146,15 @@ objects:
                 }, {
                   "type" : "object",
                   "additionalProperties" : false,
-                  "required" : [ "log" ],
+                  "required" : [ "dead_letter_queue" ],
                   "properties" : {
-                    "log" : {
-                      "$ref" : "#/$defs/error_handler/log"
+                    "dead_letter_queue" : {
+                      "$ref" : "#/$defs/error_handler/dead_letter_queue"
                     }
                   }
                 } ],
                 "default" : {
-                  "log" : { }
+                  "stop" : { }
                 }
               }
             },
@@ -14219,6 +14219,14 @@ objects:
                 }
               },
               "error_handler" : {
+                "log" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
+                "stop" : {
+                  "type" : "object",
+                  "additionalProperties" : false
+                },
                 "dead_letter_queue" : {
                   "type" : "object",
                   "additionalProperties" : false,
@@ -14230,14 +14238,6 @@ objects:
                       "description" : "The name of the Kafka topic used as dead letter queue"
                     }
                   }
-                },
-                "stop" : {
-                  "type" : "object",
-                  "additionalProperties" : false
-                },
-                "log" : {
-                  "type" : "object",
-                  "additionalProperties" : false
                 }
               }
             }
