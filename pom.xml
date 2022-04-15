@@ -54,7 +54,7 @@
         <maven-resources-plugin.version>3.2.0</maven-resources-plugin.version>
         <maven-invoker-plugin.version>3.2.2</maven-invoker-plugin.version>
         <gmavenplus-plugin.version>1.13.1</gmavenplus-plugin.version>
-        <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
+        <maven-clean-plugin.version>3.2.0</maven-clean-plugin.version>
         <maven-install-plugin.version>3.0.0-M1</maven-install-plugin.version>
         <maven-site-plugin.version>3.11.0</maven-site-plugin.version>
         <maven-deploy-plugin.version>3.0.0-M2</maven-deploy-plugin.version>
