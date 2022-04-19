@@ -32,8 +32,8 @@
                     <connectors>
                         <connector>
                             <name>${cos.connector.type}-sink-${cos.connector.version}</name>
-                            <title>${project.name} Sink</title>
-                            <description>${project.description} Sink</description>
+                            <title>${project.name} sink</title>
+                            <description>${project.description} sink</description>
                             <adapter>
                                 <prefix>http</prefix>
                                 <name>${cos.connector.type}-sink</name>

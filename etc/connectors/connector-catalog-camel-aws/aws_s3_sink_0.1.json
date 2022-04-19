@@ -37,12 +37,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "AWS S3 Sink",
+    "description" : "Amazon S3 sink",
     "icon_href" : "TODO",
     "id" : "aws_s3_sink_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "sink" ],
-    "name" : "AWS S3 Sink",
+    "name" : "Amazon S3 sink",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,

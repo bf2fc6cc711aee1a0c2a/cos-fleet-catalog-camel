@@ -37,12 +37,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "SQL Server Source",
+    "description" : "SQL Server source",
     "icon_href" : "TODO",
     "id" : "sqlserver_source_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "source" ],
-    "name" : "SQL Server Source",
+    "name" : "SQL Server source",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,

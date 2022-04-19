@@ -38,12 +38,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "Slack Source",
+    "description" : "Slack source",
     "icon_href" : "TODO",
     "id" : "slack_source_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "source" ],
-    "name" : "Slack Source",
+    "name" : "Slack source",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,

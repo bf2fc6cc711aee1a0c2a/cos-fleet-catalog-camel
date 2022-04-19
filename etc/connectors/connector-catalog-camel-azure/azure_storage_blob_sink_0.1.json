@@ -37,12 +37,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "Azure Storage Blob Sink",
+    "description" : "Azure Blob Storage sink",
     "icon_href" : "TODO",
     "id" : "azure_storage_blob_sink_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "sink" ],
-    "name" : "Azure Storage Blob Sink",
+    "name" : "Azure Blob Storage sink",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,

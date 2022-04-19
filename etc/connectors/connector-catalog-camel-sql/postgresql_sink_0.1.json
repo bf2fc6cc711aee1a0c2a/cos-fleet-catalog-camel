@@ -37,12 +37,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "PostgreSQL Sink",
+    "description" : "PostgreSQL sink",
     "icon_href" : "TODO",
     "id" : "postgresql_sink_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "sink" ],
-    "name" : "PostgreSQL Sink",
+    "name" : "PostgreSQL sink",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,

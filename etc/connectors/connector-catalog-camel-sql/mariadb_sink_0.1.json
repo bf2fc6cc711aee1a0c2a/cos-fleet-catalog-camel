@@ -37,12 +37,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "MariaDB Sink",
+    "description" : "MariaDB sink",
     "icon_href" : "TODO",
     "id" : "mariadb_sink_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "sink" ],
-    "name" : "MariaDB Sink",
+    "name" : "MariaDB sink",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,

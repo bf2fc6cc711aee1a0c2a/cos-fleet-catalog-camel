@@ -32,8 +32,8 @@
                     <connectors>
                         <connector>
                             <name>${cos.connector.type}-source-${cos.connector.version}</name>
-                            <title>${project.name} Source</title>
-                            <description>${project.description} Source</description>
+                            <title>${project.name} source</title>
+                            <description>${project.description} source</description>
                             <adapter>
                                 <prefix>jira</prefix>
                                 <name>${cos.connector.type}-source</name>

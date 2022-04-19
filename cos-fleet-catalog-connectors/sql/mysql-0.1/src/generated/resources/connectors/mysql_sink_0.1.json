@@ -37,12 +37,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "MySQL Sink",
+    "description" : "MySQL sink",
     "icon_href" : "TODO",
     "id" : "mysql_sink_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "sink" ],
-    "name" : "MySQL Sink",
+    "name" : "MySQL sink",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,

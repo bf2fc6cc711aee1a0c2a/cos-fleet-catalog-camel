@@ -37,12 +37,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "Cassandra Sink",
+    "description" : "Apache Cassandra sink",
     "icon_href" : "TODO",
     "id" : "cassandra_sink_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "sink" ],
-    "name" : "Cassandra Sink",
+    "name" : "Apache Cassandra sink",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,

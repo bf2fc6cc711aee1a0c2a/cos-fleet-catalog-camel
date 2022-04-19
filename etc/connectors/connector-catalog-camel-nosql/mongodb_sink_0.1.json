@@ -37,12 +37,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "MongoDB Sink",
+    "description" : "MongoDB sink",
     "icon_href" : "TODO",
     "id" : "mongodb_sink_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "sink" ],
-    "name" : "MongoDB Sink",
+    "name" : "MongoDB sink",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,

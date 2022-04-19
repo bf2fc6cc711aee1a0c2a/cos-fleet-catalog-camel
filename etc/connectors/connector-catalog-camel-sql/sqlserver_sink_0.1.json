@@ -37,12 +37,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "SQL Server Sink",
+    "description" : "SQL Server sink",
     "icon_href" : "TODO",
     "id" : "sqlserver_sink_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "sink" ],
-    "name" : "SQL Server Sink",
+    "name" : "SQL Server sink",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,

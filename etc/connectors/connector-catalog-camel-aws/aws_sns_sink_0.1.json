@@ -37,12 +37,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "AWS SNS Sink",
+    "description" : "Amazon Simple Notification Service sink",
     "icon_href" : "TODO",
     "id" : "aws_sns_sink_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "sink" ],
-    "name" : "AWS SNS Sink",
+    "name" : "Amazon Simple Notification Service sink",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,

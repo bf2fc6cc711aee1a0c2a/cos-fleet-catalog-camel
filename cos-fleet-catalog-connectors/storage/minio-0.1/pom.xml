@@ -12,8 +12,8 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>cos-connector-minio-0.1</artifactId>
 
-    <name>Minio</name>
-    <description>Minio</description>
+    <name>MinIO</name>
+    <description>MinIO</description>
 
     <packaging>jar</packaging>
 
@@ -32,8 +32,8 @@
                     <connectors>
                         <connector>
                             <name>${cos.connector.type}-source-${cos.connector.version}</name>
-                            <title>${project.name} Source</title>
-                            <description>${project.description} Source</description>
+                            <title>${project.name} source</title>
+                            <description>${project.description} source</description>
                             <adapter>
                                 <prefix>minio</prefix>
                                 <name>${cos.connector.type}-source</name>
@@ -47,8 +47,8 @@
                         </connector>
                         <connector>
                             <name>${cos.connector.type}-sink-${cos.connector.version}</name>
-                            <title>${project.name} Sink</title>
-                            <description>${project.description} Sink</description>
+                            <title>${project.name} sink</title>
+                            <description>${project.description} sink</description>
                             <adapter>
                                 <prefix>minio</prefix>
                                 <name>${cos.connector.type}-sink</name>

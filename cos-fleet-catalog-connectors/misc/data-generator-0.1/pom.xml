@@ -31,8 +31,8 @@
                     <connectors>
                         <connector>
                             <name>data-generator-${cos.connector.version}</name>
-                            <title>${project.name} Source</title>
-                            <description>${project.description} Source</description>
+                            <title>${project.name} source</title>
+                            <description>${project.description} source</description>
                             <adapter>
                                 <prefix>timer</prefix>
                                 <name>timer-source</name>

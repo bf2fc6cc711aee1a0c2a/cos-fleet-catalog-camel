@@ -39,8 +39,8 @@
                     <connectors>
                         <connector>
                             <name>${cos.connector.type}-source-${cos.connector.version}</name>
-                            <title>${project.name} Source</title>
-                            <description>${project.description} Source</description>
+                            <title>${project.name} source</title>
+                            <description>${project.description} source</description>
                             <adapter>
                                 <prefix>db</prefix>
                                 <name>${cos.connector.type}-source</name>
@@ -54,8 +54,8 @@
                         </connector>
                         <connector>
                             <name>${cos.connector.type}-sink-${cos.connector.version}</name>
-                            <title>${project.name} Sink</title>
-                            <description>${project.description} Sink</description>
+                            <title>${project.name} sink</title>
+                            <description>${project.description} sink</description>
                             <adapter>
                                 <prefix>db</prefix>
                                 <name>${cos.connector.type}-sink</name>

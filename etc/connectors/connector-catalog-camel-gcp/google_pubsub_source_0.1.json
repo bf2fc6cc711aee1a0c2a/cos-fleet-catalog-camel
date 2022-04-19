@@ -37,12 +37,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "Google Cloud Pubsub Source",
+    "description" : "Google Cloud Pub/Sub source",
     "icon_href" : "TODO",
     "id" : "google_pubsub_source_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "source" ],
-    "name" : "Google Cloud Pubsub Source",
+    "name" : "Google Cloud Pub/Sub source",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,

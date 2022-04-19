@@ -37,12 +37,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "Slack Sink",
+    "description" : "Slack sink",
     "icon_href" : "TODO",
     "id" : "slack_sink_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "sink" ],
-    "name" : "Slack Sink",
+    "name" : "Slack sink",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,

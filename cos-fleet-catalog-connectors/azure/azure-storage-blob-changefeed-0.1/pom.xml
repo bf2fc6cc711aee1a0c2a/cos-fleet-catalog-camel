@@ -12,8 +12,8 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>cos-connector-azure-storage-blob-changefeed-0.1</artifactId>
 
-    <name>Azure Storage Blob Changefeed</name>
-    <description>Azure Storage Blob Changefeed</description>
+    <name>Azure Blob Storage change feed</name>
+    <description>Azure Blob Storage change feed</description>
 
     <packaging>jar</packaging>
 
@@ -32,8 +32,8 @@
                     <connectors>
                         <connector>
                             <name>${cos.connector.type}-source-${cos.connector.version}</name>
-                            <title>${project.name} Source</title>
-                            <description>${project.description} Source</description>
+                            <title>${project.name} source</title>
+                            <description>${project.description} source</description>
                             <adapter>
                                 <prefix>azure</prefix>
                                 <name>${cos.connector.type}-source</name>

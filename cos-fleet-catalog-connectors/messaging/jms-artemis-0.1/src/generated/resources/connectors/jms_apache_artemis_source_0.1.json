@@ -37,12 +37,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "JMS Apache Artemis Source",
+    "description" : "JMS Apache Artemis source",
     "icon_href" : "TODO",
     "id" : "jms_apache_artemis_source_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "source" ],
-    "name" : "JMS Apache Artemis Source",
+    "name" : "JMS Apache Artemis source",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,

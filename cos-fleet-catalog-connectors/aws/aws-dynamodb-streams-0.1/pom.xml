@@ -12,8 +12,8 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>cos-connector-aws-dynamodb-streams-0.1</artifactId>
 
-    <name>AWS DynamoDB Streams</name>
-    <description>AWS DynamoDB Streams</description>
+    <name>Amazon DynamoDB</name>
+    <description>Amazon DynamoDB</description>
 
     <packaging>jar</packaging>
 
@@ -32,8 +32,8 @@
                     <connectors>
                         <connector>
                             <name>${cos.connector.type}-source-${cos.connector.version}</name>
-                            <title>${project.name} Source</title>
-                            <description>${project.description} Source</description>
+                            <title>${project.name} source</title>
+                            <description>${project.description} source</description>
                             <adapter>
                                 <prefix>aws</prefix>
                                 <name>${cos.connector.type}-source</name>

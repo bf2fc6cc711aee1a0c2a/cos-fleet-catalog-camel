@@ -37,12 +37,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "Google Cloud Functions Sink",
+    "description" : "Google Cloud Functions sink",
     "icon_href" : "TODO",
     "id" : "google_functions_sink_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "sink" ],
-    "name" : "Google Cloud Functions Sink",
+    "name" : "Google Cloud Functions sink",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,

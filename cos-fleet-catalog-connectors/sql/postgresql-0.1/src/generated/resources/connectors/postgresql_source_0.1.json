@@ -37,12 +37,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "PostgreSQL Source",
+    "description" : "PostgreSQL source",
     "icon_href" : "TODO",
     "id" : "postgresql_source_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "source" ],
-    "name" : "PostgreSQL Source",
+    "name" : "PostgreSQL source",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,

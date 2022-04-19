@@ -37,12 +37,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "AWS SES Sink",
+    "description" : "Amazon Simple Email Service sink",
     "icon_href" : "TODO",
     "id" : "aws_ses_sink_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "sink" ],
-    "name" : "AWS SES Sink",
+    "name" : "Amazon Simple Email Service sink",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,

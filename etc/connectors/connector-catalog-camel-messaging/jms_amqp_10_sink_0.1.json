@@ -37,12 +37,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "JMS AMQP 1.0 Sink",
+    "description" : "JMS AMQP 1.0 sink",
     "icon_href" : "TODO",
     "id" : "jms_amqp_10_sink_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "sink" ],
-    "name" : "JMS AMQP 1.0 Sink",
+    "name" : "JMS AMQP 1.0 sink",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,

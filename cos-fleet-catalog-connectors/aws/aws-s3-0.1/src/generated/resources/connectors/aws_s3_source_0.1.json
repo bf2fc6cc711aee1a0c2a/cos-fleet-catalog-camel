@@ -37,12 +37,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "AWS S3 Source",
+    "description" : "Amazon S3 source",
     "icon_href" : "TODO",
     "id" : "aws_s3_source_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "source" ],
-    "name" : "AWS S3 Source",
+    "name" : "Amazon S3 source",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,

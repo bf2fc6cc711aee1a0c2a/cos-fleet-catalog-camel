@@ -37,12 +37,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "Azure Storage Queue Source",
+    "description" : "Azure Queue Storage source",
     "icon_href" : "TODO",
     "id" : "azure_storage_queue_source_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "source" ],
-    "name" : "Azure Storage Queue Source",
+    "name" : "Azure Queue Storage source",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,
