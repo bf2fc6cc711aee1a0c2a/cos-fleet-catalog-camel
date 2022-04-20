@@ -37,12 +37,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "JMS AMQP 1.0 Source",
+    "description" : "JMS AMQP 1.0 source",
     "icon_href" : "TODO",
     "id" : "jms_amqp_10_source_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "source" ],
-    "name" : "JMS AMQP 1.0 Source",
+    "name" : "JMS AMQP 1.0 source",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,

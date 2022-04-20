@@ -57,8 +57,8 @@
                     <connectors>
                         <connector>
                             <name>${cos.connector.type}-streaming-source-${cos.connector.version}</name>
-                            <title>${project.name} Streaming Source</title>
-                            <description>${project.description} Source</description>
+                            <title>${project.name} source</title>
+                            <description>${project.description} source</description>
                             <adapter>
                                 <prefix>salesforce</prefix>
                                 <name>cos-${cos.connector.type}-streaming-source</name>

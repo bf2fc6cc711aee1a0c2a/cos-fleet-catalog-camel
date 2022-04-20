@@ -37,12 +37,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "Minio Source",
+    "description" : "MinIO source",
     "icon_href" : "TODO",
     "id" : "minio_source_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "source" ],
-    "name" : "Minio Source",
+    "name" : "MinIO source",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,

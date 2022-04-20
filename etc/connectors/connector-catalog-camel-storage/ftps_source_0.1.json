@@ -37,12 +37,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "FTPS Source",
+    "description" : "FTPS source",
     "icon_href" : "TODO",
     "id" : "ftps_source_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "source" ],
-    "name" : "FTPS Source",
+    "name" : "FTPS source",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,

@@ -12,8 +12,8 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>cos-connector-aws-sqs-0.1</artifactId>
 
-    <name>AWS SQS</name>
-    <description>AWS SQS</description>
+    <name>Amazon Simple Queue Service</name>
+    <description>Amazon Simple Queue Service</description>
 
     <packaging>jar</packaging>
 
@@ -32,8 +32,8 @@
                     <connectors>
                         <connector>
                             <name>${cos.connector.type}-source-${cos.connector.version}</name>
-                            <title>${project.name} Source</title>
-                            <description>${project.description} Source</description>
+                            <title>${project.name} source</title>
+                            <description>${project.description} source</description>
                             <adapter>
                                 <prefix>aws</prefix>
                                 <name>${cos.connector.type}-source</name>
@@ -54,8 +54,8 @@
                         </connector>
                         <connector>
                             <name>${cos.connector.type}-sink-${cos.connector.version}</name>
-                            <title>${project.name} Sink</title>
-                            <description>${project.description} Sink</description>
+                            <title>${project.name} sink</title>
+                            <description>${project.description} sink</description>
                             <adapter>
                                 <prefix>aws</prefix>
                                 <name>${cos.connector.type}-sink</name>

@@ -37,12 +37,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "MongoDB Source",
+    "description" : "MongoDB source",
     "icon_href" : "TODO",
     "id" : "mongodb_source_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "source" ],
-    "name" : "MongoDB Source",
+    "name" : "MongoDB source",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,

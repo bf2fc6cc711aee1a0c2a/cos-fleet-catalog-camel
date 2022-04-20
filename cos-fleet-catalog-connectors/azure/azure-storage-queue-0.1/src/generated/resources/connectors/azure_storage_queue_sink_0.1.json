@@ -37,12 +37,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "Azure Storage Queue Sink",
+    "description" : "Azure Queue Storage sink",
     "icon_href" : "TODO",
     "id" : "azure_storage_queue_sink_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "sink" ],
-    "name" : "Azure Storage Queue Sink",
+    "name" : "Azure Queue Storage sink",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,

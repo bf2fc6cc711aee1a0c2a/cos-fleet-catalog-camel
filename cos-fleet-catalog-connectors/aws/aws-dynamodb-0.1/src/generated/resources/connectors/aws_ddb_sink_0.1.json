@@ -37,12 +37,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "AWS DynamoDB Sink",
+    "description" : "Amazon DynamoDB sink",
     "icon_href" : "TODO",
     "id" : "aws_ddb_sink_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "sink" ],
-    "name" : "AWS DynamoDB Sink",
+    "name" : "Amazon DynamoDB sink",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,

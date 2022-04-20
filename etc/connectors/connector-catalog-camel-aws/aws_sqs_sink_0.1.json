@@ -37,12 +37,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "AWS SQS Sink",
+    "description" : "Amazon Simple Queue Service sink",
     "icon_href" : "TODO",
     "id" : "aws_sqs_sink_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "sink" ],
-    "name" : "AWS SQS Sink",
+    "name" : "Amazon Simple Queue Service sink",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,

@@ -12,8 +12,8 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>cos-connector-aws-ses-0.1</artifactId>
 
-    <name>AWS SES</name>
-    <description>AWS SES</description>
+    <name>Amazon Simple Email Service</name>
+    <description>Amazon Simple Email Service</description>
 
     <packaging>jar</packaging>
 
@@ -32,8 +32,8 @@
                     <connectors>
                         <connector>
                             <name>${cos.connector.type}-sink-${cos.connector.version}</name>
-                            <title>${project.name} Sink</title>
-                            <description>${project.description} Sink</description>
+                            <title>${project.name} sink</title>
+                            <description>${project.description} sink</description>
                             <adapter>
                                 <prefix>aws</prefix>
                                 <name>${cos.connector.type}-sink</name>

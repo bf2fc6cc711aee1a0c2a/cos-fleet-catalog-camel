@@ -37,12 +37,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "Google Cloud Pubsub Sink",
+    "description" : "Google Cloud Pub/Sub sink",
     "icon_href" : "TODO",
     "id" : "google_pubsub_sink_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "sink" ],
-    "name" : "Google Cloud Pubsub Sink",
+    "name" : "Google Cloud Pub/Sub sink",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,

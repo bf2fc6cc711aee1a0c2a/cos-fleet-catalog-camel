@@ -37,12 +37,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "Cassandra Source",
+    "description" : "Apache Cassandra source",
     "icon_href" : "TODO",
     "id" : "cassandra_source_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "source" ],
-    "name" : "Cassandra Source",
+    "name" : "Apache Cassandra source",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,

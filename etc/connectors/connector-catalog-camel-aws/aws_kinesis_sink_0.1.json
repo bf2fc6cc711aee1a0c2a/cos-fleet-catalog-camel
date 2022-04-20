@@ -37,12 +37,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "AWS Kinesis Sink",
+    "description" : "Amazon Kinesis sink",
     "icon_href" : "TODO",
     "id" : "aws_kinesis_sink_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "sink" ],
-    "name" : "AWS Kinesis Sink",
+    "name" : "Amazon Kinesis sink",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,

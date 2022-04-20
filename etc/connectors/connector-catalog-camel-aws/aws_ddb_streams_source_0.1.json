@@ -37,12 +37,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "AWS DynamoDB Streams Source",
+    "description" : "Amazon DynamoDB source",
     "icon_href" : "TODO",
     "id" : "aws_ddb_streams_source_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "source" ],
-    "name" : "AWS DynamoDB Streams Source",
+    "name" : "Amazon DynamoDB source",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,

@@ -37,12 +37,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "Google Cloud Storage Source",
+    "description" : "Google Cloud Storage source",
     "icon_href" : "TODO",
     "id" : "google_storage_source_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "source" ],
-    "name" : "Google Cloud Storage Source",
+    "name" : "Google Cloud Storage source",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,

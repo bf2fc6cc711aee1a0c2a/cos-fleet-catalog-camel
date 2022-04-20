@@ -36,12 +36,12 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "Data Generator Source",
+    "description" : "Data Generator source",
     "icon_href" : "TODO",
     "id" : "data_generator_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "source" ],
-    "name" : "Data Generator Source",
+    "name" : "Data Generator source",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,
