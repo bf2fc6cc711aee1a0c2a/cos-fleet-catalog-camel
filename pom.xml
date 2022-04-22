@@ -21,7 +21,7 @@
         <camel-kamelets-catalog.version>main-SNAPSHOT</camel-kamelets-catalog.version>
         <camel.version>3.14.1</camel.version>
 
-        <classgraph.version>4.8.143</classgraph.version>
+        <classgraph.version>4.8.146</classgraph.version>
         <jsonschema-generator.version>4.24.2</jsonschema-generator.version>
         <apicurio.version>2.2.0.Final</apicurio.version>
         <apicurio-client.version>0.1.7.Final</apicurio-client.version>
