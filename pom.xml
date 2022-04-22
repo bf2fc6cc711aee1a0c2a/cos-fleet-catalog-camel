@@ -69,12 +69,13 @@
 
 
         <cos.connector.version>0.1</cos.connector.version>
-        <cos.connector.revision>18</cos.connector.revision>
+        <cos.connector.revision>19</cos.connector.revision>
         <cos.connector.operator.version>[1.0.0,2.0.0)</cos.connector.operator.version>
         <cos.kamelets.version>0.0.1</cos.kamelets.version>
 
         <!-- annotations -->
         <cos.connector.request.cpu>0.20</cos.connector.request.cpu>
+        <cos.connector.request.memory>128m</cos.connector.request.memory>
         <cos.connector.deployment.deadline>30</cos.connector.deployment.deadline>
     </properties>
 
