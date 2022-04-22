@@ -4,11 +4,11 @@
       "shard_metadata" : {
         "annotations" : {
           "trait.camel.apache.org/container.request-cpu" : "0.20",
-          "trait.camel.apache.org/container.request-memory" : "256m",
+          "trait.camel.apache.org/container.request-memory" : "128m",
           "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
         },
-        "connector_image" : "quay.io/rhoas/cos-connector-cassandra:0.1.18",
-        "connector_revision" : "18",
+        "connector_image" : "quay.io/rhoas/cos-connector-cassandra:0.1.19",
+        "connector_revision" : "19",
         "connector_type" : "sink",
         "consumes" : "application/json",
         "error_handler_strategy" : "stop",

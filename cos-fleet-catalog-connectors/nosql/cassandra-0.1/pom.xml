@@ -61,16 +61,6 @@
                             </kafka>
                         </connector>
                     </connectors>
-                    <annotations>
-                        <annotation>
-                            <name>trait.camel.apache.org/container.request-memory</name>
-                            <value>256m</value>
-                        </annotation>
-                        <annotation>
-                            <name>trait.camel.apache.org/container.request-cpu</name>
-                            <value>${cos.connector.request.cpu}</value>
-                        </annotation>
-                    </annotations>
                 </configuration>
             </plugin>
             <plugin>
