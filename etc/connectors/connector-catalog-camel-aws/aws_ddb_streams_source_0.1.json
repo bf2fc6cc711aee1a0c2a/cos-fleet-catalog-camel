@@ -87,18 +87,11 @@
           "type" : "string",
           "example" : "eu-west-1"
         },
-        "aws_iterator_type" : {
-          "title" : "Iterator Type",
-          "description" : "Defines where in the DynaboDB stream to start getting records. Note that using TRIM_HORIZON can cause a significant delay before the stream has caught up to real-time. if {AT,AFTER}_SEQUENCE_NUMBER are used, then a sequenceNumberProvider MUST be supplied. There are 4 enums and the value can be one of TRIM_HORIZON, LATEST, AT_SEQUENCE_NUMBER, AFTER_SEQUENCE_NUMBER",
+        "aws_stream_iterator_type" : {
+          "title" : "Stream Iterator Type",
+          "description" : "Defines where in the DynamoDB stream to start getting records. Note that using FROM_START can cause a significant delay before the stream has caught up to real-time. There are 2 enums and the value can be one of FROM_LATEST and FROM_START",
           "type" : "string",
-          "default" : "LATEST"
-        },
-        "aws_sequence_number_provider" : {
-          "title" : "Sequence Number Provider",
-          "description" : "Provider for the sequence number when using one of the two ShardIteratorType AT_SEQUENCE_NUMBER or AFTER_SEQUENCE_NUMBER iterator types. Can be a registry reference or a literal sequence number.",
-          "type" : "string",
-          "example" : "900000000005745712447",
-          "default" : "000000000000000000000"
+          "default" : "FROM_LATEST"
         },
         "aws_use_default_credentials_provider" : {
           "title" : "Default Credentials Provider",
