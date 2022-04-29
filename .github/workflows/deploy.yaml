@@ -10,6 +10,7 @@ env:
   LANG: en_US.UTF-8
   MAVEN_OPTS: -Xmx3000m
   MAVEN_ARGS: -V -ntp -Dhttp.keepAlive=false -e
+  CONNECTORS_DIR: etc/kubernetes/manifests/base
 
 concurrency:
   group: ${{ github.ref }}-${{ github.workflow }}
@@ -74,20 +75,7 @@ jobs:
           namespace: ${{ secrets.K8S_CLUSTER_DEV_NAMESPACE }}
       - name: Deploy Catalog
         run: |
-          CONNECTORS_DIR=etc/connectors
-          CONNECTORS_NS=${{ secrets.K8S_CLUSTER_DEV_NAMESPACE }}
-
-          for D in "${CONNECTORS_DIR}"/*; do
-            CM_NAME=$(basename "${D}")
-
-            echo "Creating configmap: ${CM_NAME} in namespace ${CONNECTORS_NS}"
-
-            oc create configmap "${CM_NAME}" \
-              --namespace ${CONNECTORS_NS} \
-              --from-file="${CONNECTORS_DIR}/${CM_NAME}/" \
-              --dry-run=client \
-              -o yaml | kubectl replace -f -
-          done
+          kubectl replace -k "${CONNECTORS_DIR}" -n ${{ secrets.K8S_CLUSTER_DEV_NAMESPACE }}
 
   restart-fleet-manager:
     runs-on: ubuntu-latest
