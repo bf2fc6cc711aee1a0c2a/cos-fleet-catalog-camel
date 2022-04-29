@@ -2,9 +2,12 @@
 
 ## Generate resources
 
-Running `./gen_templates.sh` will generate `templates/cos-fleet-catalog-camel.yaml` from `etc/connectors`.
-Setting `BUILD=true` will regenerate the content in `etc/connectors`
+Running `./gen_manifests.sh` will generate OpenShift template and Kustomize file from `etc/kubernetes/manifests/base/connectors`:
+- `templates/cos-fleet-catalog-camel.yaml`
+- `etc/kubernetes/manifests/base/kustomization.yaml`
+
+Setting `BUILD=true` will regenerate the content in `etc/kubernetes/manifests/base/connectors`
 
 ```bash
-BUILD=true ./gen_templates.sh
+BUILD=true ./gen_manifests.sh
 ```

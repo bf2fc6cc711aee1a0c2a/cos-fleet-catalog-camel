@@ -65,7 +65,7 @@
         <cos.connector.operator.type>camel-connector-operator</cos.connector.operator.type>
         <cos.connector.container.repository>quay.io</cos.connector.container.repository>
         <cos.connector.container.organization>rhoas</cos.connector.container.organization>
-        <cos.connector.catalog.root>${maven.multiModuleProjectDirectory}/etc/connectors</cos.connector.catalog.root>
+        <cos.connector.catalog.root>${maven.multiModuleProjectDirectory}/etc/kubernetes/manifests/base/connectors</cos.connector.catalog.root>
         <cos.connector.catalog.group>all</cos.connector.catalog.group>
 
 
@@ -542,7 +542,7 @@
                 <configuration>
                     <filesets>
                         <fileset>
-                            <directory>etc/connectors</directory>
+                            <directory>etc/kubernetes/manifests/base/connectors</directory>
                         </fileset>
                     </filesets>
                 </configuration>
