@@ -14,10 +14,10 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>mariadb-0.1-it</module>
-        <module>mysql-0.1-it</module>
-        <module>postgresql-0.1-it</module>
-        <module>sqlserver-0.1-it</module>
+        <module>mariadb-it</module>
+        <module>mysql-it</module>
+        <module>postgresql-it</module>
+        <module>sqlserver-it</module>
     </modules>
 
 </project>

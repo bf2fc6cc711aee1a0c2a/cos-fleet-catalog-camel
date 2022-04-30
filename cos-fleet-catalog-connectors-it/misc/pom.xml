@@ -14,7 +14,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>log-0.1-it</module>
+        <module>log-it</module>
     </modules>
 
 </project>
