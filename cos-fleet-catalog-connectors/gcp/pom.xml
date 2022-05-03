@@ -23,6 +23,7 @@
         <module>google-functions-0.1</module>
         <module>google-pubsub-0.1</module>
         <module>google-storage-0.1</module>
+        <module>google-bigquery-0.1</module>
     </modules>
 
 </project>
