@@ -23,6 +23,7 @@
         <module>http-0.1</module>
         <module>jms-amqp-0.1</module>
         <module>jms-artemis-0.1</module>
+        <module>openapi-0.1</module>
     </modules>
 
 </project>
