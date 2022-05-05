@@ -1,0 +1,64 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-kafka-not-secured-sink
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "sink"
+spec:
+  definition:
+    title: "Managed Kafka Sink"
+    description: |-
+      Send data to Managed Kafka topics.
+
+      The Kamelet is able to understand the following headers to be set:
+
+      - `key`: as message key
+
+      - `partition-key`: as message partition key
+
+      Both the headers are optional.
+    required:
+      - topic
+    type: object
+    properties:
+      topic:
+        title: Topic Names
+        description: Comma separated list of Kafka topic names
+        type: string
+  dependencies:
+    - "camel:kafka"
+    - "camel:kamelet"
+  flow:
+    beans:
+      - name: "kafka-client-factory"
+        type: "#class:org.bf2.cos.connector.camel.kafka.ClientFactory"
+        properties:
+          registryUrl: '{{registryUrl:}}'
+          bootstrapUrl: "{{bootstrapServers}}"
+          producerCreationRetryMs: '{{producerCreationRetryMs:5000}}'
+    from:
+      uri: "kamelet:source"
+      steps:
+      - choice:
+          when:
+          - simple: "${header[key]}"
+            steps:
+            - set-header:
+                name: kafka.KEY
+                simple: "${header[key]}"
+      - choice:
+          when:
+          - simple: "${header[partition-key]}"
+            steps:
+            - set-header:
+                name: kafka.PARTITION_KEY
+                simple: "${header[partition-key]}"
+      - to:
+          uri: "kafka:{{topic}}"
+          parameters:
+            keySerializer: "{{keySerializer:org.apache.kafka.common.serialization.ByteArraySerializer}}"
+            valueSerializer: "{{valueSerializer:org.bf2.cos.connector.camel.serdes.bytes.ByteArraySerializer}}"
+            kafkaClientFactory: "#{{kafka-client-factory}}"

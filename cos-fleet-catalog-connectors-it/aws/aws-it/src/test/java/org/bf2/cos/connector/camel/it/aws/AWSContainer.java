@@ -12,6 +12,7 @@ import org.testcontainers.utility.DockerImageName;
 import software.amazon.awssdk.auth.credentials.AwsCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.kinesis.KinesisClient;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.sns.SnsClient;
@@ -59,6 +60,14 @@ public class AWSContainer extends GenericContainer<AWSContainer> {
 
     public KinesisClient kinesis() {
         return KinesisClient.builder()
+                .credentialsProvider(getCredentialsProvider())
+                .endpointOverride(getExternalEndpointURI())
+                .region(Region.US_EAST_1)
+                .build();
+    }
+
+    public DynamoDbClient ddb() {
+        return DynamoDbClient.builder()
                 .credentialsProvider(getCredentialsProvider())
                 .endpointOverride(getExternalEndpointURI())
                 .region(Region.US_EAST_1)

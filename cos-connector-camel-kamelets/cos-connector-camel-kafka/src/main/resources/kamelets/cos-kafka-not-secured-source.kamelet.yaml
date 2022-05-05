@@ -1,0 +1,45 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-kafka-not-secured-source
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "source"
+spec:
+  definition:
+    title: "Managed Kafka Source"
+    description: |-
+      Receive data from Managed Kafka topics.
+    required:
+      - topic
+    type: object
+    properties:
+      topic:
+        title: Topic Names
+        description: Comma separated list of Kafka topic names
+        type: string
+  dependencies:
+    - "camel:kafka"
+    - "camel:kamelet"
+  flow:
+    beans:
+      - name: "kafka-client-factory"
+        type: "#class:org.bf2.cos.connector.camel.kafka.ClientFactory"
+        properties:
+          bootstrapUrl: "{{bootstrapServers}}"
+          registryUrl: '{{registryUrl:}}'
+          consumerCreationRetryMs: '{{consumerCreationRetryMs:5000}}'
+    from:
+      uri: "kafka:{{topic}}"
+      parameters:
+        autoOffsetReset: "{{autoOffsetReset:earliest}}"
+        groupId: "{{?consumerGroup}}"
+        keyDeserializer: "{{keyDeserializer:org.apache.kafka.common.serialization.ByteArrayDeserializer}}"
+        valueDeserializer: "{{valueDeserializer:org.bf2.cos.connector.camel.serdes.bytes.ByteArrayDeserializer}}"
+        kafkaClientFactory: "#{{kafka-client-factory}}"
+      steps:
+      - removeHeader:
+          name: "kafka.HEADERS"
+      - to: "kamelet:sink"
