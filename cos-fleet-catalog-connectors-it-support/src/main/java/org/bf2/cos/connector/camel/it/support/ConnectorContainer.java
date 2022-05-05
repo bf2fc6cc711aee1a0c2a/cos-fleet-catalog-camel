@@ -1,12 +1,18 @@
 package org.bf2.cos.connector.camel.it.support;
 
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.output.Slf4jLogConsumer;
 import org.testcontainers.containers.wait.strategy.Wait;
+import org.testcontainers.images.builder.Transferable;
 
 import com.github.dockerjava.api.command.InspectContainerResponse;
 
@@ -18,6 +24,7 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
     public static final int DEFAULT_HTTP_PORT = 8080;
 
     private Consumer<ConnectorContainer> customizer;
+    private final List<Pair<String, byte[]>> files;
 
     public ConnectorContainer() {
         this(System.getProperty("connector.container.image").trim());
@@ -39,6 +46,8 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
     public ConnectorContainer(String image) {
         super(image);
 
+        this.files = new ArrayList<>();
+
         withEnv("QUARKUS_LOG_CONSOLE_JSON", "false");
         withEnv("CAMEL_K_MOUNT_PATH_CONFIGMAPS", "/etc/camel/conf.d/_configmaps");
         withEnv("CAMEL_K_MOUNT_PATH_SECRETS", "/etc/camel/conf.d/_secrets");
@@ -54,6 +63,24 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
         this.customizer = customizer;
         return self();
 
+    }
+
+    public ConnectorContainer withFile(String path, byte[] content) {
+        Objects.requireNonNull(path);
+        Objects.requireNonNull(content);
+
+        this.files.add(new ImmutablePair<>(path, content));
+
+        return self();
+    }
+
+    public ConnectorContainer withFile(String path, String content) {
+        Objects.requireNonNull(path);
+        Objects.requireNonNull(content);
+
+        this.files.add(new ImmutablePair<>(path, content.getBytes(StandardCharsets.UTF_8)));
+
+        return self();
     }
 
     public String getServiceAddress() {
@@ -76,6 +103,10 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
 
         if (this.customizer != null) {
             this.customizer.accept(this);
+        }
+
+        for (Pair<String, byte[]> file : files) {
+            copyFileToContainer(Transferable.of(file.getRight()), file.getLeft());
         }
     }
 }

@@ -49,8 +49,8 @@ abstract class KafkaConnectorSpec extends ConnectorSpecSupport {
     ConnectorContainer connectorContainer(String name, ContainerFile... files) {
         def answer = connectorContainer(name)
 
-        for (ContainerFile file: files) {
-            addFileToContainer(answer, file.path, file.body)
+        for (ContainerFile file : files) {
+            answer.withFile(file.path, file.body.stripLeading().stripTrailing())
         }
 
         return answer
@@ -59,15 +59,14 @@ abstract class KafkaConnectorSpec extends ConnectorSpecSupport {
     ConnectorContainer connectorContainer(String name, String route) {
         def answer = connectorContainer(name)
 
-        addFileToContainer(
-                answer,
-                DEFAULT_APPLICATION_PROPERTIES.path,
-                DEFAULT_APPLICATION_PROPERTIES.body.stripLeading().stripTrailing());
+        return connectorContainer(name, DEFAULT_APPLICATION_PROPERTIES, route)
+    }
 
-        addFileToContainer(
-                answer,
-                DEFAULT_ROUTE_LOCATION,
-                route.stripLeading().stripTrailing());
+    ConnectorContainer connectorContainer(String name, String properties, String route) {
+        def answer = connectorContainer(name)
+
+        answer.withFile(DEFAULT_APPLICATION_PROPERTIES_LOCATION, properties.stripLeading().stripTrailing())
+        answer.withFile(DEFAULT_ROUTE_LOCATION, route.stripLeading().stripTrailing())
 
         return answer
     }

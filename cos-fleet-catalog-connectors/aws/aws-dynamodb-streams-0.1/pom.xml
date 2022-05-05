@@ -12,8 +12,8 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>cos-connector-aws-dynamodb-streams-0.1</artifactId>
 
-    <name>Amazon DynamoDB</name>
-    <description>Amazon DynamoDB</description>
+    <name>Amazon DynamoDB Stream</name>
+    <description>Amazon DynamoDB Stream</description>
 
     <packaging>jar</packaging>
 

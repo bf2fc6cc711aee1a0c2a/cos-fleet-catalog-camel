@@ -1,11 +1,17 @@
 package org.bf2.cos.connector.camel.it
 
+
 import groovy.json.JsonSlurper
 import groovy.util.logging.Slf4j
 import org.bf2.cos.connector.camel.it.aws.AWSContainer
 import org.bf2.cos.connector.camel.it.support.KafkaConnectorSpec
 import software.amazon.awssdk.core.SdkBytes
 import software.amazon.awssdk.core.sync.RequestBody
+import software.amazon.awssdk.services.dynamodb.model.AttributeDefinition
+import software.amazon.awssdk.services.dynamodb.model.KeySchemaElement
+import software.amazon.awssdk.services.dynamodb.model.KeyType
+import software.amazon.awssdk.services.dynamodb.model.ProvisionedThroughput
+import software.amazon.awssdk.services.dynamodb.model.ScalarAttributeType
 import software.amazon.awssdk.services.kinesis.model.Record
 import software.amazon.awssdk.utils.IoUtils
 
@@ -18,7 +24,7 @@ class ConnectorIT extends KafkaConnectorSpec {
 
     @Override
     def setupSpec() {
-        aws = new AWSContainer(network, 's3', 'sns', 'sqs', 'kinesis')
+        aws = new AWSContainer(network, 's3', 'sns', 'sqs', 'kinesis', 'dynamodb')
         aws.start()
     }
 
@@ -406,6 +412,74 @@ class ConnectorIT extends KafkaConnectorSpec {
                 }
 
                 return record != null
+            }
+        cleanup:
+            closeQuietly(cnt)
+    }
+
+    // ********************************************
+    //
+    // DynamoDB
+    //
+    // ********************************************
+
+    def "ddb sink"() {
+        setup:
+            def payload = json([
+                id: 1,
+                year: 2022,
+                title: 'title'
+            ])
+
+            def topic = UUID.randomUUID().toString()
+            def group = UUID.randomUUID().toString()
+            def ddb = aws.ddb()
+
+            ddb.createTable(b -> {
+                b.tableName(topic)
+                b.keySchema(KeySchemaElement.builder().attributeName("id").keyType(KeyType.HASH).build())
+                b.attributeDefinitions(AttributeDefinition.builder().attributeName("id").attributeType(ScalarAttributeType.N).build())
+                b.provisionedThroughput(ProvisionedThroughput.builder().readCapacityUnits(1L).writeCapacityUnits(1L).build())
+            })
+
+            def cnt = connectorContainer(ConnectorSupport.CONTAINER_IMAGE_DDB, """
+                - route:
+                    from:
+                      uri: kamelet:cos-kafka-not-secured-source
+                      parameters:
+                        topic: ${topic}
+                        bootstrapServers: ${kafka.outsideBootstrapServers}
+                        groupId: ${group}
+                    steps:
+                    - to:
+                        uri: "log:raw?multiLine=true&showHeaders=true"
+                    - to:
+                        uri: "kamelet:cos-decoder-json-action"
+                    - to:
+                        uri: "kamelet:cos-encoder-json-action"
+                    - to:
+                        uri: kamelet:aws-ddb-sink
+                        parameters:
+                          accessKey: ${aws.credentials.accessKeyId()}
+                          secretKey: ${aws.credentials.secretAccessKey()}
+                          region: ${aws.region}
+                          table: ${topic}
+                          operation: "PutItem"
+                          uriEndpointOverride: ${aws.endpoint}
+                          overrideEndpoint: true
+                """)
+
+            cnt.start()
+        when:
+            kafka.send(topic, payload.toString(), [:])
+        then:
+            untilAsserted(10, TimeUnit.SECONDS) {
+                def items = ddb.scan(b -> b.tableName(topic)).items()
+
+                assert !items.isEmpty()
+                assert items[0].get('id').n() == "1"
+                assert items[0].get('year').n() == "2022"
+                assert items[0].get('title').s() == "title"
             }
         cleanup:
             closeQuietly(cnt)
