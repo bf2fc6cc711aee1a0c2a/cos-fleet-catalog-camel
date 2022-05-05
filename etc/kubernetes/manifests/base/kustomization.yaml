@@ -18,6 +18,8 @@ configMapGenerator:
   options:
     disableNameSuffixHash: true
 - files:
+  - connectors/connector-catalog-camel-azure/azure_eventhubs_sink_0.1.json
+  - connectors/connector-catalog-camel-azure/azure_eventhubs_source_0.1.json
   - connectors/connector-catalog-camel-azure/azure_storage_blob_changefeed_source_0.1.json
   - connectors/connector-catalog-camel-azure/azure_storage_blob_sink_0.1.json
   - connectors/connector-catalog-camel-azure/azure_storage_blob_source_0.1.json
@@ -27,6 +29,7 @@ configMapGenerator:
   options:
     disableNameSuffixHash: true
 - files:
+  - connectors/connector-catalog-camel-gcp/google_bigquery_sink_0.1.json
   - connectors/connector-catalog-camel-gcp/google_functions_sink_0.1.json
   - connectors/connector-catalog-camel-gcp/google_pubsub_sink_0.1.json
   - connectors/connector-catalog-camel-gcp/google_pubsub_source_0.1.json
@@ -41,6 +44,7 @@ configMapGenerator:
   - connectors/connector-catalog-camel-messaging/jms_amqp_10_source_0.1.json
   - connectors/connector-catalog-camel-messaging/jms_apache_artemis_sink_0.1.json
   - connectors/connector-catalog-camel-messaging/jms_apache_artemis_source_0.1.json
+  - connectors/connector-catalog-camel-messaging/rest_openapi_sink_0.1.json
   name: connector-catalog-camel-messaging
   options:
     disableNameSuffixHash: true
@@ -61,7 +65,10 @@ configMapGenerator:
     disableNameSuffixHash: true
 - files:
   - connectors/connector-catalog-camel-saas/jira_source_0.1.json
+  - connectors/connector-catalog-camel-saas/salesforce_create_sink_0.1.json
+  - connectors/connector-catalog-camel-saas/salesforce_delete_sink_0.1.json
   - connectors/connector-catalog-camel-saas/salesforce_streaming_source_0.1.json
+  - connectors/connector-catalog-camel-saas/salesforce_update_sink_0.1.json
   name: connector-catalog-camel-saas
   options:
     disableNameSuffixHash: true
