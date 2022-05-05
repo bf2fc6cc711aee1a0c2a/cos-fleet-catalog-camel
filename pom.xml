@@ -70,7 +70,7 @@
 
 
         <cos.connector.version>0.1</cos.connector.version>
-        <cos.connector.revision>21</cos.connector.revision>
+        <cos.connector.revision>22</cos.connector.revision>
         <cos.connector.operator.version>[1.0.0,2.0.0)</cos.connector.operator.version>
         <cos.kamelets.version>0.0.1</cos.kamelets.version>
 
