@@ -47,6 +47,7 @@
         <module>aws</module>
         <module>misc</module>
         <module>sql</module>
+        <module>nosql</module>
     </modules>
 
     <build>
