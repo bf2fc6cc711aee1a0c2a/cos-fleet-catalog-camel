@@ -1,0 +1,112 @@
+# ---------------------------------------------------------------------------
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ---------------------------------------------------------------------------
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-mongodb-sink
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.group: "npsql"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "sinl"
+spec:
+  definition:
+    title: "MongoDB Sink"
+    required:
+      - hosts
+      - collection
+      - database
+    type: object
+    properties:
+      hosts:
+        title: MongoDB Hosts
+        description: Comma separated list of MongoDB Host Addresses in host:port format.
+        type: string
+      collection:
+        title: MongoDB Collection
+        description: Sets the name of the MongoDB collection to bind to this endpoint.
+        type: string
+      password:
+        title: MongoDB Password
+        description: User password for accessing MongoDB.
+        type: string
+        format: password
+        x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:password
+          - urn:camel:group:credentials
+      username:
+        title: MongoDB Username
+        description: Username for accessing MongoDB.
+        type: string
+        x-descriptors:
+          - urn:camel:group:credentials
+      database:
+        title: MongoDB Database
+        description: Sets the name of the MongoDB database to target.
+        type: string
+      writeConcern:
+        title: Write Concern
+        description: Configure the level of acknowledgment requested from MongoDB for write operations, possible values are ACKNOWLEDGED, W1, W2, W3, UNACKNOWLEDGED, JOURNALED, MAJORITY.
+        type: string
+      createCollection:
+        title: Collection
+        description: Create collection during initialisation if it doesn't exist.
+        type: boolean
+        default: false
+        x-descriptors:
+          - 'urn:alm:descriptor:com.tectonic.ui:checkbox'
+  types:
+    in:
+      mediaType: application/json
+  dependencies:
+    - "camel:core"
+    - "camel:kamelet"
+    - "camel:mongodb"
+    - "camel:jackson"
+  template:
+    beans:
+      - name: local-mongodb
+        type: "#class:org.apache.camel.component.mongodb.MongoDbComponent"
+    from:
+      uri: kamelet:source
+      steps:
+        - convertBodyTo:
+            type: org.bson.Document
+        - choice:
+            when:
+              - simple: "${header[db-upsert]}"
+                steps:
+                  - set-header:
+                      name: CamelMongoDbUpsert
+                      simple: "${header[db-upsert]}"
+              - simple: "${header[ce-dbupsert]}"
+                steps:
+                  - set-header:
+                      name: CamelMongoDbUpsert
+                      simple: "${header[ce-dbupsert]}"
+        - to:
+            uri: "{{local-mongodb}}:test"
+            parameters:
+              createCollection: "{{?createCollection}}"
+              writeConcern: "{{?writeConcern}}"
+              hosts: "{{hosts}}"
+              collection: "{{collection}}"
+              password: "{{?password}}"
+              username: "{{?username}}"
+              database: "{{database}}"
+              operation: "insert"
