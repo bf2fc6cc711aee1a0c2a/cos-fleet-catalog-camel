@@ -39,24 +39,23 @@ class ConnectorIT extends KafkaConnectorSpec {
             def group = UUID.randomUUID().toString()
             def payload = '''{ "value": "4", "suit": "hearts" }'''
 
-            def cnt = connectorContainer(
-                ConnectorSupport.CONTAINER_IMAGE,
-                """
+            def cnt = connectorContainer(ConnectorSupport.CONTAINER_IMAGE, """
                 - route:
                     from:
-                      uri: kamelet:kafka-not-secured-source
+                      uri: kamelet:cos-kafka-not-secured-source
                       parameters:
                         topic: ${topic}
                         bootstrapServers: ${kafka.outsideBootstrapServers}
                         groupId: ${group}
-                        autoOffsetReset: "earliest"
-                        keyDeserializer: "org.apache.kafka.common.serialization.ByteArrayDeserializer"
-                        valueDeserializer: "org.bf2.cos.connector.camel.serdes.bytes.ByteArrayDeserializer"
                     steps:
                     - to:
-                        uri: "log:s?multiLine=true&showHeaders=true"
+                        uri: "log:raw?multiLine=true&showHeaders=true"
                     - to:
-                        uri: kamelet:mongodb-sink
+                        uri: "kamelet:cos-decoder-json-action"
+                    - to:
+                        uri: "kamelet:cos-encoder-json-action"
+                    - to:
+                        uri: kamelet:cos-mongodb-sink
                         parameters:
                           hosts: "tc-mongodb:27017"
                           collection: cards
