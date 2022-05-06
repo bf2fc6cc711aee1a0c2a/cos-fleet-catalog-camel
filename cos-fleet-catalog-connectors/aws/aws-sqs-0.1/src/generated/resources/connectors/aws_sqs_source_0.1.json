@@ -134,6 +134,12 @@
           "type" : "boolean",
           "default" : false
         },
+        "aws_delay" : {
+          "title" : "Delay",
+          "description" : "Milliseconds before the next poll of the selected stream",
+          "type" : "long",
+          "default" : 500
+        },
         "kafka_topic" : {
           "title" : "Topic Names",
           "description" : "Comma separated list of Kafka topic names",
