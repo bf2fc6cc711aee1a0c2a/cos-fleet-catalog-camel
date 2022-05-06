@@ -97,6 +97,12 @@
           "type" : "string",
           "example" : "DELETE FROM accounts where user_id = :#user_id"
         },
+        "sql_delay" : {
+          "title" : "Delay",
+          "description" : "Milliseconds before the next poll from database",
+          "type" : "long",
+          "default" : 500
+        },
         "kafka_topic" : {
           "title" : "Topic Names",
           "description" : "Comma separated list of Kafka topic names",
