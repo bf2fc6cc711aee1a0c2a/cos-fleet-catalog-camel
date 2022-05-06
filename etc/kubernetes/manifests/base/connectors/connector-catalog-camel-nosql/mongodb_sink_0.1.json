@@ -9,7 +9,7 @@
         },
         "connector_image" : "quay.io/rhoas/cos-connector-mongodb:0.1.22",
         "connector_revision" : "22",
-        "connector_type" : "sinl",
+        "connector_type" : "sink",
         "consumes" : "application/json",
         "error_handler_strategy" : "stop",
         "kamelets" : {
@@ -41,7 +41,7 @@
     "icon_href" : "TODO",
     "id" : "mongodb_sink_0.1",
     "kind" : "ConnectorType",
-    "labels" : [ "sinl" ],
+    "labels" : [ "sink" ],
     "name" : "MongoDB sink",
     "schema" : {
       "type" : "object",
