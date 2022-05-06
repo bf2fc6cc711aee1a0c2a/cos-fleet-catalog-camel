@@ -20,10 +20,10 @@ metadata:
   name: cos-mongodb-sink
   annotations:
     camel.apache.org/provider: "Red Hat"
-    camel.apache.org/kamelet.group: "npsql"
+    camel.apache.org/kamelet.group: "nosql"
     camel.apache.org/kamelet.version: "${cos.kamelets.version}"
   labels:
-    camel.apache.org/kamelet.type: "sinl"
+    camel.apache.org/kamelet.type: "sink"
 spec:
   definition:
     title: "MongoDB Sink"
