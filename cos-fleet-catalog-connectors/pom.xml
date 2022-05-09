@@ -136,6 +136,7 @@
                             <!--
                               configure the default actions.
                             -->
+                            <!--
                             <actions>
                                 <action>
                                     <name>cos-log-action</name>
@@ -146,6 +147,7 @@
                                     <version>${cos.kamelets.version}</version>
                                 </action>
                             </actions>
+                            -->
 
                             <!--
                               configure the default channel.
