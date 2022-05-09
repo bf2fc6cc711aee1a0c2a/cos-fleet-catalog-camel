@@ -7,8 +7,8 @@
           "trait.camel.apache.org/container.request-memory" : "128m",
           "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
         },
-        "connector_image" : "quay.io/rhoas/cos-connector-azure-eventhubs:0.1.22",
-        "connector_revision" : "22",
+        "connector_image" : "quay.io/rhoas/cos-connector-azure-eventhubs:0.1.23",
+        "connector_revision" : "23",
         "connector_type" : "sink",
         "error_handler_strategy" : "stop",
         "kamelets" : {
@@ -19,10 +19,6 @@
           "kafka" : {
             "name" : "cos-kafka-source",
             "prefix" : "kafka"
-          },
-          "processors" : {
-            "fault" : "cos-fault-action",
-            "log" : "cos-log-action"
           }
         },
         "operators" : [ {
@@ -33,7 +29,7 @@
     }
   },
   "connector_type" : {
-    "capabilities" : [ "error_handler", "processors" ],
+    "capabilities" : [ "error_handler" ],
     "channels" : [ "stable" ],
     "description" : "Azure Event Hubs sink",
     "icon_href" : "TODO",
@@ -81,28 +77,6 @@
           "description" : "Comma separated list of Kafka topic names",
           "type" : "string"
         },
-        "processors" : {
-          "type" : "array",
-          "items" : {
-            "oneOf" : [ {
-              "type" : "object",
-              "required" : [ "log" ],
-              "properties" : {
-                "log" : {
-                  "$ref" : "#/$defs/processors/log"
-                }
-              }
-            }, {
-              "type" : "object",
-              "required" : [ "fault" ],
-              "properties" : {
-                "fault" : {
-                  "$ref" : "#/$defs/processors/fault"
-                }
-              }
-            } ]
-          }
-        },
         "error_handler" : {
           "type" : "object",
           "oneOf" : [ {
@@ -139,51 +113,6 @@
         }
       },
       "$defs" : {
-        "processors" : {
-          "log" : {
-            "title" : "Log",
-            "description" : "Log payload.",
-            "type" : "object",
-            "properties" : {
-              "multiLine" : {
-                "title" : "Multi Line",
-                "description" : "Multi Line",
-                "type" : "boolean",
-                "default" : false
-              },
-              "showProperties" : {
-                "title" : "Show Properties",
-                "description" : "Show Properties",
-                "type" : "boolean",
-                "default" : false
-              },
-              "showHeaders" : {
-                "title" : "Show Headers",
-                "description" : "Show Headers",
-                "type" : "boolean",
-                "default" : false
-              }
-            }
-          },
-          "fault" : {
-            "type" : "object",
-            "title" : "Fault Injection",
-            "description" : "Fail the exchange.",
-            "required" : [ "exceptionType", "exceptionMessage" ],
-            "properties" : {
-              "exceptionType" : {
-                "title" : "The Exception Type",
-                "description" : "The Exception Type",
-                "type" : "string"
-              },
-              "exceptionMessage" : {
-                "title" : "The Exception Message",
-                "description" : "The Exception Message",
-                "type" : "string"
-              }
-            }
-          }
-        },
         "error_handler" : {
           "log" : {
             "type" : "object",

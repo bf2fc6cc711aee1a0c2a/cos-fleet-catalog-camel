@@ -42,7 +42,6 @@ configMapGenerator:
   - connectors/connector-catalog-camel-messaging/http_sink_0.1.json
   - connectors/connector-catalog-camel-messaging/jms_amqp_10_sink_0.1.json
   - connectors/connector-catalog-camel-messaging/jms_amqp_10_source_0.1.json
-  - connectors/connector-catalog-camel-messaging/jms_apache_artemis_sink_0.1.json
   - connectors/connector-catalog-camel-messaging/jms_apache_artemis_source_0.1.json
   - connectors/connector-catalog-camel-messaging/rest_openapi_sink_0.1.json
   name: connector-catalog-camel-messaging
@@ -50,7 +49,6 @@ configMapGenerator:
     disableNameSuffixHash: true
 - files:
   - connectors/connector-catalog-camel-misc/data_generator_0.1.json
-  - connectors/connector-catalog-camel-misc/log_sink_0.1.json
   name: connector-catalog-camel-misc
   options:
     disableNameSuffixHash: true

@@ -7,8 +7,8 @@
           "trait.camel.apache.org/container.request-memory" : "128m",
           "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
         },
-        "connector_image" : "quay.io/rhoas/cos-connector-slack:0.1.22",
-        "connector_revision" : "22",
+        "connector_image" : "quay.io/rhoas/cos-connector-slack:0.1.23",
+        "connector_revision" : "23",
         "connector_type" : "source",
         "consumes" : "application/json",
         "consumes_class" : "com.slack.api.model.Message",
@@ -21,10 +21,6 @@
           "kafka" : {
             "name" : "cos-kafka-sink",
             "prefix" : "kafka"
-          },
-          "processors" : {
-            "fault" : "cos-fault-action",
-            "log" : "cos-log-action"
           }
         },
         "operators" : [ {
@@ -36,7 +32,7 @@
     }
   },
   "connector_type" : {
-    "capabilities" : [ "data_shape", "error_handler", "processors" ],
+    "capabilities" : [ "data_shape", "error_handler" ],
     "channels" : [ "stable" ],
     "description" : "Slack source",
     "icon_href" : "TODO",
@@ -79,28 +75,6 @@
           "title" : "Topic Names",
           "description" : "Comma separated list of Kafka topic names",
           "type" : "string"
-        },
-        "processors" : {
-          "type" : "array",
-          "items" : {
-            "oneOf" : [ {
-              "type" : "object",
-              "required" : [ "log" ],
-              "properties" : {
-                "log" : {
-                  "$ref" : "#/$defs/processors/log"
-                }
-              }
-            }, {
-              "type" : "object",
-              "required" : [ "fault" ],
-              "properties" : {
-                "fault" : {
-                  "$ref" : "#/$defs/processors/fault"
-                }
-              }
-            } ]
-          }
         },
         "data_shape" : {
           "type" : "object",
@@ -147,51 +121,6 @@
         }
       },
       "$defs" : {
-        "processors" : {
-          "log" : {
-            "title" : "Log",
-            "description" : "Log payload.",
-            "type" : "object",
-            "properties" : {
-              "multiLine" : {
-                "title" : "Multi Line",
-                "description" : "Multi Line",
-                "type" : "boolean",
-                "default" : false
-              },
-              "showProperties" : {
-                "title" : "Show Properties",
-                "description" : "Show Properties",
-                "type" : "boolean",
-                "default" : false
-              },
-              "showHeaders" : {
-                "title" : "Show Headers",
-                "description" : "Show Headers",
-                "type" : "boolean",
-                "default" : false
-              }
-            }
-          },
-          "fault" : {
-            "type" : "object",
-            "title" : "Fault Injection",
-            "description" : "Fail the exchange.",
-            "required" : [ "exceptionType", "exceptionMessage" ],
-            "properties" : {
-              "exceptionType" : {
-                "title" : "The Exception Type",
-                "description" : "The Exception Type",
-                "type" : "string"
-              },
-              "exceptionMessage" : {
-                "title" : "The Exception Message",
-                "description" : "The Exception Message",
-                "type" : "string"
-              }
-            }
-          }
-        },
         "data_shape" : {
           "produces" : {
             "type" : "object",
