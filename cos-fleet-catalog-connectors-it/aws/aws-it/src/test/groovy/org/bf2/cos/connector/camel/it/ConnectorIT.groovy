@@ -59,8 +59,6 @@ class ConnectorIT extends KafkaConnectorSpec {
                     - removeHeader:
                         name: "kafka.HEADERS"
                     - to:
-                        uri: "log:s?multiLine=true&showHeaders=true"
-                    - to:
                         uri: kamelet:aws-s3-sink
                         parameters:
                           accessKey: ${aws.credentials.accessKeyId()}
@@ -109,8 +107,6 @@ class ConnectorIT extends KafkaConnectorSpec {
                         uriEndpointOverride: ${aws.endpoint}
                         overrideEndpoint: true
                     steps:
-                      - to:
-                          uri: "log:s?multiLine=true&showHeaders=true"
                       - to:
                           uri: kamelet:kafka-not-secured-sink
                           parameters:
@@ -165,8 +161,6 @@ class ConnectorIT extends KafkaConnectorSpec {
                     steps:
                     - removeHeader:
                         name: "kafka.HEADERS"
-                    - to:
-                        uri: "log:s?multiLine=true&showHeaders=true"
                     - to:
                         uri: kamelet:aws-sns-sink
                         parameters:
@@ -225,8 +219,6 @@ class ConnectorIT extends KafkaConnectorSpec {
                     - removeHeader:
                         name: "kafka.HEADERS"
                     - to:
-                        uri: "log:s?multiLine=true&showHeaders=true"
-                    - to:
                         uri: kamelet:aws-sqs-sink
                         parameters:
                           accessKey: ${aws.credentials.accessKeyId()}
@@ -276,8 +268,6 @@ class ConnectorIT extends KafkaConnectorSpec {
                         uriEndpointOverride: ${aws.endpoint}
                         overrideEndpoint: true
                     steps:
-                      - to:
-                          uri: "log:s?multiLine=true&showHeaders=true"
                       - to:
                           uri: kamelet:kafka-not-secured-sink
                           parameters:
@@ -332,8 +322,6 @@ class ConnectorIT extends KafkaConnectorSpec {
                     - removeHeader:
                         name: "kafka.HEADERS"
                     - to:
-                        uri: "log:s?multiLine=true&showHeaders=true"
-                    - to:
                         uri: kamelet:aws-kinesis-sink
                         parameters:
                           accessKey: ${aws.credentials.accessKeyId()}
@@ -387,8 +375,6 @@ class ConnectorIT extends KafkaConnectorSpec {
                           uriEndpointOverride: ${aws.endpoint}
                           overrideEndpoint: true
                     steps:
-                      - to:
-                          uri: "log:s?multiLine=true&showHeaders=true"
                       - to:
                           uri: kamelet:kafka-not-secured-sink
                           parameters:
@@ -451,8 +437,6 @@ class ConnectorIT extends KafkaConnectorSpec {
                         bootstrapServers: ${kafka.outsideBootstrapServers}
                         groupId: ${group}
                     steps:
-                    - to:
-                        uri: "log:raw?multiLine=true&showHeaders=true"
                     - to:
                         uri: "kamelet:cos-decoder-json-action"
                     - to:

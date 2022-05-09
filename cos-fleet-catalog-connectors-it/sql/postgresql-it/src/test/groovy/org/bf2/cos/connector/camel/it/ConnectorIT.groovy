@@ -54,8 +54,6 @@ class ConnectorIT extends KafkaConnectorSpec {
                         autoOffsetReset: "earliest"
                     steps:
                     - to:
-                        uri: "log:s?multiLine=true&showHeaders=true"
-                    - to:
                         uri: kamelet:postgresql-sink
                         parameters:
                           serverName: "tc-postgres"

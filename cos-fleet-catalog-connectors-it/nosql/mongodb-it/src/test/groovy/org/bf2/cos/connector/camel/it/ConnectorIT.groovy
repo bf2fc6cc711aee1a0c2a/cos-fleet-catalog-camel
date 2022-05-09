@@ -49,8 +49,6 @@ class ConnectorIT extends KafkaConnectorSpec {
                         groupId: ${group}
                     steps:
                     - to:
-                        uri: "log:raw?multiLine=true&showHeaders=true"
-                    - to:
                         uri: "kamelet:cos-decoder-json-action"
                     - to:
                         uri: "kamelet:cos-encoder-json-action"
