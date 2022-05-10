@@ -46,6 +46,7 @@
     <modules>
         <module>aws</module>
         <module>misc</module>
+        <module>messaging</module>
         <module>sql</module>
         <module>nosql</module>
     </modules>
