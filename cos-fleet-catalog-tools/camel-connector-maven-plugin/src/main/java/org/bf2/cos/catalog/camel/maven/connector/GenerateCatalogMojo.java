@@ -220,7 +220,7 @@ public class GenerateCatalogMojo extends AbstractMojo {
                             ch.getValue().getOperatorVersion()));
 
                     metadata.getKamelets().getAdapter().setName(adapter.getName());
-                    metadata.getKamelets().getAdapter().setPrefix(adapter.getPrefix());
+                    metadata.getKamelets().getAdapter().setPrefix(asKey(adapter.getPrefix()));
 
                     metadata.getKamelets().getKafka().setName(kafka.getName());
                     metadata.getKamelets().getKafka().setPrefix(kafka.getPrefix());
