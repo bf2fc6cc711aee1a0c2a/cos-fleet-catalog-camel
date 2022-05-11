@@ -15,7 +15,7 @@
         "kamelets" : {
           "adapter" : {
             "name" : "jms-amqp-10-sink",
-            "prefix" : "jms-amqp"
+            "prefix" : "jms_amqp"
           },
           "kafka" : {
             "name" : "cos-kafka-source",

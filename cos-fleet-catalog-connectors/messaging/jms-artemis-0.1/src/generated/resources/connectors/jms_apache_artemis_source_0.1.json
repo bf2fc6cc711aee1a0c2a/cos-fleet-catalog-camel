@@ -15,7 +15,7 @@
         "kamelets" : {
           "adapter" : {
             "name" : "jms-apache-artemis-source",
-            "prefix" : "jms-artemis"
+            "prefix" : "jms_artemis"
           },
           "kafka" : {
             "name" : "cos-kafka-sink",
