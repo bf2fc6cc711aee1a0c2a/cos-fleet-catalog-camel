@@ -15,7 +15,7 @@
         "kamelets" : {
           "adapter" : {
             "name" : "rest-openapi-sink",
-            "prefix" : "rest-openapi"
+            "prefix" : "rest_openapi"
           },
           "kafka" : {
             "name" : "cos-kafka-source",
