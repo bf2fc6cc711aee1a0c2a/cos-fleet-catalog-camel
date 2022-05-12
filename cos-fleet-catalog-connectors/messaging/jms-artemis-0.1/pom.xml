@@ -52,7 +52,6 @@
                                 </produces>
                             </dataShape>
                         </connector>
-                        <!--
                         <connector>
                             <name>${cos.connector.type}-sink-${cos.connector.version}</name>
                             <title>${project.name} sink</title>
@@ -75,7 +74,6 @@
                                 </consumes>
                             </dataShape>
                         </connector>
-                        -->
                     </connectors>
                 </configuration>
             </plugin>
