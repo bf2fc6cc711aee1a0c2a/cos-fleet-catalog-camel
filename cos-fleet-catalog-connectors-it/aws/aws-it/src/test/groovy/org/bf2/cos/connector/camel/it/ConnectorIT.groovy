@@ -1,12 +1,15 @@
 package org.bf2.cos.connector.camel.it
 
-
 import groovy.json.JsonSlurper
 import groovy.util.logging.Slf4j
 import org.bf2.cos.connector.camel.it.aws.AWSContainer
 import org.bf2.cos.connector.camel.it.support.KafkaConnectorSpec
 import software.amazon.awssdk.core.SdkBytes
 import software.amazon.awssdk.core.sync.RequestBody
+import software.amazon.awssdk.services.cloudwatch.model.Metric
+import software.amazon.awssdk.services.cloudwatch.model.MetricDataQuery
+import software.amazon.awssdk.services.cloudwatch.model.MetricDataResult
+import software.amazon.awssdk.services.cloudwatch.model.MetricStat
 import software.amazon.awssdk.services.dynamodb.model.AttributeDefinition
 import software.amazon.awssdk.services.dynamodb.model.KeySchemaElement
 import software.amazon.awssdk.services.dynamodb.model.KeyType
@@ -16,6 +19,7 @@ import software.amazon.awssdk.services.kinesis.model.Record
 import software.amazon.awssdk.utils.IoUtils
 
 import java.nio.charset.Charset
+import java.time.Instant
 import java.util.concurrent.TimeUnit
 
 @Slf4j
@@ -24,13 +28,81 @@ class ConnectorIT extends KafkaConnectorSpec {
 
     @Override
     def setupSpec() {
-        aws = new AWSContainer(network, 's3', 'sns', 'sqs', 'kinesis', 'dynamodb')
+        aws = new AWSContainer(network, 'cw', 's3', 'sns', 'sqs', 'kinesis', 'dynamodb')
         aws.start()
     }
 
     @Override
     def cleanupSpec() {
         closeQuietly(aws)
+    }
+
+    // ********************************************
+    //
+    // CW
+    //
+    // ********************************************
+
+    def "cw sink"() {
+        setup:
+        def topic = UUID.randomUUID().toString()
+        def namespace = 'cw-namespace'
+        def group = UUID.randomUUID().toString()
+
+        def cnt = connectorContainer(ConnectorSupport.CONTAINER_IMAGE_CLOUDWATCH, """
+                - route:
+                    from:
+                      uri: kamelet:kafka-not-secured-source
+                      parameters:
+                        topic: ${topic}
+                        bootstrapServers: ${kafka.outsideBootstrapServers}
+                        groupId: ${group}
+                        autoOffsetReset: "earliest"
+                    steps:
+                    - removeHeader:
+                        name: "kafka.HEADERS"
+                    - to:
+                        uri: kamelet:aws-cloudwatch-sink
+                        parameters:
+                          accessKey: ${aws.credentials.accessKeyId()}
+                          secretKey: ${aws.credentials.secretAccessKey()}
+                          region: ${aws.region}
+                          cwNamespace: ${namespace}
+                          uriEndpointOverride: ${aws.endpoint}
+                          overrideEndpoint: true
+                """)
+
+        cnt.start()
+
+        def cw = aws.cw()
+        when:
+        kafka.send(topic, null, [ 'metric-value': '2.0', 'metric-name': 'metricName1651062317458', 'metric-unit': 'Percent' ])
+        then:
+        await(10, TimeUnit.SECONDS) {
+            try {
+                List<MetricDataResult> mdrs =  cw.getMetricData(b->b.metricDataQueries(
+                                                MetricDataQuery.builder()
+                                                        .id("some")
+                                                        .metricStat(MetricStat.builder()
+                                                                .period(60)
+                                                                .stat("Sum")
+                                                                .metric(Metric.builder()
+                                                                        .namespace(namespace)
+                                                                        .metricName("metricName1651062317458").build())
+                                                                .build()
+                                                        )
+                                                        .build())
+                                                .startTime(Instant.now().minusSeconds(3600))
+                                                .endTime(Instant.now().plusSeconds(3600))
+                                        ).metricDataResults();
+
+                return mdrs.size() == 1 && mdrs.get(0).values().size() == 1 && mdrs.get(0).values().get(0).equals(2.0d)
+            } catch (Exception e) {
+                return false
+            }
+        }
+        cleanup:
+        closeQuietly(cnt)
     }
 
     // ********************************************

@@ -13,3 +13,4 @@ target
 /cos-fleet-catalog-camel/static
 .vscode
 workspace.code-workspace
+lib

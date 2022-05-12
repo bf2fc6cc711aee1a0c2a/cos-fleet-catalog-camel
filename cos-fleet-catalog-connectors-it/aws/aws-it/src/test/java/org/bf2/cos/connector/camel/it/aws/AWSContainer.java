@@ -12,6 +12,7 @@ import org.testcontainers.utility.DockerImageName;
 import software.amazon.awssdk.auth.credentials.AwsCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.cloudwatch.CloudWatchClient;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.kinesis.KinesisClient;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -32,6 +33,14 @@ public class AWSContainer extends GenericContainer<AWSContainer> {
         withNetworkAliases(CONTAINER_ALIAS);
         withExposedPorts(PORT);
         waitingFor(Wait.forLogMessage(".*Ready\\.\n", 1));
+    }
+
+    public CloudWatchClient cw() {
+        return CloudWatchClient.builder()
+                .credentialsProvider(getCredentialsProvider())
+                .endpointOverride(getExternalEndpointURI())
+                .region(Region.US_EAST_1)
+                .build();
     }
 
     public SqsClient sqs() {
