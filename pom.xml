@@ -65,9 +65,11 @@
         <cos.connector.operator.type>camel-connector-operator</cos.connector.operator.type>
         <cos.connector.container.repository>quay.io</cos.connector.container.repository>
         <cos.connector.container.organization>rhoas</cos.connector.container.organization>
+        <cos.connector.container.tag>${cos.connector.version}.${cos.connector.revision}</cos.connector.container.tag>
+        <cos.connector.container.prefix>cos-connector</cos.connector.container.prefix>
+
         <cos.connector.catalog.root>${maven.multiModuleProjectDirectory}/etc/kubernetes/manifests/base/connectors</cos.connector.catalog.root>
         <cos.connector.catalog.group>all</cos.connector.catalog.group>
-
 
         <cos.connector.version>0.1</cos.connector.version>
         <cos.connector.revision>24</cos.connector.revision>
