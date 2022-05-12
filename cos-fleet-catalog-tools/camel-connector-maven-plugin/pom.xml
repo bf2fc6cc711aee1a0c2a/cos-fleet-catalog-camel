@@ -244,6 +244,7 @@
                     </scriptVariables>
                     <pomIncludes>
                         <pomInclude>generate-connector-simple/pom.xml</pomInclude>
+                        <pomInclude>generate-connector-with-capabilities/pom.xml</pomInclude>
                     </pomIncludes>
                     <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
                     <cloneClean>true</cloneClean>
