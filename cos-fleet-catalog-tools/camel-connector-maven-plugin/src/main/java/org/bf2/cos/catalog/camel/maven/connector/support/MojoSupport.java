@@ -73,6 +73,9 @@ public final class MojoSupport {
                 MojoSupport.inject(expressionEvaluator, connector);
 
                 if (defaults != null) {
+                    if (connector.getCapabilities() == null) {
+                        connector.setCapabilities(defaults.getCapabilities());
+                    }
                     if (connector.getDataShape() == null) {
                         connector.setDataShape(defaults.getDataShape());
                     }

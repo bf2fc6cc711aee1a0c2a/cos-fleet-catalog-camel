@@ -133,6 +133,13 @@
                             <validator>${project.basedir}/src/test/resources/validate.groovy</validator>
                         </validators>
                         <defaults>
+                            <!-- force capabilities to be set even if the connector do not implement any of them -->
+                            <capabilities>
+                                <capability>processors</capability>
+                                <capability>data_shape</capability>
+                                <capability>error_handler</capability>
+                            </capabilities>
+
                             <!--
                               configure the default actions.
                             -->

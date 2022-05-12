@@ -276,6 +276,32 @@ public class GenerateCatalogMojo extends AbstractMojo {
                 }
             }
 
+            // force capabilities if defined
+            if (connector.getCapabilities() != null) {
+                def.getConnectorType().getCapabilities().addAll(connector.getCapabilities());
+            }
+
+            for (String capability : def.getConnectorType().getCapabilities()) {
+                switch (capability) {
+                    case CatalogConstants.CAPABILITY_PROCESSORS:
+                        def.getConnectorType().getSchema()
+                                .with("properties")
+                                .with(CatalogConstants.CAPABILITY_PROCESSORS);
+                        break;
+                    case CatalogConstants.CAPABILITY_ERROR_HANDLER:
+                        def.getConnectorType().getSchema()
+                                .with("properties")
+                                .with(CatalogConstants.CAPABILITY_ERROR_HANDLER);
+                        break;
+                    case CatalogConstants.CAPABILITY_DATA_SHAPE:
+                        def.getConnectorType().getSchema()
+                                .with("properties")
+                                .with(CatalogConstants.CAPABILITY_DATA_SHAPE);
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Unsupported capability: " + capability);
+                }
+            }
             //
             // Write
             //

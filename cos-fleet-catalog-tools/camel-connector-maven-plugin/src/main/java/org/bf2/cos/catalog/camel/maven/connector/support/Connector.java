@@ -16,6 +16,8 @@ public class Connector {
     private String description;
     @Param(defaultValue = "${cos.connector.version}")
     private String version;
+    @Param(defaultValue = "${cos.connector.capabilities}")
+    private Set<String> capabilities;
 
     @Param
     private EndpointRef adapter;
@@ -60,6 +62,14 @@ public class Connector {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public Set<String> getCapabilities() {
+        return capabilities;
+    }
+
+    public void setCapabilities(Set<String> capabilities) {
+        this.capabilities = capabilities;
     }
 
     public EndpointRef getAdapter() {
