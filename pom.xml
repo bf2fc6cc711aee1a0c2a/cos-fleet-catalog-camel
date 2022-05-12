@@ -32,7 +32,7 @@
         <logback.version>1.2.11</logback.version>
         <slf4j.version>1.7.36</slf4j.version>
         <awaitility.version>4.2.0</awaitility.version>
-        <rest-assured.version>5.0.0</rest-assured.version>
+        <rest-assured.version>5.0.1</rest-assured.version>
 
         <maven.version>3.8.5</maven.version>
         <maven-plugin-tools.version>3.6.4</maven-plugin-tools.version>
