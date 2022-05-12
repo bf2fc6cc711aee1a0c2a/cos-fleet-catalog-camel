@@ -5,7 +5,7 @@
 
     <parent>
         <groupId>org.bf2</groupId>
-        <artifactId>cos-fleet-catalog-connectors-it-sql</artifactId>
+        <artifactId>cos-fleet-catalog-connectors-sql-it</artifactId>
         <version>999-SNAPSHOT</version>
     </parent>
 
@@ -19,7 +19,7 @@
 
     <properties>
         <quarkus.container-image.name>cos-connector-mysql</quarkus.container-image.name>
-        <quarkus.container-image.tag>${cos.connector.version}.${cos.connector.revision}</quarkus.container-image.tag>
+        <quarkus.container-image.tag>${cos.connector.container.tag}</quarkus.container-image.tag>
     </properties>
 
     <dependencies>

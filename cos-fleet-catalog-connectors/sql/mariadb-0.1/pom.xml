@@ -19,8 +19,8 @@
 
     <properties>
         <cos.connector.type>mariadb</cos.connector.type>
-        <quarkus.container-image.name>cos-connector-${cos.connector.type}</quarkus.container-image.name>
-        <quarkus.container-image.tag>${cos.connector.version}.${cos.connector.revision}</quarkus.container-image.tag>
+        <quarkus.container-image.name>${cos.connector.container.prefix}-${cos.connector.type}</quarkus.container-image.name>
+        <quarkus.container-image.tag>${cos.connector.container.tag}</quarkus.container-image.tag>
     </properties>
 
     <dependencies>

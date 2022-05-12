@@ -10,7 +10,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>cos-fleet-catalog-connectors-it-misc</artifactId>
+    <artifactId>cos-fleet-catalog-connectors-misc-it</artifactId>
     <packaging>pom</packaging>
 
 </project>
