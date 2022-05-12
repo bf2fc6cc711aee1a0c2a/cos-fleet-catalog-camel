@@ -13,6 +13,10 @@
     <artifactId>cos-fleet-catalog-connectors-it</artifactId>
     <packaging>pom</packaging>
 
+    <properties>
+        <cos.connector.container.tag>${git.commit.id}</cos.connector.container.tag>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -130,7 +134,7 @@
                                         ${cos.connector.container.repository}/${cos.connector.container.organization}
                                     </it.connector.container.group>
                                     <it.connector.container.tag>
-                                        ${git.commit.id}
+                                        ${cos.connector.container.tag}
                                     </it.connector.container.tag>
                                 </systemPropertyVariables>
                                 <classesDirectory>${project.build.outputDirectory}</classesDirectory>

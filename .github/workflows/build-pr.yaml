@@ -1,0 +1,93 @@
+name: Build PR
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  LANG: en_US.UTF-8
+  MAVEN_OPTS: -Xmx3000m
+  MAVEN_ARGS: -V -ntp -Dhttp.keepAlive=false -e
+
+concurrency:
+  group: ${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+      - name: Cache m2 repo
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+      - name: "Build"
+        run: |
+          ./mvnw ${MAVEN_ARGS} clean install \
+            -Dcos.connector.container.repository=ttl.sh \
+            -Dcos.connector.container.organization=${{ github.run_id }}-${{ github.run_number }} \
+            -Dcos.connector.container.tag=1h \
+            -Pcontainer-push
+      - name: "Tar Maven Repo"
+        shell: bash
+        run: |
+          tar -czf ${{ runner.temp }}/maven-repo.tgz -C ~ .m2/repository
+          ls -lh ${{ runner.temp }}/maven-repo.tgz
+          df -h /
+      - name: "Persist Maven Repo"
+        uses: actions/upload-artifact@v2
+        with:
+          name: maven-repo-${{ github.run_id }}-${{ github.run_number }}
+          path: ${{ runner.temp }}/maven-repo.tgz
+          retention-days: 1
+
+  aws-it:
+    needs:
+      - build
+    uses: ./.github/workflows/build-it.yaml
+    with:
+      modules: ":cos-connector-aws-it"
+      containerRepo: ttl.sh
+      containerOrg: ${{ github.run_id }}-${{ github.run_number }}
+      containerTag: 1h
+
+  messaging-it:
+    needs:
+      - build
+    uses: ./.github/workflows/build-it.yaml
+    with:
+      modules: ":cos-connector-jms-amqp-it"
+      containerRepo: ttl.sh
+      containerOrg: ${{ github.run_id }}-${{ github.run_number }}
+      containerTag: 1h
+
+  nosq-it:
+    needs:
+      - build
+    uses: ./.github/workflows/build-it.yaml
+    with:
+      modules: ":cos-connector-mongodb-it"
+      containerRepo: ttl.sh
+      containerOrg: ${{ github.run_id }}-${{ github.run_number }}
+      containerTag: 1h
+
+  sql-it:
+    needs:
+      - build
+    uses: ./.github/workflows/build-it.yaml
+    with:
+      modules: ":cos-connector-mariadb-it,:cos-connector-mysql-it,:cos-connector-postgresql-it,:cos-connector-sqlserver-it"
+      containerRepo: ttl.sh
+      containerOrg: ${{ github.run_id }}-${{ github.run_number }}
+      containerTag: 1h
