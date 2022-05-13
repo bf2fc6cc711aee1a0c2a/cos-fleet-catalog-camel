@@ -1,6 +1,6 @@
 package org.bf2.cos.catalog.camel.maven.connector.validator;
 
-public class ValidatorException extends Exception {
+public class ValidatorException extends RuntimeException {
     public ValidatorException() {
     }
 

@@ -33,6 +33,7 @@
         <slf4j.version>1.7.36</slf4j.version>
         <awaitility.version>4.2.0</awaitility.version>
         <rest-assured.version>5.0.1</rest-assured.version>
+        <json-schema-validator.version>1.0.69</json-schema-validator.version>
 
         <maven.version>3.8.5</maven.version>
         <maven-plugin-tools.version>3.6.4</maven-plugin-tools.version>
@@ -194,6 +195,14 @@
             </dependency>
 
             <!-- deps -->
+
+
+            <dependency>
+                <groupId>com.networknt</groupId>
+                <artifactId>json-schema-validator</artifactId>
+                <version>${json-schema-validator.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>com.github.victools</groupId>
                 <artifactId>jsonschema-generator</artifactId>

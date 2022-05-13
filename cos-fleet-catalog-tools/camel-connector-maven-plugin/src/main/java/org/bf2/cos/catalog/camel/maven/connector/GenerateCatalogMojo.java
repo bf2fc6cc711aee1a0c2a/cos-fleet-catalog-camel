@@ -302,6 +302,7 @@ public class GenerateCatalogMojo extends AbstractMojo {
                         throw new IllegalArgumentException("Unsupported capability: " + capability);
                 }
             }
+
             //
             // Write
             //
