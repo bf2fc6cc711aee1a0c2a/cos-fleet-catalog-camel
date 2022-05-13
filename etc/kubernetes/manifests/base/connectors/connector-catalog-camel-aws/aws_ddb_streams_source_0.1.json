@@ -7,8 +7,8 @@
           "trait.camel.apache.org/container.request-memory" : "128m",
           "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
         },
-        "connector_image" : "quay.io/rhoas/cos-connector-aws-ddb-streams:0.1.25",
-        "connector_revision" : "25",
+        "connector_image" : "quay.io/rhoas/cos-connector-aws-ddb-streams:0.1.26",
+        "connector_revision" : "26",
         "connector_type" : "source",
         "consumes" : "application/json",
         "error_handler_strategy" : "stop",
@@ -109,7 +109,7 @@
         "aws_delay" : {
           "title" : "Delay",
           "description" : "Milliseconds before the next poll from database",
-          "type" : "long",
+          "type" : "integer",
           "default" : 500
         },
         "kafka_topic" : {
