@@ -10,6 +10,7 @@ import java.util.ServiceLoader;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -42,6 +43,8 @@ public class ValidateCatalogMojo extends AbstractMojo {
     private List<Connector> connectors;
     @Parameter
     private List<File> validators;
+    @Parameter(defaultValue = "FAIL", property = "cos.catalog.validation.mode")
+    private Validator.Mode mode;
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
@@ -63,19 +66,18 @@ public class ValidateCatalogMojo extends AbstractMojo {
                 final String id = name.replace("-", "_");
                 final Path schemaFile = Paths.get(outputPath).resolve(id + ".json");
                 final ObjectNode on = CatalogSupport.JSON_MAPPER.readValue(schemaFile.toFile(), ObjectNode.class);
+                final Validator.Context context = of(connector);
 
                 for (Validator validator : ServiceLoader.load(Validator.class)) {
                     getLog().info("Validating: " + schemaFile + " with validator " + validator);
-                    validator.validate(connector, on);
+                    validator.validate(context, on);
                 }
 
                 if (validators != null) {
                     final Object schema = new JsonSlurper().parse(schemaFile);
 
                     Binding binding = new Binding();
-                    binding.setProperty("log", getLog());
-                    binding.setProperty("connector", connector);
-                    binding.setProperty("connector_id", id);
+                    binding.setProperty("context", context);
                     binding.setProperty("schema", schema);
 
                     for (File validator : validators) {
@@ -93,5 +95,24 @@ public class ValidateCatalogMojo extends AbstractMojo {
         } catch (Exception e) {
             throw new MojoFailureException(e);
         }
+    }
+
+    private Validator.Context of(Connector connector) {
+        return new Validator.Context() {
+            @Override
+            public Connector getConnector() {
+                return connector;
+            }
+
+            @Override
+            public Log getLog() {
+                return ValidateCatalogMojo.this.getLog();
+            }
+
+            @Override
+            public Validator.Mode getMode() {
+                return mode;
+            }
+        };
     }
 }

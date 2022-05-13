@@ -1,14 +1,12 @@
 package org.bf2.cos.catalog.camel.maven.connector.validator;
 
-import org.bf2.cos.catalog.camel.maven.connector.support.Connector;
-
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
 
 @AutoService(Validator.class)
 public final class DefaultValidator implements Validator {
     @Override
-    public void validate(Connector connector, ObjectNode schema) {
+    public void validate(Context context, ObjectNode schema) {
         final String type = schema.requiredAt("/channels/stable/shard_metadata/connector_type").asText();
 
         switch (type) {

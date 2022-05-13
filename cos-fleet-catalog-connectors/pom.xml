@@ -21,6 +21,8 @@
         <quarkus.container-image.group>${cos.connector.container.organization}</quarkus.container-image.group>
 
         <quarkus.jib.jvm-arguments>-XX:+UseShenandoahGC,-Djava.util.logging.manager=org.jboss.logmanager.LogManager</quarkus.jib.jvm-arguments>
+
+        <cos.catalog.validation.mode>WARN</cos.catalog.validation.mode>
     </properties>
 
     <dependencies>
