@@ -51,6 +51,8 @@ jobs:
       - name: "Tar Catalog ${{ env.IMAGE_TAG }}"
         shell: bash
         run: |
+          ls -la
+          ls -la ${CONNECTORS_DIR}
           tar -czf ${{ runner.temp }}/catalog.tgz -C ~ ${CONNECTORS_DIR}
           ls -lh ${{ runner.temp }}/catalog.tgz
 
