@@ -19,7 +19,7 @@ BUILD=${BUILD:-false}
 
 [ "${BUILD}" == "true" ] && ./mvnw ${MAVEN_ARGS} clean install -U
 
-CONNECTORS_DIR=${1:-etc/kubernetes/manifests/base/connectors}
+BASE_DIR=${1:-etc/kubernetes/manifests/base}
 TEMPLATE=${2:-templates/cos-fleet-catalog-camel.yaml}
 
 cat <<EOT > $TEMPLATE
@@ -36,17 +36,17 @@ EOT
 
 echo "Overwriting template ${TEMPLATE}"
 
-for D in "${CONNECTORS_DIR}"/*; do
+for D in "${BASE_DIR}"/connectors/*; do
   CM_NAME=$(basename "${D}")
 
   echo "Adding configmap ${CM_NAME} to template ${TEMPLATE}"
   echo "-" >> ${TEMPLATE}
   kubectl create configmap "${CM_NAME}" \
-    --from-file="${CONNECTORS_DIR}/${CM_NAME}/" \
+    --from-file="${BASE_DIR}/connectors/${CM_NAME}/" \
     --dry-run=client \
     -o yaml | sed -e 's/^/  /' >> $TEMPLATE
 done
 
 
 echo "Regen kustomization.yaml resources"
-(cd "${DIR}"/etc/kubernetes/manifests/base && sh ./regen.sh)
+(cd "${BASE_DIR}" && sh ./regen.sh)
