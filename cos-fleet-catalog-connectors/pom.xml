@@ -22,7 +22,7 @@
 
         <quarkus.jib.jvm-arguments>-XX:+UseShenandoahGC,-Djava.util.logging.manager=org.jboss.logmanager.LogManager</quarkus.jib.jvm-arguments>
 
-        <cos.catalog.validation.mode>WARN</cos.catalog.validation.mode>
+        <cos.catalog.validation.mode>FAIL</cos.catalog.validation.mode>
     </properties>
 
     <dependencies>
