@@ -1,5 +1,6 @@
 package org.bf2.cos.catalog.camel.maven.connector.support;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,17 @@ public class Connector {
     private DataShapeDefinition dataShape;
     @Param
     private ErrorHandler errorHandler;
+
+    @Param
+    private List<File> customizers;
+
+    public List<File> getCustomizers() {
+        return customizers;
+    }
+
+    public void setCustomizers(List<File> customizers) {
+        this.customizers = customizers;
+    }
 
     public String getName() {
         return name;

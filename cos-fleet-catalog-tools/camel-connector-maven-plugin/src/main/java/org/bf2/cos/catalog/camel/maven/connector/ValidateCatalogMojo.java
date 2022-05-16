@@ -90,9 +90,7 @@ public class ValidateCatalogMojo extends AbstractMojo {
                     }
                 }
             }
-        } catch (AssertionError e) {
-            throw new MojoFailureException(e);
-        } catch (Exception e) {
+        } catch (AssertionError | Exception e) {
             throw new MojoFailureException(e);
         }
     }

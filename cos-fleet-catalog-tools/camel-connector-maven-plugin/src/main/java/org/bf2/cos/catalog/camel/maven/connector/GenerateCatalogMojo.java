@@ -1,5 +1,6 @@
 package org.bf2.cos.catalog.camel.maven.connector;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,8 +26,13 @@ import org.bf2.cos.catalog.camel.maven.connector.support.CatalogConstants;
 import org.bf2.cos.catalog.camel.maven.connector.support.Connector;
 import org.bf2.cos.catalog.camel.maven.connector.support.KameletsCatalog;
 import org.bf2.cos.catalog.camel.maven.connector.support.MojoSupport;
+import org.codehaus.groovy.control.CompilerConfiguration;
+import org.codehaus.groovy.control.customizers.ImportCustomizer;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import groovy.lang.Binding;
+import groovy.lang.GroovyShell;
 
 import static java.util.Optional.ofNullable;
 import static org.bf2.cos.catalog.camel.maven.connector.support.CatalogSupport.JSON_MAPPER;
@@ -300,6 +306,34 @@ public class GenerateCatalogMojo extends AbstractMojo {
                         break;
                     default:
                         throw new IllegalArgumentException("Unsupported capability: " + capability);
+                }
+            }
+
+            //
+            // Patch
+            //
+
+            if (connector.getCustomizers() != null) {
+                ImportCustomizer ic = new ImportCustomizer();
+
+                CompilerConfiguration cc = new CompilerConfiguration();
+                cc.addCompilationCustomizers(ic);
+
+                ClassLoader cl = Thread.currentThread().getContextClassLoader();
+
+                Binding binding = new Binding();
+                binding.setProperty("log", getLog());
+                binding.setProperty("connector", connector);
+                binding.setProperty("definition", def);
+                binding.setProperty("schema", def.getConnectorType().getSchema());
+
+                for (File customizer : connector.getCustomizers()) {
+                    if (!Files.exists(customizer.toPath())) {
+                        continue;
+                    }
+
+                    getLog().info("Customizing: " + connector.getName() + " with customizer " + customizer);
+                    new GroovyShell(cl, binding, cc).run(customizer, new String[] {});
                 }
             }
 
