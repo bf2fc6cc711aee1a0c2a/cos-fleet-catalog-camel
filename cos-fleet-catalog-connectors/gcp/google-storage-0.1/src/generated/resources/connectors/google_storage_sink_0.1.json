@@ -52,8 +52,9 @@
         "gcp_service_account_key" : {
           "title" : "Service Account Key",
           "description" : "The Service account key that can be used as credentials for the Google Cloud Storage access.",
-          "type" : "binary",
-          "x-group" : "credentials"
+          "type" : "string",
+          "x-group" : "credentials",
+          "format" : "base64"
         },
         "gcp_auto_create_bucket" : {
           "title" : "Autocreate Bucket",
