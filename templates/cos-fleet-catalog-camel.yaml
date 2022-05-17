@@ -20,7 +20,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-cloudwatch:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-cloudwatch:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
@@ -215,7 +215,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-ddb:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-ddb:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/json",
@@ -423,7 +423,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-ddb-streams:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-ddb-streams:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "source",
               "consumes" : "application/json",
@@ -630,7 +630,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-kinesis:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-kinesis:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
@@ -840,7 +840,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-kinesis:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-kinesis:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "source",
               "consumes" : "application/octet-stream",
@@ -1056,7 +1056,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-lambda:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-lambda:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
@@ -1240,7 +1240,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-s3:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-s3:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
@@ -1446,7 +1446,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-s3:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-s3:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "source",
               "consumes" : "application/octet-stream",
@@ -1677,7 +1677,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-ses:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-ses:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
@@ -1862,7 +1862,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-sns:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-sns:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
@@ -2063,7 +2063,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-sqs:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-sqs:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
@@ -2277,7 +2277,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-sqs:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-sqs:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "source",
               "consumes" : "application/octet-stream",
@@ -2515,7 +2515,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-azure-eventhubs:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-azure-eventhubs:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "error_handler_strategy" : "stop",
@@ -2660,7 +2660,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-azure-eventhubs:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-azure-eventhubs:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "source",
               "consumes" : "application/json",
@@ -2853,7 +2853,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-blob-changefeed:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-blob-changefeed:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "source",
               "consumes" : "application/octet-stream",
@@ -3018,7 +3018,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-blob:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-blob:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
@@ -3188,7 +3188,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-blob:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-blob:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "source",
               "consumes" : "application/octet-stream",
@@ -3358,7 +3358,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-queue:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-queue:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
@@ -3522,7 +3522,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-queue:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-queue:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "source",
               "consumes" : "application/octet-stream",
@@ -3699,7 +3699,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-google-bigquery:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-google-bigquery:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/json",
@@ -3859,7 +3859,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-google-functions:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-google-functions:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
@@ -4019,7 +4019,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-google-pubsub:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-google-pubsub:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
@@ -4175,7 +4175,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-google-pubsub:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-google-pubsub:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "source",
               "consumes" : "application/octet-stream",
@@ -4349,7 +4349,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-google-storage:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-google-storage:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
@@ -4506,7 +4506,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-google-storage:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-google-storage:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "source",
               "consumes" : "application/octet-stream",
@@ -4676,7 +4676,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-http:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-http:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
@@ -4828,7 +4828,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-jms-amqp-10:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-jms-amqp-10:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
@@ -4984,7 +4984,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-jms-amqp-10:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-jms-amqp-10:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "source",
               "consumes" : "application/octet-stream",
@@ -5140,7 +5140,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-jms-apache-artemis:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-jms-apache-artemis:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
@@ -5297,7 +5297,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-jms-apache-artemis:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-jms-apache-artemis:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "source",
               "consumes" : "application/octet-stream",
@@ -5453,7 +5453,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-rest-openapi:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-rest-openapi:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
@@ -5611,7 +5611,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-data-generator:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-data-generator:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "source",
               "consumes" : "application/octet-stream",
@@ -5775,7 +5775,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-cassandra:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-cassandra:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/json",
@@ -5969,7 +5969,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-cassandra:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-cassandra:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "source",
               "consumes" : "application/json",
@@ -6163,7 +6163,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-elasticsearch:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-elasticsearch:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/json",
@@ -6346,7 +6346,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-mongodb:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-mongodb:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/json",
@@ -6531,7 +6531,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-mongodb:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-mongodb:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "source",
               "consumes" : "application/json",
@@ -6723,7 +6723,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-jira:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-jira:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "source",
               "consumes" : "application/json",
@@ -6894,7 +6894,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-salesforce-create:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-salesforce-create:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/json",
@@ -7085,7 +7085,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-salesforce-delete:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-salesforce-delete:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/json",
@@ -7270,7 +7270,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-salesforce:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-salesforce:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "source",
               "consumes" : "application/json",
@@ -7460,7 +7460,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-salesforce-update:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-salesforce-update:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/json",
@@ -7663,7 +7663,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-slack:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-slack:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
@@ -7837,7 +7837,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-slack:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-slack:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "source",
               "consumes" : "application/json",
@@ -8003,7 +8003,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-telegram:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-telegram:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
@@ -8161,7 +8161,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-telegram:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-telegram:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "source",
               "consumes" : "application/json",
@@ -8321,7 +8321,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-redshift:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-redshift:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/json",
@@ -8503,7 +8503,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-aws-redshift:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-aws-redshift:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "source",
               "consumes" : "application/json",
@@ -8697,7 +8697,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-mariadb:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-mariadb:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/json",
@@ -8879,7 +8879,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-mariadb:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-mariadb:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "source",
               "consumes" : "application/json",
@@ -9067,7 +9067,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-mysql:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-mysql:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/json",
@@ -9249,7 +9249,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-mysql:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-mysql:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "source",
               "consumes" : "application/json",
@@ -9437,7 +9437,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-postgresql:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-postgresql:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/json",
@@ -9619,7 +9619,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-postgresql:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-postgresql:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "source",
               "consumes" : "application/json",
@@ -9807,7 +9807,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-sqlserver:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-sqlserver:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/json",
@@ -9989,7 +9989,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-sqlserver:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-sqlserver:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "source",
               "consumes" : "application/json",
@@ -10184,7 +10184,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-ftps:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-ftps:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
@@ -10371,7 +10371,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-ftps:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-ftps:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "source",
               "consumes" : "application/octet-stream",
@@ -10564,7 +10564,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-minio:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-minio:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
@@ -10748,7 +10748,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-minio:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-minio:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "source",
               "consumes" : "application/json",
@@ -10938,7 +10938,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-sftp:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-sftp:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "sink",
               "consumes" : "application/octet-stream",
@@ -11125,7 +11125,7 @@ objects:
                 "trait.camel.apache.org/container.request-memory" : "128m",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
-              "connector_image" : "quay.io/rhoas/cos-connector-sftp:0.1.27",
+              "connector_image" : "quay.io/rhoas/cos-connector-sftp:v0.0.1-test-f9eca749a01146638fab21abf26329fb78a5b4d3",
               "connector_revision" : "27",
               "connector_type" : "source",
               "consumes" : "application/octet-stream",
