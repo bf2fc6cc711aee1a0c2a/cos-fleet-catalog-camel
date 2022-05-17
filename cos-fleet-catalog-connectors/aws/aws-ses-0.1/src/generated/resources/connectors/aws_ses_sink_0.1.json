@@ -42,7 +42,7 @@
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,
-      "required" : [ "aws_from", "aws_region", "kafka_topic" ],
+      "required" : [ "aws_from", "aws_region", "kafka_topic", "aws_access_key", "aws_secret_key" ],
       "properties" : {
         "aws_from" : {
           "title" : "From",
