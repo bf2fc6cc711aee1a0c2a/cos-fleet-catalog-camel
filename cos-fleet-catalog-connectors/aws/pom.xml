@@ -30,6 +30,7 @@
                         <defaults>
                             <customizers>
                                 <customizer>${project.basedir}/../etc/customizers/mandatory_accesskey_secretkey_properties.groovy</customizer>
+                                <customizer>${project.basedir}/../etc/customizers/remove_aws_use_default_credentials_provider_property.groovy</customizer>
                             </customizers>
                         </defaults>
                     </configuration>
