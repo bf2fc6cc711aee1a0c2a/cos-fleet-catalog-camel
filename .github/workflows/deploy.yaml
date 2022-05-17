@@ -10,7 +10,9 @@ on:
       - "**.md"
       - "**.adoc"
       - "*.txt"
-      - ".github/"
+      - ".github/workflows/build-pr.yaml"
+      - ".github/workflows/build-tag.yaml"
+      - ".github/workflows/build-it.yaml"
   workflow_dispatch:
 
 env:
