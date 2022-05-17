@@ -29,49 +29,56 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
 
+      - name: Set versions
+        run: |
+          echo "CONNECTORS_VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_ENV
+          echo "CONNECTORS_REVISION=${GITHUB_SHA}" >> $GITHUB_ENV
+          echo "CONNECTORS_RELEASE=${CONNECTORS_VERSION}.${CONNECTORS_REVISION}" >> $GITHUB_ENV
+
       - name: Build Connector Images
-        run: |          
+        run: |
           ./mvnw ${MAVEN_ARGS} clean install \
-            -Dcos.connector.container.tag=${IMAGE_TAG} \
+            -Dcos.connector.version=${CONNECTORS_VERSION} \
+            -Dcos.connector.revision=${CONNECTORS_REVISION} \
             -Pcontainer-build
       - name: Build Catalog Image
         run: |
-          docker build -t "quay.io/rhoas/cos-fleet-catalog-camel:${IMAGE_TAG}" -f etc/Dockerfile.catalog .
+          docker build -t "quay.io/rhoas/cos-fleet-catalog-camel:${CONNECTORS_RELEASE}" -f etc/Dockerfile.catalog .
       - name: List Images
         run: |
           docker image ls --format "{{.Repository}}:{{.Tag}}" | grep quay.io/rhoas/cos-
 
-      - name: Regen
-        run: |
-          ./gen_manifests.sh
-
-      - name: Login to Container Registry
-        uses: docker/login-action@v1
-        with:
-          registry: quay.io
-          username: ${{ secrets.QUAY_MCI_USR }}
-          password: ${{ secrets.QUAY_MCI_PWD }}
-
-      - name: Push Images
-        run: |
-          IMAGES=$(docker image ls --format "{{.Repository}}:{{.Tag}}" | grep quay.io/rhoas/cos-)
-          for IMAGE in ${IMAGES}; do
-              docker push $IMAGE
-          done
+#      - name: Regen
+#        run: |
+#          ./gen_manifests.sh
+#
+#      - name: Login to Container Registry
+#        uses: docker/login-action@v1
+#        with:
+#          registry: quay.io
+#          username: ${{ secrets.QUAY_MCI_USR }}
+#          password: ${{ secrets.QUAY_MCI_PWD }}
+#
+#      - name: Push Images
+#        run: |
+#          IMAGES=$(docker image ls --format "{{.Repository}}:{{.Tag}}" | grep quay.io/rhoas/cos-)
+#          for IMAGE in ${IMAGES}; do
+#              docker push $IMAGE
+#          done
 
       - name: "Create Release Branch for tag {{ github.ref_name }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo ""
-          echo "tag    : ${IMAGE_TAG}"
-          echo "branch : ${BRANCH_NAME}"
+          echo "tag     : ${{ github.ref_name }}"
+          echo "release : ${CONNECTORS_RELEASE}"
           echo ""
 
           git config user.email "mas-connectors@redhat.com" 
           git config user.name "mas-connectors"
 
-          git checkout -b "${BRANCH_NAME}"
-          git commit -am "Create release branch for IMAGE_TAG"
+          git checkout -b "release-${CONNECTORS_RELEASE}"
+          git commit -am "Create release branch for release ${CONNECTORS_RELEASE}"
           git reset --hard
-          git push -u origin "${BRANCH_NAME}"
+          git push -u origin "release-${CONNECTORS_RELEASE}"
