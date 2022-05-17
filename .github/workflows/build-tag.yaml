@@ -34,7 +34,7 @@ jobs:
           export CONNECTORS_VERSION="${GITHUB_REF_NAME#v}" 
           export CONNECTORS_REVISION="${GITHUB_SHA}" 
           
-          echo "echo ${CONNECTORS_VERSION} | tr '-' '_'" >> $GITHUB_ENV
+          echo "${CONNECTORS_VERSION}" | tr '-' '_' >> $GITHUB_ENV
           echo "${CONNECTORS_REVISION}" >> $GITHUB_ENV
 
       - name: Build Connector Images
