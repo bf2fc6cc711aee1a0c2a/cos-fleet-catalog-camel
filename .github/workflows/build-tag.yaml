@@ -10,7 +10,8 @@ env:
   LANG: en_US.UTF-8
   MAVEN_OPTS: -Xmx3000m
   MAVEN_ARGS: -V -ntp -Dhttp.keepAlive=false -DskipTests=true -e
-  IMAGE_TAG: ${{ github.ref_name}}-${{ github.sha }}
+  IMAGE_TAG: ${{ github.ref_name }}-${{ github.sha }}
+  BRANCH_NAME: release-${{ github.ref_name }}-${{ github.sha }}
 
 concurrency:
   group: ${{ github.ref }}-${{ github.workflow }}
@@ -33,14 +34,16 @@ jobs:
           ./mvnw ${MAVEN_ARGS} clean install \
             -Dcos.connector.container.tag=${IMAGE_TAG} \
             -Pcontainer-build
-
       - name: Build Catalog Image
         run: |
           docker build -t "quay.io/rhoas/cos-fleet-catalog-camel:${IMAGE_TAG}" -f etc/Dockerfile.catalog .
-
       - name: List Images
         run: |
           docker image ls --format "{{.Repository}}:{{.Tag}}" | grep quay.io/rhoas/cos-
+
+      - name: Regen
+        run: |
+          ./gen_manifests.sh
 
       - name: Login to Container Registry
         uses: docker/login-action@v1
@@ -55,3 +58,20 @@ jobs:
           for IMAGE in ${IMAGES}; do
               docker push $IMAGE
           done
+
+      - name: "Create Release Branch for tag {{ github.ref_name }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo ""
+          echo "tag    : ${IMAGE_TAG}"
+          echo "branch : ${BRANCH_NAME}"
+          echo ""
+
+          git config user.email "mas-connectors@redhat.com" 
+          git config user.name "mas-connectors"
+
+          git checkout -b "${BRANCH_NAME}"
+          git commit -am "Create release branch for IMAGE_TAG"
+          git reset --hard
+          git push -u origin "${BRANCH_NAME}"
