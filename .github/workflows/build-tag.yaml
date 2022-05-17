@@ -31,9 +31,13 @@ jobs:
 
       - name: Set versions
         run: |
-          echo "CONNECTORS_VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_ENV
-          echo "CONNECTORS_REVISION=${GITHUB_SHA}" >> $GITHUB_ENV
-          echo "CONNECTORS_RELEASE=${CONNECTORS_VERSION}.${CONNECTORS_REVISION}" >> $GITHUB_ENV
+          export CONNECTORS_VERSION="${GITHUB_REF_NAME#v}" 
+          export CONNECTORS_REVISION="${GITHUB_SHA}" 
+          export CONNECTORS_RELEASE="${CONNECTORS_VERSION}.${CONNECTORS_REVISION}" 
+          
+          echo "${CONNECTORS_VERSION}" >> $GITHUB_ENV
+          echo "${CONNECTORS_REVISION}" >> $GITHUB_ENV
+          echo "${CONNECTORS_VERSION}.${CONNECTORS_REVISION}" >> $GITHUB_ENV
 
       - name: Build Connector Images
         run: |
