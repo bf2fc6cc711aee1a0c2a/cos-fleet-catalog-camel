@@ -33,11 +33,9 @@ jobs:
         run: |
           export CONNECTORS_VERSION="${GITHUB_REF_NAME#v}" 
           export CONNECTORS_REVISION="${GITHUB_SHA}" 
-          export CONNECTORS_RELEASE="${CONNECTORS_VERSION}.${CONNECTORS_REVISION}" 
           
-          echo "${CONNECTORS_VERSION}" >> $GITHUB_ENV
+          echo "echo ${CONNECTORS_VERSION} | tr '-' '_'" >> $GITHUB_ENV
           echo "${CONNECTORS_REVISION}" >> $GITHUB_ENV
-          echo "${CONNECTORS_VERSION}.${CONNECTORS_REVISION}" >> $GITHUB_ENV
 
       - name: Build Connector Images
         run: |
@@ -47,7 +45,7 @@ jobs:
             -Pcontainer-build
       - name: Build Catalog Image
         run: |
-          docker build -t "quay.io/rhoas/cos-fleet-catalog-camel:${CONNECTORS_RELEASE}" -f etc/Dockerfile.catalog .
+          docker build -t "quay.io/rhoas/cos-fleet-catalog-camel:${CONNECTORS_VERSION}.${CONNECTORS_REVISION}" -f etc/Dockerfile.catalog .
       - name: List Images
         run: |
           docker image ls --format "{{.Repository}}:{{.Tag}}" | grep quay.io/rhoas/cos-
@@ -76,13 +74,13 @@ jobs:
         run: |
           echo ""
           echo "tag     : ${{ github.ref_name }}"
-          echo "release : ${CONNECTORS_RELEASE}"
+          echo "release : ${CONNECTORS_VERSION}.${CONNECTORS_REVISION}"
           echo ""
 
           git config user.email "mas-connectors@redhat.com" 
           git config user.name "mas-connectors"
 
-          git checkout -b "release-${CONNECTORS_RELEASE}"
-          git commit -am "Create release branch for release ${CONNECTORS_RELEASE}"
+          git checkout -b "release-${CONNECTORS_VERSION}.${CONNECTORS_REVISION}"
+          git commit -am "Create release branch for release ${CONNECTORS_VERSION}.${CONNECTORS_REVISION}"
           git reset --hard
-          git push -u origin "release-${CONNECTORS_RELEASE}"
+          git push -u origin "release-${CONNECTORS_VERSION}.${CONNECTORS_REVISION}"
