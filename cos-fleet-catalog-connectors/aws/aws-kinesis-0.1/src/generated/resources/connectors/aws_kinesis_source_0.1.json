@@ -14,7 +14,7 @@
         "error_handler_strategy" : "stop",
         "kamelets" : {
           "adapter" : {
-            "name" : "aws-kinesis-source",
+            "name" : "cos-aws-kinesis-source",
             "prefix" : "aws"
           },
           "kafka" : {

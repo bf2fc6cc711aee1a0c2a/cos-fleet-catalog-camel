@@ -438,7 +438,7 @@ class ConnectorIT extends KafkaConnectorSpec {
             def cnt = connectorContainer(ConnectorSupport.CONTAINER_IMAGE_KINESIS, """
                 - route:
                     from:
-                      uri: kamelet:aws-kinesis-source
+                      uri: kamelet:cos-aws-kinesis-source
                       parameters:
                           accessKey: ${aws.credentials.accessKeyId()}
                           secretKey: ${aws.credentials.secretAccessKey()}
@@ -447,6 +447,8 @@ class ConnectorIT extends KafkaConnectorSpec {
                           uriEndpointOverride: ${aws.endpoint}
                           overrideEndpoint: true
                     steps:
+                      - to: kamelet:cos-encoder-bytearray-action
+                      - to: log:test?showAll=true&multiline=true
                       - to:
                           uri: kamelet:kafka-not-secured-sink
                           parameters:
