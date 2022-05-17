@@ -36,7 +36,7 @@
                             <description>${project.description} source</description>
                             <adapter>
                                 <prefix>aws</prefix>
-                                <name>${cos.connector.type}-source</name>
+                                <name>cos-${cos.connector.type}-source</name>
                                 <version>${camel-kamelets-catalog.version}</version>
                             </adapter>
                             <kafka>
