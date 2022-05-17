@@ -39,61 +39,31 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
-      #- name: Build Project
-      #  run: |          
-      #    ./mvnw ${MAVEN_ARGS} clean install \
-      #      -Dcos.connector.container.tag=${IMAGE_TAG} \
-      #      -Pcontainer-build
 
-      - name: Regen
+      - name: Build Connector Images
         run: |          
-          ./gen_manifests.sh
-      - name: "Tar Catalog ${{ env.IMAGE_TAG }}"
-        shell: bash
+          ./mvnw ${MAVEN_ARGS} clean install \
+            -Dcos.connector.container.tag=${IMAGE_TAG} \
+            -Pcontainer-build
+
+      - name: Build Catalog Images
         run: |
-          ls -la
-          ls -la ${CONNECTORS_DIR}
-          tar -czf ${{ runner.temp }}/catalog.tgz -C ~ ${CONNECTORS_DIR}
-          ls -lh ${{ runner.temp }}/catalog.tgz
+          docker build -t "quay.io/rhoas/cos-fleet-catalog-camel:${IMAGE_TAG}" .
 
-      - name: "Persist Catalog ${{ env.IMAGE_TAG }}"
-        uses: actions/upload-artifact@v2
-        with:
-          name: catalog-${IMAGE_TAG}
-          path: ${{ runner.temp }}/catalog.tgz
-          retention-days: 1
-
-      #- name: Login to Container Registry
-      #  uses: docker/login-action@v1
-      #  with:
-      #    registry: quay.io
-      #    username: ${{ secrets.QUAY_MCI_USR }}
-      #    password: ${{ secrets.QUAY_MCI_PWD }}
-      #- name: Push Container Images
-      #  run: |
-      #    IMAGES=$(docker image ls --format "{{.Repository}}:{{.Tag}}" | grep quay.io/rhoas/cos-connector-)
-      #    for IMAGE in ${IMAGES}; do          
-      #        docker push $IMAGE
-      #    done
-
-
-  kustomize:
-    needs: "build"
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        overlay:
-          - "staging"
-  
-    steps:
-
-      - name: "Download Catalog ${{ env.IMAGE_TAG }}"
-        uses: actions/download-artifact@v2
-        with:
-          name: catalog-${IMAGE_TAG}
-          path: ..
-      - name: "Extract Catalog  ${{ env.IMAGE_TAG }}"
-        shell: bash
+      - name: List Images
         run: |
-          tar -xzf ../catalog.tgz -C ~
-          ls -la
+          docker image ls --format "{{.Repository}}:{{.Tag}}" | grep quay.io/rhoas/cos-
+
+#      - name: Login to Container Registry
+#        uses: docker/login-action@v1
+#        with:
+#          registry: quay.io
+#          username: ${{ secrets.QUAY_MCI_USR }}
+#          password: ${{ secrets.QUAY_MCI_PWD }}
+
+#      - name: Push Images
+#        run: |
+#          IMAGES=$(docker image ls --format "{{.Repository}}:{{.Tag}}" | grep quay.io/rhoas/cos-)
+#          for IMAGE in ${IMAGES}; do
+#              docker push $IMAGE
+#          done
