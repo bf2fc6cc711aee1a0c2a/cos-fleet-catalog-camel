@@ -20,6 +20,24 @@
     </properties>
 
 
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.bf2</groupId>
+                    <artifactId>camel-connector-maven-plugin</artifactId>
+                    <configuration>
+                        <defaults>
+                            <customizers>
+                                <customizer>${project.basedir}/../etc/customizers/mandatory_accesskey_secretkey_properties.groovy</customizer>
+                            </customizers>
+                        </defaults>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
     <modules>
         <module>aws-cloudwatch-0.1</module>
         <module>aws-dynamodb-0.1</module>
