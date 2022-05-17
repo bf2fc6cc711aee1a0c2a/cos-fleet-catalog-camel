@@ -102,12 +102,6 @@
           "example" : "http or https",
           "default" : "https"
         },
-        "aws_use_default_credentials_provider" : {
-          "title" : "Default Credentials Provider",
-          "description" : "Set whether the SQS client should expect to load credentials through a default credentials provider or to expect static credentials to be passed in.",
-          "type" : "boolean",
-          "default" : false
-        },
         "aws_uri_endpoint_override" : {
           "title" : "Overwrite Endpoint URI",
           "description" : "Set the overriding endpoint URI. This option needs to be used in combination with overrideEndpoint option.",
