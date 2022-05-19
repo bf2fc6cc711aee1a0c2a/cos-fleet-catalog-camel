@@ -45,64 +45,52 @@ class ConnectorIT extends KafkaConnectorSpec {
 
     def "cw sink"() {
         setup:
-        def topic = UUID.randomUUID().toString()
-        def namespace = 'cw-namespace'
-        def group = UUID.randomUUID().toString()
+            def topic = UUID.randomUUID().toString()
+            def namespace = 'cw-namespace'
 
-        def cnt = connectorContainer(ConnectorSupport.CONTAINER_IMAGE_CLOUDWATCH, """
-                - route:
-                    from:
-                      uri: kamelet:kafka-not-secured-source
-                      parameters:
-                        topic: ${topic}
-                        bootstrapServers: ${kafka.outsideBootstrapServers}
-                        groupId: ${group}
-                        autoOffsetReset: "earliest"
-                    steps:
-                    - removeHeader:
-                        name: "kafka.HEADERS"
-                    - to:
-                        uri: kamelet:aws-cloudwatch-sink
-                        parameters:
-                          accessKey: ${aws.credentials.accessKeyId()}
-                          secretKey: ${aws.credentials.secretAccessKey()}
-                          region: ${aws.region}
-                          cwNamespace: ${namespace}
-                          uriEndpointOverride: ${aws.endpoint}
-                          overrideEndpoint: true
-                """)
+            def cnt = connectorContainer('aws_cloudwatch_sink_0.1.json', [
+                'kafka_topic' : topic,
+                'kafka_bootstrap_servers': kafka.outsideBootstrapServers,
+                'kafka_consumer_group': UUID.randomUUID().toString(),
+                'aws_access_key': aws.credentials.accessKeyId(),
+                'aws_secret_key': aws.credentials.secretAccessKey(),
+                'aws_region': aws.region,
+                'aws_uri_endpoint_override': aws.endpoint,
+                'aws_override_endpoint': 'true',
+                'aws_cw_namespace': namespace
+            ])
 
-        cnt.start()
+            cnt.start()
 
-        def cw = aws.cw()
+            def cw = aws.cw()
         when:
-        kafka.send(topic, null, [ 'metric-value': '2.0', 'metric-name': 'metricName1651062317458', 'metric-unit': 'Percent' ])
+            kafka.send(topic, null, [ 'metric-value': '2.0', 'metric-name': 'metricName1651062317458', 'metric-unit': 'Percent' ])
         then:
-        await(10, TimeUnit.SECONDS) {
-            try {
-                List<MetricDataResult> mdrs =  cw.getMetricData(b->b.metricDataQueries(
-                                                MetricDataQuery.builder()
-                                                        .id("some")
-                                                        .metricStat(MetricStat.builder()
-                                                                .period(60)
-                                                                .stat("Sum")
-                                                                .metric(Metric.builder()
-                                                                        .namespace(namespace)
-                                                                        .metricName("metricName1651062317458").build())
-                                                                .build()
-                                                        )
-                                                        .build())
-                                                .startTime(Instant.now().minusSeconds(3600))
-                                                .endTime(Instant.now().plusSeconds(3600))
-                                        ).metricDataResults();
+            await(10, TimeUnit.SECONDS) {
+                try {
+                    List<MetricDataResult> mdrs =  cw.getMetricData(b -> b.metricDataQueries(
+                                                    MetricDataQuery.builder()
+                                                            .id("some")
+                                                            .metricStat(MetricStat.builder()
+                                                                    .period(60)
+                                                                    .stat("Sum")
+                                                                    .metric(Metric.builder()
+                                                                            .namespace(namespace)
+                                                                            .metricName("metricName1651062317458").build())
+                                                                    .build()
+                                                            )
+                                                            .build())
+                                                    .startTime(Instant.now().minusSeconds(3600))
+                                                    .endTime(Instant.now().plusSeconds(3600))
+                                            ).metricDataResults();
 
-                return mdrs.size() == 1 && mdrs.get(0).values().size() == 1 && mdrs.get(0).values().get(0).equals(2.0d)
-            } catch (Exception e) {
-                return false
+                    return mdrs.size() == 1 && mdrs.get(0).values().size() == 1 && mdrs.get(0).values().get(0).equals(2.0d)
+                } catch (Exception e) {
+                    return false
+                }
             }
-        }
         cleanup:
-        closeQuietly(cnt)
+            closeQuietly(cnt)
     }
 
     // ********************************************
@@ -116,32 +104,20 @@ class ConnectorIT extends KafkaConnectorSpec {
             def payload = '''{ "username":"oscerd", "city":"Rome" }'''
             def topic = UUID.randomUUID().toString()
             def fileName = 'filetest.txt'
-            def group = UUID.randomUUID().toString()
 
-            def cnt = connectorContainer(ConnectorSupport.CONTAINER_IMAGE_S3, """
-                - route:
-                    from:
-                      uri: kamelet:kafka-not-secured-source
-                      parameters:
-                        topic: ${topic}
-                        bootstrapServers: ${kafka.outsideBootstrapServers}
-                        groupId: ${group}
-                        autoOffsetReset: "earliest"
-                    steps:
-                    - removeHeader:
-                        name: "kafka.HEADERS"
-                    - to:
-                        uri: kamelet:aws-s3-sink
-                        parameters:
-                          accessKey: ${aws.credentials.accessKeyId()}
-                          secretKey: ${aws.credentials.secretAccessKey()}
-                          region: ${aws.region}
-                          bucketNameOrArn: ${topic}
-                          autoCreateBucket: true
-                          uriEndpointOverride: ${aws.endpoint}
-                          overrideEndpoint: true
-                          keyName: ${fileName}
-                """)
+            def cnt = connectorContainer('aws_s3_sink_0.1.json', [
+                'kafka_topic' : topic,
+                'kafka_bootstrap_servers': kafka.outsideBootstrapServers,
+                'kafka_consumer_group': UUID.randomUUID().toString(),
+                'aws_access_key': aws.credentials.accessKeyId(),
+                'aws_secret_key': aws.credentials.secretAccessKey(),
+                'aws_region': aws.region,
+                'aws_uri_endpoint_override': aws.endpoint,
+                'aws_override_endpoint': 'true',
+                'aws_bucket_name_or_arn': topic,
+                'aws_auto_create_bucket': 'true',
+                'aws_key_name': fileName,
+            ])
 
             cnt.start()
 
@@ -166,25 +142,17 @@ class ConnectorIT extends KafkaConnectorSpec {
             def topic = UUID.randomUUID().toString()
             def fileName = 'filetest.txt'
 
-            def cnt = connectorContainer(ConnectorSupport.CONTAINER_IMAGE_S3,"""
-                - route:
-                    from:
-                      uri: kamelet:aws-s3-source
-                      parameters:
-                        accessKey: ${aws.credentials.accessKeyId()}
-                        secretKey: ${aws.credentials.secretAccessKey()}
-                        region: ${aws.region}
-                        bucketNameOrArn: ${topic}
-                        autoCreateBucket: true
-                        uriEndpointOverride: ${aws.endpoint}
-                        overrideEndpoint: true
-                    steps:
-                      - to:
-                          uri: kamelet:kafka-not-secured-sink
-                          parameters:
-                            topic: ${topic}
-                            bootstrapServers: ${kafka.outsideBootstrapServers}
-                """)
+            def cnt = connectorContainer('aws_s3_source_0.1.json', [
+                'kafka_topic' : topic,
+                'kafka_bootstrap_servers': kafka.outsideBootstrapServers,
+                'aws_access_key': aws.credentials.accessKeyId(),
+                'aws_secret_key': aws.credentials.secretAccessKey(),
+                'aws_region': aws.region,
+                'aws_uri_endpoint_override': aws.endpoint,
+                'aws_override_endpoint': 'true',
+                'aws_bucket_name_or_arn': topic,
+                'aws_auto_create_bucket': 'true'
+            ])
 
             cnt.start()
         when:
@@ -213,7 +181,6 @@ class ConnectorIT extends KafkaConnectorSpec {
         setup:
             def payload = '''{ "username":"oscerd", "city":"Rome" }'''
             def topic = UUID.randomUUID().toString()
-            def group = UUID.randomUUID().toString()
             def sqs = aws.sqs()
             def queueUrl = sqs.createQueue(b -> b.queueName(topic)).queueUrl().replace(AWSContainer.CONTAINER_ALIAS, 'localhost')
 
@@ -221,29 +188,18 @@ class ConnectorIT extends KafkaConnectorSpec {
             def topicArn = sns.createTopic(b -> b.name(topic)).topicArn()
             sns.subscribe(b -> b.topicArn(topicArn).protocol("sqs").endpoint(queueUrl).returnSubscriptionArn(true).build())
 
-            def cnt = connectorContainer(ConnectorSupport.CONTAINER_IMAGE_SNS, """
-                - route:
-                    from:
-                      uri: kamelet:kafka-not-secured-source
-                      parameters:
-                        topic: ${topic}
-                        bootstrapServers: ${kafka.outsideBootstrapServers}
-                        groupId: ${group}
-                        autoOffsetReset: "earliest"
-                    steps:
-                    - removeHeader:
-                        name: "kafka.HEADERS"
-                    - to:
-                        uri: kamelet:aws-sns-sink
-                        parameters:
-                          accessKey: ${aws.credentials.accessKeyId()}
-                          secretKey: ${aws.credentials.secretAccessKey()}
-                          region: ${aws.region}
-                          topicNameOrArn: ${topic}
-                          autoCreateTopic: true
-                          uriEndpointOverride: ${aws.endpoint}
-                          overrideEndpoint: true
-                """)
+            def cnt = connectorContainer('aws_sns_sink_0.1.json', [
+                'kafka_topic' : topic,
+                'kafka_bootstrap_servers': kafka.outsideBootstrapServers,
+                'kafka_consumer_group': UUID.randomUUID().toString(),
+                'aws_access_key': aws.credentials.accessKeyId(),
+                'aws_secret_key': aws.credentials.secretAccessKey(),
+                'aws_region': aws.region,
+                'aws_uri_endpoint_override': aws.endpoint,
+                'aws_override_endpoint': 'true',
+                'aws_topic_name_or_arn': topic,
+                'aws_auto_create_topic': 'true'
+            ])
 
             cnt.start()
         when:
@@ -274,38 +230,24 @@ class ConnectorIT extends KafkaConnectorSpec {
         setup:
             def payload = '''{ "username":"oscerd", "city":"Rome" }'''
             def topic = UUID.randomUUID().toString()
-            def group = UUID.randomUUID().toString()
             def sqs = aws.sqs()
             def queueUrl = sqs.createQueue(b -> b.queueName(topic)).queueUrl().replace(AWSContainer.CONTAINER_ALIAS, 'localhost')
 
-            def cnt = connectorContainer(ConnectorSupport.CONTAINER_IMAGE_SQS, """
-                - route:
-                    from:
-                      uri: kamelet:kafka-not-secured-source
-                      parameters:
-                        topic: ${topic}
-                        bootstrapServers: ${kafka.outsideBootstrapServers}
-                        groupId: ${group}
-                        autoOffsetReset: "earliest"
-                    steps:
-                    - removeHeader:
-                        name: "kafka.HEADERS"
-                    - to:
-                        uri: kamelet:aws-sqs-sink
-                        parameters:
-                          accessKey: ${aws.credentials.accessKeyId()}
-                          secretKey: ${aws.credentials.secretAccessKey()}
-                          region: ${aws.region}
-                          queueNameOrArn: ${topic}
-                          amazonAWSHost: ${AWSContainer.CONTAINER_ALIAS}
-                          autoCreateQueue: true
-                          uriEndpointOverride: ${aws.endpoint}
-                          overrideEndpoint: true
-                """)
+            def cnt = connectorContainer('aws_sqs_sink_0.1.json', [
+                'kafka_topic' : topic,
+                'kafka_bootstrap_servers': kafka.outsideBootstrapServers,
+                'kafka_consumer_group': UUID.randomUUID().toString(),
+                'aws_access_key': aws.credentials.accessKeyId(),
+                'aws_secret_key': aws.credentials.secretAccessKey(),
+                'aws_region': aws.region,
+                'aws_uri_endpoint_override': aws.endpoint,
+                'aws_override_endpoint': 'true',
+                'aws_queue_name_or_arn': topic,
+                'aws_auto_create_queue': 'true',
+                'aws_amazon_aws_host': AWSContainer.CONTAINER_ALIAS
+            ])
 
             cnt.start()
-
-            def s3 = aws.s3()
         when:
             kafka.send(topic, payload, ['foo': 'bar'])
         then:
@@ -326,26 +268,18 @@ class ConnectorIT extends KafkaConnectorSpec {
             def topic = UUID.randomUUID().toString()
             def queueUrl = aws.sqs().createQueue(b -> b.queueName(topic)).queueUrl().replace(AWSContainer.CONTAINER_ALIAS, 'localhost')
 
-            def cnt = connectorContainer(ConnectorSupport.CONTAINER_IMAGE_SQS, """
-                - route:
-                    from:
-                      uri: kamelet:aws-sqs-source
-                      parameters:
-                        accessKey: ${aws.credentials.accessKeyId()}
-                        secretKey: ${aws.credentials.secretAccessKey()}
-                        region: ${aws.region}
-                        queueNameOrArn: ${topic}
-                        amazonAWSHost: ${AWSContainer.CONTAINER_ALIAS}
-                        autoCreateQueue: true
-                        uriEndpointOverride: ${aws.endpoint}
-                        overrideEndpoint: true
-                    steps:
-                      - to:
-                          uri: kamelet:kafka-not-secured-sink
-                          parameters:
-                            topic: ${topic}
-                            bootstrapServers: ${kafka.outsideBootstrapServers}
-                """)
+            def cnt = connectorContainer('aws_sqs_source_0.1.json', [
+                'kafka_topic' : topic,
+                'kafka_bootstrap_servers': kafka.outsideBootstrapServers,
+                'aws_access_key': aws.credentials.accessKeyId(),
+                'aws_secret_key': aws.credentials.secretAccessKey(),
+                'aws_region': aws.region,
+                'aws_uri_endpoint_override': aws.endpoint,
+                'aws_override_endpoint': 'true',
+                'aws_queue_name_or_arn': topic,
+                'aws_auto_create_queue': 'true',
+                'aws_amazon_aws_host': AWSContainer.CONTAINER_ALIAS
+            ])
 
             cnt.start()
         when:
@@ -376,33 +310,21 @@ class ConnectorIT extends KafkaConnectorSpec {
         setup:
             def payload = '''{ "username":"oscerd", "city":"Rome" }'''
             def topic = UUID.randomUUID().toString()
-            def group = UUID.randomUUID().toString()
             def kinesis = aws.kinesis()
 
             kinesis.createStream(b -> b.streamName(topic).shardCount(1))
 
-            def cnt = connectorContainer(ConnectorSupport.CONTAINER_IMAGE_KINESIS, """
-                - route:
-                    from:
-                      uri: kamelet:kafka-not-secured-source
-                      parameters:
-                        topic: ${topic}
-                        bootstrapServers: ${kafka.outsideBootstrapServers}
-                        groupId: ${group}
-                        autoOffsetReset: "earliest"
-                    steps:
-                    - removeHeader:
-                        name: "kafka.HEADERS"
-                    - to:
-                        uri: kamelet:aws-kinesis-sink
-                        parameters:
-                          accessKey: ${aws.credentials.accessKeyId()}
-                          secretKey: ${aws.credentials.secretAccessKey()}
-                          region: ${aws.region}
-                          stream: ${topic}
-                          uriEndpointOverride: ${aws.endpoint}
-                          overrideEndpoint: true
-                """)
+            def cnt = connectorContainer('aws_kinesis_sink_0.1.json', [
+                'kafka_topic' : topic,
+                'kafka_bootstrap_servers': kafka.outsideBootstrapServers,
+                'kafka_consumer_group': UUID.randomUUID().toString(),
+                'aws_access_key': aws.credentials.accessKeyId(),
+                'aws_secret_key': aws.credentials.secretAccessKey(),
+                'aws_region': aws.region,
+                'aws_uri_endpoint_override': aws.endpoint,
+                'aws_override_endpoint': 'true',
+                'aws_stream': topic
+            ])
 
             cnt.start()
         when:
@@ -435,26 +357,16 @@ class ConnectorIT extends KafkaConnectorSpec {
             def topic = UUID.randomUUID().toString()
             def kinesis = aws.kinesis()
 
-            def cnt = connectorContainer(ConnectorSupport.CONTAINER_IMAGE_KINESIS, """
-                - route:
-                    from:
-                      uri: kamelet:cos-aws-kinesis-source
-                      parameters:
-                          accessKey: ${aws.credentials.accessKeyId()}
-                          secretKey: ${aws.credentials.secretAccessKey()}
-                          region: ${aws.region}
-                          stream: ${topic}
-                          uriEndpointOverride: ${aws.endpoint}
-                          overrideEndpoint: true
-                    steps:
-                      - to: kamelet:cos-encoder-bytearray-action
-                      - to: log:test?showAll=true&multiline=true
-                      - to:
-                          uri: kamelet:kafka-not-secured-sink
-                          parameters:
-                            topic: ${topic}
-                            bootstrapServers: ${kafka.outsideBootstrapServers}
-                """)
+            def cnt = connectorContainer('aws_kinesis_source_0.1.json', [
+                    'kafka_topic' : topic,
+                    'kafka_bootstrap_servers': kafka.outsideBootstrapServers,
+                    'aws_access_key': aws.credentials.accessKeyId(),
+                    'aws_secret_key': aws.credentials.secretAccessKey(),
+                    'aws_region': aws.region,
+                    'aws_uri_endpoint_override': aws.endpoint,
+                    'aws_override_endpoint': 'true',
+                    'aws_stream': topic
+            ])
 
             cnt.start()
         when:
@@ -492,7 +404,6 @@ class ConnectorIT extends KafkaConnectorSpec {
             ])
 
             def topic = UUID.randomUUID().toString()
-            def group = UUID.randomUUID().toString()
             def ddb = aws.ddb()
 
             ddb.createTable(b -> {
@@ -502,30 +413,18 @@ class ConnectorIT extends KafkaConnectorSpec {
                 b.provisionedThroughput(ProvisionedThroughput.builder().readCapacityUnits(1L).writeCapacityUnits(1L).build())
             })
 
-            def cnt = connectorContainer(ConnectorSupport.CONTAINER_IMAGE_DDB, """
-                - route:
-                    from:
-                      uri: kamelet:cos-kafka-not-secured-source
-                      parameters:
-                        topic: ${topic}
-                        bootstrapServers: ${kafka.outsideBootstrapServers}
-                        groupId: ${group}
-                    steps:
-                    - to:
-                        uri: "kamelet:cos-decoder-json-action"
-                    - to:
-                        uri: "kamelet:cos-encoder-json-action"
-                    - to:
-                        uri: kamelet:aws-ddb-sink
-                        parameters:
-                          accessKey: ${aws.credentials.accessKeyId()}
-                          secretKey: ${aws.credentials.secretAccessKey()}
-                          region: ${aws.region}
-                          table: ${topic}
-                          operation: "PutItem"
-                          uriEndpointOverride: ${aws.endpoint}
-                          overrideEndpoint: true
-                """)
+            def cnt = connectorContainer('aws_ddb_sink_0.1.json', [
+                'kafka_topic' : topic,
+                'kafka_bootstrap_servers': kafka.outsideBootstrapServers,
+                'kafka_consumer_group': UUID.randomUUID().toString(),
+                'aws_access_key': aws.credentials.accessKeyId(),
+                'aws_secret_key': aws.credentials.secretAccessKey(),
+                'aws_region': aws.region,
+                'aws_uri_endpoint_override': aws.endpoint,
+                'aws_override_endpoint': 'true',
+                'aws_table': topic,
+                'aws_operation': 'PutItem'
+            ])
 
             cnt.start()
         when:

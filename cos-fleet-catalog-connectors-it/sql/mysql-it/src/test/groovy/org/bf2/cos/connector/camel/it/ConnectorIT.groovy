@@ -37,33 +37,20 @@ class ConnectorIT extends KafkaConnectorSpec {
                 );
             """)
 
-
             def topic = UUID.randomUUID().toString()
             def group = UUID.randomUUID().toString()
 
-            def cnt = connectorContainer(
-                ConnectorSupport.CONTAINER_IMAGE,
-                """
-                - route:
-                    from:
-                      uri: kamelet:kafka-not-secured-source
-                      parameters:
-                        topic: ${topic}
-                        bootstrapServers: ${kafka.outsideBootstrapServers}
-                        groupId: ${group}
-                        autoOffsetReset: "earliest"
-                    steps:
-                    - to:
-                        uri: kamelet:mysql-sink
-                        parameters:
-                          serverName: "tc-mysql"
-                          serverPort: ${MySQLContainer.MYSQL_PORT}
-                          username: ${db.username}
-                          password: ${db.password}
-                          query: INSERT INTO accounts (username,city) VALUES (:#username,:#city)
-                          databaseName: ${db.databaseName}
-                """
-            )
+            def cnt = connectorContainer('mysql_sink_0.1.json', [
+                'kafka_topic' : topic,
+                'kafka_bootstrap_servers': kafka.outsideBootstrapServers,
+                'kafka_consumer_group': UUID.randomUUID().toString(),
+                'db_server_name': 'tc-mysql',
+                'db_server_port': Integer.toString(MySQLContainer.MYSQL_PORT),
+                'db_username': db.username,
+                'db_password': db.password,
+                'db_query': 'INSERT INTO accounts (username,city) VALUES (:#username,:#city)',
+                'db_database_name': db.databaseName
+            ])
 
             cnt.start()
         when:

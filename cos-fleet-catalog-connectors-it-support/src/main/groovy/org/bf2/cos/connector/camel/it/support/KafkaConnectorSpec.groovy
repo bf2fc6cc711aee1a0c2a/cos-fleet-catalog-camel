@@ -38,36 +38,11 @@ abstract class KafkaConnectorSpec extends ConnectorSpecSupport {
     //
     // **********************************
 
-    @Override
-    ConnectorContainer connectorContainer(String name) {
-        def answer = super.connectorContainer(name)
-        answer.setNetwork(network)
-
-        return answer
+    ConnectorContainer connectorContainer(String definition, Map<String, String> properties) {
+        return ConnectorContainer.forDefinition(definition).withProperties(properties).witNetwork(network).build()
     }
 
-    ConnectorContainer connectorContainer(String name, ContainerFile... files) {
-        def answer = connectorContainer(name)
-
-        for (ContainerFile file : files) {
-            answer.withFile(file.path, file.body.stripLeading().stripTrailing())
-        }
-
-        return answer
-    }
-
-    ConnectorContainer connectorContainer(String name, String route) {
-        def answer = connectorContainer(name)
-
-        return connectorContainer(name, DEFAULT_APPLICATION_PROPERTIES, route)
-    }
-
-    ConnectorContainer connectorContainer(String name, String properties, String route) {
-        def answer = connectorContainer(name)
-
-        answer.withFile(DEFAULT_APPLICATION_PROPERTIES_LOCATION, properties.stripLeading().stripTrailing())
-        answer.withFile(DEFAULT_ROUTE_LOCATION, route.stripLeading().stripTrailing())
-
-        return answer
+    ConnectorContainer.Builder connectorContainer(String definition) {
+        return ConnectorContainer.forDefinition(definition).witNetwork(network)
     }
 }

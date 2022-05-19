@@ -86,8 +86,8 @@
 
         <!-- camel -->
         <dependency>
-            <groupId>org.apache.camel</groupId>
-            <artifactId>camel-log</artifactId>
+            <groupId>org.apache.camel.quarkus</groupId>
+            <artifactId>camel-quarkus-log</artifactId>
         </dependency>
 
         <!-- local -->
@@ -114,6 +114,16 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>${project.basedir}/src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>${project.basedir}/src/generated/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -122,6 +132,7 @@
                     <executions>
                         <execution>
                             <id>generate</id>
+                            <phase>process-resources</phase>
                             <goals>
                                 <goal>generate-catalog</goal>
                                 <goal>validate-catalog</goal>
@@ -206,7 +217,7 @@
                                 <outputDirectory>${cos.connector.catalog.root}/connector-catalog-camel-${cos.connector.catalog.group}</outputDirectory>
                                 <resources>
                                     <resource>
-                                        <directory>${project.basedir}/src/generated/resources/connectors</directory>
+                                        <directory>${project.build.outputDirectory}/connectors</directory>
                                         <includes>
                                             <include>*.json</include>
                                         </includes>
