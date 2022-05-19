@@ -33,16 +33,6 @@ abstract class ConnectorSpecSupport extends Specification {
     //
     // **********************************
 
-    ConnectorContainer connectorContainer(String name) {
-        def answer = new ConnectorContainer(
-                System.getProperty('it.connector.container.group').trim(),
-                name.trim(),
-                System.getProperty('it.connector.container.tag').trim()
-        )
-
-        return answer
-    }
-
     static Slf4jLogConsumer logger(String name) {
         new Slf4jLogConsumer(LoggerFactory.getLogger(name))
     }

@@ -1,6 +1,7 @@
 package org.bf2.cos.connector.camel.it
 
 import groovy.util.logging.Slf4j
+import org.bf2.cos.connector.camel.it.support.ConnectorContainer
 import org.bf2.cos.connector.camel.it.support.SimpleConnectorSpec
 import spock.lang.Unroll
 
@@ -8,9 +9,9 @@ import spock.lang.Unroll
 class ConnectorContainerIT extends SimpleConnectorSpec {
 
     @Unroll
-    def "container image exposes health and metrics"() {
+    def "container image exposes health and metrics"(String definition) {
         setup:
-            def cnt = connectorContainer(ConnectorSupport.CONTAINER_IMAGE)
+            def cnt = ConnectorContainer.forDefinition(definition).build()
             cnt.start()
         when:
             def health = cnt.request.get('/q/health')
@@ -30,5 +31,9 @@ class ConnectorContainerIT extends SimpleConnectorSpec {
             }
         cleanup:
             closeQuietly(cnt)
+        where:
+            definition << [
+                'mariadb_sink_0.1.json'
+            ]
     }
 }

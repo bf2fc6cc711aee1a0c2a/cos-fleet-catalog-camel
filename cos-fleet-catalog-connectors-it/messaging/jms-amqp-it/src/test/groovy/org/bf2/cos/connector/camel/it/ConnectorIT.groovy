@@ -7,7 +7,12 @@ import org.bf2.cos.connector.camel.it.support.KafkaConnectorSpec
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.utility.DockerImageName
 
-import javax.jms.*
+import javax.jms.BytesMessage
+import javax.jms.Connection
+import javax.jms.ConnectionFactory
+import javax.jms.MessageConsumer
+import javax.jms.Queue
+import javax.jms.Session
 import java.util.concurrent.TimeUnit
 
 @Slf4j
@@ -34,38 +39,25 @@ class ConnectorIT extends KafkaConnectorSpec {
 
     def "jms-amqp sink"() {
         setup:
-            ConnectionFactory factory = new JmsConnectionFactory("amqp://"+mq.getHost()+":"+mq.getFirstMappedPort());
-            Connection connection = factory.createConnection();
-            Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-            connection.start();
+            ConnectionFactory factory = new JmsConnectionFactory("amqp://${mq.host}:${mq.getMappedPort(61616)}")
+            Connection connection = factory.createConnection()
+            Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE)
+            connection.start()
 
-            javax.jms.Queue queue = session.createQueue("cards");
-            MessageConsumer consumer = session.createConsumer(queue);
+            Queue queue = session.createQueue("cards")
+            MessageConsumer consumer = session.createConsumer(queue)
 
             def topic = UUID.randomUUID().toString()
             def group = UUID.randomUUID().toString()
             def payload = '''{ "value": "4", "suit": "hearts" }'''
 
-            def cnt = connectorContainer(ConnectorSupport.CONTAINER_IMAGE, """
-                - route:
-                    from:
-                      uri: kamelet:cos-kafka-not-secured-source
-                      parameters:
-                        topic: ${topic}
-                        bootstrapServers: ${kafka.outsideBootstrapServers}
-                        groupId: ${group}
-                    steps:
-                    - to:
-                        uri: "kamelet:cos-decoder-json-action"
-                    - to:
-                        uri: "kamelet:cos-encoder-json-action"
-                    - to:
-                        uri: kamelet:jms-amqp-10-sink
-                        parameters:
-                          remoteURI: "amqp://tc-activemq:61616"
-                          destinationName: "cards"
-                """
-            )
+            def cnt = connectorContainer('jms_amqp_10_sink_0.1.json', [
+                    'kafka_topic' : topic,
+                    'kafka_bootstrap_servers': kafka.outsideBootstrapServers,
+                    'kafka_consumer_group': UUID.randomUUID().toString(),
+                    'jms_amqp_remote_u_r_i': 'amqp://tc-activemq:61616',
+                    'jms_amqp_destination_name': 'cards'
+            ])
 
             cnt.start()
         when:

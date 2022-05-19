@@ -34,6 +34,8 @@
         <awaitility.version>4.2.0</awaitility.version>
         <rest-assured.version>5.0.1</rest-assured.version>
         <json-schema-validator.version>1.0.69</json-schema-validator.version>
+        <commons-text.version>1.9</commons-text.version>
+        <strimzi-test-container.version>0.101.0</strimzi-test-container.version>
 
         <maven.version>3.8.5</maven.version>
         <maven-plugin-tools.version>3.6.4</maven-plugin-tools.version>
@@ -314,6 +316,16 @@
                 <groupId>io.rest-assured</groupId>
                 <artifactId>rest-assured</artifactId>
                 <version>${rest-assured.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-text</artifactId>
+                <version>${commons-text.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.strimzi</groupId>
+                <artifactId>strimzi-test-container</artifactId>
+                <version>${strimzi-test-container.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

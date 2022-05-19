@@ -8,6 +8,9 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
 
+import org.apache.kafka.clients.admin.AdminClient;
+import org.apache.kafka.clients.admin.KafkaAdminClient;
+import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -18,74 +21,16 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
-import org.slf4j.LoggerFactory;
-import org.testcontainers.containers.GenericContainer;
-import org.testcontainers.containers.output.Slf4jLogConsumer;
-import org.testcontainers.containers.wait.strategy.Wait;
-import org.testcontainers.images.builder.Transferable;
 
-import com.github.dockerjava.api.command.InspectContainerResponse;
-
-public class KafkaContainer extends GenericContainer<KafkaContainer> {
-    public static final int KAFKA_PORT = 9092;
-    public static final int KAFKA_OUTSIDE_PORT = 29092;
-    public static final String CONTAINER_ALIAS = "tc-kafka";
-
-    private static final String STARTER_SCRIPT = "/var/lib/redpanda/redpanda.sh";
-
-    public KafkaContainer() {
-        super("docker.io/vectorized/redpanda:v21.11.15");
-
-        withCreateContainerCmdModifier(cmd -> cmd.withEntrypoint("sh"));
-        withCommand("-c", "while [ ! -f " + STARTER_SCRIPT + " ]; do sleep 0.1; done; " + STARTER_SCRIPT);
-        waitingFor(Wait.forLogMessage(".*Started Kafka API server.*", 1));
-        withExposedPorts(KAFKA_PORT, KAFKA_OUTSIDE_PORT);
-        withNetworkAliases(CONTAINER_ALIAS);
-        withLogConsumer(new Slf4jLogConsumer(LoggerFactory.getLogger(CONTAINER_ALIAS)));
+public class KafkaContainer extends RedPandaKafkaContainer {
+    @Override
+    public String getBootstrapServers() {
+        return super.getBootstrapServers();
     }
 
     @Override
-    protected void containerIsStarting(InspectContainerResponse containerInfo) {
-        super.containerIsStarting(containerInfo);
-
-        final String addr = String.join(
-                ",",
-                "OUTSIDE://0.0.0.0:" + KAFKA_PORT,
-                "PLAINTEXT://0.0.0.0:" + KAFKA_OUTSIDE_PORT);
-
-        final String advAddr = String.join(
-                ",",
-                String.format("OUTSIDE://%s:%d", getHost(), getMappedPort(KAFKA_PORT)),
-                String.format("PLAINTEXT://%s:%s", CONTAINER_ALIAS, KAFKA_OUTSIDE_PORT));
-
-        String command = "#!/bin/bash\n";
-        command += String.join(" ",
-                "/usr/bin/rpk",
-                "redpanda",
-                "start",
-                "--check=false",
-                "--node-id 0",
-                "--smp 1",
-                "--memory 1G",
-                "--overprovisioned",
-                "--reserve-memory 0M",
-                "--kafka-addr",
-                addr,
-                "--advertise-kafka-addr",
-                advAddr);
-
-        //noinspection OctalInteger
-        copyFileToContainer(
-                Transferable.of(command.getBytes(StandardCharsets.UTF_8), 0777),
-                STARTER_SCRIPT);
-    }
-
-    public String getBootstrapServers() {
-        return String.format("PLAINTEXT://%s:%d", getHost(), getMappedPort(KAFKA_PORT));
-    }
-
     public String getOutsideBootstrapServers() {
-        return CONTAINER_ALIAS + ":" + KAFKA_OUTSIDE_PORT;
+        return super.getOutsideBootstrapServers();
     }
 
     public RecordMetadata send(String topic, String value) {
@@ -107,6 +52,10 @@ public class KafkaContainer extends GenericContainer<KafkaContainer> {
         config.put(ProducerConfig.ACKS_CONFIG, "all");
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+
+        try (AdminClient admin = KafkaAdminClient.create(config)) {
+            admin.createTopics(List.of(new NewTopic(topic, 3, (short) 1)));
+        }
 
         try (var kp = new KafkaProducer<String, String>(config)) {
             ProducerRecord<String, String> record = new ProducerRecord<>(topic, key, value);
@@ -130,6 +79,10 @@ public class KafkaContainer extends GenericContainer<KafkaContainer> {
         config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, OffsetResetStrategy.EARLIEST.name().toLowerCase(Locale.US));
+
+        try (AdminClient admin = KafkaAdminClient.create(config)) {
+            admin.createTopics(List.of(new NewTopic(topic, 3, (short) 1)));
+        }
 
         try (var kp = new KafkaConsumer<String, String>(config)) {
             kp.subscribe(List.of(topic));

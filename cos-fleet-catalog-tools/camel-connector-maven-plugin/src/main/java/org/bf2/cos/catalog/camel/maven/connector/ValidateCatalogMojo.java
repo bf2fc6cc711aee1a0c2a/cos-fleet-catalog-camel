@@ -37,7 +37,7 @@ public class ValidateCatalogMojo extends AbstractMojo {
     private boolean skip = false;
     @Parameter(readonly = true, defaultValue = "${project}")
     private MavenProject project;
-    @Parameter(defaultValue = "${project.basedir}/src/generated/resources/connectors")
+    @Parameter(defaultValue = "${project.build.outputDirectory}/connectors")
     private String outputPath;
     @Parameter
     private List<Connector> connectors;
