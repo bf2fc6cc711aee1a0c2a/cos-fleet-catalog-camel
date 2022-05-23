@@ -6,6 +6,9 @@ on:
       overlay:
         required: true
         type: string
+      token:
+        required: true
+        type: string
 
 jobs:
   kustomize:
@@ -24,21 +27,21 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: bf2fc6cc711aee1a0c2a/cos-manifests
-          token: ${{ secrets.GH_TOKEN }}
+          token: ${{ inputs.token }}
 
-      - name: "Update Kustomize overlay ${{ inputs.overlay}}"
+      - name: "Update Kustomize overlay ${{ inputs.overlay }}"
         uses: mikefarah/yq@master
         env:
-          OVERLAY_PATH: kustomize/overlays/${{ inputs.overlay}}/control-plane/cos-fleet-catalog-camel
+          OVERLAY_PATH: kustomize/overlays/${{ inputs.overlay }}/control-plane/cos-fleet-catalog-camel
         with:
           cmd: |
             yq -i '.images[0].newTag = strenv(CONNECTORS_RELEASE)' ${OVERLAY_PATH}/kustomization.yaml
 
-      - name: "Create PR for ${{ inputs.overlay}}"
+      - name: "Create PR for ${{ inputs.overlay }}"
         env:
-          OVERLAY_PATH: kustomize/overlays/${{ inputs.overlay}}/control-plane/cos-fleet-catalog-camel
-          BRANCH_NAME: "cos-fleet-catalog-camel.${{ inputs.overlay}}.${{ env.CONNECTORS_RELEASE }}"
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          OVERLAY_PATH: kustomize/overlays/${{ inputs.overlay }}/control-plane/cos-fleet-catalog-camel
+          BRANCH_NAME: "cos-fleet-catalog-camel.${{ inputs.overlay }}.${{ env.CONNECTORS_RELEASE }}"
+          GH_TOKEN: ${{ inputs.token }}
         run: |
           echo ""
           echo "tag      : ${{ github.ref_name }}"
@@ -53,7 +56,7 @@ jobs:
 
           git checkout -b ${BRANCH_NAME}
           git add ${OVERLAY_PATH}
-          git commit -m "Update cos-fleet-catalog-camel kustomization images for overlay ${{ inputs.overlay}}" ${OVERLAY_PATH}
+          git commit -m "Update cos-fleet-catalog-camel kustomization images for overlay ${{ inputs.overlay }}" ${OVERLAY_PATH}
           git reset --hard
           git push -u origin ${BRANCH_NAME}
 
@@ -65,5 +68,5 @@ jobs:
           gh pr create \
             --fill \
             --base main \
-            --title "chore(kustomize): update cos-fleet-catalog-camel kustomization images overlay ${{ inputs.overlay}}" \
-            --body "sha ${{ github.sha }}, overlay: ${{ inputs.overlay}}, tag: ${{ github.ref_name }}"
+            --title "chore(kustomize): update cos-fleet-catalog-camel kustomization images overlay ${{ inputs.overlay }}" \
+            --body "sha ${{ github.sha }}, overlay: ${{ inputs.overlay }}, tag: ${{ github.ref_name }}"

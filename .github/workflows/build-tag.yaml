@@ -99,3 +99,4 @@ jobs:
     uses: ./.github/workflows/update-manifest.yaml
     with:
       overlay: "staging"
+      token: ${{ secrets.GH_TOKEN }}

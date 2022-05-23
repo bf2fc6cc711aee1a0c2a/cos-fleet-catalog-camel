@@ -86,6 +86,7 @@ jobs:
     uses: ./.github/workflows/update-manifest.yaml
     with:
       overlay: "dev"
+      token: ${{ secrets.GH_TOKEN }}
 
   deploy-catalog:
     runs-on: ubuntu-latest
