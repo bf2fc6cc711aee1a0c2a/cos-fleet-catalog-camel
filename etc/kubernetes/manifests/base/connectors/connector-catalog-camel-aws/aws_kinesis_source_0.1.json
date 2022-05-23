@@ -7,7 +7,7 @@
           "trait.camel.apache.org/container.request-memory" : "128m",
           "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
         },
-        "connector_image" : "quay.io/rhoas/cos-connector-aws-kinesis:0.1.28",
+        "connector_image" : "quay.io/rhoas/cos-connector-aws-kinesis:0.0.10-test.a46e901af0437fec88ff2899b7d226cbf05420ff",
         "connector_revision" : "28",
         "connector_type" : "source",
         "consumes" : "application/octet-stream",
