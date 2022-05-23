@@ -7,7 +7,7 @@
           "trait.camel.apache.org/container.request-memory" : "128m",
           "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
         },
-        "connector_image" : "quay.io/rhoas/cos-connector-mariadb:0.1.28",
+        "connector_image" : "quay.io/rhoas/cos-connector-mariadb:0.0.14-test.cce96bad7ef51cdefa7e80510d05906400d3b367",
         "connector_revision" : "28",
         "connector_type" : "source",
         "consumes" : "application/json",
