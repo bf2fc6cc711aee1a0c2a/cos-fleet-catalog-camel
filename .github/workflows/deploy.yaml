@@ -36,11 +36,22 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
+
+      - name: Set versions
+        run: |
+          export C_VERSION="${GITHUB_REF_NAME#v}" 
+          export C_REVISION="${GITHUB_SHA}" 
+          
+          echo "CONNECTORS_VERSION=${C_VERSION}" >> $GITHUB_ENV
+          echo "CONNECTORS_REVISION=${C_REVISION}" >> $GITHUB_ENV
+          echo "CONNECTORS_RELEASE=${C_VERSION}.${C_REVISION}" >> $GITHUB_ENV
+
       - name: Build Project
         run: |          
           ./mvnw ${MAVEN_ARGS} clean install -U \
             -Pcontainer-build \
             -Pcontainer-test \
+            -Dquarkus.container-image.additional-tags=${CONNECTORS_RELEASE} \
             -Dlog.enabled=true
 
       - name: Check for uncommitted changes
@@ -62,6 +73,19 @@ jobs:
           for IMAGE in ${IMAGES}; do          
               docker push $IMAGE
           done
+
+      - name: Build Connector Images
+        run: |
+          ./mvnw ${MAVEN_ARGS} clean install \
+            -Dcos.connector.container.tag="${CONNECTORS_RELEASE}" \
+            -Pcontainer-build
+
+  update-manifest:
+    needs:
+      - build
+    uses: ./.github/workflows/update-manifest.yaml
+    with:
+      overlay: "dev"
 
   deploy-catalog:
     runs-on: ubuntu-latest
