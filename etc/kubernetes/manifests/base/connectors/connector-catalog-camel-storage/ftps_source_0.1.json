@@ -7,7 +7,7 @@
           "trait.camel.apache.org/container.request-memory" : "128m",
           "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
         },
-        "connector_image" : "quay.io/rhoas/cos-connector-ftps:0.1.28",
+        "connector_image" : "quay.io/rhoas/cos-connector-ftps:0.0.11-test.452bdc56db334963723c52b791adaca9fc007b2f",
         "connector_revision" : "28",
         "connector_type" : "source",
         "consumes" : "application/octet-stream",
