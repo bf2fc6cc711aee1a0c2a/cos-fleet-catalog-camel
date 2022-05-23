@@ -57,6 +57,7 @@ jobs:
       - name: Check for uncommitted changes
         id: check-changes
         uses: mskri/check-uncommitted-changes-action@v1.0.1
+
       - name: Evaluate if there are changes
         if: steps.check-changes.outputs.outcome == failure()
         run: echo "There are uncommitted changes"
@@ -67,18 +68,17 @@ jobs:
           registry: quay.io
           username: ${{ secrets.QUAY_MCI_USR }}
           password: ${{ secrets.QUAY_MCI_PWD }}
+
+      - name: Build Catalog Image
+        run: |
+          docker build -t "quay.io/rhoas/cos-fleet-catalog-camel:${CONNECTORS_RELEASE}" -f etc/Dockerfile.catalog .
+
       - name: Push Container Images
         run: |
-          IMAGES=$(docker image ls --format "{{.Repository}}:{{.Tag}}" | grep quay.io/rhoas/cos-connector-)
+          IMAGES=$(docker image ls --format "{{.Repository}}:{{.Tag}}" | grep quay.io/rhoas/cos-)
           for IMAGE in ${IMAGES}; do          
               docker push $IMAGE
           done
-
-      - name: Build Connector Images
-        run: |
-          ./mvnw ${MAVEN_ARGS} clean install \
-            -Dcos.connector.container.tag="${CONNECTORS_RELEASE}" \
-            -Pcontainer-build
 
   update-manifest:
     needs:
