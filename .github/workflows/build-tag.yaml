@@ -126,7 +126,7 @@ jobs:
 
       - name: "Create PR for ${{ matrix.overlay }}"
         env:
-          OVERLAY_PATH: kustomize/overlays/${{ matrix.overlay }}/data-plane/cos-fleet-catalog-camel
+          OVERLAY_PATH: kustomize/overlays/${{ matrix.overlay }}/control-plane/cos-fleet-catalog-camel
           BRANCH_NAME: "cos-fleet-catalog-camel.${{ matrix.overlay }}.${{ env.CONNECTORS_RELEASE }}"
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
