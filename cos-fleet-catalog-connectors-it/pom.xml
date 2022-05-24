@@ -14,7 +14,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <cos.connector.container.tag>${git.commit.id}</cos.connector.container.tag>
+        <cos.connector.container.tag.it>${git.commit.id}</cos.connector.container.tag.it>
     </properties>
 
     <dependencies>
@@ -134,7 +134,7 @@
                                         ${cos.connector.container.repository}/${cos.connector.container.organization}
                                     </it.connector.container.group>
                                     <it.connector.container.tag>
-                                        ${cos.connector.container.tag}
+                                        ${cos.connector.container.tag.it}
                                     </it.connector.container.tag>
                                 </systemPropertyVariables>
                                 <classesDirectory>${project.build.outputDirectory}</classesDirectory>
