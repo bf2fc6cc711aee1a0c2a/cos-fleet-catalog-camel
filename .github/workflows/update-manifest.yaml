@@ -21,7 +21,7 @@ jobs:
 
           echo "CONNECTORS_VERSION=${C_VERSION}" >> $GITHUB_ENV
           echo "CONNECTORS_REVISION=${C_REVISION}" >> $GITHUB_ENV
-          echo "CONNECTORS_RELEASE=${C_VERSION}.${C_REVISION}" >> $GITHUB_ENV
+          echo "CONNECTORS_RELEASE=${C_VERSION}-${C_REVISION}" >> $GITHUB_ENV
 
       - name: "Checkout cos-manifests project"
         uses: actions/checkout@v2
@@ -69,4 +69,4 @@ jobs:
             --fill \
             --base main \
             --title "chore(kustomize): update cos-fleet-catalog-camel kustomization images overlay ${{ inputs.overlay }}" \
-            --body "sha ${{ github.sha }}, overlay: ${{ inputs.overlay }}, tag: ${{ github.ref_name }}"
+            --body "sha: ${{ github.sha }}, overlay: ${{ inputs.overlay }}, tag: ${{ github.ref_name }}"

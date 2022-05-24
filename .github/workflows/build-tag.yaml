@@ -35,7 +35,7 @@ jobs:
           
           echo "CONNECTORS_VERSION=${C_VERSION}" >> $GITHUB_ENV
           echo "CONNECTORS_REVISION=${C_REVISION}" >> $GITHUB_ENV
-          echo "CONNECTORS_RELEASE=${C_VERSION}.${C_REVISION}" >> $GITHUB_ENV
+          echo "CONNECTORS_RELEASE=${C_VERSION}-${C_REVISION}" >> $GITHUB_ENV
 
       - name: Build Connector Images
         run: |
