@@ -52,7 +52,7 @@ jobs:
             -Pcontainer-build \
             -Pcontainer-test \
             -Dquarkus.container-image.additional-tags=${CONNECTORS_RELEASE} \
-            -Dcos.connector.container.tag=${CONNECTORS_RELEASE} \
+            -Dcos.connector.container.tag.it=${CONNECTORS_RELEASE} \
             -Dlog.enabled=true
 
       - name: Check for uncommitted changes
