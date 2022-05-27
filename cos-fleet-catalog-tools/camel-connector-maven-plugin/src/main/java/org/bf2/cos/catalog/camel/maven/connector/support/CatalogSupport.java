@@ -16,6 +16,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.apache.maven.project.MavenProject;
 import org.bf2.cos.catalog.camel.maven.connector.model.ConnectorDefinition;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,6 +38,7 @@ public final class CatalogSupport {
     public static final ObjectMapper JSON_MAPPER = JsonMapper.builder()
             .configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true)
             .configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true)
+            .serializationInclusion(JsonInclude.Include.NON_NULL)
             .build();
 
     private CatalogSupport() {

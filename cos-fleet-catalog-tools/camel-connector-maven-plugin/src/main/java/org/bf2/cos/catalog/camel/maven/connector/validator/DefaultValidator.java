@@ -6,18 +6,18 @@ import com.google.auto.service.AutoService;
 @AutoService(Validator.class)
 public final class DefaultValidator implements Validator {
     @Override
-    public void validate(Context context, ObjectNode schema) {
-        final String type = schema.requiredAt("/channels/stable/shard_metadata/connector_type").asText();
+    public void validate(Context context, ObjectNode definition) {
+        final String type = definition.requiredAt("/channels/stable/shard_metadata/connector_type").asText();
 
         switch (type) {
             case "source":
-                schema.requiredAt("/channels/stable/shard_metadata/produces");
+                definition.requiredAt("/channels/stable/shard_metadata/produces");
                 break;
             case "sink":
-                schema.requiredAt("/channels/stable/shard_metadata/consumes");
+                definition.requiredAt("/channels/stable/shard_metadata/consumes");
                 break;
             default:
-                throw new IllegalArgumentException("Unsupported connector type: " + type);
+                throw new ValidatorException("Unsupported connector type: " + type);
         }
     }
 

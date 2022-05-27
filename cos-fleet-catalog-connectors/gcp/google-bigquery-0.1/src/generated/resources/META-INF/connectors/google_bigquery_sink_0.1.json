@@ -1,0 +1,159 @@
+{
+  "channels" : {
+    "stable" : {
+      "shard_metadata" : {
+        "annotations" : {
+          "trait.camel.apache.org/container.request-cpu" : "0.20",
+          "trait.camel.apache.org/container.request-memory" : "128m",
+          "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
+        },
+        "connector_image" : "quay.io/rhoas/cos-connector-google-bigquery:0.1.29",
+        "connector_revision" : "29",
+        "connector_type" : "sink",
+        "consumes" : "application/json",
+        "error_handler_strategy" : "stop",
+        "kamelets" : {
+          "adapter" : {
+            "name" : "google-bigquery-sink",
+            "prefix" : "gcp"
+          },
+          "kafka" : {
+            "name" : "cos-kafka-source",
+            "prefix" : "kafka"
+          }
+        },
+        "operators" : [ {
+          "type" : "camel-connector-operator",
+          "version" : "[1.0.0,2.0.0)"
+        } ],
+        "produces" : "application/json"
+      }
+    }
+  },
+  "connector_type" : {
+    "capabilities" : [ "data_shape", "error_handler", "processors" ],
+    "channels" : [ "stable" ],
+    "description" : "Google BigQuery sink",
+    "icon_href" : "TODO",
+    "id" : "google_bigquery_sink_0.1",
+    "kind" : "ConnectorType",
+    "labels" : [ "sink" ],
+    "name" : "Google BigQuery sink",
+    "schema" : {
+      "type" : "object",
+      "additionalProperties" : false,
+      "required" : [ "gcp_project_id", "gcp_dataset", "gcp_table", "gcp_credentials_file_location", "kafka_topic" ],
+      "properties" : {
+        "gcp_project_id" : {
+          "title" : "Google Cloud Project Id",
+          "description" : "Google Cloud Project id",
+          "type" : "string"
+        },
+        "gcp_dataset" : {
+          "title" : "Big Query Dataset Id",
+          "description" : "The Big Query Dataset Id",
+          "type" : "string"
+        },
+        "gcp_table" : {
+          "title" : "Big Query Table Id",
+          "description" : "The Big Query Table Id",
+          "type" : "string"
+        },
+        "gcp_credentials_file_location" : {
+          "title" : "Google Cloud Platform Credential File",
+          "description" : "The credential to access Google Cloud Platform api services",
+          "type" : "string",
+          "x-group" : "credentials"
+        },
+        "kafka_topic" : {
+          "title" : "Topic Names",
+          "description" : "Comma separated list of Kafka topic names",
+          "type" : "string"
+        },
+        "data_shape" : {
+          "type" : "object",
+          "additionalProperties" : false,
+          "properties" : {
+            "consumes" : {
+              "$ref" : "#/$defs/data_shape/consumes"
+            }
+          }
+        },
+        "error_handler" : {
+          "type" : "object",
+          "oneOf" : [ {
+            "type" : "object",
+            "additionalProperties" : false,
+            "required" : [ "log" ],
+            "properties" : {
+              "log" : {
+                "$ref" : "#/$defs/error_handler/log"
+              }
+            }
+          }, {
+            "type" : "object",
+            "additionalProperties" : false,
+            "required" : [ "stop" ],
+            "properties" : {
+              "stop" : {
+                "$ref" : "#/$defs/error_handler/stop"
+              }
+            }
+          }, {
+            "type" : "object",
+            "additionalProperties" : false,
+            "required" : [ "dead_letter_queue" ],
+            "properties" : {
+              "dead_letter_queue" : {
+                "$ref" : "#/$defs/error_handler/dead_letter_queue"
+              }
+            }
+          } ],
+          "default" : {
+            "stop" : { }
+          }
+        },
+        "processors" : { }
+      },
+      "$defs" : {
+        "data_shape" : {
+          "consumes" : {
+            "type" : "object",
+            "additionalProperties" : false,
+            "required" : [ "format" ],
+            "properties" : {
+              "format" : {
+                "type" : "string",
+                "default" : "application/json",
+                "enum" : [ "application/json" ]
+              }
+            }
+          }
+        },
+        "error_handler" : {
+          "log" : {
+            "type" : "object",
+            "additionalProperties" : false
+          },
+          "stop" : {
+            "type" : "object",
+            "additionalProperties" : false
+          },
+          "dead_letter_queue" : {
+            "type" : "object",
+            "additionalProperties" : false,
+            "required" : [ "topic" ],
+            "properties" : {
+              "topic" : {
+                "type" : "string",
+                "title" : "Dead Letter Topic Name",
+                "description" : "The name of the Kafka topic used as dead letter queue"
+              }
+            }
+          }
+        }
+      }
+    },
+    "version" : "0.1"
+  }
+}

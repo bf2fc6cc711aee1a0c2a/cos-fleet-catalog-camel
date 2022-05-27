@@ -23,6 +23,8 @@
         <quarkus.jib.jvm-arguments>-XX:+UseShenandoahGC,-Djava.util.logging.manager=org.jboss.logmanager.LogManager</quarkus.jib.jvm-arguments>
 
         <cos.catalog.validation.mode>FAIL</cos.catalog.validation.mode>
+        <cos.catalog.path>${cos.connector.catalog.root}/connector-catalog-camel-${cos.connector.catalog.group}</cos.catalog.path>
+        <cos.catalog.manifests>${project.basedir}/src/generated/resources/META-INF/connectors</cos.catalog.manifests>
     </properties>
 
     <dependencies>
@@ -121,7 +123,6 @@
             </resource>
             <resource>
                 <directory>${project.basedir}/src/generated/resources</directory>
-                <filtering>true</filtering>
             </resource>
         </resources>
         <pluginManagement>
@@ -135,15 +136,20 @@
                             <phase>process-resources</phase>
                             <goals>
                                 <goal>generate-catalog</goal>
-                                <goal>validate-catalog</goal>
                                 <goal>generate-json-schema</goal>
                             </goals>
                         </execution>
                     </executions>
                     <configuration>
+                        <catalog>
+                            <path>${cos.catalog.path}</path>
+                            <manifestsPath>${cos.catalog.manifests}</manifestsPath>
+                        </catalog>
+
                         <validators>
                             <validator>${project.basedir}/src/test/resources/validate.groovy</validator>
                         </validators>
+
                         <defaults>
                             <!-- force capabilities to be set even if the connector do not implement any of them -->
                             <capabilities>
@@ -208,16 +214,30 @@
                     <artifactId>maven-resources-plugin</artifactId>
                     <executions>
                         <execution>
+                            <id>res-default</id>
+                            <phase>process-resources</phase>
+                            <goals>
+                                <goal>resources</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>res</id>
+                            <phase>process-classes</phase>
+                            <goals>
+                                <goal>resources</goal>
+                            </goals>
+                        </execution>
+                        <execution>
                             <id>copy-resources</id>
                             <phase>package</phase>
                             <goals>
                                 <goal>copy-resources</goal>
                             </goals>
                             <configuration>
-                                <outputDirectory>${cos.connector.catalog.root}/connector-catalog-camel-${cos.connector.catalog.group}</outputDirectory>
+                                <outputDirectory>${cos.catalog.path}</outputDirectory>
                                 <resources>
                                     <resource>
-                                        <directory>${project.build.outputDirectory}/connectors</directory>
+                                        <directory>${cos.catalog.manifests}</directory>
                                         <includes>
                                             <include>*.json</include>
                                         </includes>
@@ -230,17 +250,6 @@
             </plugins>
         </pluginManagement>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-clean-plugin</artifactId>
-                <configuration>
-                    <filesets>
-                        <fileset>
-                            <directory>src/generated/resources/connectors</directory>
-                        </fileset>
-                    </filesets>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>

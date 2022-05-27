@@ -8,26 +8,39 @@ import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
+import java.util.ServiceLoader;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugin.logging.Log;
+import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
+import org.apache.maven.project.MavenProjectHelper;
 import org.bf2.cos.catalog.camel.maven.connector.model.ConnectorDefinition;
 import org.bf2.cos.catalog.camel.maven.connector.support.Annotation;
+import org.bf2.cos.catalog.camel.maven.connector.support.Catalog;
 import org.bf2.cos.catalog.camel.maven.connector.support.CatalogConstants;
 import org.bf2.cos.catalog.camel.maven.connector.support.Connector;
 import org.bf2.cos.catalog.camel.maven.connector.support.KameletsCatalog;
 import org.bf2.cos.catalog.camel.maven.connector.support.MojoSupport;
+import org.bf2.cos.catalog.camel.maven.connector.validator.Validator;
 import org.codehaus.groovy.control.CompilerConfiguration;
 import org.codehaus.groovy.control.customizers.ImportCustomizer;
+import org.codehaus.plexus.component.annotations.Requirement;
+import org.eclipse.aether.RepositorySystem;
+import org.eclipse.aether.RepositorySystemSession;
+import org.eclipse.aether.impl.RemoteRepositoryManager;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -56,8 +69,6 @@ public class GenerateCatalogMojo extends AbstractMojo {
 
     @Parameter(readonly = true, defaultValue = "${project}")
     private MavenProject project;
-    @Parameter(defaultValue = "${project.build.outputDirectory}/connectors")
-    private String outputPath;
 
     @Parameter
     private List<Annotation> defaultAnnotations;
@@ -71,6 +82,38 @@ public class GenerateCatalogMojo extends AbstractMojo {
     @Parameter
     private List<Connector> connectors;
 
+    @Parameter(defaultValue = "true", property = "cos.catalog.validate")
+    private boolean validate;
+    @Parameter(defaultValue = "${project.artifactId}", property = "cos.connector.type")
+    private String type;
+
+    @Parameter
+    private List<File> validators;
+    @Parameter(defaultValue = "FAIL", property = "cos.catalog.validation.mode")
+    private Validator.Mode mode;
+    @Parameter(required = true)
+    private Catalog catalog;
+
+    @Parameter(required = false, property = "appArtifact")
+    private String appArtifact;
+    @Parameter(defaultValue = "${project.build.directory}")
+    protected File buildDir;
+    @Parameter(defaultValue = "${project.build.finalName}")
+    protected String finalName;
+    @Parameter(defaultValue = "${camel-quarkus.version}")
+    private String camelQuarkusVersion;
+    @Requirement(role = RepositorySystem.class, optional = false)
+    protected RepositorySystem repoSystem;
+    @Requirement(role = RemoteRepositoryManager.class, optional = false)
+    protected RemoteRepositoryManager remoteRepoManager;
+    @Parameter(defaultValue = "${repositorySystemSession}", readonly = true)
+    private RepositorySystemSession repoSession;
+    @Parameter
+    private Map<String, String> systemProperties;
+
+    @Component
+    protected MavenProjectHelper projectHelper;
+
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         if (skip) {
@@ -78,17 +121,63 @@ public class GenerateCatalogMojo extends AbstractMojo {
         }
 
         try {
-            final KameletsCatalog catalog = KameletsCatalog.get(project, getLog());
+            final KameletsCatalog kameletsCatalog = KameletsCatalog.get(project, getLog());
+            final List<Connector> connectorList = MojoSupport.inject(session, defaults, connectors);
 
-            for (Connector connector : MojoSupport.inject(session, defaults, connectors)) {
-                generateDefinitions(catalog, connector);
+            cleanup(connectorList);
+
+            for (Connector connector : connectorList) {
+                generateDefinitions(kameletsCatalog, connector);
             }
         } catch (Exception e) {
             throw new MojoExecutionException(e);
         }
     }
 
-    private void generateDefinitions(KameletsCatalog catalog, Connector connector)
+    private void cleanup(List<Connector> connectorList)
+            throws MojoExecutionException, MojoFailureException {
+
+        final Path manifests = Path.of(catalog.getManifestsPath());
+
+        if (Files.exists(manifests)) {
+            try (Stream<Path> files = Files.list(manifests)) {
+                for (Path file : files.collect(Collectors.toList())) {
+                    getLog().info("" + file);
+
+                    if (!Files.isRegularFile(file)) {
+                        continue;
+                    }
+                    if (file.getFileName().toString().equals(type + ".json")) {
+                        continue;
+                    }
+                    if (!file.getFileName().toString().endsWith(".json")) {
+                        continue;
+                    }
+
+                    boolean valid = false;
+                    for (Connector connector : connectorList) {
+                        String name = ofNullable(connector.getName()).orElseGet(project::getArtifactId);
+                        String id = name.replace("-", "_") + ".json";
+
+                        if (id.equals(file.getFileName().toString())) {
+                            valid = true;
+                            break;
+                        }
+                    }
+
+                    if (!valid) {
+                        getLog().warn("Deleting " + file + " as it does not match any known connector in this module");
+                        Files.delete(file);
+                    }
+                }
+            } catch (IOException e) {
+                throw new MojoExecutionException(e);
+            }
+        }
+
+    }
+
+    private void generateDefinitions(KameletsCatalog kamelets, Connector connector)
             throws MojoExecutionException, MojoFailureException {
 
         final Connector.EndpointRef kafka = connector.getKafka();
@@ -108,10 +197,10 @@ public class GenerateCatalogMojo extends AbstractMojo {
         }
 
         try {
-            final ObjectNode adapterSpec = catalog.kamelet(
+            final ObjectNode adapterSpec = kamelets.kamelet(
                     adapter.getName(),
                     adapter.getVersion());
-            final ObjectNode kafkaSpec = catalog.kamelet(
+            final ObjectNode kafkaSpec = kamelets.kamelet(
                     kafka.getName(),
                     kafka.getVersion());
 
@@ -169,7 +258,7 @@ public class GenerateCatalogMojo extends AbstractMojo {
             //
 
             if (connector.getActions() != null) {
-                computeActions(def, connector, catalog);
+                computeActions(def, connector, kamelets);
             }
 
             //
@@ -334,27 +423,103 @@ public class GenerateCatalogMojo extends AbstractMojo {
                     }
 
                     getLog().info("Customizing: " + connector.getName() + " with customizer " + customizer);
+
                     new GroovyShell(cl, binding, cc).run(customizer, new String[] {});
                 }
+            }
+
+            //
+            // As Json
+            //
+
+            ObjectNode definition = JSON_MAPPER.convertValue(def, ObjectNode.class);
+
+            //
+            // Validate
+            //
+
+            if (validate) {
+                validateConnector(connector, definition);
             }
 
             //
             // Write
             //
 
-            Path out = Paths.get(outputPath);
+            Path out = Paths.get(catalog.getManifestsPath());
             Path file = out.resolve(id + ".json");
 
             Files.createDirectories(out);
 
-            getLog().info("Writing connector to: " + file);
+            getLog().info("Writing connector definition manifest to: " + file);
 
             JSON_MAPPER.writerWithDefaultPrettyPrinter().writeValue(
                     Files.newBufferedWriter(file),
-                    def);
+                    definition);
 
         } catch (IOException e) {
             throw new MojoExecutionException("", e);
         }
+    }
+
+    private void validateConnector(Connector connector, ObjectNode definition)
+            throws MojoExecutionException, MojoFailureException {
+
+        try {
+            final Validator.Context context = of(connector);
+
+            for (Validator validator : ServiceLoader.load(Validator.class)) {
+                getLog().info("Validating: " + connector.getName() + " with validator " + validator);
+                validator.validate(context, definition);
+            }
+
+            if (validators != null) {
+                ImportCustomizer ic = new ImportCustomizer();
+
+                CompilerConfiguration cc = new CompilerConfiguration();
+                cc.addCompilationCustomizers(ic);
+
+                ClassLoader cl = Thread.currentThread().getContextClassLoader();
+
+                Binding binding = new Binding();
+                binding.setProperty("context", context);
+                binding.setProperty("schema", definition);
+
+                for (File validator : validators) {
+                    if (!Files.exists(validator.toPath())) {
+                        return;
+                    }
+
+                    getLog().info("Validating: " + connector.getName() + " with validator " + validator);
+                    new GroovyShell(cl, binding, cc).run(validator, new String[] {});
+                }
+            }
+        } catch (AssertionError | Exception e) {
+            throw new MojoFailureException(e);
+        }
+    }
+
+    private Validator.Context of(Connector connector) {
+        return new Validator.Context() {
+            @Override
+            public Catalog getCatalog() {
+                return catalog;
+            }
+
+            @Override
+            public Connector getConnector() {
+                return connector;
+            }
+
+            @Override
+            public Log getLog() {
+                return getLog();
+            }
+
+            @Override
+            public Validator.Mode getMode() {
+                return mode;
+            }
+        };
     }
 }

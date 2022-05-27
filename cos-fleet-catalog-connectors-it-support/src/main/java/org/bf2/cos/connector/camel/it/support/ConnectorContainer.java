@@ -189,8 +189,8 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
         private Builder(String definition) {
             Objects.requireNonNull(definition);
 
-            if (!definition.startsWith("/connectors/")) {
-                definition = "/connectors/" + definition;
+            if (!definition.startsWith("/META-INF/connectors/")) {
+                definition = "/META-INF/connectors/" + definition;
             }
 
             this.definition = definition;

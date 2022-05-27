@@ -238,6 +238,12 @@
                 <version>${apicurio-client.version}</version>
             </dependency>
             <dependency>
+                <groupId>io.apicurio</groupId>
+                <artifactId>apicurio-registry-schema-util-json</artifactId>
+                <version>${apicurio.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>com.github.java-json-tools</groupId>
                 <artifactId>json-schema-avro</artifactId>
                 <version>${json-schema-avro.version}</version>
@@ -530,6 +536,9 @@
                         <phase>initialize</phase>
                     </execution>
                 </executions>
+                <configuration>
+                    <runOnlyOnce>true</runOnlyOnce>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>net.revelc.code.formatter</groupId>
