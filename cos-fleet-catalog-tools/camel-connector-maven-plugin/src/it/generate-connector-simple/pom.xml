@@ -23,9 +23,11 @@
         <cos.connector.catalog.root>${maven.multiModuleProjectDirectory}/etc/connectors</cos.connector.catalog.root>
         <cos.connector.catalog.group>all</cos.connector.catalog.group>
 
+        <cos.connector.type>generate-connector-simple</cos.connector.type>
         <cos.connector.revision>1</cos.connector.revision>
         <cos.connector.operator.version>[1.0.0,2.0.0)</cos.connector.operator.version>
         <cos.kamelets.version>0.0.1</cos.kamelets.version>
+
     </properties>
 
     <dependencies>
@@ -51,7 +53,12 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <outputPath>${project.basedir}</outputPath>
+                    <validate>false</validate>
+                    <camelQuarkusVersion>2.7.1</camelQuarkusVersion>
+                    <catalog>
+                        <path>${project.basedir}</path>
+                        <manifestsPath>${project.basedir}</manifestsPath>
+                    </catalog>
                     <connectors>
                         <connector>
                             <name>connector-source</name>

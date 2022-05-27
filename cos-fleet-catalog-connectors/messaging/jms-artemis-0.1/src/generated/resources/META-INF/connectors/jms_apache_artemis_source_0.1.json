@@ -1,0 +1,155 @@
+{
+  "channels" : {
+    "stable" : {
+      "shard_metadata" : {
+        "annotations" : {
+          "trait.camel.apache.org/container.request-cpu" : "0.20",
+          "trait.camel.apache.org/container.request-memory" : "128m",
+          "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
+        },
+        "connector_image" : "quay.io/rhoas/cos-connector-jms-apache-artemis:0.1.29",
+        "connector_revision" : "29",
+        "connector_type" : "source",
+        "consumes" : "application/octet-stream",
+        "error_handler_strategy" : "stop",
+        "kamelets" : {
+          "adapter" : {
+            "name" : "jms-apache-artemis-source",
+            "prefix" : "jms_artemis"
+          },
+          "kafka" : {
+            "name" : "cos-kafka-sink",
+            "prefix" : "kafka"
+          }
+        },
+        "operators" : [ {
+          "type" : "camel-connector-operator",
+          "version" : "[1.0.0,2.0.0)"
+        } ],
+        "produces" : "application/octet-stream"
+      }
+    }
+  },
+  "connector_type" : {
+    "capabilities" : [ "data_shape", "error_handler", "processors" ],
+    "channels" : [ "stable" ],
+    "description" : "JMS Apache Artemis source",
+    "icon_href" : "TODO",
+    "id" : "jms_apache_artemis_source_0.1",
+    "kind" : "ConnectorType",
+    "labels" : [ "source" ],
+    "name" : "JMS Apache Artemis source",
+    "schema" : {
+      "type" : "object",
+      "additionalProperties" : false,
+      "required" : [ "jms_artemis_destination_name", "jms_artemis_broker_u_r_l", "kafka_topic" ],
+      "properties" : {
+        "jms_artemis_destination_type" : {
+          "title" : "Destination Type",
+          "description" : "The JMS destination type (i.e.: queue or topic)",
+          "type" : "string",
+          "default" : "queue"
+        },
+        "jms_artemis_destination_name" : {
+          "title" : "Destination Name",
+          "description" : "The JMS destination name",
+          "type" : "string"
+        },
+        "jms_artemis_broker_u_r_l" : {
+          "title" : "Broker URL",
+          "description" : "The JMS URL",
+          "type" : "string",
+          "example" : "tcp://k3s-node-master.usersys.redhat.com:31616"
+        },
+        "kafka_topic" : {
+          "title" : "Topic Names",
+          "description" : "Comma separated list of Kafka topic names",
+          "type" : "string"
+        },
+        "data_shape" : {
+          "type" : "object",
+          "additionalProperties" : false,
+          "properties" : {
+            "produces" : {
+              "$ref" : "#/$defs/data_shape/produces"
+            }
+          }
+        },
+        "error_handler" : {
+          "type" : "object",
+          "oneOf" : [ {
+            "type" : "object",
+            "additionalProperties" : false,
+            "required" : [ "log" ],
+            "properties" : {
+              "log" : {
+                "$ref" : "#/$defs/error_handler/log"
+              }
+            }
+          }, {
+            "type" : "object",
+            "additionalProperties" : false,
+            "required" : [ "stop" ],
+            "properties" : {
+              "stop" : {
+                "$ref" : "#/$defs/error_handler/stop"
+              }
+            }
+          }, {
+            "type" : "object",
+            "additionalProperties" : false,
+            "required" : [ "dead_letter_queue" ],
+            "properties" : {
+              "dead_letter_queue" : {
+                "$ref" : "#/$defs/error_handler/dead_letter_queue"
+              }
+            }
+          } ],
+          "default" : {
+            "stop" : { }
+          }
+        },
+        "processors" : { }
+      },
+      "$defs" : {
+        "data_shape" : {
+          "produces" : {
+            "type" : "object",
+            "additionalProperties" : false,
+            "required" : [ "format" ],
+            "properties" : {
+              "format" : {
+                "type" : "string",
+                "default" : "application/octet-stream",
+                "enum" : [ "application/octet-stream" ]
+              }
+            }
+          }
+        },
+        "error_handler" : {
+          "log" : {
+            "type" : "object",
+            "additionalProperties" : false
+          },
+          "stop" : {
+            "type" : "object",
+            "additionalProperties" : false
+          },
+          "dead_letter_queue" : {
+            "type" : "object",
+            "additionalProperties" : false,
+            "required" : [ "topic" ],
+            "properties" : {
+              "topic" : {
+                "type" : "string",
+                "title" : "Dead Letter Topic Name",
+                "description" : "The name of the Kafka topic used as dead letter queue"
+              }
+            }
+          }
+        }
+      }
+    },
+    "version" : "0.1"
+  }
+}
