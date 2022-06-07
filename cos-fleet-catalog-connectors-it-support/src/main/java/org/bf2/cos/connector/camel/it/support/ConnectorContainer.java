@@ -23,7 +23,6 @@ import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.Network;
 import org.testcontainers.containers.output.Slf4jLogConsumer;
-import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.images.builder.Transferable;
 import org.testcontainers.utility.DockerImageName;
 
@@ -88,7 +87,7 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
         withEnv("CAMEL_K_CONF", "/etc/camel/application.properties");
 
         withExposedPorts(DEFAULT_HTTP_PORT);
-        waitingFor(Wait.forListeningPort());
+        waitingFor(WaitStrategies.forHealth(DEFAULT_HTTP_PORT));
         withLogConsumer(new Slf4jLogConsumer(LoggerFactory.getLogger(CONTAINER_ALIAS)));
     }
 
@@ -274,8 +273,7 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
                 JsonNode meta = def.requiredAt("/channels/stable/shard_metadata");
 
                 String image = meta.requiredAt("/connector_image").asText();
-                String imageTag = System.getProperty("it.connector.container.tag");
-                DockerImageName imageName = DockerImageName.parse(image).withTag(imageTag);
+                DockerImageName imageName = DockerImageName.parse(image);
 
                 ConnectorContainer answer = new ConnectorContainer(imageName);
 

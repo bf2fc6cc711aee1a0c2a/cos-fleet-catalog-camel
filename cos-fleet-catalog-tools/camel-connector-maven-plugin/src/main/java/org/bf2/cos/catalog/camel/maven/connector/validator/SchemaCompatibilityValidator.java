@@ -3,7 +3,6 @@ package org.bf2.cos.catalog.camel.maven.connector.validator;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 import org.bf2.cos.catalog.camel.maven.connector.support.CatalogSupport;
@@ -29,7 +28,7 @@ public final class SchemaCompatibilityValidator implements Validator {
     public void validate(Context context, ObjectNode definition) {
         try {
             String id = context.getConnector().getName().replace("-", "_");
-            Path current = Paths.get(context.getCatalog().getManifestsPath(), id + ".json");
+            Path current = context.getCatalogPath().resolve(id + ".json");
 
             if (Files.exists(current)) {
                 JsonNode schema = definition.requiredAt("/connector_type/schema");

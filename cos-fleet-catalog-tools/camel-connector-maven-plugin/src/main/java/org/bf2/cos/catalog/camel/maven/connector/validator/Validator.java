@@ -1,7 +1,8 @@
 package org.bf2.cos.catalog.camel.maven.connector.validator;
 
+import java.nio.file.Path;
+
 import org.apache.maven.plugin.logging.Log;
-import org.bf2.cos.catalog.camel.maven.connector.support.Catalog;
 import org.bf2.cos.catalog.camel.maven.connector.support.Connector;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -15,7 +16,7 @@ public interface Validator {
     }
 
     interface Context {
-        Catalog getCatalog();
+        Path getCatalogPath();
 
         Connector getConnector();
 

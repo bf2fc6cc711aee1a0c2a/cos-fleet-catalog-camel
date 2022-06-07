@@ -65,10 +65,6 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-            </plugin>
-            <plugin>
                 <groupId>org.codehaus.gmavenplus</groupId>
                 <artifactId>gmavenplus-plugin</artifactId>
                 <executions>
@@ -136,14 +132,6 @@
                                 <includes>
                                     <include>**/*IT*</include>
                                 </includes>
-                                <systemPropertyVariables>
-                                    <it.connector.container.group>
-                                        ${cos.connector.container.repository}/${cos.connector.container.organization}
-                                    </it.connector.container.group>
-                                    <it.connector.container.tag>
-                                        ${cos.connector.container.tag.it}
-                                    </it.connector.container.tag>
-                                </systemPropertyVariables>
                                 <classesDirectory>${project.build.outputDirectory}</classesDirectory>
                             </configuration>
                         </plugin>

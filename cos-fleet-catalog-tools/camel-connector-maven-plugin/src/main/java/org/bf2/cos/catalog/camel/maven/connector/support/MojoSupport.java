@@ -1,11 +1,15 @@
 package org.bf2.cos.catalog.camel.maven.connector.support;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.MojoExecution;
@@ -13,6 +17,8 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.PluginParameterExpressionEvaluator;
 import org.codehaus.plexus.component.configurator.expression.ExpressionEvaluationException;
 import org.codehaus.plexus.component.configurator.expression.ExpressionEvaluator;
+
+import static org.bf2.cos.catalog.camel.maven.connector.support.CatalogSupport.JSON_MAPPER;
 
 public final class MojoSupport {
     private MojoSupport() {
@@ -99,4 +105,13 @@ public final class MojoSupport {
 
         return connectors;
     }
+
+    public static <T> T load(Path path, Class<T> type, Supplier<T> supplier) throws IOException {
+        if (Files.exists(path)) {
+            return JSON_MAPPER.readValue(path.toFile(), type);
+        }
+
+        return supplier.get();
+    }
+
 }

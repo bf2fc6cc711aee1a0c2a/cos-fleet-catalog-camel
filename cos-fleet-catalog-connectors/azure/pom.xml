@@ -16,23 +16,15 @@
     <description>Azure Connectors</description>
 
     <properties>
-        <!--
-          https://github.com/apache/camel-quarkus/issues/3115
-          https://github.com/apache/camel-quarkus/pull/3293
-        -->
-        <tcnative.version>2.0.54.Final</tcnative.version>
         <cos.connector.catalog.group>azure</cos.connector.catalog.group>
     </properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>io.netty</groupId>
-                <artifactId>netty-tcnative-boringssl-static</artifactId>
-                <version>${tcnative.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.bf2</groupId>
+            <artifactId>cos-connector-azure</artifactId>
+        </dependency>
+    </dependencies>
 
     <modules>
         <module>azure-storage-blob-0.1</module>

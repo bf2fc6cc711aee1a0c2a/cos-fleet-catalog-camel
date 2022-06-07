@@ -357,6 +357,8 @@ class ConnectorIT extends KafkaConnectorSpec {
             def topic = topic()
             def kinesis = aws.kinesis()
 
+            ConnectorSupport.createStream(kinesis, topic)
+
             def cnt = connectorContainer('aws_kinesis_source_0.1.json', [
                     'kafka_topic' : topic,
                     'kafka_bootstrap_servers': kafka.outsideBootstrapServers,
@@ -370,8 +372,6 @@ class ConnectorIT extends KafkaConnectorSpec {
 
             cnt.start()
         when:
-            ConnectorSupport.createStream(kinesis, topic)
-
             kinesis.putRecord(
                 b -> b.streamName(topic)
                     .partitionKey("test")

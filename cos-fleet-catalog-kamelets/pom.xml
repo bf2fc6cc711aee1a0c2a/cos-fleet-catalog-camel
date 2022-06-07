@@ -9,15 +9,63 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>cos-fleet-catalog-kamelets</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>cos-connector-kamelets</artifactId>
+    <packaging>pom</packaging>
+
+    <properties>
+    </properties>
+
+    <modules>
+        <module>serdes</module>
+        <module>jsonpath</module>
+
+        <module>log</module>
+        <module>fault</module>
+
+        <module>aws</module>
+        <module>azure</module>
+        <module>google</module>
+        <module>sql</module>
+        <module>ansible-tower</module>
+        <module>http</module>
+        <module>mongodb</module>
+        <module>kafka</module>
+        <module>salesforce</module>
+        <module>slack</module>
+    </modules>
 
     <build>
         <resources>
             <resource>
-                <directory>src/main/resources</directory>
+                <directory>${project.basedir}/src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>${project.basedir}/src/generated/resources</directory>
                 <filtering>true</filtering>
             </resource>
         </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-package-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate</id>
+                        <goals>
+                            <goal>jandex</goal>
+                            <goal>generate-configurer</goal>
+                            <goal>generate-type-converter-loader</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
+
+
 </project>
