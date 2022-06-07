@@ -19,29 +19,7 @@
 
     <properties>
         <cos.connector.type>postgresql</cos.connector.type>
-        <quarkus.container-image.name>${cos.connector.container.prefix}-${cos.connector.type}</quarkus.container-image.name>
-        <quarkus.container-image.tag>${cos.connector.container.tag}</quarkus.container-image.tag>
     </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.bf2</groupId>
-            <artifactId>cos-fleet-catalog-connectors-it-support</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>postgresql</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.strimzi</groupId>
-            <artifactId>strimzi-test-container</artifactId>
-            <version>0.102.0</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
 
     <build>
         <plugins>
@@ -82,18 +60,6 @@
                         </connector>
                     </connectors>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

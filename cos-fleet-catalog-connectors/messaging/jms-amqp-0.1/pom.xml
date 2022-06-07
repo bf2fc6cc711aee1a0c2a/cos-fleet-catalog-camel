@@ -19,8 +19,6 @@
 
     <properties>
         <cos.connector.type>jms-amqp-10</cos.connector.type>
-        <quarkus.container-image.name>${cos.connector.container.prefix}-${cos.connector.type}</quarkus.container-image.name>
-        <quarkus.container-image.tag>${cos.connector.container.tag}</quarkus.container-image.tag>
     </properties>
 
     <build>
@@ -76,10 +74,6 @@
                         </connector>
                     </connectors>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

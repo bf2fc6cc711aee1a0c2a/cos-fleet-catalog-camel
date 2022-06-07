@@ -15,16 +15,19 @@
     <properties>
         <quarkus.banner.enabled>false</quarkus.banner.enabled>
 
+        <cos.base.container.image.name>registry.access.redhat.com/ubi8/openjdk-11-runtime</cos.base.container.image.name>
+        <cos.base.container.image.digest>sha256:0d2118f19df423b6be16480f0cc286b427d91858247841f2b495239d14bf3488</cos.base.container.image.digest>
+        <cos.base.container.image.tag>1.14</cos.base.container.image.tag>
+        <cos.base.container.image>${cos.base.container.image.name}:${cos.base.container.image.tag}</cos.base.container.image>
+
         <quarkus.container-image.build>false</quarkus.container-image.build>
         <quarkus.container-image.push>false</quarkus.container-image.push>
-        <quarkus.container-image.registry>${cos.connector.container.repository}</quarkus.container-image.registry>
-        <quarkus.container-image.group>${cos.connector.container.organization}</quarkus.container-image.group>
 
+        <quarkus.jib.base-jvm-image>${cos.base.container.image}</quarkus.jib.base-jvm-image>
         <quarkus.jib.jvm-arguments>-XX:+UseShenandoahGC,-Djava.util.logging.manager=org.jboss.logmanager.LogManager</quarkus.jib.jvm-arguments>
 
         <cos.catalog.validation.mode>FAIL</cos.catalog.validation.mode>
-        <cos.catalog.path>${cos.connector.catalog.root}/connector-catalog-camel-${cos.connector.catalog.group}</cos.catalog.path>
-        <cos.catalog.manifests>${project.basedir}/src/generated/resources/META-INF/connectors</cos.catalog.manifests>
+        <cos.catalog.name>connector-catalog-camel-${cos.connector.catalog.group}</cos.catalog.name>
     </properties>
 
     <dependencies>
@@ -77,7 +80,6 @@
             <artifactId>camel-kamelets</artifactId>
             <version>${camel-kamelets-catalog.branch}</version>
         </dependency>
-
         <dependency>
             <groupId>com.github.apache.camel-kamelets</groupId>
             <artifactId>camel-kamelets-utils</artifactId>
@@ -122,15 +124,6 @@
     </dependencies>
 
     <build>
-        <resources>
-            <resource>
-                <directory>${project.basedir}/src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-            <resource>
-                <directory>${project.basedir}/src/generated/resources</directory>
-            </resource>
-        </resources>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -147,11 +140,6 @@
                         </execution>
                     </executions>
                     <configuration>
-                        <catalog>
-                            <path>${cos.catalog.path}</path>
-                            <manifestsPath>${cos.catalog.manifests}</manifestsPath>
-                        </catalog>
-
                         <validators>
                             <validator>${project.basedir}/src/test/resources/validate.groovy</validator>
                         </validators>
@@ -214,7 +202,15 @@
                             </annotation>
                         </defaultAnnotations>
                     </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.assertj</groupId>
+                            <artifactId>assertj-core</artifactId>
+                            <version>${assertj.version}</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
+                <!--
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
@@ -245,7 +241,8 @@
                                     <resource>
                                         <directory>${cos.catalog.manifests}</directory>
                                         <includes>
-                                            <include>*.json</include>
+                                            <include>*_source_*.json</include>
+                                            <include>*_sink_*.json</include>
                                         </includes>
                                     </resource>
                                 </resources>
@@ -253,6 +250,7 @@
                         </execution>
                     </executions>
                 </plugin>
+                -->
             </plugins>
         </pluginManagement>
         <plugins>
@@ -279,6 +277,42 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>enforce-dont-exist</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireFilesDontExist>
+                                    <files>
+                                        <file>${project.basedir}/src</file>
+                                    </files>
+                                </requireFilesDontExist>
+                            </rules>
+                            <fail>true</fail>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
@@ -296,7 +330,31 @@
         <module>storage</module>
     </modules>
 
+
     <profiles>
+        <profile>
+            <id>linux_amd64</id>
+            <activation>
+                <os>
+                    <arch>amd64</arch>
+                </os>
+            </activation>
+            <properties>
+                <quarkus.jib.platforms>linux/amd64</quarkus.jib.platforms>
+            </properties>
+        </profile>
+        <profile>
+            <id>linux_arm64</id>
+            <activation>
+                <os>
+                    <arch>aarch64</arch>
+                </os>
+            </activation>
+            <properties>
+                <quarkus.jib.platforms>linux/arm64</quarkus.jib.platforms>
+            </properties>
+        </profile>
+
         <profile>
             <id>container-build</id>
             <activation>
@@ -304,7 +362,6 @@
             </activation>
             <properties>
                 <quarkus.container-image.build>true</quarkus.container-image.build>
-                <quarkus.container-image.additional-tags>${git.commit.id}</quarkus.container-image.additional-tags>
             </properties>
             <build>
                 <pluginManagement>
@@ -332,7 +389,6 @@
             </activation>
             <properties>
                 <quarkus.container-image.push>true</quarkus.container-image.push>
-                <quarkus.container-image.additional-tags>${git.commit.id}</quarkus.container-image.additional-tags>
             </properties>
             <build>
                 <pluginManagement>

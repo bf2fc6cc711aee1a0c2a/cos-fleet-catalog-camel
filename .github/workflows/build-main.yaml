@@ -1,0 +1,117 @@
+name: Build Main
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "LICENSE"
+      - "**/.gitignore"
+      - "**.md"
+      - "**.adoc"
+      - "*.txt"
+      - ".github/workflows/build-pr.yaml"
+      - ".github/workflows/build-tag.yaml"
+      - ".github/workflows/build-it.yaml"
+  workflow_dispatch:
+
+env:
+  LANG: en_US.UTF-8
+  MAVEN_OPTS: -Xmx3000m
+  MAVEN_ARGS: -V -ntp -Dhttp.keepAlive=false -e
+  CONNECTORS_DIR: etc/kubernetes/manifests/base
+
+concurrency:
+  group: ${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v2
+        with:
+          path: cos-fleet-catalog-camel
+
+      - name: "Checkout cos-manifests project"
+        uses: actions/checkout@v2
+        with:
+          repository: bf2fc6cc711aee1a0c2a/cos-manifests
+          token: ${{ secrets.GH_TOKEN }}
+          path: cos-manifests
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      - name: Set versions
+        run: |
+          export C_VERSION="${GITHUB_REF_NAME#v}" 
+          export C_REVISION="${GITHUB_SHA}" 
+          
+          echo "CONNECTORS_VERSION=${C_VERSION}" >> $GITHUB_ENV
+          echo "CONNECTORS_REVISION=${C_REVISION}" >> $GITHUB_ENV
+          echo "CONNECTORS_RELEASE=${C_VERSION}-${C_REVISION}" >> $GITHUB_ENV
+
+      - name: Build Project
+        run: |          
+          cd ${{ env.GITHUB_WORKSPACE }}/cos-fleet-catalog-camel
+          
+          ./mvnw ${MAVEN_ARGS} clean install -U \
+            -Pcontainer-build \
+            -Pcontainer-test \
+            -Dcos.connector.catalog.root=${{ env.GITHUB_WORKSPACE }}/cos-manifests/connectors/cos-fleet-catalog-camel \
+            -Dcos.connector.container.tag=${CONNECTORS_RELEASE} \
+            -Dlog.enabled=true
+
+      - name: Login to Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: quay.io
+          username: ${{ secrets.QUAY_MCI_USR }}
+          password: ${{ secrets.QUAY_MCI_PWD }}
+
+      - name: Push Container Images
+        run: |
+          IMAGES=$(docker image ls --format "{{.Repository}}:{{.Tag}}" | grep quay.io/rhoas/cos-)
+          for IMAGE in ${IMAGES}; do          
+              docker push $IMAGE
+          done
+
+      - name: "Create PR for cos-fleet-catalog-camel"
+        env:
+          BRANCH_NAME: "cos-fleet-catalog-camel.${{ env.CONNECTORS_RELEASE }}"
+          GH_TOKEN: ${{ secrets.token }}
+        run: |
+          echo ""
+          echo "tag      : ${{ github.ref_name }}"
+          echo "version  : ${CONNECTORS_VERSION}"
+          echo "revision : ${CONNECTORS_REVISION}"
+          echo "release  : ${CONNECTORS_RELEASE}"
+          echo "branch   : ${BRANCH_NAME}"
+          echo ""
+                    
+          cd ${{ env.GITHUB_WORKSPACE }}/cos-manifests
+          
+          git config user.email "mas-connectors@redhat.com" 
+          git config user.name "mas-connectors"
+
+          git checkout -b ${BRANCH_NAME}
+          git add ${OVERLAY_PATH}
+          git commit -m "Update cos-fleet-catalog-camel " connectors/cos-fleet-catalog-camel
+          git reset --hard
+          git push -u origin ${BRANCH_NAME}
+
+          # GH CLI can't find the branch on remote... needs some time :)
+          sleep 15
+
+          gh config set prompt disabled
+
+          gh pr create \
+            --fill \
+            --base main \
+            --title "chore(catalog): update cos-fleet-catalog-camel to ${{ env.CONNECTORS_RELEASE }}" \
+            --body "sha: ${{ github.sha }}, tag: ${{ github.ref_name }}"   

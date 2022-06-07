@@ -20,8 +20,28 @@
         <module>cos-connector-camel-serdes</module>
         <module>cos-connector-camel-action-jsonpath</module>
         <module>cos-connector-camel-action-serdes</module>
+        <module>cos-connector-camel-ansible-tower</module>
+        <module>cos-connector-camel-http</module>
+        <module>cos-connector-camel-mongodb</module>
         <module>cos-connector-camel-kafka</module>
+        <module>cos-connector-camel-salesforce</module>
+        <module>cos-connector-camel-slack</module>
+        <module>cos-connector-camel-aws</module>
+        <module>cos-connector-camel-azure</module>
     </modules>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>${project.basedir}/src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>${project.basedir}/src/generated/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
 
 
 </project>

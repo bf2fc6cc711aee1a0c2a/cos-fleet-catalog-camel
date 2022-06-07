@@ -6,13 +6,7 @@ on:
       modules:
         required: true
         type: string
-      containerRepo:
-        required: true
-        type: string
-      containerOrg:
-        required: true
-        type: string
-      containerTag:
+      tag:
         required: true
         type: string
 
@@ -55,10 +49,7 @@ jobs:
           AZURE_SHARED_ACCESS_NAME: ${{ secrets.AZURE_SHARED_ACCESS_NAME }}
         run: |
           ./mvnw ${MAVEN_ARGS} clean install \
-            -Dcos.connector.container.repository=${{ inputs.containerRepo }} \
-            -Dcos.connector.container.organization=${{ inputs.containerOrg }}  \
-            -Dcos.connector.container.tag=${{ inputs.containerTag }} \
-            -Dcos.connector.container.tag.it=${{ inputs.containerTag }} \
+            -Dcos.connector.container.tag=${{ inputs.tag }} \
             -Dlog.enabled=true \
             -Pcontainer-build \
             -Pcontainer-test \

@@ -55,9 +55,7 @@ jobs:
     secrets: inherit
     with:
       modules: ":cos-fleet-catalog-connectors-aws,:cos-fleet-catalog-connectors-aws-it"
-      containerRepo: ttl.sh
-      containerOrg: ${{ github.sha }}
-      containerTag: ${{ github.run_id }}-${{ github.run_attempt }}
+      tag: ${{ github.run_id }}-${{ github.run_attempt }}
 
   azure:
     needs:
@@ -66,9 +64,7 @@ jobs:
     secrets: inherit
     with:
       modules: ":cos-fleet-catalog-connectors-azure,:cos-fleet-catalog-connectors-azure-it"
-      containerRepo: ttl.sh
-      containerOrg: ${{ github.sha }}
-      containerTag: ${{ github.run_id }}-${{ github.run_attempt }}
+      tag: ${{ github.run_id }}-${{ github.run_attempt }}
 
   gcp:
     needs:
@@ -77,9 +73,7 @@ jobs:
     secrets: inherit
     with:
       modules: ":cos-fleet-catalog-connectors-gcp,:cos-fleet-catalog-connectors-gcp-it"
-      containerRepo: ttl.sh
-      containerOrg: ${{ github.sha }}
-      containerTag: ${{ github.run_id }}-${{ github.run_attempt }}
+      tag: ${{ github.run_id }}-${{ github.run_attempt }}
 
   itops:
     needs:
@@ -88,9 +82,7 @@ jobs:
     secrets: inherit
     with:
       modules: ":cos-fleet-catalog-connectors-itops,:cos-fleet-catalog-connectors-itops-it"
-      containerRepo: ttl.sh
-      containerOrg: ${{ github.sha }}
-      containerTag: ${{ github.run_id }}-${{ github.run_attempt }}
+      tag: ${{ github.run_id }}-${{ github.run_attempt }}
 
   messaging:
     needs:
@@ -99,9 +91,7 @@ jobs:
     secrets: inherit
     with:
       modules: ":cos-fleet-catalog-connectors-messaging,:cos-fleet-catalog-connectors-messaging-it"
-      containerRepo: ttl.sh
-      containerOrg: ${{ github.sha }}
-      containerTag: ${{ github.run_id }}-${{ github.run_attempt }}
+      tag: ${{ github.run_id }}-${{ github.run_attempt }}
 
   misc:
     needs:
@@ -110,9 +100,7 @@ jobs:
     secrets: inherit
     with:
       modules: ":cos-fleet-catalog-connectors-misc,:cos-fleet-catalog-connectors-misc-it"
-      containerRepo: ttl.sh
-      containerOrg: ${{ github.sha }}
-      containerTag: ${{ github.run_id }}-${{ github.run_attempt }}
+      tag: ${{ github.run_id }}-${{ github.run_attempt }}
 
   nosql:
     needs:
@@ -121,9 +109,7 @@ jobs:
     secrets: inherit
     with:
       modules: ":cos-fleet-catalog-connectors-nosql,:cos-fleet-catalog-connectors-nosql-it"
-      containerRepo: ttl.sh
-      containerOrg: ${{ github.sha }}
-      containerTag: ${{ github.run_id }}-${{ github.run_attempt }}
+      tag: ${{ github.run_id }}-${{ github.run_attempt }}
 
   saas:
     needs:
@@ -132,9 +118,7 @@ jobs:
     secrets: inherit
     with:
       modules: ":cos-fleet-catalog-connectors-saas,:cos-fleet-catalog-connectors-saas-it"
-      containerRepo: ttl.sh
-      containerOrg: ${{ github.sha }}
-      containerTag: ${{ github.run_id }}-${{ github.run_attempt }}
+      tag: ${{ github.run_id }}-${{ github.run_attempt }}
 
   social:
     needs:
@@ -143,9 +127,7 @@ jobs:
     secrets: inherit
     with:
       modules: ":cos-fleet-catalog-connectors-social,:cos-fleet-catalog-connectors-social-it"
-      containerRepo: ttl.sh
-      containerOrg: ${{ github.sha }}
-      containerTag: ${{ github.run_id }}-${{ github.run_attempt }}
+      tag: ${{ github.run_id }}-${{ github.run_attempt }}
 
   sql:
     needs:
@@ -154,9 +136,7 @@ jobs:
     secrets: inherit
     with:
       modules: ":cos-fleet-catalog-connectors-sql,:cos-fleet-catalog-connectors-sql-it"
-      containerRepo: ttl.sh
-      containerOrg: ${{ github.sha }}
-      containerTag: ${{ github.run_id }}-${{ github.run_attempt }}
+      tag: ${{ github.run_id }}-${{ github.run_attempt }}
 
   storage:
     needs:
@@ -165,6 +145,4 @@ jobs:
     secrets: inherit
     with:
       modules: ":cos-fleet-catalog-connectors-storage,:cos-fleet-catalog-connectors-storage-it"
-      containerRepo: ttl.sh
-      containerOrg: ${{ github.sha }}
-      containerTag: ${{ github.run_id }}-${{ github.run_attempt }}
+      tag: ${{ github.run_id }}-${{ github.run_attempt }}

@@ -19,8 +19,6 @@
 
     <properties>
         <cos.connector.type>cassandra</cos.connector.type>
-        <quarkus.container-image.name>${cos.connector.container.prefix}-${cos.connector.type}</quarkus.container-image.name>
-        <quarkus.container-image.tag>${cos.connector.container.tag}</quarkus.container-image.tag>
         <quarkus.cassandra.health.enabled>false</quarkus.cassandra.health.enabled>
     </properties>
 
@@ -63,10 +61,6 @@
                         </connector>
                     </connectors>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

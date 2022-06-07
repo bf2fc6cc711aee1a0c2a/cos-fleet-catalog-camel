@@ -203,7 +203,9 @@ public class AppBootstrapProvider {
         for (Connector connector : MojoSupport.inject(session, defaults, connectors)) {
             try {
                 connectorsDependecies.addAll(
-                        ConnectorSupport.dependencies(KameletsCatalog.get(project, getLog()), connector,
+                        ConnectorSupport.dependencies(
+                                KameletsCatalog.get(project, getLog()),
+                                connector,
                                 camelQuarkusVersion));
             } catch (Exception e) {
                 throw new MojoExecutionException(e);

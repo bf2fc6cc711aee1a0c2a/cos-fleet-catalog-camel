@@ -54,6 +54,7 @@ abstract class KafkaConnectorSpec extends ConnectorSpecSupport {
                                           Map<String, String> properties,
                                           String dlqKafkaTopic,
                                           boolean simulateError) {
+
         return ConnectorContainer.forDefinition(definition)
                 .withDlqErrorHandler(dlqKafkaTopic, simulateError)
                 .withProperties(properties)

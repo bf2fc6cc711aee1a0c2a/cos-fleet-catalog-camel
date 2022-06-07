@@ -20,7 +20,7 @@ import software.amazon.awssdk.services.sns.SnsClient;
 import software.amazon.awssdk.services.sqs.SqsClient;
 
 public class AWSContainer extends GenericContainer<AWSContainer> {
-    public static final String IMAGE = "localstack/localstack:0.14.2";
+    public static final String IMAGE = "localstack/localstack:1.1.0";
     public static final String CONTAINER_ALIAS = "tc-aws";
     public static final int PORT = 4566;
 

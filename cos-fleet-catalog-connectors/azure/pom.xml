@@ -34,6 +34,13 @@
         </dependencies>
     </dependencyManagement>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.bf2</groupId>
+            <artifactId>cos-connector-azure</artifactId>
+        </dependency>
+    </dependencies>
+
     <modules>
         <module>azure-storage-blob-0.1</module>
         <module>azure-storage-blob-changefeed-0.1</module>
