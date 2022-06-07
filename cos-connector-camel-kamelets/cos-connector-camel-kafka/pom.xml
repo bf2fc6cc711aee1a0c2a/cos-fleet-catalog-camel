@@ -47,6 +47,7 @@
                         <id>generate-type-converter</id>
                         <goals>
                             <goal>jandex</goal>
+                            <goal>generate-configurer</goal>
                             <goal>generate-type-converter-loader</goal>
                         </goals>
                     </execution>

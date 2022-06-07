@@ -46,10 +46,10 @@ jobs:
       - name: "Run"
         run: |
           ./mvnw ${MAVEN_ARGS} clean install \
-            -Dcos.connector.container.repository=${{ inputs.containerRepo }} \
+            -Dcos.connector.container.registry=${{ inputs.containerRepo }} \
             -Dcos.connector.container.organization=${{ inputs.containerOrg }}  \
-            -Dcos.connector.container.tag=${{ inputs.containerTag }} \
             -Dcos.connector.container.tag.it=${{ inputs.containerTag }} \
+            -Dcos.connector.container.additional-tags=${{ inputs.containerTag }} \
             -Dlog.enabled=true \
             -Pcontainer-build \
             -Pcontainer-test \

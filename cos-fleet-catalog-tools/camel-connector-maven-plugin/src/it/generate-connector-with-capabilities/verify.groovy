@@ -9,7 +9,6 @@ def kamelet(String name) {
 
 
 new File(basedir, "connector_source.json").withReader {
-    System.out.println(it)
     def catalog = new groovy.json.JsonSlurper().parse(it)
 
     assert catalog.connector_type.capabilities.contains('processors')

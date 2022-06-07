@@ -133,22 +133,12 @@ public class Connector {
     }
 
     public static class Channel {
-        @Param(defaultValue = "${cos.connector.revision}", required = true)
-        String revision;
-        @Param(defaultValue = "${quarkus.container-image.registry}/${quarkus.container-image.group}/${quarkus.container-image.name}:${quarkus.container-image.tag}", required = true)
         String image;
+
         @Param(defaultValue = "${cos.connector.operator.type}")
         String operatorType;
         @Param(defaultValue = "${cos.connector.operator.version}")
         String operatorVersion;
-
-        public String getRevision() {
-            return revision;
-        }
-
-        public void setRevision(String revision) {
-            this.revision = revision;
-        }
 
         public String getImage() {
             return image;

@@ -15,11 +15,14 @@
     <properties>
         <quarkus.banner.enabled>false</quarkus.banner.enabled>
 
+        <cos.base.container.image.name>registry.access.redhat.com/ubi8/openjdk-11-runtime</cos.base.container.image.name>
+        <cos.base.container.image.digest>sha256:0d2118f19df423b6be16480f0cc286b427d91858247841f2b495239d14bf3488</cos.base.container.image.digest>
+        <cos.base.container.image>${cos.base.container.image.name}@${cos.base.container.image.digest}</cos.base.container.image>
+
         <quarkus.container-image.build>false</quarkus.container-image.build>
         <quarkus.container-image.push>false</quarkus.container-image.push>
-        <quarkus.container-image.registry>${cos.connector.container.repository}</quarkus.container-image.registry>
-        <quarkus.container-image.group>${cos.connector.container.organization}</quarkus.container-image.group>
 
+        <quarkus.jib.base-jvm-image>${cos.base.container.image}</quarkus.jib.base-jvm-image>
         <quarkus.jib.jvm-arguments>-XX:+UseShenandoahGC,-Djava.util.logging.manager=org.jboss.logmanager.LogManager</quarkus.jib.jvm-arguments>
 
         <cos.catalog.validation.mode>FAIL</cos.catalog.validation.mode>
@@ -116,15 +119,6 @@
     </dependencies>
 
     <build>
-        <resources>
-            <resource>
-                <directory>${project.basedir}/src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-            <resource>
-                <directory>${project.basedir}/src/generated/resources</directory>
-            </resource>
-        </resources>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -208,6 +202,13 @@
                             </annotation>
                         </defaultAnnotations>
                     </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.assertj</groupId>
+                            <artifactId>assertj-core</artifactId>
+                            <version>${assertj.version}</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -239,7 +240,8 @@
                                     <resource>
                                         <directory>${cos.catalog.manifests}</directory>
                                         <includes>
-                                            <include>*.json</include>
+                                            <include>*_source_*.json</include>
+                                            <include>*_sink_*.json</include>
                                         </includes>
                                     </resource>
                                 </resources>
@@ -273,6 +275,42 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>enforce-dont-exist</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireFilesDontExist>
+                                    <files>
+                                        <file>${project.basedir}/src/main</file>
+                                    </files>
+                                </requireFilesDontExist>
+                            </rules>
+                            <fail>true</fail>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
@@ -298,7 +336,6 @@
             </activation>
             <properties>
                 <quarkus.container-image.build>true</quarkus.container-image.build>
-                <quarkus.container-image.additional-tags>${git.commit.id}</quarkus.container-image.additional-tags>
             </properties>
             <build>
                 <pluginManagement>
@@ -326,7 +363,6 @@
             </activation>
             <properties>
                 <quarkus.container-image.push>true</quarkus.container-image.push>
-                <quarkus.container-image.additional-tags>${git.commit.id}</quarkus.container-image.additional-tags>
             </properties>
             <build>
                 <pluginManagement>

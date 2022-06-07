@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,9 @@ import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
 import org.bf2.cos.catalog.camel.maven.connector.support.AppBootstrapProvider;
+import org.bf2.cos.catalog.camel.maven.connector.support.Catalog;
 import org.bf2.cos.catalog.camel.maven.connector.support.Connector;
+import org.bf2.cos.catalog.camel.maven.connector.support.Manifest;
 import org.codehaus.plexus.component.annotations.Requirement;
 import org.eclipse.aether.RepositorySystem;
 import org.eclipse.aether.RepositorySystemSession;
@@ -35,6 +38,8 @@ import io.quarkus.bootstrap.app.AugmentAction;
 import io.quarkus.bootstrap.app.AugmentResult;
 import io.quarkus.bootstrap.app.CuratedApplication;
 import io.quarkus.bootstrap.util.IoUtils;
+
+import static org.bf2.cos.catalog.camel.maven.connector.support.CatalogSupport.JSON_MAPPER;
 
 /**
  * Builds the Quarkus application.
@@ -85,6 +90,23 @@ public class GenerateAppMojo extends AbstractMojo {
     private Connector defaults;
     @Parameter
     private List<Connector> connectors;
+    @Parameter(required = true)
+    private Catalog catalog;
+
+    @Parameter(defaultValue = "${project.artifactId}", property = "cos.connector.type")
+    private String type;
+    @Parameter(defaultValue = "${project.version}", property = "cos.connector.version")
+    private String version;
+    @Parameter(defaultValue = "0", property = "cos.connector.initial-revision")
+    private int initialRevision;
+    @Parameter(defaultValue = "cos-connector", property = "cos.connector.container.image-prefix")
+    private String containerImagePrefix;
+    @Parameter(defaultValue = "${project.artifactId}", property = "cos.connector.container.registry")
+    private String containerImageRegistry;
+    @Parameter(defaultValue = "${project.artifactId}", property = "cos.connector.container.organization")
+    private String containerImageOrg;
+    @Parameter(defaultValue = "${git.commit.id}", property = "cos.connector.container.additional-tags")
+    private String containerImageAdditionalTags;
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
@@ -94,19 +116,82 @@ public class GenerateAppMojo extends AbstractMojo {
         }
 
         try {
+            final Path out = Paths.get(catalog.getManifestsPath());
+            final Path file = out.resolve(type.replace("-", "_") + ".json");
+
+            if (!Files.exists(file)) {
+                getLog().warn("Skipping App build as the definition file " + file.getFileName() + " is missing");
+                return;
+            }
+
+            final Manifest manifest = JSON_MAPPER.readValue(file.toFile(), Manifest.class);
+
             Set<String> propertiesToClear = new HashSet<>();
+            propertiesToClear.add("quarkus.container-image.registry");
+            propertiesToClear.add("quarkus.container-image.group");
+            propertiesToClear.add("quarkus.container-image.name");
+            propertiesToClear.add("quarkus.container-image.tag");
+            propertiesToClear.add("quarkus.container-image.additional-tags");
+
+            //
+            // Sanitize system properties
+            //
+
+            if (systemProperties != null) {
+                for (String key : systemProperties.keySet()) {
+                    if (propertiesToClear.contains(key)) {
+                        getLog().warn("Removing system-property " + key);
+                        systemProperties.remove(key);
+                    }
+                }
+            }
+            if (project.getProperties() != null) {
+                for (String key : project.getProperties().stringPropertyNames()) {
+                    if (propertiesToClear.contains(key)) {
+                        getLog().warn("Removing project-property " + key);
+                        project.getProperties().remove(key);
+                    }
+                }
+            }
+
+            //
+            // Set container image related properties
+            //
+
+            // TODO: this should be derived from the manifest
+            System.setProperty("quarkus.container-image.registry", this.containerImageRegistry);
+            System.setProperty("quarkus.container-image.group", this.containerImageOrg);
+            System.setProperty("quarkus.container-image.name", this.containerImagePrefix + "-" + type);
+            System.setProperty("quarkus.container-image.tag", this.version + "." + manifest.getRevision());
+
+            if (containerImageAdditionalTags != null) {
+                System.setProperty("quarkus.container-image.additional-tags", containerImageAdditionalTags);
+            }
 
             if (systemProperties != null) {
                 // Add the system properties of the plugin to the system properties
                 // if and only if they are not already set.
                 for (Map.Entry<String, String> entry : systemProperties.entrySet()) {
                     String key = entry.getKey();
+
                     if (System.getProperty(key) == null) {
                         System.setProperty(key, entry.getValue());
                         propertiesToClear.add(key);
                     }
                 }
             }
+
+            getLog().info("App info:");
+
+            for (String key : System.getProperties().stringPropertyNames()) {
+                if (key.startsWith("quarkus.container-image.")) {
+                    getLog().info("  " + key + ": " + System.getProperties().getProperty(key));
+                }
+            }
+
+            //
+            // Build
+            //
 
             try (CuratedApplication curatedApplication = bootstrapApplication().bootstrapQuarkus().bootstrap()) {
                 AugmentAction action = curatedApplication.createAugmentor();

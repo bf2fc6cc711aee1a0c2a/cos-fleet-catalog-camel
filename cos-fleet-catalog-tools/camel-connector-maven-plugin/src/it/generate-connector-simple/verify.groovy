@@ -13,9 +13,9 @@ new File(basedir, "connector_source.json").withReader {
     def catalog = new groovy.json.JsonSlurper().parse(it)
 
     catalog.channels.stable.shard_metadata.with {
-        assert connector_revision == '1'
+        //assert connector_revision == '1'
         assert connector_type == 'source'
-        assert connector_image == 'registry.io/org.bf2.it/generate-connector-simple:test'
+        assert connector_image == 'quay.io/cos/it-generate-connector-simple:v1.1'
 
         assert operators[0].type == 'camel-connector-operator'
         assert operators[0].version == '[1.0.0,2.0.0)'
@@ -78,9 +78,9 @@ new File(basedir, "connector_sink.json").withReader {
     def catalog = new groovy.json.JsonSlurper().parse(it)
 
     catalog.channels.stable.shard_metadata.with {
-        assert connector_revision == '1'
+        //assert connector_revision == '1'
         assert connector_type == 'sink'
-        assert connector_image == 'registry.io/org.bf2.it/generate-connector-simple:test'
+        assert connector_image == 'quay.io/cos/it-generate-connector-simple:v1.1'
 
         assert operators[0].type == 'camel-connector-operator'
         assert operators[0].version == '[1.0.0,2.0.0)'
