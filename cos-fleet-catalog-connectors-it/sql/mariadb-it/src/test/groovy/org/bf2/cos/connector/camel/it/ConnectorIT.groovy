@@ -37,7 +37,7 @@ class ConnectorIT extends KafkaConnectorSpec {
                 );
             """)
 
-            def topic = UUID.randomUUID().toString()
+            def topic = topic()
             def group = UUID.randomUUID().toString()
 
             def cnt = connectorContainer('mariadb_sink_0.1.json', [

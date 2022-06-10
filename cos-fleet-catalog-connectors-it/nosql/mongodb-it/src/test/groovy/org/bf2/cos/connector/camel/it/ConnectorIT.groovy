@@ -34,7 +34,7 @@ class ConnectorIT extends KafkaConnectorSpec {
             def database = mongoClient.getDatabase("toys")
             def collection = database.getCollection("cards")
 
-            def topic = UUID.randomUUID().toString()
+            def topic = topic()
             def group = UUID.randomUUID().toString()
             def payload = '''{ "value": "4", "suit": "hearts" }'''
 

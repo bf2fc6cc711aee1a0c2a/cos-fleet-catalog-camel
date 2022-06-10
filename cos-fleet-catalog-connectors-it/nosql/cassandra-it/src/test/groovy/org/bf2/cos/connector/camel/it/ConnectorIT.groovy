@@ -52,7 +52,7 @@ class ConnectorIT extends KafkaConnectorSpec {
 
     def "cassandra sink"() {
         setup:
-            def topic = UUID.randomUUID().toString()
+            def topic = topic()
             def group = UUID.randomUUID().toString()
             def payload = '''["ciao"]'''
 
@@ -92,7 +92,7 @@ class ConnectorIT extends KafkaConnectorSpec {
 
     def "cassandra source"() {
         setup:
-        def topic = UUID.randomUUID().toString()
+        def topic = topic()
         def payload = 'ciao'
 
         def cnt = connectorContainer('cassandra_source_0.1.json', [

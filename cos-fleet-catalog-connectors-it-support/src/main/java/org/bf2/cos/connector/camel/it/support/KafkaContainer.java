@@ -33,6 +33,19 @@ public class KafkaContainer extends RedPandaKafkaContainer {
         return super.getOutsideBootstrapServers();
     }
 
+    public void createTopic(String topic) {
+        Properties config = new Properties();
+        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, getBootstrapServers());
+
+        try (AdminClient admin = KafkaAdminClient.create(config)) {
+            if (!admin.listTopics().names().get().contains(topic)) {
+                admin.createTopics(List.of(new NewTopic(topic, 3, (short) 1)));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public RecordMetadata send(String topic, String value) {
         return send(topic, null, value, Map.of());
     }
@@ -53,9 +66,7 @@ public class KafkaContainer extends RedPandaKafkaContainer {
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 
-        try (AdminClient admin = KafkaAdminClient.create(config)) {
-            admin.createTopics(List.of(new NewTopic(topic, 3, (short) 1)));
-        }
+        //createTopic(topic);
 
         try (var kp = new KafkaProducer<String, String>(config)) {
             ProducerRecord<String, String> record = new ProducerRecord<>(topic, key, value);
@@ -70,7 +81,7 @@ public class KafkaContainer extends RedPandaKafkaContainer {
         }
     }
 
-    public ConsumerRecords<String, String> poll(String groupId, String topic) {
+    public KafkaConsumer<String, String> consumer(String groupId, String topic) {
         Properties config = new Properties();
         config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, getBootstrapServers());
         config.put(ConsumerConfig.ALLOW_AUTO_CREATE_TOPICS_CONFIG, true);
@@ -80,18 +91,23 @@ public class KafkaContainer extends RedPandaKafkaContainer {
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, OffsetResetStrategy.EARLIEST.name().toLowerCase(Locale.US));
 
-        try (AdminClient admin = KafkaAdminClient.create(config)) {
-            admin.createTopics(List.of(new NewTopic(topic, 3, (short) 1)));
-        }
+        KafkaConsumer<String, String> kp = new KafkaConsumer<>(config);
+        kp.subscribe(List.of(topic));
 
-        try (var kp = new KafkaConsumer<String, String>(config)) {
-            kp.subscribe(List.of(topic));
+        return kp;
+    }
 
+    public ConsumerRecords<String, String> poll(String groupId, String topic) {
+        try (var kp = consumer(groupId, topic)) {
             var answer = kp.poll(Duration.ofSeconds(30));
-
             kp.commitSync();
-
             return answer;
         }
+    }
+
+    public ConsumerRecords<String, String> poll(KafkaConsumer<String, String> consumer) {
+        var answer = consumer.poll(Duration.ofSeconds(30));
+        consumer.commitSync();
+        return answer;
     }
 }

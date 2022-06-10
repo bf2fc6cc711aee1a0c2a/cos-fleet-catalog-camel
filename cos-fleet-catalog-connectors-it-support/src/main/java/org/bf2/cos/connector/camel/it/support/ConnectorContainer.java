@@ -276,6 +276,8 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
                         }
                     }
 
+                    steps.addObject().with("removeHeader").put("name", "X-Content-Schema");
+                    steps.addObject().with("removeProperty").put("name", "X-Content-Schema");
                     steps.addObject().with("to").put("uri", "log:debug?showAll=true&multiline=true");
 
                     ObjectNode to = steps.addObject().with("to");
