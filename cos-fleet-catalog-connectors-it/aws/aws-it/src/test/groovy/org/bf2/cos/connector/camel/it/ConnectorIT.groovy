@@ -45,7 +45,7 @@ class ConnectorIT extends KafkaConnectorSpec {
 
     def "cw sink"() {
         setup:
-            def topic = UUID.randomUUID().toString()
+            def topic = topic()
             def namespace = 'cw-namespace'
 
             def cnt = connectorContainer('aws_cloudwatch_sink_0.1.json', [
@@ -102,7 +102,7 @@ class ConnectorIT extends KafkaConnectorSpec {
     def "s3 sink"() {
         setup:
             def payload = '''{ "username":"oscerd", "city":"Rome" }'''
-            def topic = UUID.randomUUID().toString()
+            def topic = topic()
             def fileName = 'filetest.txt'
 
             def cnt = connectorContainer('aws_s3_sink_0.1.json', [
@@ -139,7 +139,7 @@ class ConnectorIT extends KafkaConnectorSpec {
     def "s3 source"() {
         setup:
             def payload = '''{ "username":"oscerd", "city":"Rome" }'''
-            def topic = UUID.randomUUID().toString()
+            def topic =topic()
             def fileName = 'filetest.txt'
 
             def cnt = connectorContainer('aws_s3_source_0.1.json', [
@@ -180,7 +180,7 @@ class ConnectorIT extends KafkaConnectorSpec {
     def "sns sink"() {
         setup:
             def payload = '''{ "username":"oscerd", "city":"Rome" }'''
-            def topic = UUID.randomUUID().toString()
+            def topic = topic()
             def sqs = aws.sqs()
             def queueUrl = sqs.createQueue(b -> b.queueName(topic)).queueUrl().replace(AWSContainer.CONTAINER_ALIAS, 'localhost')
 
@@ -229,7 +229,7 @@ class ConnectorIT extends KafkaConnectorSpec {
     def "sqs sink"() {
         setup:
             def payload = '''{ "username":"oscerd", "city":"Rome" }'''
-            def topic = UUID.randomUUID().toString()
+            def topic = topic()
             def sqs = aws.sqs()
             def queueUrl = sqs.createQueue(b -> b.queueName(topic)).queueUrl().replace(AWSContainer.CONTAINER_ALIAS, 'localhost')
 
@@ -265,7 +265,7 @@ class ConnectorIT extends KafkaConnectorSpec {
     def "sqs source"() {
         setup:
             def payload = '''{ "username":"oscerd", "city":"Rome" }'''
-            def topic = UUID.randomUUID().toString()
+            def topic = topic()
             def queueUrl = aws.sqs().createQueue(b -> b.queueName(topic)).queueUrl().replace(AWSContainer.CONTAINER_ALIAS, 'localhost')
 
             def cnt = connectorContainer('aws_sqs_source_0.1.json', [
@@ -309,7 +309,7 @@ class ConnectorIT extends KafkaConnectorSpec {
     def "kinesis sink"() {
         setup:
             def payload = '''{ "username":"oscerd", "city":"Rome" }'''
-            def topic = UUID.randomUUID().toString()
+            def topic = topic()
             def kinesis = aws.kinesis()
 
             kinesis.createStream(b -> b.streamName(topic).shardCount(1))
@@ -354,7 +354,7 @@ class ConnectorIT extends KafkaConnectorSpec {
     def "kinesis source"() {
         setup:
             def payload = '''{ "username":"oscerd", "city":"Rome" }'''
-            def topic = UUID.randomUUID().toString()
+            def topic = topic()
             def kinesis = aws.kinesis()
 
             def cnt = connectorContainer('aws_kinesis_source_0.1.json', [
@@ -403,7 +403,7 @@ class ConnectorIT extends KafkaConnectorSpec {
                 title: 'title'
             ])
 
-            def topic = UUID.randomUUID().toString()
+            def topic = topic()
             def ddb = aws.ddb()
 
             ddb.createTable(b -> {

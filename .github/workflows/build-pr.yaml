@@ -123,7 +123,7 @@ jobs:
       - build
     uses: ./.github/workflows/build-it.yaml
     with:
-      modules: ":cos-fleet-catalog-connectors-social"
+      modules: ":cos-fleet-catalog-connectors-social,:cos-fleet-catalog-connectors-social-it"
       containerRepo: ttl.sh
       containerOrg: ${{ github.sha }}
       containerTag: ${{ github.run_id }}-${{ github.run_attempt }}

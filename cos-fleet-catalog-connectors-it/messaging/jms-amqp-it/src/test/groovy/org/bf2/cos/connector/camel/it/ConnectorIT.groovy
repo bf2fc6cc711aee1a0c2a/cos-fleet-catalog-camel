@@ -47,7 +47,7 @@ class ConnectorIT extends KafkaConnectorSpec {
             Queue queue = session.createQueue("cards")
             MessageConsumer consumer = session.createConsumer(queue)
 
-            def topic = UUID.randomUUID().toString()
+            def topic = topic()
             def group = UUID.randomUUID().toString()
             def payload = '''{ "value": "4", "suit": "hearts" }'''
 

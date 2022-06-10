@@ -34,7 +34,7 @@ class ConnectorIT extends KafkaConnectorSpec {
             sql.execute('CREATE DATABASE cos')
             sql.execute('CREATE TABLE cos.dbo.accounts (username VARCHAR(50) UNIQUE NOT NULL, city VARCHAR(50))')
 
-            def topic = UUID.randomUUID().toString()
+            def topic = topic()
             def group = UUID.randomUUID().toString()
 
             def cnt = connectorContainer('sqlserver_sink_0.1.json', [
