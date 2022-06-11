@@ -1,6 +1,0 @@
-- route:
-    id: binding
-    from:
-      uri: "kamelet:cos-kafka-source/source"
-    steps:
-      - to: "kamelet:cos-log-sink/sink"
