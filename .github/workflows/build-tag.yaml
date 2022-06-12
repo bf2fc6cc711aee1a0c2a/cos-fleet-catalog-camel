@@ -49,7 +49,7 @@ jobs:
 
       - name: Build Catalog Image
         run: |
-          docker build -t "quay.io/rhoas/cos-fleet-catalog-camel:${CONNECTORS_RELEASE}" -f etc/Dockerfile.catalog .
+          docker build -t "quay.io/rhoas/cos-fleet-catalog-camel:${CONNECTORS_RELEASE}" -f etc/Dockerfile.catalog ./etc
 
       - name: List Images
         run: |
