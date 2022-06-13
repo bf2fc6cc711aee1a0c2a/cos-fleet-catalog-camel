@@ -37,7 +37,7 @@
         <commons-text.version>1.9</commons-text.version>
         <strimzi-test-container.version>0.101.0</strimzi-test-container.version>
 
-        <maven.version>3.8.5</maven.version>
+        <maven.version>3.8.6</maven.version>
         <maven-plugin-tools.version>3.6.4</maven-plugin-tools.version>
         <maven-shaded.version>3.2.0</maven-shaded.version>
 
