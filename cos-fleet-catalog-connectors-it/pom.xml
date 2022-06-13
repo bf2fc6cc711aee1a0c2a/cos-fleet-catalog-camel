@@ -50,6 +50,7 @@
 
     <modules>
         <module>aws</module>
+        <module>azure</module>
         <module>misc</module>
         <module>itops</module>
         <module>messaging</module>
