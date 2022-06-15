@@ -1,0 +1,90 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: ansible-job-template-launch-sink
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.group: "IT Ops"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: sink
+spec:
+  definition:
+    title: Ansible Job Template Launch Sink
+    description: Launch a Job Template
+    required:
+      - towerHost
+      - towerBasicAuthUsername
+      - towerBasicAuthPassword
+      - towerJobTemplateId
+    type: object
+    properties:
+      towerHost:
+        title: Ansible Tower Host
+        description: The Ansible Tower Host
+        type: string
+      towerHostInsecure:
+        title: Set whether all server certificates should be trusted
+        description: Set whether all server certificates should be trusted
+        type: boolean
+        default: false
+      towerHostVerify:
+        title: Set whether hostname verification is enabled
+        description: Set whether hostname verification is enabled
+        type: boolean
+        default: true
+      towerJobTemplateId:
+        title: The Job Template ID
+        description: The Job Template ID
+        type: string
+      towerBasicAuthUsername:
+        title: Basic Authentication Username
+        description: Authentication Username
+        type: string
+        x-descriptors:
+          - urn:camel:group:credentials
+      towerBasicAuthPassword:
+        title: Basic Authentication Password
+        description: Basic Authentication Password
+        type: string
+        format: password
+        x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:password
+          - urn:camel:group:credentials
+  types:
+    in:
+      mediaType: application/json
+  dependencies:
+    - "camel:vertx-http"
+    - "camel:kamelet"
+    - "camel:core"
+  template:
+    beans:
+      - name: 'client-options'
+        type: '#class:io.vertx.ext.web.client.WebClientOptions'
+        properties:
+          trustAll: "{{towerHostInsecure}}"
+          verifyHost: "{{towerHostVerify}}"
+          ssl: true
+    from:
+      uri: kamelet:source
+      steps:
+        - removeHeader:
+            name: CamelHttpUri
+        - removeHeaders:
+            pattern: 'kafka.*'
+        - setHeader:
+            name: CamelHttpPath
+            constant: "/api/v2/job_templates/{{towerJobTemplateId}}/launch/"
+        - setHeader:
+            name: CamelHttpMethod
+            constant: "POST"
+        - setHeader:
+            name: "Content-Type"
+            constant: "application/json"
+        - to:
+            uri: "vertx-http:https://{{towerHost}}"
+            parameters:
+              basicAuthUsername: "{{towerBasicAuthUsername}}"
+              basicAuthPassword: "{{towerBasicAuthPassword}}"
+              webClientOptions: '#{{client-options}}'

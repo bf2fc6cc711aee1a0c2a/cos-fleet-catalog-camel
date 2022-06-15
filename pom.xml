@@ -36,6 +36,7 @@
         <json-schema-validator.version>1.0.71</json-schema-validator.version>
         <commons-text.version>1.9</commons-text.version>
         <strimzi-test-container.version>0.101.0</strimzi-test-container.version>
+        <wiremock.version>2.33.2</wiremock.version>
 
         <maven.version>3.8.6</maven.version>
         <maven-plugin-tools.version>3.6.4</maven-plugin-tools.version>
@@ -333,6 +334,19 @@
                 <artifactId>strimzi-test-container</artifactId>
                 <version>${strimzi-test-container.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.github.tomakehurst</groupId>
+                <artifactId>wiremock-jre8</artifactId>
+                <version>${wiremock.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.github.jknack</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
