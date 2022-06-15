@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <parent>
+        <groupId>org.bf2</groupId>
+        <artifactId>cos-fleet-catalog-connectors</artifactId>
+        <version>999-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>cos-fleet-catalog-connectors-itops</artifactId>
+    <packaging>pom</packaging>
+
+    <name>IT Ops Connectors</name>
+    <description>IT Ops Connectors</description>
+
+    <properties>
+        <cos.connector.catalog.group>itops</cos.connector.catalog.group>
+    </properties>
+
+    <modules>
+        <module>ansible-tower-0.1</module>
+    </modules>
+
+</project>

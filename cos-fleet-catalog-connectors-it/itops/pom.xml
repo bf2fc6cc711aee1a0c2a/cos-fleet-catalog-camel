@@ -10,9 +10,10 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>cos-fleet-catalog-connectors-misc-it</artifactId>
+    <artifactId>cos-fleet-catalog-connectors-itops-it</artifactId>
     <packaging>pom</packaging>
 
     <modules>
+        <module>ansible-tower-it</module>
     </modules>
 </project>

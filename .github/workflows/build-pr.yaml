@@ -78,6 +78,16 @@ jobs:
       containerOrg: ${{ github.sha }}
       containerTag: ${{ github.run_id }}-${{ github.run_attempt }}
 
+  itops:
+    needs:
+      - build
+    uses: ./.github/workflows/build-it.yaml
+    with:
+      modules: ":cos-fleet-catalog-connectors-itops,:cos-fleet-catalog-connectors-itops-it"
+      containerRepo: ttl.sh
+      containerOrg: ${{ github.sha }}
+      containerTag: ${{ github.run_id }}-${{ github.run_attempt }}
+
   messaging:
     needs:
       - build
@@ -93,7 +103,7 @@ jobs:
       - build
     uses: ./.github/workflows/build-it.yaml
     with:
-      modules: ":cos-fleet-catalog-connectors-misc"
+      modules: ":cos-fleet-catalog-connectors-misc,:cos-fleet-catalog-connectors-misc-it"
       containerRepo: ttl.sh
       containerOrg: ${{ github.sha }}
       containerTag: ${{ github.run_id }}-${{ github.run_attempt }}
