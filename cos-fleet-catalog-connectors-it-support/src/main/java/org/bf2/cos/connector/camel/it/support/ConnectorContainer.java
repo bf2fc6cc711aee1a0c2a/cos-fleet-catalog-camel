@@ -1,5 +1,6 @@
 package org.bf2.cos.connector.camel.it.support;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -8,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Properties;
+import java.util.TreeMap;
 import java.util.function.Consumer;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -37,6 +40,7 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConnectorContainer.class);
 
     public static final String DEFAULT_APPLICATION_PROPERTIES_LOCATION = "/etc/camel/application.properties";
+    public static final String DEFAULT_USER_PROPERTIES_LOCATION = "/etc/camel/conf.d/user.properties";
     public static final String DEFAULT_ROUTE_LOCATION = "/etc/camel/sources/route.yaml";
 
     public static final String CONTAINER_ALIAS = "tc-connector";
@@ -44,6 +48,7 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
 
     private Consumer<ConnectorContainer> customizer;
     private final List<Pair<String, byte[]>> files;
+    private final Map<String, String> userProperties;
 
     public ConnectorContainer() {
         this(System.getProperty("connector.container.image").trim());
@@ -70,6 +75,7 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
         super(imageName);
 
         this.files = new ArrayList<>();
+        this.userProperties = new TreeMap<>();
 
         withEnv("QUARKUS_LOG_CONSOLE_JSON", "false");
         withEnv("CAMEL_K_MOUNT_PATH_CONFIGMAPS", "/etc/camel/conf.d/_configmaps");
@@ -86,6 +92,21 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
         this.customizer = customizer;
         return self();
 
+    }
+
+    public ConnectorContainer withUserProperties(Map<String, String> properties) {
+        this.userProperties.putAll(properties);
+        return self();
+    }
+
+    public ConnectorContainer withUserProperty(String key, String format, Object... args) {
+        this.userProperties.put(
+                key,
+                args.length == 0
+                        ? format
+                        : String.format(format, args));
+
+        return self();
     }
 
     public ConnectorContainer withFile(String path, InputStream content) throws IOException {
@@ -137,6 +158,21 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
 
         for (Pair<String, byte[]> file : files) {
             copyFileToContainer(Transferable.of(file.getRight()), file.getLeft());
+        }
+
+        try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
+            Properties p = new Properties();
+
+            try (InputStream ip = ConnectorContainer.class.getResourceAsStream("/integration-user.properties")) {
+                p.load(ip);
+            }
+
+            p.putAll(this.userProperties);
+            p.store(os, "user");
+
+            copyFileToContainer(Transferable.of(os.toByteArray()), DEFAULT_USER_PROPERTIES_LOCATION);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -331,7 +367,7 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
 
                     answer.withFile(DEFAULT_ROUTE_LOCATION, routeYaml);
 
-                    try (InputStream ip = ConnectorContainer.class.getResourceAsStream("/connector-container-it.properties")) {
+                    try (InputStream ip = ConnectorContainer.class.getResourceAsStream("/integration-application.properties")) {
                         answer.withFile(DEFAULT_APPLICATION_PROPERTIES_LOCATION, ip);
                     }
                 }
