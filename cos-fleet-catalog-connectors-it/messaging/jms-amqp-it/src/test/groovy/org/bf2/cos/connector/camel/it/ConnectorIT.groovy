@@ -24,7 +24,7 @@ class ConnectorIT extends KafkaConnectorSpec {
 
     @Override
     def setupSpec() {
-        DockerImageName imageName = DockerImageName.parse('quay.io/artemiscloud/activemq-artemis-broker:0.1.4');
+        DockerImageName imageName = DockerImageName.parse('quay.io/artemiscloud/activemq-artemis-broker:1.0.5');
         mq = new GenericContainer(imageName)
         mq.withLogConsumer(logger('tc-activemq'))
         mq.withNetwork(network)
