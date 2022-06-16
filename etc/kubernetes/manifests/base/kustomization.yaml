@@ -39,6 +39,11 @@ configMapGenerator:
   options:
     disableNameSuffixHash: true
 - files:
+  - connectors/connector-catalog-camel-itops/ansible_tower_job_template_launch_sink_0.1.json
+  name: connector-catalog-camel-itops
+  options:
+    disableNameSuffixHash: true
+- files:
   - connectors/connector-catalog-camel-messaging/http_sink_0.1.json
   - connectors/connector-catalog-camel-messaging/jms_amqp_10_sink_0.1.json
   - connectors/connector-catalog-camel-messaging/jms_amqp_10_source_0.1.json
