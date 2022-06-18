@@ -31,7 +31,8 @@
                 <configuration>
                     <defaults>
                         <customizers>
-                            <customizer>${project.basedir}/etc/customizers/patch_properties.groovy</customizer>
+                            <customizer>${project.basedir}/etc/customizers/patch_binary_properties.groovy</customizer>
+                            <customizer>${project.basedir}/etc/customizers/patch_service_account_key.groovy</customizer>
                         </customizers>
                     </defaults>
                     <connectors>

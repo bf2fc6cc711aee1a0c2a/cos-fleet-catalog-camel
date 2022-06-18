@@ -51,10 +51,17 @@
         },
         "gcp_service_account_key" : {
           "title" : "Service Account Key",
-          "description" : "The Service account key that can be used as credentials for the Google Cloud Storage access.",
-          "type" : "string",
           "x-group" : "credentials",
-          "format" : "base64"
+          "oneOf" : [ {
+            "title" : "Service Account Key",
+            "description" : "The Service account key that can be used as credentials for the Google Cloud Storage access.",
+            "type" : "string",
+            "format" : "password"
+          }, {
+            "description" : "An opaque reference to the aws_access_key",
+            "type" : "object",
+            "additionalProperties" : false
+          } ]
         },
         "gcp_delete_after_read" : {
           "title" : "Auto-delete Objects",
