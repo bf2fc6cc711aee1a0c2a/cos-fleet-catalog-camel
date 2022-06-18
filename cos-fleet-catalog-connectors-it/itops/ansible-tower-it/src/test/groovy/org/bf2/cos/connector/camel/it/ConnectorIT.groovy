@@ -72,7 +72,7 @@ class ConnectorIT extends KafkaConnectorSpec {
             WireMock.configureFor(SCHEME, mock.getHost(), mock.getMappedPort(PORT))
             WireMock.stubFor(request.willReturn(response));
 
-            def topic = UUID.randomUUID().toString()
+            def topic = topic()
             def group = UUID.randomUUID().toString()
             def payload = '''{ "value": "4", "suit": "hearts" }'''
 
