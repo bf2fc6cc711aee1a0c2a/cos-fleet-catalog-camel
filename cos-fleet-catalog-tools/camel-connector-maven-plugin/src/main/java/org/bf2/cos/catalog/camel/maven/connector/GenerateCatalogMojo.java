@@ -412,6 +412,7 @@ public class GenerateCatalogMojo extends AbstractMojo {
                 ClassLoader cl = Thread.currentThread().getContextClassLoader();
 
                 Binding binding = new Binding();
+                binding.setProperty("mapper", JSON_MAPPER);
                 binding.setProperty("log", getLog());
                 binding.setProperty("connector", connector);
                 binding.setProperty("definition", def);
