@@ -22,9 +22,6 @@
     <modules>
         <module>jira-0.1</module>
         <module>salesforce-0.1</module>
-        <module>salesforce-create-0.1</module>
-        <module>salesforce-update-0.1</module>
-        <module>salesforce-delete-0.1</module>
     </modules>
 
 </project>

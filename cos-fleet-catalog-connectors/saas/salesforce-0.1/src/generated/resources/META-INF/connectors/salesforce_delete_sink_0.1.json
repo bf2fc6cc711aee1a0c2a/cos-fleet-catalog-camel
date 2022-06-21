@@ -7,14 +7,14 @@
           "trait.camel.apache.org/container.request-memory" : "128m",
           "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
         },
-        "connector_image" : "quay.io/rhoas/cos-connector-salesforce-update:0.1.30",
+        "connector_image" : "quay.io/rhoas/cos-connector-salesforce:0.1.30",
         "connector_revision" : "30",
         "connector_type" : "sink",
         "consumes" : "application/json",
         "error_handler_strategy" : "stop",
         "kamelets" : {
           "adapter" : {
-            "name" : "salesforce-update-sink",
+            "name" : "salesforce-delete-sink",
             "prefix" : "salesforce"
           },
           "kafka" : {
@@ -33,28 +33,17 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "Salesforce Update sink",
+    "description" : "Salesforce Delete sink",
     "icon_href" : "TODO",
-    "id" : "salesforce_update_sink_0.1",
+    "id" : "salesforce_delete_sink_0.1",
     "kind" : "ConnectorType",
     "labels" : [ "sink" ],
-    "name" : "Salesforce Update sink",
+    "name" : "Salesforce Delete sink",
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,
-      "required" : [ "salesforce_s_object_name", "salesforce_s_object_id", "salesforce_client_id", "salesforce_client_secret", "salesforce_user_name", "salesforce_password", "kafka_topic" ],
+      "required" : [ "salesforce_client_id", "salesforce_client_secret", "salesforce_user_name", "salesforce_password", "kafka_topic" ],
       "properties" : {
-        "salesforce_s_object_name" : {
-          "title" : "Object Name",
-          "description" : "Type of the object. Only required if using key-value pair.",
-          "type" : "string",
-          "example" : "Contact"
-        },
-        "salesforce_s_object_id" : {
-          "title" : "Object Id",
-          "description" : "Id of the object. Only required if using key-value pair.",
-          "type" : "string"
-        },
         "salesforce_login_url" : {
           "title" : "Login URL",
           "description" : "The Salesforce instance login URL",

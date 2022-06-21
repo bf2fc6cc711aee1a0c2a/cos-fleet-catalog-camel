@@ -55,10 +55,12 @@
                 <artifactId>camel-connector-maven-plugin</artifactId>
                 <configuration>
                     <connectors>
+
+                        <!-- Salesforce Streaming Source -->
                         <connector>
                             <name>${cos.connector.type}-streaming-source-${cos.connector.version}</name>
-                            <title>${project.name} source</title>
-                            <description>${project.description} source</description>
+                            <title>${project.name} Streaming source</title>
+                            <description>${project.description} Streaming source</description>
                             <adapter>
                                 <prefix>salesforce</prefix>
                                 <name>cos-${cos.connector.type}-streaming-source</name>
@@ -77,6 +79,58 @@
                                 </produces>
                             </dataShape>
                         </connector>
+
+                        <!-- Salesforce Create -->
+                        <connector>
+                            <name>${cos.connector.type}-create-sink-${cos.connector.version}</name>
+                            <title>${project.name} Create sink</title>
+                            <description>${project.description} Create sink</description>
+                            <adapter>
+                                <prefix>salesforce</prefix>
+                                <name>${cos.connector.type}-create-sink</name>
+                                <version>${camel-kamelets-catalog.version}</version>
+                            </adapter>
+                            <kafka>
+                                <prefix>kafka</prefix>
+                                <name>cos-kafka-source</name>
+                                <version>${cos.kamelets.version}</version>
+                            </kafka>
+                        </connector>
+
+                        <!-- Salesforce Delete -->
+                        <connector>
+                            <name>${cos.connector.type}-delete-sink-${cos.connector.version}</name>
+                            <title>${project.name} Delete sink</title>
+                            <description>${project.description} Delete sink</description>
+                            <adapter>
+                                <prefix>salesforce</prefix>
+                                <name>${cos.connector.type}-delete-sink</name>
+                                <version>${camel-kamelets-catalog.version}</version>
+                            </adapter>
+                            <kafka>
+                                <prefix>kafka</prefix>
+                                <name>cos-kafka-source</name>
+                                <version>${cos.kamelets.version}</version>
+                            </kafka>
+                        </connector>
+
+                        <!-- Salesforce Update -->
+                        <connector>
+                            <name>${cos.connector.type}-update-sink-${cos.connector.version}</name>
+                            <title>${project.name} Update sink</title>
+                            <description>${project.description} Update sink</description>
+                            <adapter>
+                                <prefix>salesforce</prefix>
+                                <name>${cos.connector.type}-update-sink</name>
+                                <version>${camel-kamelets-catalog.version}</version>
+                            </adapter>
+                            <kafka>
+                                <prefix>kafka</prefix>
+                                <name>cos-kafka-source</name>
+                                <version>${cos.kamelets.version}</version>
+                            </kafka>
+                        </connector>
+
                     </connectors>
                 </configuration>
             </plugin>
