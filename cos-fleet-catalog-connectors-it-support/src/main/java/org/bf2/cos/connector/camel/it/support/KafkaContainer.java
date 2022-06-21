@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
 
+import groovy.util.logging.Slf4j;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.KafkaAdminClient;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -22,6 +23,7 @@ import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 
+@Slf4j
 public class KafkaContainer extends RedPandaKafkaContainer {
     @Override
     public String getBootstrapServers() {
@@ -75,7 +77,10 @@ public class KafkaContainer extends RedPandaKafkaContainer {
                 record.headers().add(k, v.getBytes(StandardCharsets.UTF_8));
             });
 
-            return kp.send(record).get();
+            logger().info("Sending message to Kafka | Topic {} | Key: {} | Value: {}}", topic, key, value);
+            RecordMetadata recordMetadata = kp.send(record).get();
+            logger().info("Message sent to Kafka | Topic {} | Key: {} | Value: {}}", topic, key, value);
+            return recordMetadata;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -99,8 +104,10 @@ public class KafkaContainer extends RedPandaKafkaContainer {
 
     public ConsumerRecords<String, String> poll(String groupId, String topic) {
         try (var kp = consumer(groupId, topic)) {
+            logger().info("Polling message from Kafka | GroupId {} | Topic: {}", groupId, topic);
             var answer = kp.poll(Duration.ofSeconds(30));
             kp.commitSync();
+            logger().info("Message polled from Kafka | GroupId {} | Topic: {}", groupId, topic);
             return answer;
         }
     }
