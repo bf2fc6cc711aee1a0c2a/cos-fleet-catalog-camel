@@ -63,7 +63,7 @@ jobs:
       - build
     uses: ./.github/workflows/build-it.yaml
     with:
-      modules: ":cos-fleet-catalog-connectors-azure"
+      modules: ":cos-fleet-catalog-connectors-azure,:cos-fleet-catalog-connectors-azure-it"
       containerRepo: ttl.sh
       containerOrg: ${{ github.sha }}
       containerTag: ${{ github.run_id }}-${{ github.run_attempt }}
