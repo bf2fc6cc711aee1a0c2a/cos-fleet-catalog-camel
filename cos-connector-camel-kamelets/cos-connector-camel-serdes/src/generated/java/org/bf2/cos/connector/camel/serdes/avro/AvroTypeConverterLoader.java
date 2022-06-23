@@ -41,16 +41,12 @@ public final class AvroTypeConverterLoader implements TypeConverterLoader, Camel
     }
 
     private void registerConverters(TypeConverterRegistry registry) {
-        addTypeConverter(registry, com.fasterxml.jackson.dataformat.avro.AvroSchema.class, com.fasterxml.jackson.databind.JsonNode.class, false,
-            (type, exchange, value) -> org.bf2.cos.connector.camel.serdes.avro.AvroTypeConverter.toAvroSchema((com.fasterxml.jackson.databind.JsonNode) value));
         addTypeConverter(registry, com.fasterxml.jackson.dataformat.avro.AvroSchema.class, java.io.InputStream.class, false,
             (type, exchange, value) -> org.bf2.cos.connector.camel.serdes.avro.AvroTypeConverter.toAvroSchema((java.io.InputStream) value));
         addTypeConverter(registry, com.fasterxml.jackson.dataformat.avro.AvroSchema.class, java.lang.String.class, false,
             (type, exchange, value) -> org.bf2.cos.connector.camel.serdes.avro.AvroTypeConverter.toAvroSchema((java.lang.String) value));
         addTypeConverter(registry, java.lang.String.class, com.fasterxml.jackson.dataformat.avro.AvroSchema.class, false,
             (type, exchange, value) -> org.bf2.cos.connector.camel.serdes.avro.AvroTypeConverter.toString((com.fasterxml.jackson.dataformat.avro.AvroSchema) value));
-        addTypeConverter(registry, org.apache.avro.Schema.class, com.fasterxml.jackson.databind.JsonNode.class, false,
-            (type, exchange, value) -> org.bf2.cos.connector.camel.serdes.avro.AvroTypeConverter.toSchema((com.fasterxml.jackson.databind.JsonNode) value));
         addTypeConverter(registry, org.apache.avro.Schema.class, java.io.InputStream.class, false,
             (type, exchange, value) -> org.bf2.cos.connector.camel.serdes.avro.AvroTypeConverter.toSchema((java.io.InputStream) value));
         addTypeConverter(registry, org.apache.avro.Schema.class, java.lang.String.class, false,

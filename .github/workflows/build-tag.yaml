@@ -37,28 +37,6 @@ jobs:
           echo "CONNECTORS_REVISION=${C_REVISION}" >> $GITHUB_ENV
           echo "CONNECTORS_RELEASE=${C_VERSION}-${C_REVISION}" >> $GITHUB_ENV
 
-      - name: Build Connector Images
-        run: |
-          ./mvnw ${MAVEN_ARGS} clean install \
-            -Dcos.connector.container.tag="${CONNECTORS_RELEASE}" \
-            -Pcontainer-build
-
-      - name: Regen
-        run: |
-          ./gen_manifests.sh
-
-      - name: Build Catalog Image
-        run: |
-          docker build -t "quay.io/rhoas/cos-fleet-catalog-camel:${CONNECTORS_RELEASE}" -f etc/Dockerfile.catalog ./etc
-
-      - name: List Images
-        run: |
-          docker image ls --format "{{.Repository}}:{{.Tag}}" | grep quay.io/rhoas/cos-
-
-      - name: Regen
-        run: |
-          ./gen_manifests.sh
-
       - name: Login to Container Registry
         uses: docker/login-action@v1
         with:
@@ -66,12 +44,26 @@ jobs:
           username: ${{ secrets.QUAY_MCI_USR }}
           password: ${{ secrets.QUAY_MCI_PWD }}
 
-      - name: Push Images
+      - name: Set SHA
         run: |
-          IMAGES=$(docker image ls --format "{{.Repository}}:{{.Tag}}" | grep quay.io/rhoas/cos-)
-          for IMAGE in ${IMAGES}; do
-              docker push $IMAGE
+          for F in $(find etc/kubernetes/manifests/base/connectors -type f -name "*.json"); do
+            IMAGE=$(jq -r '.channels.stable.shard_metadata.connector_image' "$F")
+            NEW_IMAGE=$(skopeo inspect docker://$IMAGE --format "{{.Name}}@{{.Digest}}")
+        
+            echo "$IMAGE"
+            echo "$NEW_IMAGE"
+        
+            jq --arg img "$NEW_IMAGE" '.channels.stable.shard_metadata.connector_image = ($img)' "$F" > "${F}.tmp"
+            mv "${F}.tmp" "$F"
           done
+
+      - name: Build Catalog Image
+        run: |
+          docker build -t "quay.io/rhoas/cos-fleet-catalog-camel:${CONNECTORS_RELEASE}" -f etc/Dockerfile.catalog .
+
+      - name: Push Catalog Images
+        run: |
+          docker push "quay.io/rhoas/cos-fleet-catalog-camel:${CONNECTORS_RELEASE}"
 
       - name: "Create Release Branch for tag {{ github.ref_name }}"
         env:

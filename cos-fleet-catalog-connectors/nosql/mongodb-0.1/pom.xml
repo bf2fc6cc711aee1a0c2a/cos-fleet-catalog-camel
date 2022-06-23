@@ -19,44 +19,17 @@
 
     <properties>
         <cos.connector.type>mongodb</cos.connector.type>
-        <quarkus.container-image.name>${cos.connector.container.prefix}-${cos.connector.type}</quarkus.container-image.name>
-        <quarkus.container-image.tag>${cos.connector.container.tag}</quarkus.container-image.tag>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.camel.quarkus</groupId>
-            <artifactId>camel-quarkus-mongodb</artifactId>
+            <groupId>org.bf2</groupId>
+            <artifactId>cos-connector-mongodb</artifactId>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.camel</groupId>
-                <artifactId>camel-package-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>generate-type-converter</id>
-                        <goals>
-                            <goal>jandex</goal>
-                            <goal>generate-type-converter-loader</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.bf2</groupId>
                 <artifactId>camel-connector-maven-plugin</artifactId>

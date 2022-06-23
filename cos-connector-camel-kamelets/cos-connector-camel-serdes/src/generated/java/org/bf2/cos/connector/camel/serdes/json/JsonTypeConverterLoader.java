@@ -41,10 +41,6 @@ public final class JsonTypeConverterLoader implements TypeConverterLoader, Camel
     }
 
     private void registerConverters(TypeConverterRegistry registry) {
-        addTypeConverter(registry, com.fasterxml.jackson.databind.JsonNode.class, com.fasterxml.jackson.dataformat.avro.AvroSchema.class, false,
-            (type, exchange, value) -> getJsonTypeConverter().asJsonSchema((com.fasterxml.jackson.dataformat.avro.AvroSchema) value));
-        addTypeConverter(registry, com.fasterxml.jackson.databind.JsonNode.class, org.apache.avro.Schema.class, false,
-            (type, exchange, value) -> getJsonTypeConverter().asJsonSchema((org.apache.avro.Schema) value));
         addTypeConverter(registry, org.bf2.cos.connector.camel.serdes.json.JsonFormatSchema.class, com.fasterxml.jackson.databind.JsonNode.class, false,
             (type, exchange, value) -> getJsonTypeConverter().asJsonFormatSchema((com.fasterxml.jackson.databind.JsonNode) value));
         addTypeConverter(registry, org.bf2.cos.connector.camel.serdes.json.JsonFormatSchema.class, java.lang.String.class, false,
