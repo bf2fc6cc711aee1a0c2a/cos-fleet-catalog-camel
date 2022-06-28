@@ -13,7 +13,7 @@ new File(basedir, "connector_source.json").withReader {
     def catalog = new groovy.json.JsonSlurper().parse(it)
 
     catalog.channels.stable.shard_metadata.with {
-        assert connector_revision == '1'
+        assert connector_revision == 1
         assert connector_type == 'source'
         assert connector_image == 'registry.io/org.bf2.it/generate-connector-simple:test'
 
@@ -78,7 +78,7 @@ new File(basedir, "connector_sink.json").withReader {
     def catalog = new groovy.json.JsonSlurper().parse(it)
 
     catalog.channels.stable.shard_metadata.with {
-        assert connector_revision == '1'
+        assert connector_revision == 1
         assert connector_type == 'sink'
         assert connector_image == 'registry.io/org.bf2.it/generate-connector-simple:test'
 
