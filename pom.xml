@@ -35,7 +35,7 @@
         <rest-assured.version>5.1.1</rest-assured.version>
         <json-schema-validator.version>1.0.71</json-schema-validator.version>
         <commons-text.version>1.9</commons-text.version>
-        <strimzi-test-container.version>0.101.0</strimzi-test-container.version>
+        <strimzi-test-container.version>0.102.0</strimzi-test-container.version>
         <wiremock.version>2.33.2</wiremock.version>
 
         <maven.version>3.8.6</maven.version>
