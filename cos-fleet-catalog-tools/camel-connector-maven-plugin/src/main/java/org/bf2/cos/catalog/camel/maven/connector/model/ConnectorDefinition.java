@@ -167,7 +167,7 @@ public class ConnectorDefinition {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public static final class Metadata {
         @JsonProperty("connector_revision")
-        private String connectorRevision;
+        private int connectorRevision;
 
         @JsonProperty("connector_type")
         private String connectorType;
@@ -199,11 +199,11 @@ public class ConnectorDefinition {
         @JsonProperty("error_handler_strategy")
         private String errorHandlerStrategy;
 
-        public String getConnectorRevision() {
+        public int getConnectorRevision() {
             return connectorRevision;
         }
 
-        public void setConnectorRevision(String connectorRevision) {
+        public void setConnectorRevision(int connectorRevision) {
             this.connectorRevision = connectorRevision;
         }
 

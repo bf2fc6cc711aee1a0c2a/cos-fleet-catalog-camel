@@ -307,7 +307,7 @@ public class GenerateCatalogMojo extends AbstractMojo {
                                 ch.getValue().getRevision());
                     }
 
-                    metadata.setConnectorRevision(ch.getValue().getRevision());
+                    metadata.setConnectorRevision(Integer.parseInt(ch.getValue().getRevision()));
                     metadata.setConnectorType(type);
                     metadata.setConnectorImage(image);
 
