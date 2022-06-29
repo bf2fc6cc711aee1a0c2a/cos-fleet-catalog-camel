@@ -33,7 +33,7 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "Azure Blob Storage source",
+    "description" : "Consume files from Azure Storage Blob.",
     "icon_href" : "TODO",
     "id" : "azure_storage_blob_source_0.1",
     "kind" : "ConnectorType",
@@ -46,7 +46,7 @@
       "properties" : {
         "azure_period" : {
           "title" : "Period between Polls",
-          "description" : "The interval between fetches to the Azure Storage Container in milliseconds",
+          "description" : "The interval (in milliseconds) between fetches to the Azure Storage Container.",
           "type" : "integer",
           "default" : 10000
         },
@@ -66,18 +66,18 @@
           "x-group" : "credentials",
           "oneOf" : [ {
             "title" : "Access Key",
-            "description" : "The Azure Storage Blob access Key.",
+            "description" : "The Azure Storage Blob access key.",
             "type" : "string",
             "format" : "password"
           }, {
-            "description" : "An opaque reference to the azure_access_key",
+            "description" : "An opaque reference to the azure_access_key.",
             "type" : "object",
             "properties" : { }
           } ]
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {
@@ -157,7 +157,7 @@
               "topic" : {
                 "type" : "string",
                 "title" : "Dead Letter Topic Name",
-                "description" : "The name of the Kafka topic used as dead letter queue"
+                "description" : "The name of the Kafka topic to use as the dead letter queue."
               }
             }
           }

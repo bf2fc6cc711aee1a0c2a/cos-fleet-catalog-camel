@@ -33,7 +33,7 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "Elasticsearch sink",
+    "description" : "Stores JSON-formatted data into ElasticSearch.",
     "icon_href" : "TODO",
     "id" : "elasticsearch_sink_0.1",
     "kind" : "ConnectorType",
@@ -46,7 +46,7 @@
       "properties" : {
         "elasticsearch_user" : {
           "title" : "Username",
-          "description" : "Username to connect to ElasticSearch.",
+          "description" : "The username for connecting to ElasticSearch.",
           "type" : "string",
           "x-group" : "credentials"
         },
@@ -55,30 +55,30 @@
           "x-group" : "credentials",
           "oneOf" : [ {
             "title" : "Password",
-            "description" : "Password to connect to ElasticSearch.",
+            "description" : "The password for connecting to ElasticSearch.",
             "type" : "string",
             "format" : "password"
           }, {
-            "description" : "An opaque reference to the elasticsearch_password",
+            "description" : "An opaque reference to the elasticsearch_password.",
             "type" : "object",
             "properties" : { }
           } ]
         },
         "elasticsearch_enable_s_s_l" : {
           "title" : "Enable SSL",
-          "description" : "Do we want to connect using SSL?",
+          "description" : "Specfies to use SSL to connect to ElasticSearch.",
           "type" : "boolean",
           "default" : true
         },
         "elasticsearch_host_addresses" : {
           "title" : "Host Addresses",
-          "description" : "Comma separated list with ip:port formatted remote transport addresses to use.",
+          "description" : "A comma separated list of remote transport addresses in ip:port format."
           "type" : "string",
           "example" : "quickstart-es-http:9200"
         },
         "elasticsearch_cluster_name" : {
           "title" : "ElasticSearch Cluster Name",
-          "description" : "Name of the cluster.",
+          "description" : "The name of the ElasticSearch cluster.",
           "type" : "string",
           "example" : "quickstart"
         },
@@ -90,7 +90,7 @@
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {
@@ -170,7 +170,7 @@
               "topic" : {
                 "type" : "string",
                 "title" : "Dead Letter Topic Name",
-                "description" : "The name of the Kafka topic used as dead letter queue"
+                "description" : "The name of the Kafka topic to use as the dead letter queue."
               }
             }
           }

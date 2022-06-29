@@ -46,7 +46,7 @@
       "properties" : {
         "mongodb_hosts" : {
           "title" : "MongoDB Hosts",
-          "description" : "Comma separated list of MongoDB Host Addresses in host:port format.",
+          "description" : "A comma separated list of MongoDB Host Addresses in host:port format.",
           "type" : "string"
         },
         "mongodb_collection" : {
@@ -92,7 +92,7 @@
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {
@@ -172,7 +172,7 @@
               "topic" : {
                 "type" : "string",
                 "title" : "Dead Letter Topic Name",
-                "description" : "The name of the Kafka topic used as dead letter queue"
+                "description" : "The name of the Kafka topic to use as the dead letter queue."
               }
             }
           }

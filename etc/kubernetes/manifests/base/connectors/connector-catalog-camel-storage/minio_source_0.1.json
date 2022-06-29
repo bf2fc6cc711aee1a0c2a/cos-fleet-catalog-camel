@@ -33,7 +33,7 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "MinIO source",
+    "description" : "Retrieve data from MinIO.",
     "icon_href" : "TODO",
     "id" : "minio_source_0.1",
     "kind" : "ConnectorType",
@@ -46,12 +46,12 @@
       "properties" : {
         "minio_bucket_name" : {
           "title" : "Bucket Name",
-          "description" : "The Minio Bucket name",
+          "description" : "The MinIO Bucket name.",
           "type" : "string"
         },
         "minio_delete_after_read" : {
           "title" : "Auto-delete Objects",
-          "description" : "Delete objects after consuming them",
+          "description" : "Specifies to delete objects after consuming them.",
           "type" : "boolean",
           "default" : true
         },
@@ -60,11 +60,11 @@
           "x-group" : "credentials",
           "oneOf" : [ {
             "title" : "Access Key",
-            "description" : "The access key obtained from Minio",
+            "description" : "The access key obtained from MinIO.",
             "type" : "string",
             "format" : "password"
           }, {
-            "description" : "An opaque reference to the minio_access_key",
+            "description" : "An opaque reference to the minio_access_key.",
             "type" : "object",
             "properties" : { }
           } ]
@@ -74,30 +74,30 @@
           "x-group" : "credentials",
           "oneOf" : [ {
             "title" : "Secret Key",
-            "description" : "The secret key obtained from Minio",
+            "description" : "The secret key obtained from MinIO.",
             "type" : "string",
             "format" : "password"
           }, {
-            "description" : "An opaque reference to the minio_secret_key",
+            "description" : "An opaque reference to the minio_secret_key.",
             "type" : "object",
             "properties" : { }
           } ]
         },
         "minio_endpoint" : {
           "title" : "Endpoint",
-          "description" : "The Minio Endpoint, it can be an URL, domain name, IPv4 address or IPv6 address.",
+          "description" : "The MinIO Endpoint. Use one of the following values: URL, domain name, IPv4 address, or IPv6 address.",
           "type" : "string",
           "example" : "http://localhost:9000"
         },
         "minio_auto_create_bucket" : {
           "title" : "Autocreate Bucket",
-          "description" : "Setting the autocreation of the Minio bucket bucketName.",
+          "description" : "Specifies to automatically create the MinIO bucket.",
           "type" : "boolean",
           "default" : false
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {
@@ -177,7 +177,7 @@
               "topic" : {
                 "type" : "string",
                 "title" : "Dead Letter Topic Name",
-                "description" : "The name of the Kafka topic used as dead letter queue"
+                "description" : "The name of the Kafka topic to use as the dead letter queue."
               }
             }
           }

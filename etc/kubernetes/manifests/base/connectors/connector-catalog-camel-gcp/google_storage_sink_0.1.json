@@ -33,7 +33,7 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "Google Cloud Storage sink",
+    "description" : "Upload Objects to Google Cloud Storage.",
     "icon_href" : "TODO",
     "id" : "google_storage_sink_0.1",
     "kind" : "ConnectorType",
@@ -46,25 +46,26 @@
       "properties" : {
         "gcp_bucket_name_or_arn" : {
           "title" : "Bucket Name Or ARN",
-          "description" : "The Bucket Name or Bucket ARN",
+          "description" : "The Bucket Name or Bucket Amazon Resource Name (ARN)."",
           "type" : "string"
         },
         "gcp_service_account_key" : {
           "title" : "Service Account Key",
-          "description" : "The Service account key that can be used as credentials for the Google Cloud Storage access.",
+          "description" : "The Service account key to use as credentials for accessing Google Cloud Storage.
+          You must encode this value in base64.",
           "type" : "string",
           "x-group" : "credentials",
           "format" : "base64"
         },
         "gcp_auto_create_bucket" : {
           "title" : "Autocreate Bucket",
-          "description" : "Setting the autocreation of the Google Cloud Storage bucket bucketNameOrArn.",
+          "description" : "Select to automatically create the Google Cloud Storage bucket.",
           "type" : "boolean",
           "default" : false
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {
@@ -144,7 +145,7 @@
               "topic" : {
                 "type" : "string",
                 "title" : "Dead Letter Topic Name",
-                "description" : "The name of the Kafka topic used as dead letter queue"
+                "description" : "The name of the Kafka topic to use as the dead letter queue."
               }
             }
           }

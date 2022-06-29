@@ -33,7 +33,7 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "Data Generator source",
+    "description" : "A Data Generator (for development and testing purposes).",
     "icon_href" : "TODO",
     "id" : "data_generator_0.1",
     "kind" : "ConnectorType",
@@ -46,25 +46,25 @@
       "properties" : {
         "timer_period" : {
           "title" : "Period",
-          "description" : "The interval between two events in milliseconds",
+          "description" : "The interval (in milliseconds) between two messages.",
           "type" : "integer",
           "default" : 1000
         },
         "timer_message" : {
           "title" : "Message",
-          "description" : "The message to generate",
+          "description" : "The message to generate.",
           "type" : "string",
           "example" : "hello world"
         },
         "timer_content_type" : {
           "title" : "Content Type",
-          "description" : "The content type of the message being generated",
+          "description" : "The content type of the message being generated.",
           "type" : "string",
           "default" : "text/plain"
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {
@@ -144,7 +144,7 @@
               "topic" : {
                 "type" : "string",
                 "title" : "Dead Letter Topic Name",
-                "description" : "The name of the Kafka topic used as dead letter queue"
+                "description" : "The name of the Kafka topic to use as the dead letter queue."
               }
             }
           }

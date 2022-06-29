@@ -33,7 +33,7 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "Salesforce Create sink",
+    "description" : "Create an object in Salesforce.",
     "icon_href" : "TODO",
     "id" : "salesforce_create_sink_0.1",
     "kind" : "ConnectorType",
@@ -46,19 +46,19 @@
       "properties" : {
         "salesforce_s_object_name" : {
           "title" : "Object Name",
-          "description" : "Type of the object",
+          "description" : "Type of the object.",
           "type" : "string",
           "example" : "Contact"
         },
         "salesforce_login_url" : {
           "title" : "Login URL",
-          "description" : "The Salesforce instance login URL",
+          "description" : "The Salesforce instance login URL.",
           "type" : "string",
           "default" : "https://login.salesforce.com"
         },
         "salesforce_client_id" : {
           "title" : "Consumer Key",
-          "description" : "The Salesforce application consumer key",
+          "description" : "The Salesforce application consumer key.",
           "type" : "string",
           "x-group" : "credentials"
         },
@@ -67,18 +67,18 @@
           "x-group" : "credentials",
           "oneOf" : [ {
             "title" : "Consumer Secret",
-            "description" : "The Salesforce application consumer secret",
+            "description" : "The Salesforce application consumer secret.",
             "type" : "string",
             "format" : "password"
           }, {
-            "description" : "An opaque reference to the salesforce_client_secret",
+            "description" : "An opaque reference to the salesforce_client_secret.",
             "type" : "object",
             "properties" : { }
           } ]
         },
         "salesforce_user_name" : {
           "title" : "Username",
-          "description" : "The Salesforce username",
+          "description" : "The username to access Salesforce.",
           "type" : "string",
           "x-group" : "credentials"
         },
@@ -87,18 +87,18 @@
           "x-group" : "credentials",
           "oneOf" : [ {
             "title" : "Password",
-            "description" : "The Salesforce user password",
+            "description" : "The user password to access Salesforce.",
             "type" : "string",
             "format" : "password"
           }, {
-            "description" : "An opaque reference to the salesforce_password",
+            "description" : "An opaque reference to the salesforce_password.",
             "type" : "object",
             "properties" : { }
           } ]
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {
@@ -178,7 +178,7 @@
               "topic" : {
                 "type" : "string",
                 "title" : "Dead Letter Topic Name",
-                "description" : "The name of the Kafka topic used as dead letter queue"
+                "description" : "The name of the Kafka topic to use as the dead letter queue."
               }
             }
           }

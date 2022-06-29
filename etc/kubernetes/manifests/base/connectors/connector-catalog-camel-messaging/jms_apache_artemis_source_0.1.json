@@ -33,7 +33,7 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "JMS Apache Artemis source",
+    "description" : "Consume data from an Apache Artemis message broker by using JMS.",
     "icon_href" : "TODO",
     "id" : "jms_apache_artemis_source_0.1",
     "kind" : "ConnectorType",
@@ -46,24 +46,24 @@
       "properties" : {
         "jms_artemis_destination_type" : {
           "title" : "Destination Type",
-          "description" : "The JMS destination type (i.e.: queue or topic)",
+          "description" : "The JMS destination type (queue or topic).",
           "type" : "string",
           "default" : "queue"
         },
         "jms_artemis_destination_name" : {
           "title" : "Destination Name",
-          "description" : "The JMS destination name",
+          "description" : "The JMS destination name.",
           "type" : "string"
         },
         "jms_artemis_broker_u_r_l" : {
           "title" : "Broker URL",
-          "description" : "The JMS URL",
+          "description" : "The JMS URL.",
           "type" : "string",
           "example" : "tcp://k3s-node-master.usersys.redhat.com:31616"
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {
@@ -143,7 +143,7 @@
               "topic" : {
                 "type" : "string",
                 "title" : "Dead Letter Topic Name",
-                "description" : "The name of the Kafka topic used as dead letter queue"
+                "description" : "The name of the Kafka topic to use as the dead letter queue."
               }
             }
           }

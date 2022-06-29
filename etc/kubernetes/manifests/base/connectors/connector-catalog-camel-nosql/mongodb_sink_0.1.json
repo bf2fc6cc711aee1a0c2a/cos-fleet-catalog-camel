@@ -33,7 +33,7 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "MongoDB sink",
+    "description" : "Send data to MongoDB.",
     "icon_href" : "TODO",
     "id" : "mongodb_sink_0.1",
     "kind" : "ConnectorType",
@@ -46,12 +46,12 @@
       "properties" : {
         "mongodb_hosts" : {
           "title" : "MongoDB Hosts",
-          "description" : "Comma separated list of MongoDB Host Addresses in host:port format.",
+          "description" : "A comma separated list of MongoDB host addresses in host:port format.",
           "type" : "string"
         },
         "mongodb_collection" : {
           "title" : "MongoDB Collection",
-          "description" : "Sets the name of the MongoDB collection to bind to this endpoint.",
+          "description" : "The name of the MongoDB collection to bind to this endpoint.",
           "type" : "string"
         },
         "mongodb_password" : {
@@ -59,40 +59,40 @@
           "x-group" : "credentials",
           "oneOf" : [ {
             "title" : "MongoDB Password",
-            "description" : "User password for accessing MongoDB.",
+            "description" : "The user password for accessing MongoDB.",
             "type" : "string",
             "format" : "password"
           }, {
-            "description" : "An opaque reference to the mongodb_password",
+            "description" : "An opaque reference to the mongodb_password.",
             "type" : "object",
             "properties" : { }
           } ]
         },
         "mongodb_username" : {
           "title" : "MongoDB Username",
-          "description" : "Username for accessing MongoDB.",
+          "description" : "The username for accessing MongoDB.",
           "type" : "string",
           "x-group" : "credentials"
         },
         "mongodb_database" : {
           "title" : "MongoDB Database",
-          "description" : "Sets the name of the MongoDB database to target.",
+          "description" : "The name of the MongoDB database to send data to.",
           "type" : "string"
         },
         "mongodb_write_concern" : {
           "title" : "Write Concern",
-          "description" : "Configure the level of acknowledgment requested from MongoDB for write operations, possible values are ACKNOWLEDGED, W1, W2, W3, UNACKNOWLEDGED, JOURNALED, MAJORITY.",
+          "description" : "The level of acknowledgment requested from MongoDB for write operations. Possible values are: ACKNOWLEDGED, W1, W2, W3, UNACKNOWLEDGED, JOURNALED, or MAJORITY.",
           "type" : "string"
         },
         "mongodb_create_collection" : {
           "title" : "Collection",
-          "description" : "Create collection during initialisation if it doesn't exist.",
+          "description" : "Specifies to create a collection during initialization if the collection doesn't already exist.",
           "type" : "boolean",
           "default" : false
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {
@@ -172,7 +172,7 @@
               "topic" : {
                 "type" : "string",
                 "title" : "Dead Letter Topic Name",
-                "description" : "The name of the Kafka topic used as dead letter queue"
+                "description" : "The name of the Kafka topic to use as the dead letter queue."
               }
             }
           }

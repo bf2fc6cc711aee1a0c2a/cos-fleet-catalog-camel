@@ -33,7 +33,7 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "OpenAPI sink",
+    "description" : "Load an OpenAPI specification from a URI and call an operation on a HTTP service. The request is generated respecting the rules given in the OpenAPI specification (for example, path parameters and Content-Type).",
     "icon_href" : "TODO",
     "id" : "rest_openapi_sink_0.1",
     "kind" : "ConnectorType",
@@ -46,19 +46,19 @@
       "properties" : {
         "rest_openapi_specification" : {
           "title" : "Specification URI",
-          "description" : "URI to the OpenApi specification file",
+          "description" : "The URI for the OpenApi specification file.",
           "type" : "string",
           "example" : "https://api.example.com/openapi.json",
           "pattern" : "^(http|https|file|classpath)://.*"
         },
         "rest_openapi_operation" : {
           "title" : "Operation ID",
-          "description" : "The operation to call",
+          "description" : "The operation to call.",
           "type" : "string"
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {
@@ -138,7 +138,7 @@
               "topic" : {
                 "type" : "string",
                 "title" : "Dead Letter Topic Name",
-                "description" : "The name of the Kafka topic used as dead letter queue"
+                "description" : "The name of the Kafka topic to use as the dead letter queue."
               }
             }
           }

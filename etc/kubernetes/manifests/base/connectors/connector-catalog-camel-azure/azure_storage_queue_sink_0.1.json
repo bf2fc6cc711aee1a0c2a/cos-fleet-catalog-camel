@@ -33,7 +33,7 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "Azure Queue Storage sink",
+    "description" : "Send messages to Azure Storage queues.",
     "icon_href" : "TODO",
     "id" : "azure_storage_queue_sink_0.1",
     "kind" : "ConnectorType",
@@ -60,18 +60,18 @@
           "x-group" : "credentials",
           "oneOf" : [ {
             "title" : "Access Key",
-            "description" : "The Azure Storage Queue access Key.",
+            "description" : "The Azure Storage Queue access key.",
             "type" : "string",
             "format" : "password"
           }, {
-            "description" : "An opaque reference to the azure_access_key",
+            "description" : "An opaque reference to the azure_access_key.",
             "type" : "object",
             "properties" : { }
           } ]
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {
@@ -151,7 +151,7 @@
               "topic" : {
                 "type" : "string",
                 "title" : "Dead Letter Topic Name",
-                "description" : "The name of the Kafka topic used as dead letter queue"
+                "description" : "The name of the Kafka topic to use as the dead letter queue."
               }
             }
           }

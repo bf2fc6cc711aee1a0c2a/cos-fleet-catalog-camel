@@ -34,7 +34,7 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "Slack source",
+    "description" : "Receive messages from a Slack channel.",
     "icon_href" : "TODO",
     "id" : "slack_source_0.1",
     "kind" : "ConnectorType",
@@ -47,7 +47,7 @@
       "properties" : {
         "slack_channel" : {
           "title" : "Channel",
-          "description" : "The Slack channel to receive messages from",
+          "description" : "The Slack channel to receive messages from.",
           "type" : "string",
           "example" : "#myroom"
         },
@@ -56,24 +56,24 @@
           "x-group" : "credentials",
           "oneOf" : [ {
             "title" : "Token",
-            "description" : "The token to access Slack. A Slack app is needed. This app needs to have channels:history and channels:read permissions. The Bot User OAuth Access Token is the kind of token needed.",
+            "description" : "The Bot User OAuth Access Token to access Slack. A Slack app that has channels:history and channels:read permissions is required.",
             "type" : "string",
             "format" : "password"
           }, {
-            "description" : "An opaque reference to the slack_token",
+            "description" : "An opaque reference to the slack_token.",
             "type" : "object",
             "properties" : { }
           } ]
         },
         "slack_delay" : {
           "title" : "Delay",
-          "description" : "The delay between polls",
+          "description" : "The delay between polls.",
           "type" : "string",
           "example" : "1s"
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {
@@ -153,7 +153,7 @@
               "topic" : {
                 "type" : "string",
                 "title" : "Dead Letter Topic Name",
-                "description" : "The name of the Kafka topic used as dead letter queue"
+                "description" : "The name of the Kafka topic to use as the dead letter queue."
               }
             }
           }

@@ -46,18 +46,18 @@
       "properties" : {
         "ansible_tower_host" : {
           "title" : "Ansible Tower Host",
-          "description" : "The Ansible Tower Host",
+          "description" : "The Ansible Tower Host.",
           "type" : "string"
         },
         "ansible_tower_host_insecure" : {
           "title" : "Set whether all server certificates should be trusted",
-          "description" : "Set whether all server certificates should be trusted",
+          "description" : "Specifies to trust all server certificates.",
           "type" : "boolean",
           "default" : false
         },
         "ansible_tower_host_verify" : {
           "title" : "Set whether hostname verification is enabled",
-          "description" : "Set whether hostname verification is enabled",
+          "description" : "Set to enable hostname verification.",
           "type" : "boolean",
           "default" : true
         },
@@ -88,7 +88,7 @@
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {
@@ -168,7 +168,7 @@
               "topic" : {
                 "type" : "string",
                 "title" : "Dead Letter Topic Name",
-                "description" : "The name of the Kafka topic used as dead letter queue"
+                "description" : "The name of the Kafka topic to use as the dead letter queue."
               }
             }
           }

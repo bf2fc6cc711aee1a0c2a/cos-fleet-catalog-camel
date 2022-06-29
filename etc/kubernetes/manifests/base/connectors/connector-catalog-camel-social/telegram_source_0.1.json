@@ -33,7 +33,7 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "Telegram source",
+    "description" : "Receive all messages that people send to your Telegram bot.",
     "icon_href" : "TODO",
     "id" : "telegram_source_0.1",
     "kind" : "ConnectorType",
@@ -49,18 +49,18 @@
           "x-group" : "credentials",
           "oneOf" : [ {
             "title" : "Token",
-            "description" : "The token to access your bot on Telegram. You you can obtain it from the Telegram @botfather.",
+            "description" : "The token to access your bot on Telegram. You can obtain the token from the Telegram @botfather account.",
             "type" : "string",
             "format" : "password"
           }, {
-            "description" : "An opaque reference to the telegram_authorization_token",
+            "description" : "An opaque reference to the telegram_authorization_token.",
             "type" : "object",
             "properties" : { }
           } ]
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {
@@ -140,7 +140,7 @@
               "topic" : {
                 "type" : "string",
                 "title" : "Dead Letter Topic Name",
-                "description" : "The name of the Kafka topic used as dead letter queue"
+                "description" : "The name of the Kafka topic to use as the dead letter queue."
               }
             }
           }

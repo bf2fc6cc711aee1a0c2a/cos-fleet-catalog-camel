@@ -33,7 +33,7 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "Google Cloud Pub/Sub sink",
+    "description" : "Send messages to Google Cloud Pub/Sub.",
     "icon_href" : "TODO",
     "id" : "google_pubsub_sink_0.1",
     "kind" : "ConnectorType",
@@ -46,7 +46,7 @@
       "properties" : {
         "gcp_project_id" : {
           "title" : "Project Id",
-          "description" : "The Google Cloud PubSub Project Id",
+          "description" : "The Google Cloud Pub/Sub Project ID",
           "type" : "string"
         },
         "gcp_destination_name" : {
@@ -56,14 +56,15 @@
         },
         "gcp_service_account_key" : {
           "title" : "Service Account Key",
-          "description" : "The Service account key that can be used as credentials for the PubSub publisher/subscriber",
+          "description" : "The Service account key to use as credentials for the PubSub publisher/subscriber.
+          You must encode this value in base64.",
           "type" : "string",
           "x-group" : "credentials",
           "format" : "base64"
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {
@@ -143,7 +144,7 @@
               "topic" : {
                 "type" : "string",
                 "title" : "Dead Letter Topic Name",
-                "description" : "The name of the Kafka topic used as dead letter queue"
+                "description" : "The name of the Kafka topic to use as the dead letter queue."
               }
             }
           }

@@ -33,7 +33,7 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "Azure Queue Storage source",
+    "description" : "Receive messages from Azure Storage queues.",
     "icon_href" : "TODO",
     "id" : "azure_storage_queue_source_0.1",
     "kind" : "ConnectorType",
@@ -60,24 +60,24 @@
           "x-group" : "credentials",
           "oneOf" : [ {
             "title" : "Access Key",
-            "description" : "The Azure Storage Queue access Key.",
+            "description" : "The Azure Storage Queue access key.",
             "type" : "string",
             "format" : "password"
           }, {
-            "description" : "An opaque reference to the azure_access_key",
+            "description" : "An opaque reference to the azure_access_key.",
             "type" : "object",
             "properties" : { }
           } ]
         },
         "azure_max_messages" : {
           "title" : "Maximum Messages",
-          "description" : "Maximum number of messages to get, if there are less messages exist in the queue than requested all the messages will be returned. By default it will consider 1 message to be retrieved, the allowed range is 1 to 32 messages.",
+          "description" : "The maximum number of messages to get.  You can specify a value between 1 and 32. The default is 1 (one message). If fewer messages exist in the queue than are requested, then all the messages are returned.",
           "type" : "integer",
           "default" : 1
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {
@@ -157,7 +157,7 @@
               "topic" : {
                 "type" : "string",
                 "title" : "Dead Letter Topic Name",
-                "description" : "The name of the Kafka topic used as dead letter queue"
+                "description" : "The name of the Kafka topic to use as the dead letter queue."
               }
             }
           }

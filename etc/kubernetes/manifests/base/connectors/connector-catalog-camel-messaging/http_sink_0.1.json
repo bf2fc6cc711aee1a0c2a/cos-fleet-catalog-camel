@@ -33,7 +33,7 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "HTTP sink",
+    "description" : "Forward data to a HTTP or HTTPS endpoint.",
     "icon_href" : "TODO",
     "id" : "http_sink_0.1",
     "kind" : "ConnectorType",
@@ -46,20 +46,20 @@
       "properties" : {
         "http_url" : {
           "title" : "URL",
-          "description" : "The URL to send data to",
+          "description" : "The URL to which you want to send data.",
           "type" : "string",
           "example" : "https://my-service/path",
           "pattern" : "^(http|https)://.*"
         },
         "http_method" : {
           "title" : "Method",
-          "description" : "The HTTP method to use",
+          "description" : "The HTTP method to use.",
           "type" : "string",
           "default" : "POST"
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {
@@ -139,7 +139,7 @@
               "topic" : {
                 "type" : "string",
                 "title" : "Dead Letter Topic Name",
-                "description" : "The name of the Kafka topic used as dead letter queue"
+                "description" : "The name of the Kafka topic to use as the dead letter queue."
               }
             }
           }

@@ -33,7 +33,7 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "Google Cloud Functions sink",
+    "description" : "Send messages to Google Functions.",
     "icon_href" : "TODO",
     "id" : "google_functions_sink_0.1",
     "kind" : "ConnectorType",
@@ -46,28 +46,28 @@
       "properties" : {
         "gcp_project_id" : {
           "title" : "Project Id",
-          "description" : "The Google Cloud Functions Project Id",
+          "description" : "The Google Cloud Functions Project ID",
           "type" : "string"
         },
         "gcp_region" : {
           "title" : "Region",
-          "description" : "The Region where the Google Cloud Functions has been deployed",
+          "description" : "The Region where the Google Cloud Functions is deployed.",
           "type" : "string"
         },
         "gcp_function_name" : {
           "title" : "Function Name",
-          "description" : "The Function Name",
+          "description" : "The Google Cloud Functions Name.",
           "type" : "string"
         },
         "gcp_service_account_key" : {
           "title" : "Service Account Key",
-          "description" : "The Service account key that can be used as credentials for the Google Cloud Functions platform",
+          "description" : "The path to a Service Account key file to use as credentials for accessing the Google Cloud Functions platform.",
           "type" : "string",
           "x-group" : "credentials"
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {
@@ -147,7 +147,7 @@
               "topic" : {
                 "type" : "string",
                 "title" : "Dead Letter Topic Name",
-                "description" : "The name of the Kafka topic used as dead letter queue"
+                "description" : "The name of the Kafka topic to use as the dead letter queue."
               }
             }
           }

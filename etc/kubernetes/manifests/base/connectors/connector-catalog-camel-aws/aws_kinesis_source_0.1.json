@@ -33,7 +33,7 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "Amazon Kinesis source",
+    "description" : "Receive data from AWS Kinesis.",
     "icon_href" : "TODO",
     "id" : "aws_kinesis_source_0.1",
     "kind" : "ConnectorType",
@@ -46,7 +46,7 @@
       "properties" : {
         "aws_stream" : {
           "title" : "Stream Name",
-          "description" : "The Kinesis stream that you want to access (needs to be created in advance)",
+          "description" : "The Kinesis stream that you want to access. The Kinesis stream that you specify must already exist.)",
           "type" : "string"
         },
         "aws_access_key" : {
@@ -54,11 +54,11 @@
           "x-group" : "credentials",
           "oneOf" : [ {
             "title" : "Access Key",
-            "description" : "The access key obtained from AWS",
+            "description" : "The access key obtained from AWS.",
             "type" : "string",
             "format" : "password"
           }, {
-            "description" : "An opaque reference to the aws_access_key",
+            "description" : "An opaque reference to the aws_access_key.",
             "type" : "object",
             "properties" : { }
           } ]
@@ -68,7 +68,7 @@
           "x-group" : "credentials",
           "oneOf" : [ {
             "title" : "Secret Key",
-            "description" : "The secret key obtained from AWS",
+            "description" : "The secret key obtained from AWS.",
             "type" : "string",
             "format" : "password"
           }, {
@@ -79,30 +79,30 @@
         },
         "aws_region" : {
           "title" : "AWS Region",
-          "description" : "The AWS region to connect to",
+          "description" : "The AWS region to access.",
           "type" : "string",
           "example" : "eu-west-1"
         },
         "aws_uri_endpoint_override" : {
           "title" : "Overwrite Endpoint URI",
-          "description" : "Set the overriding endpoint URI. This option needs to be used in combination with overrideEndpoint option.",
+          "description" : "The overriding endpoint URI. To use this option, you must also select the overrideEndpoint option.",
           "type" : "string"
         },
         "aws_override_endpoint" : {
           "title" : "Endpoint Overwrite",
-          "description" : "Set the need for overiding the endpoint URI. This option needs to be used in combination with uriEndpointOverride setting.",
+          "description" : "Select this option to override the endpoint URI. To use this option, you must also provide a URI for the uriEndpointOverride option.",
           "type" : "boolean",
           "default" : false
         },
         "aws_delay" : {
           "title" : "Delay",
-          "description" : "Milliseconds before the next poll of the selected stream",
+          "description" : "The number of The number of milliseconds before the next poll of the selected stream.",
           "type" : "integer",
           "default" : 500
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {
@@ -197,7 +197,7 @@
               "topic" : {
                 "type" : "string",
                 "title" : "Dead Letter Topic Name",
-                "description" : "The name of the Kafka topic used as dead letter queue"
+                "description" : "The name of the Kafka topic to use as the dead letter queue."
               }
             }
           }
