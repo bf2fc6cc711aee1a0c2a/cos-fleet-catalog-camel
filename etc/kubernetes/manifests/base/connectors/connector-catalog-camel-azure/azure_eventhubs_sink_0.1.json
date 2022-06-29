@@ -14,7 +14,7 @@
         "error_handler_strategy" : "stop",
         "kamelets" : {
           "adapter" : {
-            "name" : "azure-eventhubs-sink",
+            "name" : "cos-azure-eventhubs-sink",
             "prefix" : "azure"
           },
           "kafka" : {
