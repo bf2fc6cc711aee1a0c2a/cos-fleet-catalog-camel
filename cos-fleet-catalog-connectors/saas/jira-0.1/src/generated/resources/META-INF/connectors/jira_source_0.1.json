@@ -61,7 +61,7 @@
           "x-group" : "credentials",
           "oneOf" : [ {
             "title" : "Password",
-            "description" : "The password to access Jira",
+            "description" : "The password or the API Token to access Jira",
             "type" : "string",
             "format" : "password"
           }, {
