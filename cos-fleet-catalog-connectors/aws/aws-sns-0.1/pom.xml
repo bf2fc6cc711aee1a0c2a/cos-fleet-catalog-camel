@@ -36,7 +36,7 @@
                             <description>${project.description} sink</description>
                             <adapter>
                                 <prefix>aws</prefix>
-                                <name>${cos.connector.type}-sink</name>
+                                <name>Send data to an Amazon Simple Notification Service (SNS) topic.</name>
                                 <version>${camel-kamelets-catalog.version}</version>
                             </adapter>
                             <kafka>
