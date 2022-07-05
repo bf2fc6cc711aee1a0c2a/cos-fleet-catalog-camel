@@ -60,7 +60,7 @@
                         <connector>
                             <name>${cos.connector.type}-streaming-source-${cos.connector.version}</name>
                             <title>${project.name} Streaming source</title>
-                            <description>${project.description} Streaming source</description>
+                            <description>Receive updates from Salesforce.</description>
                             <adapter>
                                 <prefix>salesforce</prefix>
                                 <name>cos-${cos.connector.type}-streaming-source</name>
@@ -84,7 +84,7 @@
                         <connector>
                             <name>${cos.connector.type}-create-sink-${cos.connector.version}</name>
                             <title>${project.name} Create sink</title>
-                            <description>${project.description} Create sink</description>
+                            <description>Create an object in Salesforce.</description>
                             <adapter>
                                 <prefix>salesforce</prefix>
                                 <name>${cos.connector.type}-create-sink</name>
@@ -101,7 +101,7 @@
                         <connector>
                             <name>${cos.connector.type}-delete-sink-${cos.connector.version}</name>
                             <title>${project.name} Delete sink</title>
-                            <description>${project.description} Delete sink</description>
+                            <description>Delete an object in Salesforce.</description>
                             <adapter>
                                 <prefix>salesforce</prefix>
                                 <name>${cos.connector.type}-delete-sink</name>
@@ -118,7 +118,7 @@
                         <connector>
                             <name>${cos.connector.type}-update-sink-${cos.connector.version}</name>
                             <title>${project.name} Update sink</title>
-                            <description>${project.description} Update sink</description>
+                            <description>Update an object in Salesforce.</description>
                             <adapter>
                                 <prefix>salesforce</prefix>
                                 <name>${cos.connector.type}-update-sink</name>
