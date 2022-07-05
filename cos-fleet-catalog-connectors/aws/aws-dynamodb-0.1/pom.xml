@@ -33,7 +33,7 @@
                         <connector>
                             <name>${cos.connector.type}-sink-${cos.connector.version}</name>
                             <title>${project.name} sink</title>
-                            <description>${project.description} sink</description>
+                            <description> Send data to Amazon DynamoDB NoSQL database service. The sent data inserts, updates, or deletes an item in the specified Amazon DynamoDB table.</description>
                             <adapter>
                                 <prefix>aws</prefix>
                                 <name>${cos.connector.type}-sink</name>
