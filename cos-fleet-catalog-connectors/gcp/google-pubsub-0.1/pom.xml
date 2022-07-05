@@ -60,7 +60,7 @@
                         <connector>
                             <name>${cos.connector.type}-sink-${cos.connector.version}</name>
                             <title>${project.name} sink</title>
-                            <description>${project.description} sink</description>
+                            <description>Send data to Google Cloud Pub/Sub.</description>
                             <adapter>
                                 <prefix>gcp</prefix>
                                 <name>${cos.connector.type}-sink</name>

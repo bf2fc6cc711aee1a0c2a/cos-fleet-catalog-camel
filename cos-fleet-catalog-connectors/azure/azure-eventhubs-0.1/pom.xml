@@ -48,7 +48,7 @@
                         <connector>
                             <name>${cos.connector.type}-sink-${cos.connector.version}</name>
                             <title>${project.name} sink</title>
-                            <description>${project.description} sink</description>
+                            <description>Send data to Azure Event Hubs.</description>
                             <adapter>
                                 <prefix>azure</prefix>
                                 <name>cos-${cos.connector.type}-sink</name>

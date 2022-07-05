@@ -55,7 +55,7 @@
                         <connector>
                             <name>${cos.connector.type}-sink-${cos.connector.version}</name>
                             <title>${project.name} sink</title>
-                            <description>${project.description} sink</description>
+                            <description>Send data to any AMQP 1.0 compliant message broker by using the Apache Qpid JMS client.</description>
                             <adapter>
                                 <prefix>jms-amqp</prefix>
                                 <name>${cos.connector.type}-sink</name>

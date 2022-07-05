@@ -55,7 +55,7 @@
                         <connector>
                             <name>${cos.connector.type}-sink-${cos.connector.version}</name>
                             <title>${project.name} sink</title>
-                            <description>${project.description} sink</description>
+                            <description>Send data to an Amazon S3 bucket.</description>
                             <adapter>
                                 <prefix>aws</prefix>
                                 <name>${cos.connector.type}-sink</name>

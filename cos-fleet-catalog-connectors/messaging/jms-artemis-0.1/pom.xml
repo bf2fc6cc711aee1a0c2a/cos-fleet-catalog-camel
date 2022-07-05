@@ -55,7 +55,7 @@
                         <connector>
                             <name>${cos.connector.type}-sink-${cos.connector.version}</name>
                             <title>${project.name} sink</title>
-                            <description>${project.description} sink</description>
+                            <description>Send data to an Apache Artemis message broker by using JMS.</description>
                             <adapter>
                                 <prefix>jms-artemis</prefix>
                                 <name>${cos.connector.type}-sink</name>

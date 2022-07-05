@@ -53,7 +53,7 @@
                         <connector>
                             <name>${cos.connector.type}-source-${cos.connector.version}</name>
                             <title>${project.name} source</title>
-                            <description>${project.description} source</description>
+                            <description>Query data from a PostgreSQL Database.</description>
                             <adapter>
                                 <prefix>db</prefix>
                                 <name>${cos.connector.type}-source</name>
@@ -68,7 +68,7 @@
                         <connector>
                             <name>${cos.connector.type}-sink-${cos.connector.version}</name>
                             <title>${project.name} sink</title>
-                            <description>${project.description} sink</description>
+                            <description>Send data to a PostgreSQL Database.</description>
                             <adapter>
                                 <prefix>db</prefix>
                                 <name>${cos.connector.type}-sink</name>
