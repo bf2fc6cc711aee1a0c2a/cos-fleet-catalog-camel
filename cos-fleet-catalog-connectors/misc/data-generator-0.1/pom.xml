@@ -32,7 +32,7 @@
                         <connector>
                             <name>data-generator-${cos.connector.version}</name>
                             <title>${project.name} source</title>
-                            <description>${project.description} source</description>
+                            <description>A data generator (for development and testing purposes).</description>
                             <adapter>
                                 <prefix>timer</prefix>
                                 <name>timer-source</name>

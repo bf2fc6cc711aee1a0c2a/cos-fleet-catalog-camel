@@ -65,7 +65,7 @@
                         <connector>
                             <name>${cos.connector.type}-source-${cos.connector.version}</name>
                             <title>${project.name} source</title>
-                            <description>${project.description} source</description>
+                            <description>Retrieve data from MongoDB.</description>
                             <adapter>
                                 <prefix>mongodb</prefix>
                                 <name>${cos.connector.type}-source</name>
@@ -87,7 +87,7 @@
                         <connector>
                             <name>${cos.connector.type}-sink-${cos.connector.version}</name>
                             <title>${project.name} sink</title>
-                            <description>${project.description} sink</description>
+                            <description>Send data to MongoDB.</description>
                             <adapter>
                                 <prefix>mongodb</prefix>
                                 <name>cos-${cos.connector.type}-sink</name>
