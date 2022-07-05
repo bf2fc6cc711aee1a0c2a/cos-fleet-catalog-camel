@@ -33,7 +33,7 @@
                         <connector>
                             <name>${cos.connector.type}-source-${cos.connector.version}</name>
                             <title>${project.name} source</title>
-                            <description>${project.description} source</description>
+                            <description>Retrieve data from an SFTP Server.</description>
                             <adapter>
                                 <prefix>sftp</prefix>
                                 <name>${cos.connector.type}-source</name>
@@ -55,7 +55,7 @@
                         <connector>
                             <name>${cos.connector.type}-sink-${cos.connector.version}</name>
                             <title>${project.name} sink</title>
-                            <description>${project.description} sink</description>
+                            <description>Send data to an SFTP Server.</description>
                             <adapter>
                                 <prefix>sftp</prefix>
                                 <name>${cos.connector.type}-sink</name>
