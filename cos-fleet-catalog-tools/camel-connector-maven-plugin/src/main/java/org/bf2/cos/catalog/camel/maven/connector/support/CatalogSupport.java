@@ -423,7 +423,7 @@ public final class CatalogSupport {
                             .with("topic")
                             .put("type", "string")
                             .put("title", "Dead Letter Topic Name")
-                            .put("description", "The name of the Kafka topic used as dead letter queue");
+                            .put("description", "The name of the Kafka topic that serves as a destination for messages which were not processed correctly due to an error.");
                 }
             });
         });
