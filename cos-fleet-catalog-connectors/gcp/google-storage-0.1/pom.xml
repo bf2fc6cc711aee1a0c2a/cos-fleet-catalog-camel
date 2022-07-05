@@ -38,7 +38,7 @@
                         <connector>
                             <name>${cos.connector.type}-source-${cos.connector.version}</name>
                             <title>${project.name} source</title>
-                            <description>${project.description} source</description>
+                            <description>Send messages to Google Pubsub.</description>
                             <adapter>
                                 <prefix>gcp</prefix>
                                 <name>${cos.connector.type}-source</name>
@@ -60,7 +60,7 @@
                         <connector>
                             <name>${cos.connector.type}-sink-${cos.connector.version}</name>
                             <title>${project.name} sink</title>
-                            <description>${project.description} sink</description>
+                            <description>Upload data to Google Cloud Storage.</description>
                             <adapter>
                                 <prefix>gcp</prefix>
                                 <name>${cos.connector.type}-sink</name>

@@ -38,7 +38,7 @@
                         <connector>
                             <name>${cos.connector.type}-source-${cos.connector.version}</name>
                             <title>${project.name} source</title>
-                            <description>${project.description} source</description>
+                            <description>Receive data from Google Cloud Pub/Sub.</description>
                             <adapter>
                                 <prefix>gcp</prefix>
                                 <name>${cos.connector.type}-source</name>
