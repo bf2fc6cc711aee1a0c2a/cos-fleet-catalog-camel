@@ -33,7 +33,7 @@
                         <connector>
                             <name>${cos.connector.type}-source-${cos.connector.version}</name>
                             <title>${project.name} source</title>
-                            <description>${project.description} source</description>
+                            <description>Receive all messages that people send to your Telegram bot.</description>
                             <adapter>
                                 <prefix>telegram</prefix>
                                 <name>${cos.connector.type}-source</name>
@@ -48,7 +48,7 @@
                         <connector>
                             <name>${cos.connector.type}-sink-${cos.connector.version}</name>
                             <title>${project.name} sink</title>
-                            <description>${project.description} sink</description>
+                            <description>Send a message to a Telegram chat using your Telegram bot as sender. To create a bot, use your Telegram app to contact the @botfather account.</description>
                             <adapter>
                                 <prefix>telegram</prefix>
                                 <name>${cos.connector.type}-sink</name>
