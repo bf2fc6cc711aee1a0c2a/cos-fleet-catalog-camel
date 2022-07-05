@@ -34,7 +34,7 @@
                         <connector>
                             <name>${cos.connector.type}-source-${cos.connector.version}</name>
                             <title>${project.name} source</title>
-                            <description>${project.description} source</description>
+                            <description>Retrieve data by sending a query to an Apache Cassandra cluster table.</description>
                             <adapter>
                                 <prefix>cassandra</prefix>
                                 <name>${cos.connector.type}-source</name>
@@ -49,7 +49,7 @@
                         <connector>
                             <name>${cos.connector.type}-sink-${cos.connector.version}</name>
                             <title>${project.name} sink</title>
-                            <description>${project.description} sink</description>
+                            <description>Send data to an Apache Cassandra cluster.</description>
                             <adapter>
                                 <prefix>cassandra</prefix>
                                 <name>${cos.connector.type}-sink</name>

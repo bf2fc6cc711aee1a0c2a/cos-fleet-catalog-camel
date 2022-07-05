@@ -34,7 +34,7 @@
                         <connector>
                             <name>${cos.connector.type}-sink-${cos.connector.version}</name>
                             <title>${project.name} sink</title>
-                            <description>${project.description} sink</description>
+                            <description>Store JSON-formatted data into ElasticSearch.</description>
                             <adapter>
                                 <prefix>elasticsearch</prefix>
                                 <name>${cos.connector.type}-index-sink</name>
