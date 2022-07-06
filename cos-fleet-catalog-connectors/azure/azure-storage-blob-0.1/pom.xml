@@ -55,7 +55,7 @@
                         <connector>
                             <name>${cos.connector.type}-sink-${cos.connector.version}</name>
                             <title>${project.name} sink</title>
-                            <description>Send data to Azure Blob storage.</</description>
+                            <description>Send data to Azure Blob storage.</description>
                             <adapter>
                                 <prefix>azure</prefix>
                                 <name>${cos.connector.type}-sink</name>
