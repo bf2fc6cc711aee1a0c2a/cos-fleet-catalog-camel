@@ -33,7 +33,7 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "Elasticsearch sink",
+    "description" : "Store JSON-formatted data into ElasticSearch.",
     "icon_href" : "TODO",
     "id" : "elasticsearch_sink_0.1",
     "kind" : "ConnectorType",
@@ -170,7 +170,7 @@
               "topic" : {
                 "type" : "string",
                 "title" : "Dead Letter Topic Name",
-                "description" : "The name of the Kafka topic used as dead letter queue"
+                "description" : "The name of the Kafka topic that serves as a destination for messages which were not processed correctly due to an error."
               }
             }
           }
