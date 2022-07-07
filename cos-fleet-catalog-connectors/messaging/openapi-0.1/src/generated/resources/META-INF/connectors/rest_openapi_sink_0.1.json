@@ -33,7 +33,7 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "OpenAPI sink",
+    "description" : "Load an OpenAPI specification from a specified URI and call an operation on the HTTP service.",
     "icon_href" : "TODO",
     "id" : "rest_openapi_sink_0.1",
     "kind" : "ConnectorType",
@@ -138,7 +138,7 @@
               "topic" : {
                 "type" : "string",
                 "title" : "Dead Letter Topic Name",
-                "description" : "The name of the Kafka topic used as dead letter queue"
+                "description" : "The name of the Kafka topic that serves as a destination for messages which were not processed correctly due to an error."
               }
             }
           }
