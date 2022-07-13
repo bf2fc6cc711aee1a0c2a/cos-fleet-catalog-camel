@@ -13,20 +13,18 @@ spec:
     description: |-
       Send data to Managed Kafka topics.
 
-      The Kamelet is able to understand the following headers to be set:
+      Optionally, you can set the following properties in the header:
 
-      - `key`: as message key
+      - `key`: the message key
 
-      - `partition-key`: as message partition key
-
-      Both the headers are optional.
+      - `partition-key`: the message partition key
     required:
       - topic
     type: object
     properties:
       topic:
         title: Topic Names
-        description: Comma separated list of Kafka topic names
+        description: A comma-separated list of Kafka topic names.
         type: string
   dependencies:
     - "camel:kafka"

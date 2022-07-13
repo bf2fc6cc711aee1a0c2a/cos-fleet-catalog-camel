@@ -17,14 +17,14 @@ spec:
     properties:
       multiLine:
         title: Multi Line
-        description: Multi Line
+        description: Multi-line
         type: boolean
         default: false
         x-descriptors:
           - urn:camel:group:common
       showAll:
         title: Show All
-        description: Show All
+        description: Show all
         type: boolean
         default: false
         x-descriptors:

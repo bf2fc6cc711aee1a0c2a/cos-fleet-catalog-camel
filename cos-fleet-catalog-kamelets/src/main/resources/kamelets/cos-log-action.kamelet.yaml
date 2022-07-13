@@ -17,17 +17,17 @@ spec:
     properties:
       multiLine:
         title: Multi Line
-        description: Multi Line
+        description: Multi-line
         type: boolean
         default: false
       showProperties:
         title: Show Properties
-        description: Show Properties
+        description: Show properties
         type: boolean
         default: false
       showHeaders:
         title: Show Headers
-        description: Show Headers
+        description: Show headers
         type: boolean
         default: false
   dependencies:
