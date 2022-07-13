@@ -12,7 +12,7 @@ spec:
   definition:
     title: "Http Source"
     description: |-
-      Http source data.
+      HTTP source data.
     type: object
   dependencies:
     - "camel:platform-http"

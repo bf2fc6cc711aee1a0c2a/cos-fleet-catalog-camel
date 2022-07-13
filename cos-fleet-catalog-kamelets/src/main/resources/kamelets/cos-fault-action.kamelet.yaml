@@ -20,11 +20,11 @@ spec:
     properties:
       exceptionType:
         title: The Exception Type
-        description: The Exception Type
+        description: The type of the exception.
         type: string
       exceptionMessage:
         title: The Exception Message
-        description: The Exception Message
+        description: The message for the exception.
         type: string
   dependencies:
     - "camel:kamelet"
