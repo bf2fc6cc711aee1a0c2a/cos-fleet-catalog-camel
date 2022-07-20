@@ -39,6 +39,7 @@
         <module>azure-storage-blob-changefeed-0.1</module>
         <module>azure-storage-queue-0.1</module>
         <module>azure-eventhubs-0.1</module>
+        <module>azure-servicebus-0.1</module>
     </modules>
 
 </project>
