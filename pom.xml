@@ -40,7 +40,7 @@
 
         <maven.version>3.8.6</maven.version>
         <maven-plugin-tools.version>3.6.4</maven-plugin-tools.version>
-        <maven-shaded.version>3.3.0</maven-shaded.version>
+        <maven-shaded.version>3.3.1</maven-shaded.version>
 
         <maven.compiler.target>11</maven.compiler.target>
         <maven.compiler.source>11</maven.compiler.source>
