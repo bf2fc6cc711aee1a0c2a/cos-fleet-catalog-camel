@@ -60,12 +60,12 @@
         },
         "telegram_chat_id" : {
           "title" : "Chat ID",
-          "description" : "The Chat ID where messages should be sent by default",
+          "description" : "The Chat ID to where you want to send messages by default.",
           "type" : "string"
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma-separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {

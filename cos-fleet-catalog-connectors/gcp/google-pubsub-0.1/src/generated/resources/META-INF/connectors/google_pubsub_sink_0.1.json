@@ -46,12 +46,12 @@
       "properties" : {
         "gcp_project_id" : {
           "title" : "Project Id",
-          "description" : "The Google Cloud PubSub Project Id",
+          "description" : "The Google Cloud Pub/Sub Project ID.",
           "type" : "string"
         },
         "gcp_destination_name" : {
           "title" : "Destination Name",
-          "description" : "The Destination Name",
+          "description" : "The destination name.",
           "type" : "string"
         },
         "gcp_service_account_key" : {
@@ -59,7 +59,7 @@
           "x-group" : "credentials",
           "oneOf" : [ {
             "title" : "Service Account Key",
-            "description" : "The Service account key that can be used as credentials for the PubSub publisher/subscriber",
+            "description" : "The service account key to use as credentials for the Pub/Sub publisher/subscriber. You must encode this value in base64.",
             "type" : "string",
             "format" : "password"
           }, {
@@ -70,7 +70,7 @@
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma-separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {

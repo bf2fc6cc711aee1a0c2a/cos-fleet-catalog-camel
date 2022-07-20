@@ -46,7 +46,7 @@
       "properties" : {
         "elasticsearch_user" : {
           "title" : "Username",
-          "description" : "Username to connect to ElasticSearch.",
+          "description" : "The username to connect to ElasticSearch.",
           "type" : "string",
           "x-group" : "credentials"
         },
@@ -55,7 +55,7 @@
           "x-group" : "credentials",
           "oneOf" : [ {
             "title" : "Password",
-            "description" : "Password to connect to ElasticSearch.",
+            "description" : "The password to connect to ElasticSearch.",
             "type" : "string",
             "format" : "password"
           }, {
@@ -66,31 +66,31 @@
         },
         "elasticsearch_enable_s_s_l" : {
           "title" : "Enable SSL",
-          "description" : "Do we want to connect using SSL?",
+          "description" : "Specifies to connect by using SSL.",
           "type" : "boolean",
           "default" : true
         },
         "elasticsearch_host_addresses" : {
           "title" : "Host Addresses",
-          "description" : "Comma separated list with ip:port formatted remote transport addresses to use.",
+          "description" : "A comma-separated list of remote transport addresses in `ip:port format`.",
           "type" : "string",
           "example" : "quickstart-es-http:9200"
         },
         "elasticsearch_cluster_name" : {
           "title" : "ElasticSearch Cluster Name",
-          "description" : "Name of the cluster.",
+          "description" : "The name of the ElasticSearch cluster.",
           "type" : "string",
           "example" : "quickstart"
         },
         "elasticsearch_index_name" : {
           "title" : "Index in ElasticSearch",
-          "description" : "The name of the index to act against.",
+          "description" : "The name of the ElasticSearch index.",
           "type" : "string",
           "example" : "data"
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma-separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {

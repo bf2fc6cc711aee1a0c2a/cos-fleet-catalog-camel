@@ -46,20 +46,20 @@
       "properties" : {
         "http_url" : {
           "title" : "URL",
-          "description" : "The URL to send data to",
+          "description" : "The URL to which you want to send data.",
           "type" : "string",
           "example" : "https://my-service/path",
           "pattern" : "^(http|https)://.*"
         },
         "http_method" : {
           "title" : "Method",
-          "description" : "The HTTP method to use",
+          "description" : "The HTTP method to use.",
           "type" : "string",
           "default" : "POST"
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma-separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {

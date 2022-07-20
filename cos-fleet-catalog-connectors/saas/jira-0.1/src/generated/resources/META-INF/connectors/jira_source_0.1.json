@@ -46,13 +46,13 @@
       "properties" : {
         "jira_jira_url" : {
           "title" : "Jira URL",
-          "description" : "The URL of your instance of Jira",
+          "description" : "The URL of your instance of Jira.",
           "type" : "string",
           "example" : "http://my_jira.com:8081"
         },
         "jira_username" : {
           "title" : "Username",
-          "description" : "The username to access Jira",
+          "description" : "The username to access Jira.",
           "type" : "string",
           "x-group" : "credentials"
         },
@@ -61,7 +61,7 @@
           "x-group" : "credentials",
           "oneOf" : [ {
             "title" : "Password",
-            "description" : "The password or the API Token to access Jira",
+            "description" : "The password or the API Token to access Jira.",
             "type" : "string",
             "format" : "password"
           }, {
@@ -72,13 +72,13 @@
         },
         "jira_jql" : {
           "title" : "JQL",
-          "description" : "A query to filter issues",
+          "description" : "A query to filter issues.",
           "type" : "string",
           "example" : "project=MyProject"
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma-separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {
