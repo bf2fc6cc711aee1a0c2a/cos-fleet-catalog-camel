@@ -46,19 +46,19 @@
       "properties" : {
         "db_server_name" : {
           "title" : "Server Name",
-          "description" : "Server Name for the data source",
+          "description" : "The server name for the data source.",
           "type" : "string",
           "example" : "localhost"
         },
         "db_server_port" : {
           "title" : "Server Port",
-          "description" : "Server Port for the data source",
+          "description" : "The server port for the data source.",
           "type" : "string",
           "default" : 5432
         },
         "db_username" : {
           "title" : "Username",
-          "description" : "The username to use for accessing a secured PostgreSQL Database",
+          "description" : "The username to access a secured PostgreSQL Database.",
           "type" : "string",
           "x-group" : "credentials"
         },
@@ -67,7 +67,7 @@
           "x-group" : "credentials",
           "oneOf" : [ {
             "title" : "Password",
-            "description" : "The password to use for accessing a secured PostgreSQL Database",
+            "description" : "The password to access a secured PostgreSQL Database.",
             "type" : "string",
             "format" : "password"
           }, {
@@ -78,18 +78,18 @@
         },
         "db_query" : {
           "title" : "Query",
-          "description" : "The Query to execute against the PostgreSQL Database",
+          "description" : "The query to execute against the PostgreSQL Database.",
           "type" : "string",
           "example" : "INSERT INTO accounts (username,city) VALUES (:#username,:#city)"
         },
         "db_database_name" : {
           "title" : "Database Name",
-          "description" : "The Database Name we are pointing",
+          "description" : "The name of the PostgreSQL Database.",
           "type" : "string"
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma-separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {

@@ -46,17 +46,17 @@
       "properties" : {
         "gcp_project_id" : {
           "title" : "Project Id",
-          "description" : "The Google Cloud Functions Project Id",
+          "description" : "The Google Cloud Functions Project ID.",
           "type" : "string"
         },
         "gcp_region" : {
           "title" : "Region",
-          "description" : "The Region where the Google Cloud Functions has been deployed",
+          "description" : "The region where Google Cloud Functions has been deployed.",
           "type" : "string"
         },
         "gcp_function_name" : {
           "title" : "Function Name",
-          "description" : "The Function Name",
+          "description" : "The Function name.",
           "type" : "string"
         },
         "gcp_service_account_key" : {
@@ -64,7 +64,7 @@
           "x-group" : "credentials",
           "oneOf" : [ {
             "title" : "Service Account Key",
-            "description" : "The Service account key that can be used as credentials for the Google Cloud Functions platform",
+            "description" : "The path to the service account key file that provides credentials for the Google Cloud Functions platform.",
             "type" : "string",
             "format" : "password"
           }, {
@@ -75,7 +75,7 @@
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma-separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {

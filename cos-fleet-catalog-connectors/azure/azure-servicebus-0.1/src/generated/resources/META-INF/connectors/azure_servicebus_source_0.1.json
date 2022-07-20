@@ -1,0 +1,183 @@
+{
+  "channels" : {
+    "stable" : {
+      "shard_metadata" : {
+        "annotations" : {
+          "trait.camel.apache.org/container.request-cpu" : "0.20",
+          "trait.camel.apache.org/container.request-memory" : "128m",
+          "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
+        },
+        "connector_image" : "quay.io/rhoas/cos-connector-azure-servicebus:0.1.34",
+        "connector_revision" : 34,
+        "connector_type" : "source",
+        "consumes" : "application/octet-stream",
+        "error_handler_strategy" : "stop",
+        "kamelets" : {
+          "adapter" : {
+            "name" : "azure-servicebus-source",
+            "prefix" : "azure"
+          },
+          "kafka" : {
+            "name" : "cos-kafka-sink",
+            "prefix" : "kafka"
+          }
+        },
+        "operators" : [ {
+          "type" : "camel-connector-operator",
+          "version" : "[1.0.0,2.0.0)"
+        } ],
+        "produces" : "application/octet-stream"
+      }
+    }
+  },
+  "connector_type" : {
+    "capabilities" : [ "data_shape", "error_handler", "processors" ],
+    "channels" : [ "stable" ],
+    "description" : "Consume Messages from Azure Servicebus.",
+    "icon_href" : "TODO",
+    "id" : "azure_servicebus_source_0.1",
+    "kind" : "ConnectorType",
+    "labels" : [ "source" ],
+    "name" : "Azure Servicebus source",
+    "schema" : {
+      "type" : "object",
+      "additionalProperties" : false,
+      "required" : [ "azure_topic_or_queue_name", "azure_connection_string", "kafka_topic" ],
+      "properties" : {
+        "azure_topic_or_queue_name" : {
+          "title" : "Topic Or Queue Name",
+          "description" : "Topic Or Queue Name for the Azure Servicebus instance",
+          "type" : "string"
+        },
+        "azure_connection_string" : {
+          "title" : "Connection String",
+          "x-group" : "credentials",
+          "oneOf" : [ {
+            "title" : "Connection String",
+            "description" : "Connection String for Azure Servicebus instance",
+            "type" : "string",
+            "format" : "password"
+          }, {
+            "description" : "An opaque reference to the azure_connection_string",
+            "type" : "object",
+            "properties" : { }
+          } ]
+        },
+        "azure_service_bus_receive_mode" : {
+          "title" : "Servicebus Receive Mode",
+          "description" : "Sets the receive mode for the receiver, possible values are PEEK_LOCK and RECEIVE_AND_DELETE",
+          "type" : "string",
+          "default" : "PEEK_LOCK"
+        },
+        "azure_subscription_name" : {
+          "title" : "Subscription Name",
+          "description" : "Sets the name of the subscription in the topic to listen to. This parameter is mandatory in case of topic.",
+          "type" : "string"
+        },
+        "kafka_topic" : {
+          "title" : "Topic Names",
+          "description" : "A comma-separated list of Kafka topic names.",
+          "type" : "string"
+        },
+        "data_shape" : {
+          "type" : "object",
+          "additionalProperties" : false,
+          "properties" : {
+            "consumes" : {
+              "$ref" : "#/$defs/data_shape/consumes"
+            },
+            "produces" : {
+              "$ref" : "#/$defs/data_shape/produces"
+            }
+          }
+        },
+        "error_handler" : {
+          "type" : "object",
+          "oneOf" : [ {
+            "type" : "object",
+            "additionalProperties" : false,
+            "required" : [ "log" ],
+            "properties" : {
+              "log" : {
+                "$ref" : "#/$defs/error_handler/log"
+              }
+            }
+          }, {
+            "type" : "object",
+            "additionalProperties" : false,
+            "required" : [ "stop" ],
+            "properties" : {
+              "stop" : {
+                "$ref" : "#/$defs/error_handler/stop"
+              }
+            }
+          }, {
+            "type" : "object",
+            "additionalProperties" : false,
+            "required" : [ "dead_letter_queue" ],
+            "properties" : {
+              "dead_letter_queue" : {
+                "$ref" : "#/$defs/error_handler/dead_letter_queue"
+              }
+            }
+          } ],
+          "default" : {
+            "stop" : { }
+          }
+        },
+        "processors" : { }
+      },
+      "$defs" : {
+        "data_shape" : {
+          "consumes" : {
+            "type" : "object",
+            "additionalProperties" : false,
+            "required" : [ "format" ],
+            "properties" : {
+              "format" : {
+                "type" : "string",
+                "default" : "application/octet-stream",
+                "enum" : [ "application/octet-stream" ]
+              }
+            }
+          },
+          "produces" : {
+            "type" : "object",
+            "additionalProperties" : false,
+            "required" : [ "format" ],
+            "properties" : {
+              "format" : {
+                "type" : "string",
+                "default" : "application/octet-stream",
+                "enum" : [ "application/octet-stream" ]
+              }
+            }
+          }
+        },
+        "error_handler" : {
+          "log" : {
+            "type" : "object",
+            "additionalProperties" : false
+          },
+          "stop" : {
+            "type" : "object",
+            "additionalProperties" : false
+          },
+          "dead_letter_queue" : {
+            "type" : "object",
+            "additionalProperties" : false,
+            "required" : [ "topic" ],
+            "properties" : {
+              "topic" : {
+                "type" : "string",
+                "title" : "Dead Letter Topic Name",
+                "description" : "The name of the Kafka topic that serves as a destination for messages which were not processed correctly due to an error."
+              }
+            }
+          }
+        }
+      }
+    },
+    "version" : "0.1"
+  }
+}

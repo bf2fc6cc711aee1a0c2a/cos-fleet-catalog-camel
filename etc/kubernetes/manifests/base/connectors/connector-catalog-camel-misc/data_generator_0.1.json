@@ -46,25 +46,25 @@
       "properties" : {
         "timer_period" : {
           "title" : "Period",
-          "description" : "The interval between two events in milliseconds",
+          "description" : "The interval (in milliseconds) to wait between producing the next message.",
           "type" : "integer",
           "default" : 1000
         },
         "timer_message" : {
           "title" : "Message",
-          "description" : "The message to generate",
+          "description" : "The message to generate.",
           "type" : "string",
           "example" : "hello world"
         },
         "timer_content_type" : {
           "title" : "Content Type",
-          "description" : "The content type of the message being generated",
+          "description" : "The content type of the generated message.",
           "type" : "string",
           "default" : "text/plain"
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma-separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {

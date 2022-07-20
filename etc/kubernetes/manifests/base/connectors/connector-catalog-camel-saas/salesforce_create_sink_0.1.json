@@ -46,19 +46,19 @@
       "properties" : {
         "salesforce_s_object_name" : {
           "title" : "Object Name",
-          "description" : "Type of the object",
+          "description" : "The type of the object.",
           "type" : "string",
           "example" : "Contact"
         },
         "salesforce_login_url" : {
           "title" : "Login URL",
-          "description" : "The Salesforce instance login URL",
+          "description" : "The Salesforce instance login URL.",
           "type" : "string",
           "default" : "https://login.salesforce.com"
         },
         "salesforce_client_id" : {
           "title" : "Consumer Key",
-          "description" : "The Salesforce application consumer key",
+          "description" : "The Salesforce application consumer key.",
           "type" : "string",
           "x-group" : "credentials"
         },
@@ -67,7 +67,7 @@
           "x-group" : "credentials",
           "oneOf" : [ {
             "title" : "Consumer Secret",
-            "description" : "The Salesforce application consumer secret",
+            "description" : "The Salesforce application consumer secret.",
             "type" : "string",
             "format" : "password"
           }, {
@@ -78,7 +78,7 @@
         },
         "salesforce_user_name" : {
           "title" : "Username",
-          "description" : "The Salesforce username",
+          "description" : "The Salesforce username.",
           "type" : "string",
           "x-group" : "credentials"
         },
@@ -87,7 +87,7 @@
           "x-group" : "credentials",
           "oneOf" : [ {
             "title" : "Password",
-            "description" : "The Salesforce user password",
+            "description" : "The Salesforce user password.",
             "type" : "string",
             "format" : "password"
           }, {
@@ -98,7 +98,7 @@
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma-separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {

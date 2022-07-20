@@ -46,19 +46,19 @@
       "properties" : {
         "rest_openapi_specification" : {
           "title" : "Specification URI",
-          "description" : "URI to the OpenApi specification file",
+          "description" : "The URI to the OpenApi specification file.",
           "type" : "string",
           "example" : "https://api.example.com/openapi.json",
           "pattern" : "^(http|https|file|classpath)://.*"
         },
         "rest_openapi_operation" : {
           "title" : "Operation ID",
-          "description" : "The operation to call",
+          "description" : "The operation to call.",
           "type" : "string"
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma-separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {

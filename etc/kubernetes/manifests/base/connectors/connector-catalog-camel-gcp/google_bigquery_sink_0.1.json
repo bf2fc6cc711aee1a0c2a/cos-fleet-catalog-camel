@@ -46,28 +46,28 @@
       "properties" : {
         "gcp_project_id" : {
           "title" : "Google Cloud Project Id",
-          "description" : "Google Cloud Project id",
+          "description" : "The Google Cloud Project ID.",
           "type" : "string"
         },
         "gcp_dataset" : {
           "title" : "Big Query Dataset Id",
-          "description" : "The Big Query Dataset Id",
+          "description" : "The Big Query Dataset ID.",
           "type" : "string"
         },
         "gcp_table" : {
           "title" : "Big Query Table Id",
-          "description" : "The Big Query Table Id",
+          "description" : "The Big Query Table ID.",
           "type" : "string"
         },
         "gcp_credentials_file_location" : {
           "title" : "Google Cloud Platform Credential File",
-          "description" : "The credential to access Google Cloud Platform api services",
+          "description" : "The credential for accessing Google Cloud Platform API services. This value must be a path to a service account key file.",
           "type" : "string",
           "x-group" : "credentials"
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma-separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {

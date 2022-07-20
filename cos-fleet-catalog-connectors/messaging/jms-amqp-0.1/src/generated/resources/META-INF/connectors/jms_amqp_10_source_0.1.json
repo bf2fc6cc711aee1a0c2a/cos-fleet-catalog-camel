@@ -46,24 +46,24 @@
       "properties" : {
         "jms_amqp_destination_type" : {
           "title" : "Destination Type",
-          "description" : "The JMS destination type (i.e.: queue or topic)",
+          "description" : "The JMS destination type (queue or topic).",
           "type" : "string",
           "default" : "queue"
         },
         "jms_amqp_destination_name" : {
           "title" : "Destination Name",
-          "description" : "The JMS destination name",
+          "description" : "The JMS destination name.",
           "type" : "string"
         },
         "jms_amqp_remote_u_r_i" : {
           "title" : "Broker URL",
-          "description" : "The JMS URL",
+          "description" : "The JMS URL.",
           "type" : "string",
           "example" : "amqp://my-host:31616"
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma-separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {

@@ -46,7 +46,7 @@
       "properties" : {
         "azure_period" : {
           "title" : "Period between Polls",
-          "description" : "The interval between fetches to the Azure Storage Changefeed in milliseconds",
+          "description" : "The interval (in milliseconds) between fetches to the Azure Storage change feed.",
           "type" : "integer",
           "default" : 10000
         },
@@ -72,7 +72,7 @@
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma-separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {

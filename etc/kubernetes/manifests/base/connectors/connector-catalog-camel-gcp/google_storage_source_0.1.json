@@ -46,7 +46,7 @@
       "properties" : {
         "gcp_bucket_name_or_arn" : {
           "title" : "Bucket Name Or ARN",
-          "description" : "The Bucket Name or Bucket ARN",
+          "description" : "The Google Cloud Storage bucket name or Bucket Amazon Resource Name (ARN).",
           "type" : "string"
         },
         "gcp_service_account_key" : {
@@ -54,7 +54,7 @@
           "x-group" : "credentials",
           "oneOf" : [ {
             "title" : "Service Account Key",
-            "description" : "The Service account key that can be used as credentials for the Google Cloud Storage access.",
+            "description" : "TThe service account key to use as credentials for Google Cloud Storage access. You must encode this value in base64.",
             "type" : "string",
             "format" : "password"
           }, {
@@ -65,19 +65,19 @@
         },
         "gcp_delete_after_read" : {
           "title" : "Auto-delete Objects",
-          "description" : "Delete objects after consuming them",
+          "description" : "Specifies to delete objects after consuming them.",
           "type" : "boolean",
           "default" : true
         },
         "gcp_auto_create_bucket" : {
           "title" : "Autocreate Bucket",
-          "description" : "Setting the autocreation of the Google Cloud Storage bucket bucketNameOrArn.",
+          "description" : "Specifies to automatically create the Google Cloud Storage bucket.",
           "type" : "boolean",
           "default" : false
         },
         "kafka_topic" : {
           "title" : "Topic Names",
-          "description" : "Comma separated list of Kafka topic names",
+          "description" : "A comma-separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {
