@@ -7,8 +7,8 @@
           "trait.camel.apache.org/container.request-memory" : "128m",
           "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
         },
-        "connector_image" : "quay.io/rhoas/cos-connector-jira:0.1.34",
-        "connector_revision" : 34,
+        "connector_image" : "quay.io/rhoas/cos-connector-jira:0.1.35",
+        "connector_revision" : 35,
         "connector_type" : "source",
         "consumes" : "application/json",
         "error_handler_strategy" : "stop",
