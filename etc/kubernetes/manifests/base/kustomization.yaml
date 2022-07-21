@@ -20,6 +20,7 @@ configMapGenerator:
 - files:
   - connectors/connector-catalog-camel-azure/azure_eventhubs_sink_0.1.json
   - connectors/connector-catalog-camel-azure/azure_eventhubs_source_0.1.json
+  - connectors/connector-catalog-camel-azure/azure_functions_sink_0.1.json
   - connectors/connector-catalog-camel-azure/azure_storage_blob_changefeed_source_0.1.json
   - connectors/connector-catalog-camel-azure/azure_storage_blob_sink_0.1.json
   - connectors/connector-catalog-camel-azure/azure_storage_blob_source_0.1.json
