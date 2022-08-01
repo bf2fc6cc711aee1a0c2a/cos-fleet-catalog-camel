@@ -51,12 +51,12 @@
         <maven-failsafe-plugin.version>3.0.0-M7</maven-failsafe-plugin.version>
         <maven-jar-plugin.version>3.2.2</maven-jar-plugin.version>
         <maven-plugin-plugin.version>3.6.4</maven-plugin-plugin.version>
-        <formatter-maven-plugin.version>2.19.0</formatter-maven-plugin.version>
+        <formatter-maven-plugin.version>2.20.0</formatter-maven-plugin.version>
         <impsort-maven-plugin.version>1.7.0</impsort-maven-plugin.version>
         <build-helper-maven-plugin.version>3.3.0</build-helper-maven-plugin.version>
         <git-commit-id-maven-plugin.version>5.0.0</git-commit-id-maven-plugin.version>
         <exec-maven-plugin.version>3.0.0</exec-maven-plugin.version>
-        <maven-resources-plugin.version>3.2.0</maven-resources-plugin.version>
+        <maven-resources-plugin.version>3.3.0</maven-resources-plugin.version>
         <maven-invoker-plugin.version>3.3.0</maven-invoker-plugin.version>
         <gmavenplus-plugin.version>1.13.1</gmavenplus-plugin.version>
         <maven-clean-plugin.version>3.2.0</maven-clean-plugin.version>
