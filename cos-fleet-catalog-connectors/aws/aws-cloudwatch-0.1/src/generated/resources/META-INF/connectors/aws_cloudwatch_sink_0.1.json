@@ -7,8 +7,8 @@
           "trait.camel.apache.org/container.request-memory" : "128m",
           "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
         },
-        "connector_image" : "quay.io/rhoas/cos-connector-aws-cloudwatch:0.1.35",
-        "connector_revision" : 35,
+        "connector_image" : "quay.io/rhoas/cos-connector-aws-cloudwatch:0.1.29",
+        "connector_revision" : 29,
         "connector_type" : "sink",
         "consumes" : "application/octet-stream",
         "error_handler_strategy" : "stop",
@@ -20,6 +20,11 @@
           "kafka" : {
             "name" : "cos-kafka-source",
             "prefix" : "kafka"
+          },
+          "processors" : {
+            "filter" : "cos-filter-action",
+            "set_header" : "cos-set-header-action",
+            "transform" : "cos-transform-action"
           }
         },
         "operators" : [ {
@@ -143,7 +148,10 @@
             "stop" : { }
           }
         },
-        "processors" : { }
+        "processors" : {
+          "type" : "object",
+          "additionalProperties" : false
+        }
       },
       "$defs" : {
         "data_shape" : {
