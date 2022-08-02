@@ -1,6 +1,7 @@
 package org.bf2.cos.connector.camel.jq;
 
 import org.apache.camel.CamelContext;
+import org.apache.camel.model.language.JqExpression;
 
 public final class Jq {
     private Jq() {

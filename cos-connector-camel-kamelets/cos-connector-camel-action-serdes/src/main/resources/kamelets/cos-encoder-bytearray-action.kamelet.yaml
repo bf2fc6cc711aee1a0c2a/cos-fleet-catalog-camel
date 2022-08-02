@@ -40,7 +40,7 @@ spec:
   dependencies:
     - "camel:kamelet"
     - "camel:core"
-  flow:
+  template:
     from:
       uri: "kamelet:source"
       steps:

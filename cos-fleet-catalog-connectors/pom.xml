@@ -70,10 +70,6 @@
             <groupId>org.bf2</groupId>
             <artifactId>cos-connector-camel-component-routecontroller</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.bf2</groupId>
-            <artifactId>cos-connector-camel-jq</artifactId>
-        </dependency>
 
         <!-- kamelets -->
         <dependency>

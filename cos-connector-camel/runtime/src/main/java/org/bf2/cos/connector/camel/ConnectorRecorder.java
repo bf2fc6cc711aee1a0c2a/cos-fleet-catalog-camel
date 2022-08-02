@@ -10,8 +10,13 @@ import io.quarkus.runtime.annotations.Recorder;
 
 @Recorder
 public class ConnectorRecorder {
+
     public RuntimeValue<CamelContextCustomizer> createContextCustomizer(ConnectorConfig config) {
         return new RuntimeValue<>(new ConnectorContextCustomizer(config));
+    }
+
+    public RuntimeValue<CamelContextCustomizer> createRuntimeContextCustomizer(ConnectorConfig config) {
+        return new RuntimeValue<>(new ConnectorRuntimeContextCustomizer(config));
     }
 
     public static class ConnectorContextCustomizer implements CamelContextCustomizer {
@@ -23,8 +28,6 @@ public class ConnectorRecorder {
 
         @Override
         public void configure(CamelContext camelContext) {
-            camelContext.getGlobalOptions().put(JacksonConstants.ENABLE_TYPE_CONVERTER, "true");
-
             // WARNING: this is clearly an hack !!!!
             //
             // The default RefLanguage component lazily resolve the ref expression
@@ -36,7 +39,29 @@ public class ConnectorRecorder {
             // the expression (aka, it happens at reify time) as a workaround.
 
             camelContext.getRegistry().bind("ref", new EagerRefLanguage());
+        }
+    }
 
+    public static class ConnectorRuntimeContextCustomizer implements CamelContextCustomizer {
+        private final ConnectorConfig config;
+
+        public ConnectorRuntimeContextCustomizer(ConnectorConfig config) {
+            this.config = config;
+        }
+
+        @Override
+        public void configure(CamelContext camelContext) {
+            camelContext.getGlobalOptions().put(JacksonConstants.ENABLE_TYPE_CONVERTER, "true");
+
+            //
+            // Since camel 3.17, the stream caching is enabled by default on CamelContext
+            // however it does not play very well with the current connector set-up so
+            // we have to temporarily disable it
+            //
+            // For more info see:
+            // - https://camel.apache.org/manual/camel-3x-upgrade-guide-3_17.html#_stream_caching
+            //
+            camelContext.setStreamCaching(false);
         }
     }
 }

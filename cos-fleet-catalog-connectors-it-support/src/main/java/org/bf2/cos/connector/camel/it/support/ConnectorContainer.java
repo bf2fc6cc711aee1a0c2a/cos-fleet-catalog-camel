@@ -243,9 +243,11 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
                     ArrayNode integration = yaml.createArrayNode();
                     ObjectNode route = integration.addObject().with("route");
                     ObjectNode from = route.with("from");
-                    ArrayNode steps = route.withArray("steps");
+                    ArrayNode steps = from.withArray("steps");
 
                     configureProcessors(meta, steps, properties);
+
+                    steps.addObject().with("to").put("uri", "log:pre?showAll=true&multiline=true");
 
                     if (consumes != null) {
                         switch (consumes) {
@@ -316,7 +318,7 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
 
                     steps.addObject().with("removeHeader").put("name", "X-Content-Schema");
                     steps.addObject().with("removeProperty").put("name", "X-Content-Schema");
-                    steps.addObject().with("to").put("uri", "log:debug?showAll=true&multiline=true");
+                    steps.addObject().with("to").put("uri", "log:post?showAll=true&multiline=true");
 
                     ObjectNode to = yaml.createObjectNode();
 

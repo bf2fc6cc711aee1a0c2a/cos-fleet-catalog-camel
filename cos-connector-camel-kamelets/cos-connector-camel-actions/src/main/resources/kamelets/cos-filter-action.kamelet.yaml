@@ -30,7 +30,7 @@ spec:
           - jq
   dependencies:
     - "camel:kamelet"
-  flow:
+  template:
     beans:
       - name: "action"
         type: "#class:org.bf2.cos.connector.camel.actions.FilterAction"

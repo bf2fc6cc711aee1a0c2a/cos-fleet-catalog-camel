@@ -31,7 +31,7 @@ spec:
           - constant
   dependencies:
     - "camel:kamelet"
-  flow:
+  template:
     beans:
       - name: "action"
         type: "#class:org.bf2.cos.connector.camel.actions.TransformAction"

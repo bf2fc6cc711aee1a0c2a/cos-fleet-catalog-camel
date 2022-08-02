@@ -5,8 +5,8 @@ import org.apache.camel.CamelContextAware;
 import org.apache.camel.Exchange;
 import org.apache.camel.Expression;
 import org.apache.camel.model.language.ConstantExpression;
+import org.apache.camel.model.language.JqExpression;
 import org.apache.camel.support.ExpressionAdapter;
-import org.bf2.cos.connector.camel.jq.JqExpression;
 
 public class SetHeaderAction extends ExpressionAdapter implements CamelContextAware {
     private CamelContext context;

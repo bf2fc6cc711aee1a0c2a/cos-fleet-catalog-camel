@@ -33,7 +33,7 @@ spec:
   dependencies:
     - "camel:log"
     - "camel:kamelet"
-  flow:
+  template:
     from:
       uri: "kamelet:source"
       steps:

@@ -17,6 +17,7 @@
 
     <properties>
         <cos.connector.catalog.group>sql</cos.connector.catalog.group>
+        <quarkus.datasource.health.enabled>false</quarkus.datasource.health.enabled>
     </properties>
 
     <modules>

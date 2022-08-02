@@ -4,7 +4,7 @@ import org.apache.camel.CamelContext;
 import org.apache.camel.CamelContextAware;
 import org.apache.camel.Exchange;
 import org.apache.camel.Predicate;
-import org.bf2.cos.connector.camel.jq.JqExpression;
+import org.apache.camel.language.jq.JqExpression;
 
 public class FilterAction implements Predicate, CamelContextAware {
     private CamelContext context;

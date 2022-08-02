@@ -6,6 +6,7 @@ import org.apache.camel.CamelContext;
 import org.apache.camel.CamelContextAware;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.apache.camel.model.language.JqExpression;
 
 public class JqProcessor implements Processor, CamelContextAware {
 
@@ -27,7 +28,7 @@ public class JqProcessor implements Processor, CamelContextAware {
             this.camelExpression.init(camelContext);
         }
 
-        Object answer = camelExpression.evaluate(exchange);
+        Object answer = camelExpression.evaluate(exchange, Object.class);
         exchange.getMessage().setBody(answer);
     }
 

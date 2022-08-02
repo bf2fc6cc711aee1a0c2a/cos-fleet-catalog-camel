@@ -7,12 +7,10 @@ import java.util.stream.Stream;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.CamelContextAware;
-import org.apache.camel.DeferredContextBinding;
 import org.apache.camel.ExtendedCamelContext;
 import org.apache.camel.NonManagedService;
 import org.apache.camel.StaticService;
 import org.apache.camel.health.HealthCheck;
-import org.apache.camel.health.HealthCheckConfiguration;
 import org.apache.camel.health.HealthCheckRegistry;
 import org.apache.camel.health.HealthCheckRepository;
 import org.apache.camel.health.HealthCheckResolver;
@@ -67,22 +65,6 @@ public class KafkaHealthCheckRepository extends ServiceSupport
 
     public void removeHealthCheck(String id) {
         this.checks.remove(id);
-    }
-
-    @Override
-    public void setConfigurations(Map<String, HealthCheckConfiguration> configurations) {
-        // unsupported
-    }
-
-    @Override
-    public Map<String, HealthCheckConfiguration> getConfigurations() {
-        // unsupported
-        return Map.of();
-    }
-
-    @Override
-    public void addConfiguration(String id, HealthCheckConfiguration configuration) {
-        // unsupported
     }
 
     public static KafkaHealthCheckRepository get(CamelContext context) {
