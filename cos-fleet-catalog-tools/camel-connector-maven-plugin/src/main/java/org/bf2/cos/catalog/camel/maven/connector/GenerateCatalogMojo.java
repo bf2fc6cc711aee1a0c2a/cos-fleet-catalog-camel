@@ -39,6 +39,7 @@ import org.bf2.cos.catalog.camel.maven.connector.model.ConnectorDefinition;
 import org.bf2.cos.catalog.camel.maven.connector.support.Annotation;
 import org.bf2.cos.catalog.camel.maven.connector.support.AppBootstrapProvider;
 import org.bf2.cos.catalog.camel.maven.connector.support.CatalogConstants;
+import org.bf2.cos.catalog.camel.maven.connector.support.CatalogSupport;
 import org.bf2.cos.catalog.camel.maven.connector.support.Connector;
 import org.bf2.cos.catalog.camel.maven.connector.support.ConnectorIndex;
 import org.bf2.cos.catalog.camel.maven.connector.support.ConnectorManifest;
@@ -442,6 +443,20 @@ public class GenerateCatalogMojo extends AbstractMojo {
                     }
                 }
             }
+
+            //
+            // Disable additional properties if empty capabilities
+            //
+
+            CatalogSupport.disableAdditionalProperties(
+                    def.getConnectorType().getSchema(),
+                    "/properties/" + CatalogConstants.CAPABILITY_PROCESSORS);
+            CatalogSupport.disableAdditionalProperties(
+                    def.getConnectorType().getSchema(),
+                    "/properties/" + CatalogConstants.CAPABILITY_ERROR_HANDLER);
+            CatalogSupport.disableAdditionalProperties(
+                    def.getConnectorType().getSchema(),
+                    "/properties/" + CatalogConstants.CAPABILITY_DATA_SHAPE);
 
             //
             // Patch
