@@ -39,6 +39,8 @@ spec:
           producerCreationRetryMs: '{{producerCreationRetryMs:5000}}'
       - name: "add-exception-processor"
         type: "#class:org.bf2.cos.connector.camel.processor.AddExceptionHeaderProcessor"
+      - name: "kafka-header-serializer"
+        type: "#class:org.bf2.cos.connector.camel.kafka.DefaultKafkaHeaderSerializer"
     from:
       uri: "kamelet:source"
       steps:
@@ -64,3 +66,4 @@ spec:
             keySerializer: "{{keySerializer:org.apache.kafka.common.serialization.ByteArraySerializer}}"
             valueSerializer: "{{valueSerializer:org.bf2.cos.connector.camel.serdes.bytes.ByteArraySerializer}}"
             kafkaClientFactory: "#{{kafka-client-factory}}"
+            headerSerializer: "#{{kafka-header-serializer}}"

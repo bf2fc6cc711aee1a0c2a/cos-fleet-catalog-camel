@@ -339,7 +339,7 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
                         }
                     }
 
-                    configureProcessors(meta, steps, properties);
+                    configureProcessors(mapper, meta, steps, properties);
 
                     if (produces != null) {
                         switch (produces) {
@@ -492,25 +492,16 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
             }
         }
 
-        @SuppressWarnings("unchecked")
-        private boolean configureProcessors(JsonNode meta, ArrayNode steps, Map<String, Object> properties) {
+        private boolean configureProcessors(ObjectMapper mapper, JsonNode meta, ArrayNode steps,
+                Map<String, Object> properties) {
             if (!properties.containsKey("processors")) {
                 return false;
             }
 
-            List<Map<String, Object>> p = (List<Map<String, Object>>) properties.get("processors");
-
-            p.stream().flatMap(pd -> pd.entrySet().stream()).forEach(proc -> {
-                final String key = proc.getKey();
-                final Map<String, Object> props = (Map<String, Object>) proc.getValue();
-
-                ObjectNode step = steps.addObject().with("kamelet");
-                step.put("name", meta.requiredAt("/kamelets/processors/" + key).asText());
-
-                props.forEach((k, v) -> step.with("parameters").put(k, v.toString()));
-            });
-
+            ArrayNode procs = mapper.convertValue(properties.get("processors"), ArrayNode.class);
+            steps.addAll(procs);
             return true;
         }
+
     }
 }

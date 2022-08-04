@@ -32,6 +32,7 @@
         <module>salesforce</module>
         <module>slack</module>
         <module>openapi</module>
+        <module>actions</module>
     </modules>
 
     <build>
