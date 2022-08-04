@@ -300,6 +300,11 @@
                 <artifactId>cos-connector-openapi</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-actions</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.bf2</groupId>

@@ -1,0 +1,36 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-rename-field-action
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.group: "Transform"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "action"
+spec:
+  definition:
+    title: "RenameField"
+    description: |-
+      Rename Field Action
+    type: object
+    required:
+      - from
+      - to
+    properties:
+      from:
+        title: From
+        description: From
+        type: string
+      to:
+        title: To
+        description: To
+        type: string
+  dependencies:
+    - "camel:kamelet"
+  template:
+    from:
+      uri: "kamelet:source"
+      steps:
+        - transform:
+            jq: "to_entries | map( if .key == \"{{from}}\" then .key = \"{{to}}\" else . end) | from_entries"
