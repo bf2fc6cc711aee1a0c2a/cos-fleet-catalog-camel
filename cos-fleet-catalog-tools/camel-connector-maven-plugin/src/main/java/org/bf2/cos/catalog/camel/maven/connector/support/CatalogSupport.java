@@ -470,4 +470,21 @@ public final class CatalogSupport {
                     "#/$defs/" + group + "/" + propertyName);
         });
     }
+
+    public static void disableAdditionalProperties(JsonNode root, String path) {
+        JsonNode node = root.at(path);
+
+        if (node.isMissingNode()) {
+            return;
+        }
+        if (!node.isEmpty()) {
+            return;
+        }
+        if (!node.isObject()) {
+            return;
+        }
+
+        ((ObjectNode) node).put("type", "object");
+        ((ObjectNode) node).put("additionalProperties", false);
+    }
 }

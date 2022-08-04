@@ -188,7 +188,7 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
 
     public static class Builder {
         private final Path definition;
-        private final Map<String, String> properties;
+        private final Map<String, Object> properties;
         private final Map<String, String> userProperties;
 
         private Network network;
@@ -219,7 +219,7 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
             return this;
         }
 
-        public Builder withProperties(Map<String, String> properties) {
+        public Builder withProperties(Map<String, Object> properties) {
             Objects.requireNonNull(properties);
 
             this.properties.putAll(properties);
@@ -298,7 +298,7 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
                                         "camel.beans.defaultErrorHandler.deadLetterUri",
                                         "kamelet:cos-kafka-not-secured-sink/errorHandler",
                                         "camel.kamelet.cos-kafka-not-secured-sink.errorHandler.bootstrapServers",
-                                        properties.get("kafka_bootstrap_servers"),
+                                        properties.get("kafka_bootstrap_servers").toString(),
                                         "camel.kamelet.cos-kafka-not-secured-sink.errorHandler.topic",
                                         dlqKafkaTopic,
                                         "camel.beans.defaultErrorHandler.useOriginalMessage",
@@ -338,6 +338,8 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
                                 throw new IllegalArgumentException("Unsupported value format " + consumes);
                         }
                     }
+
+                    configureProcessors(meta, steps, properties);
 
                     if (produces != null) {
                         switch (produces) {
@@ -381,7 +383,7 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
                                 "org.bf2.cos.connector.camel.processor.SimulateErrorProcessor");
                     }
 
-                    ObjectNode to = steps.addObject().with("to");
+                    ObjectNode to = yaml.createObjectNode();
 
                     switch (type) {
                         case "source":
@@ -389,38 +391,64 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
                             to.put("uri", "kamelet:cos-kafka-not-secured-sink");
 
                             for (var entry : properties.entrySet()) {
+                                if (entry.getKey().equals("processors")) {
+                                    continue;
+                                }
+                                if (entry.getKey().equals("data_shape")) {
+                                    continue;
+                                }
+                                if (entry.getKey().equals("error_handler")) {
+                                    continue;
+                                }
+
                                 if (entry.getKey().startsWith(adapterPrefix + "_")) {
                                     String key = entry.getKey().substring(adapterPrefix.length());
                                     key = CaseUtils.toCamelCase(key, false, '_');
 
-                                    from.with("parameters").put(key, entry.getValue());
+                                    from.with("parameters").put(key, entry.getValue().toString());
                                 }
                                 if (entry.getKey().startsWith(kafkaPrefix + "_")) {
                                     String key = entry.getKey().substring(kafkaPrefix.length());
                                     key = CaseUtils.toCamelCase(key, false, '_');
 
-                                    to.with("parameters").put(key, entry.getValue());
+                                    to.with("parameters").put(key, entry.getValue().toString());
                                 }
                             }
+
+                            steps.addObject().set("to", to);
+
                             break;
                         case "sink":
                             from.put("uri", "kamelet:cos-kafka-not-secured-source");
                             to.put("uri", "kamelet:" + adapterKamelet);
 
                             for (var entry : properties.entrySet()) {
+                                if (entry.getKey().equals("processors")) {
+                                    continue;
+                                }
+                                if (entry.getKey().equals("data_shape")) {
+                                    continue;
+                                }
+                                if (entry.getKey().equals("error_handler")) {
+                                    continue;
+                                }
+
                                 if (entry.getKey().startsWith(kafkaPrefix + "_")) {
                                     String key = entry.getKey().substring(kafkaPrefix.length());
                                     key = CaseUtils.toCamelCase(key, false, '_');
 
-                                    from.with("parameters").put(key, entry.getValue());
+                                    from.with("parameters").put(key, entry.getValue().toString());
                                 }
                                 if (entry.getKey().startsWith(adapterPrefix + "_")) {
                                     String key = entry.getKey().substring(adapterPrefix.length());
                                     key = CaseUtils.toCamelCase(key, false, '_');
 
-                                    to.with("parameters").put(key, entry.getValue());
+                                    to.with("parameters").put(key, entry.getValue().toString());
                                 }
                             }
+
+                            steps.addObject().set("to", to);
+
                             break;
                         default:
                             throw new IllegalArgumentException("Unsupported type: " + type);
@@ -462,6 +490,27 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+        }
+
+        @SuppressWarnings("unchecked")
+        private boolean configureProcessors(JsonNode meta, ArrayNode steps, Map<String, Object> properties) {
+            if (!properties.containsKey("processors")) {
+                return false;
+            }
+
+            List<Map<String, Object>> p = (List<Map<String, Object>>) properties.get("processors");
+
+            p.stream().flatMap(pd -> pd.entrySet().stream()).forEach(proc -> {
+                final String key = proc.getKey();
+                final Map<String, Object> props = (Map<String, Object>) proc.getValue();
+
+                ObjectNode step = steps.addObject().with("kamelet");
+                step.put("name", meta.requiredAt("/kamelets/processors/" + key).asText());
+
+                props.forEach((k, v) -> step.with("parameters").put(k, v.toString()));
+            });
+
+            return true;
         }
     }
 }

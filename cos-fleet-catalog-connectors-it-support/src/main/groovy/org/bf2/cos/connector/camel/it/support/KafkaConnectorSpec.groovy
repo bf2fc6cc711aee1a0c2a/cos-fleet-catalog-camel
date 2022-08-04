@@ -1,5 +1,7 @@
 package org.bf2.cos.connector.camel.it.support
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import groovy.util.logging.Slf4j
 import io.restassured.RestAssured
 import io.restassured.builder.RequestSpecBuilder
@@ -8,10 +10,13 @@ import org.testcontainers.containers.Network
 
 @Slf4j
 abstract class KafkaConnectorSpec extends ConnectorSpecSupport {
+    static ObjectMapper mapper
     static Network network
     static KafkaContainer kafka
 
     def setupSpec() {
+        mapper = new ObjectMapper(new YAMLFactory())
+
         RestAssured.requestSpecification = new RequestSpecBuilder()
                 .setContentType(ContentType.JSON)
                 .setAccept(ContentType.JSON)
@@ -46,7 +51,7 @@ abstract class KafkaConnectorSpec extends ConnectorSpecSupport {
         return topic
     }
 
-    ConnectorContainer connectorContainer(String definition, Map<String, String> properties) {
+    ConnectorContainer connectorContainer(String definition, Map<String, Object> properties) {
         return ConnectorContainer.forDefinition(definition).withProperties(properties).witNetwork(network).build()
     }
 
@@ -60,6 +65,10 @@ abstract class KafkaConnectorSpec extends ConnectorSpecSupport {
                 .withProperties(properties)
                 .witNetwork(network)
                 .build()
+    }
+
+    ConnectorContainer connectorContainer(String definition, String configuration) {
+        return connectorContainer(definition, mapper.readValue(configuration, Map.class))
     }
 
     ConnectorContainer.Builder connectorContainer(String definition) {
