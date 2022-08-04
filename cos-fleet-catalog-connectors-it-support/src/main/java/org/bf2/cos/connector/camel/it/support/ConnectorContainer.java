@@ -245,8 +245,6 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
                     ObjectNode from = route.with("from");
                     ArrayNode steps = from.withArray("steps");
 
-                    configureProcessors(meta, steps, properties);
-
                     steps.addObject().with("to").put("uri", "log:pre?showAll=true&multiline=true");
 
                     if (consumes != null) {
@@ -282,6 +280,8 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
                                 throw new IllegalArgumentException("Unsupported value format " + consumes);
                         }
                     }
+
+                    configureProcessors(meta, steps, properties);
 
                     if (produces != null) {
                         switch (produces) {
