@@ -245,6 +245,8 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
                     ObjectNode from = route.with("from");
                     ArrayNode steps = route.withArray("steps");
 
+                    steps.addObject().with("to").put("uri", "log:before?showAll=true&multiline=true");
+
                     if (consumes != null) {
                         switch (consumes) {
                             case "application/json": {

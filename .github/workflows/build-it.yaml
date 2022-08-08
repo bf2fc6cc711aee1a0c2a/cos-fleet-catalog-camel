@@ -44,6 +44,11 @@ jobs:
           tar -xzf ../maven-repo.tgz -C ~
           df -h /
       - name: "Run"
+        env:
+          SF_CLIENT_ID: ${{ secrets.SF_CLIENT_ID }}
+          SF_CLIENT_SECRET: ${{ secrets.SF_CLIENT_SECRET }}
+          SF_CLIENT_USERNAME: ${{ secrets.SF_CLIENT_USERNAME }}
+          SF_CLIENT_PASSWORD: ${{ secrets.SF_CLIENT_PASSWORD }}
         run: |
           ./mvnw ${MAVEN_ARGS} clean install \
             -Dcos.connector.container.repository=${{ inputs.containerRepo }} \

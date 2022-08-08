@@ -52,6 +52,7 @@ jobs:
     needs:
       - build
     uses: ./.github/workflows/build-it.yaml
+    secrets: inherit
     with:
       modules: ":cos-fleet-catalog-connectors-aws,:cos-fleet-catalog-connectors-aws-it"
       containerRepo: ttl.sh
@@ -62,6 +63,7 @@ jobs:
     needs:
       - build
     uses: ./.github/workflows/build-it.yaml
+    secrets: inherit
     with:
       modules: ":cos-fleet-catalog-connectors-azure,:cos-fleet-catalog-connectors-azure-it"
       containerRepo: ttl.sh
@@ -72,6 +74,7 @@ jobs:
     needs:
       - build
     uses: ./.github/workflows/build-it.yaml
+    secrets: inherit
     with:
       modules: ":cos-fleet-catalog-connectors-gcp,:cos-fleet-catalog-connectors-gcp-it"
       containerRepo: ttl.sh
@@ -82,6 +85,7 @@ jobs:
     needs:
       - build
     uses: ./.github/workflows/build-it.yaml
+    secrets: inherit
     with:
       modules: ":cos-fleet-catalog-connectors-itops,:cos-fleet-catalog-connectors-itops-it"
       containerRepo: ttl.sh
@@ -92,6 +96,7 @@ jobs:
     needs:
       - build
     uses: ./.github/workflows/build-it.yaml
+    secrets: inherit
     with:
       modules: ":cos-fleet-catalog-connectors-messaging,:cos-fleet-catalog-connectors-messaging-it"
       containerRepo: ttl.sh
@@ -102,6 +107,7 @@ jobs:
     needs:
       - build
     uses: ./.github/workflows/build-it.yaml
+    secrets: inherit
     with:
       modules: ":cos-fleet-catalog-connectors-misc,:cos-fleet-catalog-connectors-misc-it"
       containerRepo: ttl.sh
@@ -112,6 +118,7 @@ jobs:
     needs:
       - build
     uses: ./.github/workflows/build-it.yaml
+    secrets: inherit
     with:
       modules: ":cos-fleet-catalog-connectors-nosql,:cos-fleet-catalog-connectors-nosql-it"
       containerRepo: ttl.sh
@@ -122,8 +129,9 @@ jobs:
     needs:
       - build
     uses: ./.github/workflows/build-it.yaml
+    secrets: inherit
     with:
-      modules: ":cos-fleet-catalog-connectors-saas"
+      modules: ":cos-fleet-catalog-connectors-saas,:cos-fleet-catalog-connectors-saas-it"
       containerRepo: ttl.sh
       containerOrg: ${{ github.sha }}
       containerTag: ${{ github.run_id }}-${{ github.run_attempt }}
@@ -132,6 +140,7 @@ jobs:
     needs:
       - build
     uses: ./.github/workflows/build-it.yaml
+    secrets: inherit
     with:
       modules: ":cos-fleet-catalog-connectors-social,:cos-fleet-catalog-connectors-social-it"
       containerRepo: ttl.sh
@@ -142,6 +151,7 @@ jobs:
     needs:
       - build
     uses: ./.github/workflows/build-it.yaml
+    secrets: inherit
     with:
       modules: ":cos-fleet-catalog-connectors-sql,:cos-fleet-catalog-connectors-sql-it"
       containerRepo: ttl.sh
@@ -152,6 +162,7 @@ jobs:
     needs:
       - build
     uses: ./.github/workflows/build-it.yaml
+    secrets: inherit
     with:
       modules: ":cos-fleet-catalog-connectors-storage"
       containerRepo: ttl.sh
