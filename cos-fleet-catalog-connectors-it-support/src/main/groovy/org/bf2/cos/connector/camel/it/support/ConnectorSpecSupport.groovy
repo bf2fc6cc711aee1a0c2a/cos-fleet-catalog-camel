@@ -41,6 +41,13 @@ abstract class ConnectorSpecSupport extends Specification {
         until(timeout, unit, condition)
     }
 
+    static void await(long timeout, long poll, TimeUnit unit, Closure<Boolean> condition) {
+        Awaitility.await()
+                .atMost(timeout, unit)
+                .pollDelay(poll, unit)
+                .until(() -> condition())
+    }
+
     static void until(long timeout, TimeUnit unit, Closure<Boolean> condition) {
         Awaitility.await()
                 .atMost(timeout, unit)

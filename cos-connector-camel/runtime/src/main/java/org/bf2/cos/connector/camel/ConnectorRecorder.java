@@ -1,7 +1,6 @@
 package org.bf2.cos.connector.camel;
 
 import org.apache.camel.CamelContext;
-import org.apache.camel.component.jackson.JacksonConstants;
 import org.apache.camel.spi.CamelContextCustomizer;
 
 import io.quarkus.runtime.RuntimeValue;
@@ -22,7 +21,6 @@ public class ConnectorRecorder {
 
         @Override
         public void configure(CamelContext camelContext) {
-            camelContext.getGlobalOptions().put(JacksonConstants.ENABLE_TYPE_CONVERTER, "true");
         }
     }
 }

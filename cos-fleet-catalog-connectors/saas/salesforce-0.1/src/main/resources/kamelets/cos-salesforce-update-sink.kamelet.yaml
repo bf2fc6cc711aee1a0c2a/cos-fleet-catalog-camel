@@ -1,0 +1,113 @@
+#---------------------------------------------------------------------------
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ---------------------------------------------------------------------------
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-salesforce-update-sink
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.group: "saas"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "sink"
+spec:
+  definition:
+    title: "Salesforce Update Sink"
+    description: |-
+      Update an object in Salesforce. 
+      
+      The body received must contain a JSON key-value pair for each property to update, for example: `{ "Phone": "1234567890", "Name": "Antonia" }`
+      
+      The body received must include the `sObjectName` and `sObjectId` properties.
+
+    required:
+      - sObjectName
+      - sObjectId
+      - clientId
+      - clientSecret
+      - userName
+      - password
+    type: object
+    properties:
+      sObjectName:
+        title: Object Name
+        description: The type of the Salesforce object. Required if using a key-value pair.
+        type: string
+        example: Contact
+      sObjectId:
+        title: Object Id
+        description: The ID of the Salesforce object. Required if using a key-value pair.
+        type: string
+      loginUrl:
+        title: Login URL
+        description: The Salesforce instance login URL.
+        type: string
+        default: https://login.salesforce.com
+      clientId:
+        title: Consumer Key
+        description: The Salesforce application consumer key.
+        type: string
+        x-descriptors:
+        - urn:camel:group:credentials
+      clientSecret:
+        title: Consumer Secret
+        description: The Salesforce application consumer secret.
+        type: string
+        format: password
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:password
+        - urn:camel:group:credentials
+      userName:
+        title: Username
+        description: The Salesforce username.
+        type: string
+        x-descriptors:
+        - urn:camel:group:credentials
+      password:
+        title: Password
+        description: The Salesforce user password.
+        type: string
+        format: password
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:password
+        - urn:camel:group:credentials
+  types:
+    in:
+      mediaType: application/json
+  dependencies:
+  - "camel:salesforce"
+  - "camel:kamelet"
+  template:
+    beans:
+      - name: local-salesforce
+        type: "#class:org.apache.camel.component.salesforce.SalesforceComponent"
+        properties:
+          clientId: "{{clientId}}"
+          clientSecret: "{{clientSecret}}"
+          userName: "{{userName}}"
+          password: "{{password}}"
+          loginUrl: "{{loginUrl}}"
+    from:
+      uri: kamelet:source
+      steps:
+        - to:
+            uri: "{{local-salesforce}}:updateSObject"
+            parameters:
+              sObjectId: "{{sObjectId}}"
+              sObjectName: "{{sObjectName}}"
+              rawPayload: "true"
+              format: "JSON"

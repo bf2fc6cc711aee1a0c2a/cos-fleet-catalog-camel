@@ -14,7 +14,7 @@
         "error_handler_strategy" : "stop",
         "kamelets" : {
           "adapter" : {
-            "name" : "salesforce-delete-sink",
+            "name" : "cos-salesforce-delete-sink",
             "prefix" : "salesforce"
           },
           "kafka" : {

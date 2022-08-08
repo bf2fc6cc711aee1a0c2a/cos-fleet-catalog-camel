@@ -14,7 +14,7 @@
         "error_handler_strategy" : "stop",
         "kamelets" : {
           "adapter" : {
-            "name" : "salesforce-update-sink",
+            "name" : "cos-salesforce-update-sink",
             "prefix" : "salesforce"
           },
           "kafka" : {
