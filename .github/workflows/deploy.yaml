@@ -47,6 +47,15 @@ jobs:
           echo "CONNECTORS_RELEASE=${C_VERSION}-${C_REVISION}" >> $GITHUB_ENV
 
       - name: Build Project
+        env:
+          SF_CLIENT_ID: ${{ secrets.SF_CLIENT_ID }}
+          SF_CLIENT_SECRET: ${{ secrets.SF_CLIENT_SECRET }}
+          SF_CLIENT_USERNAME: ${{ secrets.SF_CLIENT_USERNAME }}
+          SF_CLIENT_PASSWORD: ${{ secrets.SF_CLIENT_PASSWORD }}
+          AZURE_EVENTHUB_NAME: ${{ secrets.AZURE_EVENTHUB_NAME }}
+          AZURE_NAMESPACE_NAME: ${{ secrets.AZURE_NAMESPACE_NAME }}
+          AZURE_SHARED_ACCESS_KEY: ${{ secrets.AZURE_SHARED_ACCESS_KEY }}
+          AZURE_SHARED_ACCESS_NAME: ${{ secrets.AZURE_SHARED_ACCESS_NAME }}
         run: |          
           ./mvnw ${MAVEN_ARGS} clean install -U \
             -Pcontainer-build \
