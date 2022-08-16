@@ -100,4 +100,4 @@ jobs:
     with:
       overlay: "staging"
     secrets:
-      token: ${{ secrets.GH_TOKEN }}
+      token: ${{ secrets.PR_TOKEN }}
