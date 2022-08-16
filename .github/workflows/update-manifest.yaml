@@ -28,6 +28,7 @@ jobs:
         with:
           repository: bf2fc6cc711aee1a0c2a/cos-manifests
           token: ${{ secrets.token }}
+          ref: main
 
       - name: "Update Kustomize overlay ${{ inputs.overlay }}"
         uses: mikefarah/yq@master
