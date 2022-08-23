@@ -18,7 +18,7 @@ public class RedPandaKafkaContainer extends GenericContainer<RedPandaKafkaContai
     private static final String STARTER_SCRIPT = "/var/lib/redpanda/redpanda.sh";
 
     public RedPandaKafkaContainer() {
-        super("docker.io/vectorized/redpanda:v22.1.3");
+        super("docker.io/vectorized/redpanda:v22.2.2");
 
         withCreateContainerCmdModifier(cmd -> cmd.withEntrypoint("sh"));
         withCommand("-c", "while [ ! -f " + STARTER_SCRIPT + " ]; do sleep 0.1; done; " + STARTER_SCRIPT);
@@ -47,12 +47,7 @@ public class RedPandaKafkaContainer extends GenericContainer<RedPandaKafkaContai
                 "/usr/bin/rpk",
                 "redpanda",
                 "start",
-                "--check=false",
-                "--node-id 0",
-                "--smp 1",
-                "--memory 1G",
-                "--overprovisioned",
-                "--reserve-memory 0M",
+                "--mode dev-container",
                 "--kafka-addr",
                 addr,
                 "--advertise-kafka-addr",
