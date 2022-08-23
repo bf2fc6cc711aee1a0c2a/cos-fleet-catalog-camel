@@ -4,14 +4,13 @@ import com.azure.core.amqp.AmqpTransportType
 import com.azure.messaging.eventhubs.EventData
 import com.azure.messaging.eventhubs.EventHubClientBuilder
 import com.azure.messaging.eventhubs.EventProcessorClientBuilder
-import com.azure.messaging.eventhubs.models.EventContext
 import com.azure.messaging.eventhubs.models.EventPosition
 import groovy.json.JsonSlurper
 import groovy.util.logging.Slf4j
 import org.bf2.cos.connector.camel.it.support.KafkaConnectorSpec
 import spock.lang.IgnoreIf
 
-import java.util.concurrent.SynchronousQueue
+import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.TimeUnit
 
 @Slf4j
@@ -49,7 +48,8 @@ class ConnectorIT extends KafkaConnectorSpec {
             cnt.withUserProperty('quarkus.log.category."org.apache.camel.component".level', 'DEBUG')
             cnt.start()
 
-            def queue = new SynchronousQueue<EventData>()
+            def queue = new LinkedBlockingQueue<EventData>()
+
             // azure sdk client to read the message from EventHub
             def eventHubClient = new EventProcessorClientBuilder()
                 .initialPartitionEventPosition(new HashMap<String, EventPosition>())
@@ -74,17 +74,23 @@ class ConnectorIT extends KafkaConnectorSpec {
             records.size() == 1
             records.first().value() == payload
 
-            EventData message = queue.poll(10, TimeUnit.SECONDS)
-
             def mapper = new JsonSlurper()
             def expected = mapper.parseText(payload)
-            def actual = mapper.parseText(message.getBodyAsString())
-            actual == expected
 
-            // match all custom headers
-            headers.every({
-                it.getValue() == message.getProperties().get(it.getKey())
-            })
+            untilAsserted(10, TimeUnit.SECONDS) {
+                EventData message = queue.poll(1, TimeUnit.SECONDS)
+
+                message != null
+
+                def actual = mapper.parseText(message.getBodyAsString())
+
+                actual == expected
+
+                // match all custom headers
+                headers.every({
+                    it.getValue() == message.getProperties().get(it.getKey())
+                })
+            }
         cleanup:
             closeQuietly(cnt)
             eventHubClient.stop()
