@@ -83,4 +83,14 @@ abstract class ConnectorSpecSupport extends Specification {
     static String json(Object content) {
         new JsonBuilder(content).toString()
     }
+
+    static boolean hasEnv(String envName) {
+        String value = System.getenv(envName)
+
+        if (value == null) {
+            return
+        }
+
+        return value.trim().length() != 0
+    }
 }

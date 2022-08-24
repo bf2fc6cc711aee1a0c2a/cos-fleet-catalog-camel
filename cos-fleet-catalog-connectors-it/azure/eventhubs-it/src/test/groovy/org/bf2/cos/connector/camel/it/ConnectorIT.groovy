@@ -13,14 +13,14 @@ import spock.lang.IgnoreIf
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.TimeUnit
 
+@IgnoreIf({
+    !hasEnv('AZURE_EVENTHUB_NAME'      ) ||
+    !hasEnv('AZURE_NAMESPACE_NAME'     ) ||
+    !hasEnv('AZURE_SHARED_ACCESS_NAME' ) ||
+    !hasEnv('AZURE_SHARED_ACCESS_KEY'  )
+})
 @Slf4j
 class ConnectorIT extends KafkaConnectorSpec {
-    @IgnoreIf({
-        env['AZURE_EVENTHUB_NAME'      ] == null ||
-        env['AZURE_NAMESPACE_NAME'     ] == null ||
-        env['AZURE_SHARED_ACCESS_NAME' ] == null ||
-        env['AZURE_SHARED_ACCESS_KEY'  ] == null
-    })
     def "azure-eventhubs sink"() {
         setup:
             def topic = topic()

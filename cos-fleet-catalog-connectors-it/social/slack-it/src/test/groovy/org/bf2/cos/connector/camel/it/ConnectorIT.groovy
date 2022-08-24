@@ -9,14 +9,14 @@ import spock.lang.IgnoreIf
 import java.nio.charset.StandardCharsets
 import java.util.concurrent.TimeUnit
 
+@IgnoreIf({
+    !hasEnv('SLACK_TEST_CHANNEL') ||
+    !hasEnv('SLACK_TEST_TOKEN'  ) ||
+    !hasEnv('SLACK_TEST_WEBHOOK')
+})
 @Slf4j
 class ConnectorIT extends KafkaConnectorSpec {
 
-    @IgnoreIf({
-        env['SLACK_TEST_CHANNEL'] == null ||
-        env['SLACK_TEST_TOKEN'  ] == null ||
-        env['SLACK_TEST_WEBHOOK'] == null
-    })
     def "slack source"() {
         given:
             def topic = topic()
