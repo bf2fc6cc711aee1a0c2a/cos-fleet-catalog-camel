@@ -8,13 +8,13 @@ import spock.lang.Stepwise
 import java.util.concurrent.TimeUnit
 
 // steps musts be executed in order (create, update, delete)
-@Stepwise
 @IgnoreIf({
-    env['SF_CLIENT_ID'      ] == null ||
-    env['SF_CLIENT_SECRET'  ] == null ||
-    env['SF_CLIENT_USERNAME'] == null ||
-    env['SF_CLIENT_PASSWORD'] == null
+    !hasEnv('SF_CLIENT_ID'      ) ||
+    !hasEnv('SF_CLIENT_SECRET'  ) ||
+    !hasEnv('SF_CLIENT_USERNAME') ||
+    !hasEnv('SF_CLIENT_PASSWORD')
 })
+@Stepwise
 class ConnectorIT extends KafkaConnectorSpec {
     static def sObjectId
 
