@@ -7,13 +7,13 @@ import spock.lang.Stepwise
 
 import java.util.concurrent.TimeUnit
 
-// steps musts be executed in order (create, update, delete)
 @IgnoreIf({
     !hasEnv('SF_CLIENT_ID'      ) ||
     !hasEnv('SF_CLIENT_SECRET'  ) ||
     !hasEnv('SF_CLIENT_USERNAME') ||
     !hasEnv('SF_CLIENT_PASSWORD')
 })
+// steps musts be executed in order (create, update, delete)
 @Stepwise
 class ConnectorIT extends KafkaConnectorSpec {
     static def sObjectId
@@ -41,9 +41,14 @@ class ConnectorIT extends KafkaConnectorSpec {
         then:
             await(30, 1, TimeUnit.SECONDS, () -> {
                 def result = ConnectorSupport.query("SELECT name,id from Account WHERE name='${group}'")
-                sObjectId = result.records[0].Id
 
-                return result?.totalSize == 1 && sObjectId != null
+                if (result?.totalSize != 1) {
+                    return false
+                }
+
+                sObjectId = result?.records[0].Id
+
+                return sObjectId != null
             })
 
         cleanup:

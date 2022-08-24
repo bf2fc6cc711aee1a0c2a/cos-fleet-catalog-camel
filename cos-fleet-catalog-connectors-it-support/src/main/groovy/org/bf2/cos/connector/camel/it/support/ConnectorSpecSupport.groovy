@@ -62,6 +62,13 @@ abstract class ConnectorSpecSupport extends Specification {
                 .untilAsserted(() -> condition())
     }
 
+    static void untilAsserted(long timeout, long poll, TimeUnit unit, ThrowingRunnable condition) {
+        Awaitility.await()
+                .atMost(timeout, unit)
+                .pollDelay(poll, unit)
+                .untilAsserted(() -> condition())
+    }
+
     static void closeQuietly(AutoCloseable closeable) {
         if (closeable == null) {
             return

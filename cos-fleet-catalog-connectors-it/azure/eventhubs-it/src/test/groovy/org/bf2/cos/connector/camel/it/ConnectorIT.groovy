@@ -5,9 +5,9 @@ import com.azure.messaging.eventhubs.EventData
 import com.azure.messaging.eventhubs.EventHubClientBuilder
 import com.azure.messaging.eventhubs.EventProcessorClientBuilder
 import com.azure.messaging.eventhubs.models.EventPosition
-import groovy.json.JsonSlurper
 import groovy.util.logging.Slf4j
 import org.bf2.cos.connector.camel.it.support.KafkaConnectorSpec
+import org.bf2.cos.connector.camel.it.support.TestUtils
 import spock.lang.IgnoreIf
 
 import java.util.concurrent.LinkedBlockingQueue
@@ -74,15 +74,14 @@ class ConnectorIT extends KafkaConnectorSpec {
             records.size() == 1
             records.first().value() == payload
 
-            def mapper = new JsonSlurper()
-            def expected = mapper.parseText(payload)
+            def expected = TestUtils.SLURPER.parseText(payload)
 
             untilAsserted(10, TimeUnit.SECONDS) {
                 EventData message = queue.poll(1, TimeUnit.SECONDS)
 
                 message != null
 
-                def actual = mapper.parseText(message.getBodyAsString())
+                def actual = TestUtils.SLURPER.parseText(message.getBodyAsString())
 
                 actual == expected
 
