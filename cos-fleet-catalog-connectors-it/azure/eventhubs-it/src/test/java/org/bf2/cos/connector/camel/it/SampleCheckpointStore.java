@@ -3,19 +3,20 @@
 
 package org.bf2.cos.connector.camel.it;
 
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+
 import com.azure.core.util.CoreUtils;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.messaging.eventhubs.CheckpointStore;
 import com.azure.messaging.eventhubs.models.Checkpoint;
 import com.azure.messaging.eventhubs.models.PartitionOwnership;
-import java.util.List;
-import java.util.Locale;
+
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 import static com.azure.messaging.eventhubs.implementation.ClientConstants.OWNER_ID_KEY;
 import static com.azure.messaging.eventhubs.implementation.ClientConstants.PARTITION_ID_KEY;
@@ -40,27 +41,27 @@ public class SampleCheckpointStore implements CheckpointStore {
      */
     @Override
     public Flux<PartitionOwnership> listOwnership(String fullyQualifiedNamespace, String eventHubName,
-        String consumerGroup) {
+            String consumerGroup) {
         LOGGER.info("Listing partition ownership");
 
         String prefix = prefixBuilder(fullyQualifiedNamespace, eventHubName, consumerGroup, OWNERSHIP);
         return Flux.fromIterable(partitionOwnershipMap.keySet())
-            .filter(key -> key.startsWith(prefix))
-            .map(key -> partitionOwnershipMap.get(key));
+                .filter(key -> key.startsWith(prefix))
+                .map(partitionOwnershipMap::get);
     }
 
     private String prefixBuilder(String fullyQualifiedNamespace, String eventHubName, String consumerGroup,
-        String type) {
+            String type) {
         return new StringBuilder()
-            .append(fullyQualifiedNamespace)
-            .append(SEPARATOR)
-            .append(eventHubName)
-            .append(SEPARATOR)
-            .append(consumerGroup)
-            .append(SEPARATOR)
-            .append(type)
-            .toString()
-            .toLowerCase(Locale.ROOT);
+                .append(fullyQualifiedNamespace)
+                .append(SEPARATOR)
+                .append(eventHubName)
+                .append(SEPARATOR)
+                .append(consumerGroup)
+                .append(SEPARATOR)
+                .append(type)
+                .toString()
+                .toLowerCase(Locale.ROOT);
     }
 
     /**
@@ -68,8 +69,8 @@ public class SampleCheckpointStore implements CheckpointStore {
      * already claimed by an instance or if the ETag in the request doesn't match the previously stored ETag, then
      * ownership claim is denied.
      *
-     * @param requestedPartitionOwnerships List of partition ownerships this instance is requesting to own.
-     * @return Successfully claimed partition ownerships.
+     * @param  requestedPartitionOwnerships List of partition ownerships this instance is requesting to own.
+     * @return                              Successfully claimed partition ownerships.
      */
     @Override
     public Flux<PartitionOwnership> claimOwnership(List<PartitionOwnership> requestedPartitionOwnerships) {
@@ -78,25 +79,24 @@ public class SampleCheckpointStore implements CheckpointStore {
         }
         PartitionOwnership firstEntry = requestedPartitionOwnerships.get(0);
         String prefix = prefixBuilder(firstEntry.getFullyQualifiedNamespace(), firstEntry.getEventHubName(),
-            firstEntry.getConsumerGroup(), OWNERSHIP);
+                firstEntry.getConsumerGroup(), OWNERSHIP);
 
         return Flux.fromIterable(requestedPartitionOwnerships)
-            .filter(partitionOwnership -> {
-                return !partitionOwnershipMap.containsKey(partitionOwnership.getPartitionId())
-                    || partitionOwnershipMap.get(partitionOwnership.getPartitionId()).getETag()
-                    .equals(partitionOwnership.getETag());
-            })
-            .doOnNext(partitionOwnership ->
-                LOGGER.atInfo()
-                    .addKeyValue(PARTITION_ID_KEY, partitionOwnership.getPartitionId())
-                    .addKeyValue(OWNER_ID_KEY, partitionOwnership.getOwnerId())
-                    .log("Ownership claimed."))
-            .map(partitionOwnership -> {
-                partitionOwnership.setETag(UUID.randomUUID().toString())
-                    .setLastModifiedTime(System.currentTimeMillis());
-                partitionOwnershipMap.put(prefix + SEPARATOR + partitionOwnership.getPartitionId(), partitionOwnership);
-                return partitionOwnership;
-            });
+                .filter(partitionOwnership -> {
+                    return !partitionOwnershipMap.containsKey(partitionOwnership.getPartitionId())
+                            || partitionOwnershipMap.get(partitionOwnership.getPartitionId()).getETag()
+                                    .equals(partitionOwnership.getETag());
+                })
+                .doOnNext(partitionOwnership -> LOGGER.atInfo()
+                        .addKeyValue(PARTITION_ID_KEY, partitionOwnership.getPartitionId())
+                        .addKeyValue(OWNER_ID_KEY, partitionOwnership.getOwnerId())
+                        .log("Ownership claimed."))
+                .map(partitionOwnership -> {
+                    partitionOwnership.setETag(UUID.randomUUID().toString())
+                            .setLastModifiedTime(System.currentTimeMillis());
+                    partitionOwnershipMap.put(prefix + SEPARATOR + partitionOwnership.getPartitionId(), partitionOwnership);
+                    return partitionOwnership;
+                });
     }
 
     /**
@@ -104,18 +104,18 @@ public class SampleCheckpointStore implements CheckpointStore {
      */
     @Override
     public Flux<Checkpoint> listCheckpoints(String fullyQualifiedNamespace, String eventHubName,
-        String consumerGroup) {
+            String consumerGroup) {
         String prefix = prefixBuilder(fullyQualifiedNamespace, eventHubName, consumerGroup, CHECKPOINT);
         return Flux.fromIterable(checkpointsMap.keySet())
-            .filter(key -> key.startsWith(prefix))
-            .map(key -> checkpointsMap.get(key));
+                .filter(key -> key.startsWith(prefix))
+                .map(checkpointsMap::get);
     }
 
     /**
      * Updates the in-memory storage with the provided checkpoint information.
      *
-     * @param checkpoint The checkpoint containing the information to be stored in-memory.
-     * @return A {@link Mono} that completes when the checkpoint is updated.
+     * @param  checkpoint The checkpoint containing the information to be stored in-memory.
+     * @return            A {@link Mono} that completes when the checkpoint is updated.
      */
     @Override
     public Mono<Void> updateCheckpoint(Checkpoint checkpoint) {
@@ -124,12 +124,12 @@ public class SampleCheckpointStore implements CheckpointStore {
         }
 
         String prefix = prefixBuilder(checkpoint.getFullyQualifiedNamespace(), checkpoint.getEventHubName(),
-            checkpoint.getConsumerGroup(), CHECKPOINT);
+                checkpoint.getConsumerGroup(), CHECKPOINT);
         checkpointsMap.put(prefix + SEPARATOR + checkpoint.getPartitionId(), checkpoint);
         LOGGER.atInfo()
-            .addKeyValue(PARTITION_ID_KEY, checkpoint.getPartitionId())
-            .addKeyValue(SEQUENCE_NUMBER_KEY, checkpoint.getSequenceNumber())
-            .log("Updated checkpoint.");
+                .addKeyValue(PARTITION_ID_KEY, checkpoint.getPartitionId())
+                .addKeyValue(SEQUENCE_NUMBER_KEY, checkpoint.getSequenceNumber())
+                .log("Updated checkpoint.");
         return Mono.empty();
     }
 }

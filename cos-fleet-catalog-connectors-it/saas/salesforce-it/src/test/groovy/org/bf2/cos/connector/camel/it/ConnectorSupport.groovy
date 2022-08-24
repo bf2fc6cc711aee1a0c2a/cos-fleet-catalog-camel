@@ -1,19 +1,16 @@
 package org.bf2.cos.connector.camel.it
 
-import groovy.json.JsonSlurper
+
 import groovy.util.logging.Slf4j
+import org.bf2.cos.connector.camel.it.support.TestUtils
 
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.nio.charset.StandardCharsets
 
-
 @Slf4j
 final class ConnectorSupport {
-    static final String CONTAINER_IMAGE = 'cos-connector-salesforce'
-
-
 
     static Object query(String statement) {
         def l = login()
@@ -58,6 +55,6 @@ final class ConnectorSupport {
 
         log.info(response.body())
 
-        return new JsonSlurper().parse(response.body().getBytes(StandardCharsets.UTF_8))
+        return TestUtils.SLURPER.parseText(response.body())
     }
 }

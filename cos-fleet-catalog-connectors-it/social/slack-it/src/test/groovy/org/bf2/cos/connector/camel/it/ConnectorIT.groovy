@@ -1,12 +1,11 @@
 package org.bf2.cos.connector.camel.it
 
-import groovy.json.JsonSlurper
 import groovy.util.logging.Slf4j
 import io.restassured.RestAssured
 import org.bf2.cos.connector.camel.it.support.KafkaConnectorSpec
+import org.bf2.cos.connector.camel.it.support.TestUtils
 import spock.lang.IgnoreIf
 
-import java.nio.charset.StandardCharsets
 import java.util.concurrent.TimeUnit
 
 @IgnoreIf({
@@ -53,12 +52,11 @@ class ConnectorIT extends KafkaConnectorSpec {
                 Thread.sleep(1000)
             }
         then:
-            def slurper = new JsonSlurper()
             def kc = kafka.consumer(group, topic)
 
             await(60, TimeUnit.SECONDS) {
                 kafka.poll(kc).forEach(r -> {
-                    def result = slurper.parse(r.value().getBytes(StandardCharsets.UTF_8))
+                    def result = TestUtils.SLURPER.parseText(r.value())
                     def text = result.text.toString()
 
                     if (messages.remove(text)) {
