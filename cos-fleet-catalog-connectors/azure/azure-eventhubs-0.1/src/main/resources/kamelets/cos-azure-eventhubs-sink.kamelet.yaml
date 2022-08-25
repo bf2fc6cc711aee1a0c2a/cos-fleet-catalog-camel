@@ -68,7 +68,7 @@ spec:
                       name: CamelAzureEventHubsPartitionId
                       simple: "${header[ce-partition]}"
         - bean:
-            beanType: "org.bf2.cos.connector.camel.azure.AzureHeadersProcessor"
+            beanType: "org.bf2.cos.connector.camel.processors.HeadersToStringProcessor"
         - removeHeaders:
             pattern: "kafka.*"
         - to:
