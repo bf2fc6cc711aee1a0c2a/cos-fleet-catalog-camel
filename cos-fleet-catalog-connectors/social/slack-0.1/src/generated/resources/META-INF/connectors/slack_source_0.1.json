@@ -7,8 +7,8 @@
           "trait.camel.apache.org/container.request-memory" : "128m",
           "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
         },
-        "connector_image" : "quay.io/rhoas/cos-connector-slack:0.1.37",
-        "connector_revision" : 37,
+        "connector_image" : "quay.io/rhoas/cos-connector-slack:0.1.38",
+        "connector_revision" : 38,
         "connector_type" : "source",
         "consumes" : "application/json",
         "consumes_class" : "com.slack.api.model.Message",
@@ -72,8 +72,8 @@
           "example" : "1s"
         },
         "kafka_topic" : {
-          "title" : "Topic Names",
-          "description" : "A comma-separated list of Kafka topic names.",
+          "title" : "Topic Name",
+          "description" : "The name of the Kafka Topic to use.",
           "type" : "string"
         },
         "data_shape" : {
