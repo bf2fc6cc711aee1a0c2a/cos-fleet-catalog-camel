@@ -7,8 +7,8 @@
           "trait.camel.apache.org/container.request-memory" : "128m",
           "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
         },
-        "connector_image" : "quay.io/rhoas/cos-connector-aws-s3:0.1.37",
-        "connector_revision" : 37,
+        "connector_image" : "quay.io/rhoas/cos-connector-aws-s3:0.1.38",
+        "connector_revision" : 38,
         "connector_type" : "source",
         "consumes" : "application/octet-stream",
         "error_handler_strategy" : "stop",
@@ -131,8 +131,8 @@
           "default" : 500
         },
         "kafka_topic" : {
-          "title" : "Topic Names",
-          "description" : "A comma-separated list of Kafka topic names.",
+          "title" : "Topic Name",
+          "description" : "The name of the Kafka Topic to use.",
           "type" : "string"
         },
         "data_shape" : {
