@@ -23,8 +23,8 @@ spec:
     type: object
     properties:
       topic:
-        title: Topic Names
-        description: A comma-separated list of Kafka topic names.
+        title: Topic Name
+        description: The name of the Kafka Topic to use.
         type: string
   dependencies:
     - "camel:kafka"
