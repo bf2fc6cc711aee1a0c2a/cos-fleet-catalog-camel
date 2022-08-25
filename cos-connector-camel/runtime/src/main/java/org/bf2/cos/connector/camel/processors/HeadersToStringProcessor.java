@@ -1,9 +1,9 @@
-package org.bf2.cos.connector.camel.azure;
+package org.bf2.cos.connector.camel.processors;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.TypeConverter;
 
-public class AzureHeadersProcessor {
+public class HeadersToStringProcessor {
     public void process(Exchange exchange, TypeConverter converter) throws Exception {
         exchange.getMessage().getHeaders().replaceAll(
                 (k, v) -> {

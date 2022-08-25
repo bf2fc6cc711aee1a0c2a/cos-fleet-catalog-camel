@@ -15,6 +15,7 @@
 
     <modules>
         <module>jms-amqp-it</module>
+        <module>http-it</module>
     </modules>
 
 </project>
