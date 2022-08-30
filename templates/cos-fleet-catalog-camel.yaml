@@ -17,7 +17,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-aws-cloudwatch:0.1.42",
@@ -207,7 +207,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-aws-ddb:0.1.42",
@@ -410,7 +410,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-aws-ddb-streams:0.1.42",
@@ -612,7 +612,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-aws-kinesis:0.1.42",
@@ -818,7 +818,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-aws-kinesis:0.1.42",
@@ -1030,7 +1030,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-aws-lambda:0.1.42",
@@ -1209,7 +1209,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-aws-s3:0.1.42",
@@ -1410,7 +1410,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-aws-s3:0.1.42",
@@ -1636,7 +1636,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-aws-ses:0.1.42",
@@ -1816,7 +1816,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-aws-sns:0.1.42",
@@ -2012,7 +2012,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-aws-sqs:0.1.42",
@@ -2221,7 +2221,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-aws-sqs:0.1.42",
@@ -2454,7 +2454,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-azure-eventhubs:0.1.42",
@@ -2624,7 +2624,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-azure-eventhubs:0.1.42",
@@ -2818,7 +2818,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-azure-functions:0.1.42",
@@ -2985,7 +2985,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-blob-changefeed:0.1.42",
@@ -3151,7 +3151,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-blob:0.1.42",
@@ -3322,7 +3322,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-blob:0.1.42",
@@ -3493,7 +3493,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-queue:0.1.42",
@@ -3658,7 +3658,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-queue:0.1.42",
@@ -3836,7 +3836,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-google-bigquery:0.1.42",
@@ -3997,7 +3997,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-google-functions:0.1.42",
@@ -4166,7 +4166,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-google-pubsub:0.1.42",
@@ -4330,7 +4330,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-google-pubsub:0.1.42",
@@ -4512,7 +4512,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-google-storage:0.1.42",
@@ -4677,7 +4677,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-google-storage:0.1.42",
@@ -4855,7 +4855,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-ansible-tower:0.1.42",
@@ -5255,7 +5255,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-http:0.1.42",
@@ -5408,7 +5408,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-jms-amqp-10:0.1.42",
@@ -5565,7 +5565,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-jms-amqp-10:0.1.42",
@@ -5722,7 +5722,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-jms-apache-artemis:0.1.42",
@@ -5880,7 +5880,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-jms-apache-artemis:0.1.42",
@@ -6037,7 +6037,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-rest-openapi:0.1.42",
@@ -6196,7 +6196,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-data-generator:0.1.42",
@@ -6361,7 +6361,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-cassandra:0.1.42",
@@ -6556,7 +6556,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-cassandra:0.1.42",
@@ -6751,7 +6751,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-elasticsearch:0.1.42",
@@ -6935,7 +6935,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-mongodb:0.1.42",
@@ -7121,7 +7121,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-mongodb:0.1.42",
@@ -7314,7 +7314,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-jira:0.1.41",
@@ -7818,7 +7818,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-salesforce:0.1.42",
@@ -8010,7 +8010,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-salesforce:0.1.42",
@@ -8196,7 +8196,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-salesforce:0.1.42",
@@ -8387,7 +8387,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-salesforce:0.1.42",
@@ -8591,7 +8591,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-slack:0.1.42",
@@ -8766,7 +8766,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-slack:0.1.42",
@@ -8933,7 +8933,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-telegram:0.1.42",
@@ -9092,7 +9092,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-telegram:0.1.42",
@@ -9253,7 +9253,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-aws-redshift:0.1.42",
@@ -9436,7 +9436,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-aws-redshift:0.1.42",
@@ -9631,7 +9631,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-mariadb:0.1.42",
@@ -9814,7 +9814,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-mariadb:0.1.42",
@@ -10003,7 +10003,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-mysql:0.1.42",
@@ -10186,7 +10186,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-mysql:0.1.42",
@@ -10375,7 +10375,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-postgresql:0.1.42",
@@ -10558,7 +10558,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-postgresql:0.1.42",
@@ -10747,7 +10747,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-sqlserver:0.1.42",
@@ -10930,7 +10930,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-sqlserver:0.1.42",
@@ -11126,7 +11126,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-ftps:0.1.42",
@@ -11314,7 +11314,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-ftps:0.1.42",
@@ -11508,7 +11508,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-minio:0.1.42",
@@ -11693,7 +11693,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-minio:0.1.42",
@@ -11884,7 +11884,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-sftp:0.1.42",
@@ -12072,7 +12072,7 @@ objects:
             "shard_metadata" : {
               "annotations" : {
                 "trait.camel.apache.org/container.request-cpu" : "0.20",
-                "trait.camel.apache.org/container.request-memory" : "128m",
+                "trait.camel.apache.org/container.request-memory" : "128M",
                 "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
               },
               "connector_image" : "quay.io/rhoas/cos-connector-sftp:0.1.42",
