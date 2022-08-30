@@ -430,7 +430,7 @@ public final class CatalogSupport {
         });
     }
 
-    public static void dataShape(Connector.DataShape dataShape, ConnectorDefinition definition, String id) {
+    public static void dataShape(Connector.DataShape dataShape, ConnectorDefinition definition, Connector.DataShape.Type type) {
         if (dataShape == null) {
             return;
         }
@@ -440,6 +440,8 @@ public final class CatalogSupport {
         if (dataShape.getFormats() == null || dataShape.getFormats().isEmpty()) {
             return;
         }
+
+        final String id = type.getId();
 
         definition.getConnectorType().getCapabilities().add(CatalogConstants.CAPABILITY_DATA_SHAPE);
 
@@ -458,15 +460,22 @@ public final class CatalogSupport {
             d.put("type", "object");
             d.put("additionalProperties", false);
             d.putArray("required").add("format");
-            d.with("properties").with("format").put("type", "string");
+
+            ObjectNode formatNode = d.with("properties").with("format");
+            formatNode.put("type", "string");
+
+            switch (type) {
+                case CONSUMES:
+                    formatNode.put("description", "The format of the data that Kafka sends to the sink connector.");
+                case PRODUCES:
+                    formatNode.put("description", "The format of the data that the source connector sends to Kafka.");
+            }
 
             if (dataShape.getDefaultFormat() != null) {
-                d.with("properties").with("format").put(
-                        "default",
+                formatNode.put("default",
                         dataShape.getDefaultFormat());
             } else if (dataShape.getFormats().size() == 1) {
-                d.with("properties").with("format").put(
-                        "default",
+                formatNode.put("default",
                         dataShape.getFormats().iterator().next());
             }
 
@@ -483,7 +492,7 @@ public final class CatalogSupport {
             }
 
             dataShape.getFormats().stream().sorted().forEach(
-                    format -> d.with("properties").with("format").withArray("enum").add(format));
+                    format -> formatNode.withArray("enum").add(format));
         });
     }
 

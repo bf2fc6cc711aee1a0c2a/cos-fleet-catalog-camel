@@ -284,6 +284,21 @@ public class Connector {
             REQUIRED
         }
 
+        public enum Type {
+            CONSUMES("consumes"),
+            PRODUCES("produces");
+
+            String id;
+
+            Type(String id) {
+                this.id = id;
+            }
+
+            public String getId() {
+                return id;
+            }
+        }
+
         @Param
         String defaultFormat;
         @Param
