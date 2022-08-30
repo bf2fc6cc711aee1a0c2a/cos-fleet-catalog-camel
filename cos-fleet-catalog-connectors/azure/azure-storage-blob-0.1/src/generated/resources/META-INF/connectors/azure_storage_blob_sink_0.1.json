@@ -4,7 +4,7 @@
       "shard_metadata" : {
         "annotations" : {
           "trait.camel.apache.org/container.request-cpu" : "0.20",
-          "trait.camel.apache.org/container.request-memory" : "128m",
+          "trait.camel.apache.org/container.request-memory" : "128M",
           "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
         },
         "connector_image" : "quay.io/rhoas/cos-connector-azure-storage-blob:0.1.44",

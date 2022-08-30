@@ -83,7 +83,7 @@
 
         <!-- annotations -->
         <cos.connector.request.cpu>0.20</cos.connector.request.cpu>
-        <cos.connector.request.memory>128m</cos.connector.request.memory>
+        <cos.connector.request.memory>128M</cos.connector.request.memory>
         <cos.connector.deployment.deadline>30</cos.connector.deployment.deadline>
     </properties>
 
