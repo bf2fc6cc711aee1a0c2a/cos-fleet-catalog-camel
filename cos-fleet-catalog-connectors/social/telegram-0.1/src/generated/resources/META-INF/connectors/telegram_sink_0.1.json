@@ -7,8 +7,8 @@
           "trait.camel.apache.org/container.request-memory" : "128m",
           "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
         },
-        "connector_image" : "quay.io/rhoas/cos-connector-telegram:0.1.38",
-        "connector_revision" : 38,
+        "connector_image" : "quay.io/rhoas/cos-connector-telegram:0.1.39",
+        "connector_revision" : 39,
         "connector_type" : "sink",
         "consumes" : "application/octet-stream",
         "error_handler_strategy" : "stop",
@@ -122,6 +122,7 @@
             "properties" : {
               "format" : {
                 "type" : "string",
+                "description" : "The format of the data that the source connector sends to Kafka.",
                 "default" : "application/octet-stream",
                 "enum" : [ "application/octet-stream" ]
               }
