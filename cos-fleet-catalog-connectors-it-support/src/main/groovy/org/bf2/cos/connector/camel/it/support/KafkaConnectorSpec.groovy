@@ -50,6 +50,17 @@ abstract class KafkaConnectorSpec extends ConnectorSpecSupport {
         return ConnectorContainer.forDefinition(definition).withProperties(properties).witNetwork(network).build()
     }
 
+    ConnectorContainer connectorContainer(String definition,
+                                          Map<String, String> properties,
+                                          String dlqKafkaTopic,
+                                          boolean simulateError) {
+        return ConnectorContainer.forDefinition(definition)
+                .withDlqErrorHandler(dlqKafkaTopic, simulateError)
+                .withProperties(properties)
+                .witNetwork(network)
+                .build()
+    }
+
     ConnectorContainer.Builder connectorContainer(String definition) {
         return ConnectorContainer.forDefinition(definition).witNetwork(network)
     }

@@ -185,6 +185,8 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
         private final Map<String, String> properties;
 
         private Network network;
+        private String dlqKafkaTopic;
+        private boolean simulateError;
 
         private Builder(String definition) {
             Objects.requireNonNull(definition);
@@ -217,6 +219,12 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
             return this;
         }
 
+        public Builder withDlqErrorHandler(String dlqKafkaTopic, boolean simulateError) {
+            this.dlqKafkaTopic = dlqKafkaTopic;
+            this.simulateError = simulateError;
+            return this;
+        }
+
         public ConnectorContainer build() {
             try (InputStream is = ConnectorContainer.class.getResourceAsStream(definition)) {
                 ObjectMapper yaml = new ObjectMapper(new YAMLFactory().disable(YAMLGenerator.Feature.WRITE_DOC_START_MARKER));
@@ -244,8 +252,20 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
                     ObjectNode route = integration.addObject().with("route");
                     ObjectNode from = route.with("from");
                     ArrayNode steps = route.withArray("steps");
-
                     steps.addObject().with("to").put("uri", "log:before?showAll=true&multiline=true");
+
+                    if (dlqKafkaTopic != null) {
+                        integration.addObject().with("errorHandler").put("ref", "defaultErrorHandler");
+                        answer.withUserProperties(Map.of(
+                                "camel.beans.defaultErrorHandler",
+                                "#class:org.apache.camel.builder.DeadLetterChannelBuilder",
+                                "camel.beans.defaultErrorHandler.deadLetterUri",
+                                "kamelet:cos-kafka-not-secured-sink/errorHandler",
+                                "camel.kamelet.cos-kafka-not-secured-sink.errorHandler.bootstrapServers",
+                                properties.get("kafka_bootstrap_servers"),
+                                "camel.kamelet.cos-kafka-not-secured-sink.errorHandler.topic",
+                                dlqKafkaTopic));
+                    }
 
                     if (consumes != null) {
                         switch (consumes) {
@@ -317,6 +337,11 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
                     steps.addObject().with("removeHeader").put("name", "X-Content-Schema");
                     steps.addObject().with("removeProperty").put("name", "X-Content-Schema");
                     steps.addObject().with("to").put("uri", "log:debug?showAll=true&multiline=true");
+
+                    if (simulateError) {
+                        steps.addObject().with("bean").put("beanType",
+                                "org.bf2.cos.connector.camel.processor.SimulateErrorProcessor");
+                    }
 
                     ObjectNode to = steps.addObject().with("to");
 
