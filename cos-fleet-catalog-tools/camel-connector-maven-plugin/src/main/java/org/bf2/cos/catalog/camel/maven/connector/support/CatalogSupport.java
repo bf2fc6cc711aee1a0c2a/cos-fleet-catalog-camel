@@ -467,8 +467,10 @@ public final class CatalogSupport {
             switch (type) {
                 case CONSUMES:
                     formatNode.put("description", "The format of the data that Kafka sends to the sink connector.");
+                    break;
                 case PRODUCES:
                     formatNode.put("description", "The format of the data that the source connector sends to Kafka.");
+                    break;
             }
 
             if (dataShape.getDefaultFormat() != null) {
