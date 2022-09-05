@@ -23,7 +23,7 @@ spec:
   dependencies:
     - "camel:kafka"
     - "camel:kamelet"
-  flow:
+  template:
     beans:
       - name: "kafka-client-factory"
         type: "#class:org.bf2.cos.connector.camel.kafka.ClientFactory"
