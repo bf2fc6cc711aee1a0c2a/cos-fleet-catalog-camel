@@ -15,11 +15,11 @@
         <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
         <project.resources.sourceEncoding>${encoding}</project.resources.sourceEncoding>
 
-        <quarkus.version>2.7.5.Final</quarkus.version>
-        <camel-k-runtime.version>1.12.0</camel-k-runtime.version>
-        <camel-quarkus.version>2.7.1</camel-quarkus.version>
+        <quarkus.version>2.11.3.Final</quarkus.version>
+        <camel-k-runtime.version>1.14.0</camel-k-runtime.version>
+        <camel-quarkus.version>2.11.0</camel-quarkus.version>
         <camel-kamelets-catalog.version>0.9.1</camel-kamelets-catalog.version>
-        <camel.version>3.14.2</camel.version>
+        <camel.version>3.18.1</camel.version>
 
         <classgraph.version>4.8.149</classgraph.version>
         <jsonschema-generator.version>4.27.0</jsonschema-generator.version>
@@ -37,6 +37,7 @@
         <commons-text.version>1.10.0</commons-text.version>
         <strimzi-test-container.version>0.102.0</strimzi-test-container.version>
         <wiremock.version>2.34.0</wiremock.version>
+        <assertj-core.version>3.23.1</assertj-core.version>
 
         <maven.version>3.8.6</maven.version>
         <maven-plugin-tools.version>3.6.4</maven-plugin-tools.version>
@@ -333,6 +334,11 @@
                 <groupId>io.strimzi</groupId>
                 <artifactId>strimzi-test-container</artifactId>
                 <version>${strimzi-test-container.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>${assertj-core.version}</version>
             </dependency>
 
             <dependency>
