@@ -47,7 +47,7 @@ spec:
     - "camel:kamelet"
     - "camel:core"
     - "camel:jackson"
-  flow:
+  template:
     beans:
       - name: "schema-resolver"
         type: "#class:org.bf2.cos.connector.camel.serdes.json.JsonSchemaResolver"

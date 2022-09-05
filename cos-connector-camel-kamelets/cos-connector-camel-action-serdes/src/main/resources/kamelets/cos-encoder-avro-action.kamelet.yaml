@@ -41,7 +41,7 @@ spec:
     - "camel:kamelet"
     - "camel:core"
     - "camel:jackson-avro"
-  flow:
+  template:
     beans:
       - name: "schema-resolver"
         type: "#class:org.bf2.cos.connector.camel.serdes.avro.AvroSchemaResolver"

@@ -41,7 +41,7 @@ spec:
     - "camel:timer"
     - "camel:kamelet"
     - "camel:log"
-  flow:
+  template:
     from:
       uri: "timer:{{routeId}}"
       parameters:
