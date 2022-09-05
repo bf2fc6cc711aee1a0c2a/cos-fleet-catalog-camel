@@ -28,7 +28,7 @@ spec:
         type: string
   dependencies:
     - "camel:kamelet"
-  flow:
+  template:
     from:
       uri: "kamelet:source"
       steps:
