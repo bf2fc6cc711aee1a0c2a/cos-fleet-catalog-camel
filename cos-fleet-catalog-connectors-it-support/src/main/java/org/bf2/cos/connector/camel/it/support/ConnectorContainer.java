@@ -256,15 +256,18 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
 
                     if (dlqKafkaTopic != null) {
                         integration.addObject().with("errorHandler").put("ref", "defaultErrorHandler");
-                        answer.withUserProperties(Map.of(
-                                "camel.beans.defaultErrorHandler",
-                                "#class:org.apache.camel.builder.DeadLetterChannelBuilder",
-                                "camel.beans.defaultErrorHandler.deadLetterUri",
-                                "kamelet:cos-kafka-not-secured-sink/errorHandler",
-                                "camel.kamelet.cos-kafka-not-secured-sink.errorHandler.bootstrapServers",
-                                properties.get("kafka_bootstrap_servers"),
-                                "camel.kamelet.cos-kafka-not-secured-sink.errorHandler.topic",
-                                dlqKafkaTopic));
+                        answer.withUserProperties(
+                                Map.of(
+                                        "camel.beans.defaultErrorHandler",
+                                        "#class:org.apache.camel.builder.DeadLetterChannelBuilder",
+                                        "camel.beans.defaultErrorHandler.deadLetterUri",
+                                        "kamelet:cos-kafka-not-secured-sink/errorHandler",
+                                        "camel.kamelet.cos-kafka-not-secured-sink.errorHandler.bootstrapServers",
+                                        properties.get("kafka_bootstrap_servers"),
+                                        "camel.kamelet.cos-kafka-not-secured-sink.errorHandler.topic",
+                                        dlqKafkaTopic,
+                                        "camel.beans.defaultErrorHandler.useOriginalMessage",
+                                        "true"));
                     }
 
                     if (consumes != null) {
