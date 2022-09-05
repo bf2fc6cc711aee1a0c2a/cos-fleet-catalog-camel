@@ -21,10 +21,7 @@ class ConnectorContainerIT extends SimpleConnectorSpec {
             with (health.as(Map.class)) {
                 status == 'UP'
                 checks.find {
-                    it.name == 'camel-readiness-checks' && it.status == 'UP'
-                }
-                checks.find {
-                    it.name == 'camel-liveness-checks' && it.status == 'UP'
+                    it.name == 'context' && it.status == 'UP'
                 }
             }
         cleanup:
