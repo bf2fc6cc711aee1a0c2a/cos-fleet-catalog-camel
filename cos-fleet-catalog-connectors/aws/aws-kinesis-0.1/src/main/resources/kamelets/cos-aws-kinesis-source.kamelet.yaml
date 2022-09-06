@@ -108,6 +108,4 @@ spec:
         overrideEndpoint: "{{overrideEndpoint}}"
         delay: "{{delay}}"
       steps:
-        - set-body:
-            simple: "${body.data().asInputStream()}"
         - to: "kamelet:sink"
