@@ -46,7 +46,8 @@ class ConnectorIT extends KafkaConnectorSpec {
                 'db_username': db.username,
                 'db_password': db.password,
                 'db_query': 'INSERT INTO cos.dbo.accounts (username,city) VALUES (:#username,:#city)',
-                'db_database_name': 'cos'
+                'db_database_name': 'cos',
+                'db_encrypt': 'false'
             ])
 
             cnt.start()

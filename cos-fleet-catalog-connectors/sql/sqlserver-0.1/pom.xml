@@ -64,7 +64,7 @@
                             <description>Send data to a SQL Server Database.</description>
                             <adapter>
                                 <prefix>db</prefix>
-                                <name>${cos.connector.type}-sink</name>
+                                <name>cos-${cos.connector.type}-sink</name>
                                 <version>${camel-kamelets-catalog.version}</version>
                             </adapter>
                             <kafka>
