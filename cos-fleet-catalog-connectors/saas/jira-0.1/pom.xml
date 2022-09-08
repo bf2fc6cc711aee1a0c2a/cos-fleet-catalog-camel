@@ -45,6 +45,36 @@
                                 <version>${cos.kamelets.version}</version>
                             </kafka>
                         </connector>
+                        <connector>
+                            <name>${cos.connector.type}-add-comment-sink-${cos.connector.version}</name>
+                            <title>${project.name} Add Comment sink</title>
+                            <description>Add a new comment to an existing issue in Jira.</description>
+                            <adapter>
+                                <prefix>jira</prefix>
+                                <name>${cos.connector.type}-add-comment-sink</name>
+                                <version>${camel-kamelets-catalog.version}</version>
+                            </adapter>
+                            <kafka>
+                                <prefix>kafka</prefix>
+                                <name>cos-kafka-source</name>
+                                <version>${cos.kamelets.version}</version>
+                            </kafka>
+                        </connector>
+                        <connector>
+                            <name>${cos.connector.type}-add-issue-sink-${cos.connector.version}</name>
+                            <title>${project.name} Add Issue sink</title>
+                            <description>Add a new issue to Jira.</description>
+                            <adapter>
+                                <prefix>jira</prefix>
+                                <name>${cos.connector.type}-add-issue-sink</name>
+                                <version>${camel-kamelets-catalog.version}</version>
+                            </adapter>
+                            <kafka>
+                                <prefix>kafka</prefix>
+                                <name>cos-kafka-source</name>
+                                <version>${cos.kamelets.version}</version>
+                            </kafka>
+                        </connector>
                     </connectors>
                 </configuration>
             </plugin>
