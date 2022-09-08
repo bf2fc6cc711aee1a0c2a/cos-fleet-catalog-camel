@@ -69,6 +69,8 @@ configMapGenerator:
   options:
     disableNameSuffixHash: true
 - files:
+  - connectors/connector-catalog-camel-saas/jira_add_comment_sink_0.1.json
+  - connectors/connector-catalog-camel-saas/jira_add_issue_sink_0.1.json
   - connectors/connector-catalog-camel-saas/jira_source_0.1.json
   - connectors/connector-catalog-camel-saas/salesforce_create_sink_0.1.json
   - connectors/connector-catalog-camel-saas/salesforce_delete_sink_0.1.json
