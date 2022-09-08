@@ -41,6 +41,7 @@ configMapGenerator:
     disableNameSuffixHash: true
 - files:
   - connectors/connector-catalog-camel-itops/ansible_tower_job_template_launch_sink_0.1.json
+  - connectors/connector-catalog-camel-itops/splunk_0.1.json
   name: connector-catalog-camel-itops
   options:
     disableNameSuffixHash: true
