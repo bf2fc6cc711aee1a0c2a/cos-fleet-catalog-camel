@@ -7,11 +7,9 @@ import org.apache.camel.component.kafka.KafkaConfiguration;
 import org.apache.camel.util.ObjectHelper;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.apache.kafka.clients.consumer.MockConsumer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.common.KafkaException;
-import org.apache.kafka.common.config.ConfigException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -80,36 +78,26 @@ public class ClientFactory extends DefaultKafkaClientFactory {
     @Override
     public Producer getProducer(Properties props) {
         enrich(props);
-        KafkaProducer producer = null;
         try {
-            return producer = (KafkaProducer) super.getProducer(props);
+            return (KafkaProducer) super.getProducer(props);
         } catch (KafkaException ke) {
             int retryMs = getProducerCreationRetryMs();
             LOG.warn("KafkaException when trying to create producer. Will wait {}ms before retry.", retryMs);
             sleep(retryMs);
             throw ke;
-        } finally {
-            KafkaHealthCheckRepository.get(getCamelContext())
-                    .addHealthCheck(
-                            new KafkaProducersHealthCheck(bootstrapUrl, producer, props));
         }
     }
 
     @Override
     public Consumer getConsumer(Properties props) {
         enrich(props);
-        KafkaConsumer consumer = null;
         try {
-            return consumer = (KafkaConsumer) super.getConsumer(props);
+            return (KafkaConsumer) super.getConsumer(props);
         } catch (KafkaException ke) {
             int retryMs = getConsumerCreationRetryMs();
             LOG.warn("KafkaException when trying to create consumer. Will wait {}ms before retry.", retryMs);
             sleep(retryMs);
             throw ke;
-        } finally {
-            KafkaHealthCheckRepository.get(getCamelContext())
-                    .addHealthCheck(
-                            new KafkaConsumersHealthCheck(bootstrapUrl, consumer, props));
         }
     }
 
@@ -133,10 +121,6 @@ public class ClientFactory extends DefaultKafkaClientFactory {
                 props.put(SerdeConfig.AUTH_PASSWORD, password);
             }
         }
-    }
-
-    private CamelContext getCamelContext() {
-        return CDI.current().select(CamelContext.class).get();
     }
 
     private void sleep(int retryMs) {
