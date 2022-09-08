@@ -21,6 +21,7 @@
 
     <modules>
         <module>ansible-tower-0.1</module>
+        <module>splunk-0.1</module>
     </modules>
 
 </project>

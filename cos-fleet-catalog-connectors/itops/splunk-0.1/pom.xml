@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <parent>
+        <groupId>org.bf2</groupId>
+        <artifactId>cos-fleet-catalog-connectors-itops</artifactId>
+        <version>999-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>cos-connector-splunk-0.1</artifactId>
+
+    <name>Splunk</name>
+    <description>Splunk</description>
+
+    <packaging>jar</packaging>
+
+    <properties>
+        <cos.connector.type>splunk</cos.connector.type>
+        <quarkus.container-image.name>${cos.connector.container.prefix}-${cos.connector.type}</quarkus.container-image.name>
+        <quarkus.container-image.tag>${cos.connector.container.tag}</quarkus.container-image.tag>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.bf2</groupId>
+                <artifactId>camel-connector-maven-plugin</artifactId>
+                <configuration>
+                    <connectors>
+                        <connector>
+                            <name>splunk-${cos.connector.version}</name>
+                            <title>${project.name} sink</title>
+                            <description>Send data to Splunk.</description>
+                            <adapter>
+                                <prefix>splunk</prefix>
+                                <name>${cos.connector.type}-sink</name>
+                                <version>${camel-kamelets-catalog.version}</version>
+                            </adapter>
+                            <kafka>
+                                <prefix>kafka</prefix>
+                                <name>cos-kafka-sink</name>
+                                <version>${cos.kamelets.version}</version>
+                            </kafka>
+                        </connector>
+                    </connectors>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
