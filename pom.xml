@@ -18,7 +18,8 @@
         <quarkus.version>2.7.5.Final</quarkus.version>
         <camel-k-runtime.version>1.12.0</camel-k-runtime.version>
         <camel-quarkus.version>2.7.1</camel-quarkus.version>
-        <camel-kamelets-catalog.version>main-SNAPSHOT</camel-kamelets-catalog.version>
+        <camel-kamelets-catalog.branch>0.9.x-SNAPSHOT</camel-kamelets-catalog.branch>
+        <camel-kamelets-catalog.version>0.9.0</camel-kamelets-catalog.version>
         <camel.version>3.14.2</camel.version>
 
         <classgraph.version>4.8.149</classgraph.version>

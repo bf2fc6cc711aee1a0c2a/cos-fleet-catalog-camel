@@ -71,12 +71,12 @@
         </dependency>
 
         <!-- kamelets -->
+
         <dependency>
             <groupId>com.github.apache.camel-kamelets</groupId>
             <artifactId>camel-kamelets</artifactId>
-            <version>${camel-kamelets-catalog.version}</version>
+            <version>${camel-kamelets-catalog.branch}</version>
         </dependency>
-
 
         <!-- TODO: re-enable when depending on a released version
         <dependency>
