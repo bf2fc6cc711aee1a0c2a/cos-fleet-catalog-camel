@@ -37,7 +37,7 @@
                             <adapter>
                                 <prefix>aws</prefix>
                                 <name>cos-${cos.connector.type}-source</name>
-                                <version>${camel-kamelets-catalog.version}</version>
+                                <version>${cos.kamelets.version}</version>
                             </adapter>
                             <kafka>
                                 <prefix>kafka</prefix>
