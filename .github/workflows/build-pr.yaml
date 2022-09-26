@@ -164,7 +164,7 @@ jobs:
     uses: ./.github/workflows/build-it.yaml
     secrets: inherit
     with:
-      modules: ":cos-fleet-catalog-connectors-storage"
+      modules: ":cos-fleet-catalog-connectors-storage,:cos-fleet-catalog-connectors-storage-it"
       containerRepo: ttl.sh
       containerOrg: ${{ github.sha }}
       containerTag: ${{ github.run_id }}-${{ github.run_attempt }}
