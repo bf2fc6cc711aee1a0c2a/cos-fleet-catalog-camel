@@ -57,6 +57,7 @@
         <module>saas</module>
         <module>social</module>
         <module>sql</module>
+        <module>storage</module>
         <module>nosql</module>
         <module>gcp</module>
     </modules>
