@@ -33,7 +33,7 @@
   "connector_type" : {
     "capabilities" : [ "data_shape", "error_handler", "processors" ],
     "channels" : [ "stable" ],
-    "description" : "Ansible Tower source",
+    "description" : "Ansible Tower sink",
     "icon_href" : "TODO",
     "id" : "ansible_tower_job_template_launch_sink_0.1",
     "kind" : "ConnectorType",

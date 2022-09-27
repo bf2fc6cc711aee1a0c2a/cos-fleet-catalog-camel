@@ -33,7 +33,7 @@
                         <connector>
                             <name>${cos.connector.type}-job-template-launch-sink-${cos.connector.version}</name>
                             <title>${project.name} sink</title>
-                            <description>${project.description} source</description>
+                            <description>${project.description} sink</description>
                             <adapter>
                                 <prefix>ansible</prefix>
                                 <name>ansible-job-template-launch-sink</name>
