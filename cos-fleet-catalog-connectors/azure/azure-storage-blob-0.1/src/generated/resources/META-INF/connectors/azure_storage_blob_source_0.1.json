@@ -75,6 +75,12 @@
             "properties" : { }
           } ]
         },
+        "azure_credential_type" : {
+          "title" : "Credential Type",
+          "description" : "Determines the credential strategy to adopt. Possible values are SHARED_ACCOUNT_KEY, SHARED_KEY_CREDENTIAL and AZURE_IDENTITY",
+          "type" : "string",
+          "default" : "SHARED_ACCOUNT_KEY"
+        },
         "kafka_topic" : {
           "title" : "Topic Name",
           "description" : "The name of the Kafka Topic to use.",
