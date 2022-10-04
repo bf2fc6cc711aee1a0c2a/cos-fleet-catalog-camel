@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import org.apache.maven.plugin.MojoExecutionException;
@@ -46,6 +47,12 @@ public final class ConnectorSupport {
 
                 if (dep.startsWith("mvn:")) {
                     String[] coords = dep.substring("mvn:".length()).split(":");
+
+                    if (Objects.equals(coords[0], "org.apache.camel.kamelets")
+                            && Objects.equals(coords[1], "camel-kamelets-utils")) {
+                        continue;
+                    }
+
                     dependencies.add(new ConnectorDependency(
                             coords[0],
                             coords[1],

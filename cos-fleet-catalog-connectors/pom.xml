@@ -78,6 +78,12 @@
             <version>${camel-kamelets-catalog.branch}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.apache.camel-kamelets</groupId>
+            <artifactId>camel-kamelets-utils</artifactId>
+            <version>${camel-kamelets-catalog.branch}</version>
+        </dependency>
+
         <!-- TODO: re-enable when depending on a released version
         <dependency>
             <groupId>org.apache.camel.kamelets</groupId>
