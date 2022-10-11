@@ -7,14 +7,14 @@
           "trait.camel.apache.org/container.request-memory" : "128M",
           "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
         },
-        "connector_image" : "quay.io/rhoas/cos-connector-aws-kinesis:0.1.46",
-        "connector_revision" : 46,
+        "connector_image" : "quay.io/rhoas/cos-connector-aws-kinesis:0.1.47",
+        "connector_revision" : 47,
         "connector_type" : "source",
         "consumes" : "application/octet-stream",
         "error_handler_strategy" : "stop",
         "kamelets" : {
           "adapter" : {
-            "name" : "cos-aws-kinesis-source",
+            "name" : "aws-kinesis-source",
             "prefix" : "aws"
           },
           "kafka" : {
@@ -81,7 +81,7 @@
           "title" : "AWS Region",
           "description" : "The AWS region to access.",
           "type" : "string",
-          "example" : "eu-west-1"
+          "enum" : [ "ap-south-1", "eu-south-1", "us-gov-east-1", "me-central-1", "ca-central-1", "eu-central-1", "us-iso-west-1", "us-west-1", "us-west-2", "af-south-1", "eu-north-1", "eu-west-3", "eu-west-2", "eu-west-1", "ap-northeast-3", "ap-northeast-2", "ap-northeast-1", "me-south-1", "sa-east-1", "ap-east-1", "cn-north-1", "us-gov-west-1", "ap-southeast-1", "ap-southeast-2", "us-iso-east-1", "ap-southeast-3", "us-east-1", "us-east-2", "cn-northwest-1", "us-isob-east-1", "aws-global", "aws-cn-global", "aws-us-gov-global", "aws-iso-global", "aws-iso-b-global" ]
         },
         "aws_uri_endpoint_override" : {
           "title" : "Overwrite Endpoint URI",

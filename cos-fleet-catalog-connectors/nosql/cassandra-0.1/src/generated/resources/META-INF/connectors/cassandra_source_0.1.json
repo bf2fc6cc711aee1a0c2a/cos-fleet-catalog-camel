@@ -7,8 +7,8 @@
           "trait.camel.apache.org/container.request-memory" : "128M",
           "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
         },
-        "connector_image" : "quay.io/rhoas/cos-connector-cassandra:0.1.46",
-        "connector_revision" : 46,
+        "connector_image" : "quay.io/rhoas/cos-connector-cassandra:0.1.47",
+        "connector_revision" : 47,
         "connector_type" : "source",
         "consumes" : "application/json",
         "error_handler_strategy" : "stop",
@@ -26,7 +26,7 @@
           "type" : "camel-connector-operator",
           "version" : "[1.0.0,2.0.0)"
         } ],
-        "produces" : "application/json"
+        "produces" : "application/octet-stream"
       }
     }
   },
@@ -159,8 +159,8 @@
               "format" : {
                 "type" : "string",
                 "description" : "The format of the data that the source connector sends to Kafka.",
-                "default" : "application/json",
-                "enum" : [ "application/json" ]
+                "default" : "application/octet-stream",
+                "enum" : [ "application/octet-stream" ]
               }
             }
           }
