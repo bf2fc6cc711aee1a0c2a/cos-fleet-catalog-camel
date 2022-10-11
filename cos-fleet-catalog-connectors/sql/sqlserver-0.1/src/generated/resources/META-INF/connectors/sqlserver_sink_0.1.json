@@ -7,14 +7,14 @@
           "trait.camel.apache.org/container.request-memory" : "128M",
           "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
         },
-        "connector_image" : "quay.io/rhoas/cos-connector-sqlserver:0.1.46",
-        "connector_revision" : 46,
+        "connector_image" : "quay.io/rhoas/cos-connector-sqlserver:0.1.47",
+        "connector_revision" : 47,
         "connector_type" : "sink",
         "consumes" : "application/json",
         "error_handler_strategy" : "stop",
         "kamelets" : {
           "adapter" : {
-            "name" : "sqlserver-sink",
+            "name" : "cos-sqlserver-sink",
             "prefix" : "db"
           },
           "kafka" : {
@@ -86,6 +86,12 @@
           "title" : "Database Name",
           "description" : "The name of the SQL Server Database.",
           "type" : "string"
+        },
+        "db_encrypt" : {
+          "title" : "Encrypt",
+          "description" : "If the connection to the database should be secure.",
+          "type" : "boolean",
+          "default" : true
         },
         "kafka_topic" : {
           "title" : "Topic Names",
