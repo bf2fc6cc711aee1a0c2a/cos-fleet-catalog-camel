@@ -3222,6 +3222,12 @@ objects:
                 "type" : "string",
                 "default" : "uploadBlockBlob"
               },
+              "azure_credential_type" : {
+                "title" : "Credential Type",
+                "description" : "Determines the credential strategy to adopt. Possible values are SHARED_ACCOUNT_KEY, SHARED_KEY_CREDENTIAL and AZURE_IDENTITY",
+                "type" : "string",
+                "default" : "SHARED_ACCOUNT_KEY"
+              },
               "kafka_topic" : {
                 "title" : "Topic Names",
                 "description" : "A comma-separated list of Kafka topic names.",
@@ -3392,6 +3398,12 @@ objects:
                   "type" : "object",
                   "properties" : { }
                 } ]
+              },
+              "azure_credential_type" : {
+                "title" : "Credential Type",
+                "description" : "Determines the credential strategy to adopt. Possible values are SHARED_ACCOUNT_KEY, SHARED_KEY_CREDENTIAL and AZURE_IDENTITY",
+                "type" : "string",
+                "default" : "SHARED_ACCOUNT_KEY"
               },
               "kafka_topic" : {
                 "title" : "Topic Name",
