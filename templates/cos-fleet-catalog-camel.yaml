@@ -3886,7 +3886,7 @@ objects:
           "schema" : {
             "type" : "object",
             "additionalProperties" : false,
-            "required" : [ "gcp_project_id", "gcp_dataset", "gcp_table", "gcp_credentials_file_location", "kafka_topic" ],
+            "required" : [ "gcp_project_id", "gcp_dataset", "gcp_table", "gcp_service_account_key", "kafka_topic" ],
             "properties" : {
               "gcp_project_id" : {
                 "title" : "Google Cloud Project Id",
@@ -3903,11 +3903,19 @@ objects:
                 "description" : "The Big Query Table ID.",
                 "type" : "string"
               },
-              "gcp_credentials_file_location" : {
-                "title" : "Google Cloud Platform Credential File",
-                "description" : "The credential for accessing Google Cloud Platform API services. This value must be a path to a service account key file.",
-                "type" : "string",
-                "x-group" : "credentials"
+              "gcp_service_account_key" : {
+                "title" : "Service Account Key",
+                "x-group" : "credentials",
+                "oneOf" : [ {
+                  "title" : "Service Account Key",
+                  "description" : "The service account key to use as credentials for the BigQuery Service. You must encode this value in base64.",
+                  "type" : "string",
+                  "format" : "password"
+                }, {
+                  "description" : "An opaque reference to the aws_access_key",
+                  "type" : "object",
+                  "additionalProperties" : false
+                } ]
               },
               "kafka_topic" : {
                 "title" : "Topic Names",
