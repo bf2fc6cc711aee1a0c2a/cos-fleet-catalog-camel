@@ -75,22 +75,20 @@
         <dependency>
             <groupId>com.github.apache.camel-kamelets</groupId>
             <artifactId>camel-kamelets</artifactId>
-            <version>${camel-kamelets-catalog.branch}</version>
+            <version>${camel-kamelets-catalog.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.github.apache.camel-kamelets</groupId>
             <artifactId>camel-kamelets-utils</artifactId>
-            <version>${camel-kamelets-catalog.branch}</version>
+            <version>${camel-kamelets-catalog.version}</version>
         </dependency>
 
-        <!-- TODO: re-enable when depending on a released version
         <dependency>
             <groupId>org.apache.camel.kamelets</groupId>
             <artifactId>camel-kamelets</artifactId>
             <version>${camel-kamelets-catalog.version}</version>
         </dependency>
-        -->
 
         <!-- camel -->
         <dependency>
