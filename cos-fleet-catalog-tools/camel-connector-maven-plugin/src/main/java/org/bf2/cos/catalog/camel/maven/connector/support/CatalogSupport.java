@@ -328,54 +328,6 @@ public final class CatalogSupport {
         }
     }
 
-    public static void computeActions(ConnectorDefinition def, Connector connector, KameletsCatalog catalog) {
-        def.getConnectorType().getCapabilities().add(CatalogConstants.CAPABILITY_PROCESSORS);
-
-        final var oneOf = (ArrayNode) def.getConnectorType().getSchema()
-                .with("properties")
-                .with(CatalogConstants.CAPABILITY_PROCESSORS)
-                .put("type", "array")
-                .with("items")
-                .withArray("oneOf");
-
-        for (Connector.ActionRef step : connector.getActions()) {
-            String sanitizedName = step.getName();
-            sanitizedName = StringUtils.removeStart(sanitizedName, "cos-");
-            sanitizedName = StringUtils.removeEnd(sanitizedName, "-action");
-
-            final String stepName = asKey(sanitizedName);
-            final ObjectNode stepSchema = oneOf.addObject();
-            final JsonNode kameletSpec = catalog.kamelet(step.getName(), step.getVersion());
-
-            def.getConnectorType().getSchema()
-                    .with("$defs")
-                    .with(CatalogConstants.CAPABILITY_PROCESSORS)
-                    .set(stepName, kameletSpec.requiredAt("/spec/definition"));
-
-            if (step.getMetadata() != null) {
-                ObjectNode meta = def.getConnectorType().getSchema()
-                        .with("$defs")
-                        .with(CatalogConstants.CAPABILITY_PROCESSORS)
-                        .with(stepName)
-                        .with("x-metadata");
-
-                step.getMetadata().forEach(meta::put);
-            }
-
-            def.getConnectorType().getSchema()
-                    .with("$defs")
-                    .with(CatalogConstants.CAPABILITY_PROCESSORS)
-                    .with(stepName)
-                    .put("type", "object");
-
-            stepSchema.put("type", "object");
-            stepSchema.withArray("required").add(stepName);
-            stepSchema.with("properties").with(stepName).put(
-                    "$ref",
-                    "#/$defs/" + CatalogConstants.CAPABILITY_PROCESSORS + "/" + stepName);
-        }
-    }
-
     public static void computeErrorHandler(ConnectorDefinition def, Connector connector) {
         def.getConnectorType().getCapabilities().add(CatalogConstants.CAPABILITY_ERROR_HANDLER);
 

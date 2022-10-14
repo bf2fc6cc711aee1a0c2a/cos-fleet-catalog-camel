@@ -22,8 +22,7 @@ import java.util.jar.JarFile;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections4.SetUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
+import com.fasterxml.jackson.databind.node.TextNode;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -68,7 +67,6 @@ import static java.util.Optional.ofNullable;
 import static org.bf2.cos.catalog.camel.maven.connector.support.CatalogSupport.JSON_MAPPER;
 import static org.bf2.cos.catalog.camel.maven.connector.support.CatalogSupport.addRequired;
 import static org.bf2.cos.catalog.camel.maven.connector.support.CatalogSupport.asKey;
-import static org.bf2.cos.catalog.camel.maven.connector.support.CatalogSupport.computeActions;
 import static org.bf2.cos.catalog.camel.maven.connector.support.CatalogSupport.computeDataShapes;
 import static org.bf2.cos.catalog.camel.maven.connector.support.CatalogSupport.computeErrorHandler;
 import static org.bf2.cos.catalog.camel.maven.connector.support.CatalogSupport.copyProperties;
@@ -330,14 +328,6 @@ public class GenerateCatalogMojo extends AbstractMojo {
                     def.getConnectorType().getSchema());
 
             //
-            // Steps
-            //
-
-            if (connector.getActions() != null) {
-                computeActions(def, connector, kamelets);
-            }
-
-            //
             // DataShape
             //
 
@@ -446,18 +436,6 @@ public class GenerateCatalogMojo extends AbstractMojo {
                         });
                     }
 
-                    if (connector.getActions() != null) {
-                        for (Connector.ActionRef step : connector.getActions()) {
-                            String sanitizedName = step.getName();
-                            sanitizedName = StringUtils.removeStart(sanitizedName, "cos-");
-                            sanitizedName = StringUtils.removeEnd(sanitizedName, "-action");
-
-                            metadata.getKamelets().getProcessors().put(
-                                    asKey(sanitizedName),
-                                    step.getName());
-                        }
-                    }
-
                     if (connector.getErrorHandler() != null && connector.getErrorHandler().getDefaultStrategy() != null) {
                         metadata.setErrorHandlerStrategy(
                                 connector.getErrorHandler().getDefaultStrategy().name().toLowerCase(Locale.US));
@@ -544,6 +522,8 @@ public class GenerateCatalogMojo extends AbstractMojo {
 
             ObjectNode definition = JSON_MAPPER.convertValue(def, ObjectNode.class);
 
+            importProcessorSchema(definition);
+
             //
             // Validate
             //
@@ -569,6 +549,36 @@ public class GenerateCatalogMojo extends AbstractMojo {
         } catch (IOException e) {
             throw new MojoExecutionException("", e);
         }
+    }
+
+    private void importProcessorSchema(ObjectNode definition) throws IOException {
+        ObjectNode dslDefinitions = (ObjectNode) JSON_MAPPER.readTree(
+                Thread.currentThread().getContextClassLoader().getResourceAsStream(
+                        "schema/camel-yaml-dsl-restricted.json"));
+        dslDefinitions = (ObjectNode) dslDefinitions.get("items").get("definitions");
+        final ObjectNode schema = (ObjectNode) definition.get("connector_type").get("schema");
+        if (!schema.has("$defs")) {
+            schema.set("$defs", JSON_MAPPER.createObjectNode());
+        }
+        final ObjectNode schemaDefs = (ObjectNode) schema.get("$defs");
+        dslDefinitions.fields().forEachRemaining((e) -> {
+            ((ObjectNode) e.getValue()).findParents("$ref").forEach((refParent) -> {
+                String updatedRef = refParent.get("$ref").asText().replace("#/items/definitions", "#/$defs");
+                ((ObjectNode) refParent).set("$ref", new TextNode(updatedRef));
+            });
+            schemaDefs.set(e.getKey(), e.getValue());
+        });
+
+        ObjectNode processors = JSON_MAPPER.createObjectNode();
+        processors.set("type", new TextNode("array"));
+        ObjectNode items = JSON_MAPPER.createObjectNode();
+        items.set("$ref", new TextNode("#/$defs/org.apache.camel.model.ProcessorDefinition"));
+        processors.set("items", items);
+        if (!schema.has("properties")) {
+            schema.set("properties", JSON_MAPPER.createObjectNode());
+        }
+        final ObjectNode schemaProperties = (ObjectNode) schema.get("properties");
+        schemaProperties.set("processors", processors);
     }
 
     private void validateConnector(Connector connector, ObjectNode definition)

@@ -88,9 +88,6 @@ public final class MojoSupport {
                     if (connector.getDataShape() == null) {
                         connector.setDataShape(defaults.getDataShape());
                     }
-                    if (connector.getActions() == null) {
-                        connector.setActions(defaults.getActions());
-                    }
                     if (connector.getChannels() == null) {
                         connector.setChannels(defaults.getChannels());
                     }
