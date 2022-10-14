@@ -15,11 +15,11 @@
         <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
         <project.resources.sourceEncoding>${encoding}</project.resources.sourceEncoding>
 
-        <quarkus.version>2.11.3.Final</quarkus.version>
-        <camel-k-runtime.version>1.14.0</camel-k-runtime.version>
-        <camel-quarkus.version>2.11.0</camel-quarkus.version>
+        <quarkus.version>2.13.0.Final</quarkus.version>
+        <camel-k-runtime.version>1.15.0</camel-k-runtime.version>
+        <camel-quarkus.version>2.13.0</camel-quarkus.version>
+        <camel.version>3.18.2</camel.version>
         <camel-kamelets-catalog.version>0.9.1</camel-kamelets-catalog.version>
-        <camel.version>3.18.1</camel.version>
 
         <classgraph.version>4.8.149</classgraph.version>
         <jsonschema-generator.version>4.27.0</jsonschema-generator.version>
