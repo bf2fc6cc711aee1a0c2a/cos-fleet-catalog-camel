@@ -32,14 +32,6 @@ public final class ConnectorSupport {
                 connector.getKafka().getName(),
                 connector.getKafka().getVersion()));
 
-        if (connector.getActions() != null) {
-            for (Connector.ActionRef ref : connector.getActions()) {
-                kamelets.add(catalog.kamelet(
-                        ref.getName(),
-                        ref.getVersion()));
-            }
-        }
-
         for (ObjectNode node : kamelets) {
             for (JsonNode depNode : node.at("/spec/dependencies")) {
 

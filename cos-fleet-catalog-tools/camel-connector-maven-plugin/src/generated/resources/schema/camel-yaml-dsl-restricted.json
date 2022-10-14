@@ -1,0 +1,308 @@
+{
+  "$schema" : "http://json-schema.org/draft-04/schema#",
+  "type" : "array",
+  "items" : {
+    "maxProperties" : 1,
+    "definitions" : {
+      "org.apache.camel.model.ProcessorDefinition" : {
+        "type" : "object",
+        "maxProperties" : 1,
+        "properties" : {
+          "choice" : {
+            "$ref" : "#/items/definitions/org.apache.camel.model.ChoiceDefinition"
+          },
+          "filter" : {
+            "$ref" : "#/items/definitions/org.apache.camel.model.FilterDefinition"
+          },
+          "otherwise" : {
+            "$ref" : "#/items/definitions/org.apache.camel.model.OtherwiseDefinition"
+          },
+          "set-body" : {
+            "$ref" : "#/items/definitions/org.apache.camel.model.SetBodyDefinition"
+          },
+          "setBody" : {
+            "$ref" : "#/items/definitions/org.apache.camel.model.SetBodyDefinition"
+          },
+          "transform" : {
+            "$ref" : "#/items/definitions/org.apache.camel.model.TransformDefinition"
+          },
+          "when" : {
+            "$ref" : "#/items/definitions/org.apache.camel.model.WhenDefinition"
+          }
+        }
+      },
+      "org.apache.camel.model.ChoiceDefinition" : {
+        "type" : "object",
+        "properties" : {
+          "description" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "string"
+          },
+          "inherit-error-handler" : {
+            "type" : "boolean"
+          },
+          "otherwise" : {
+            "$ref" : "#/items/definitions/org.apache.camel.model.OtherwiseDefinition"
+          },
+          "precondition" : {
+            "type" : "boolean"
+          },
+          "steps" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/items/definitions/org.apache.camel.model.ProcessorDefinition"
+            }
+          },
+          "when" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/items/definitions/org.apache.camel.model.WhenDefinition"
+            }
+          }
+        }
+      },
+      "org.apache.camel.model.ExpressionSubElementDefinition" : {
+        "type" : "object",
+        "properties" : {
+          "constant" : {
+            "$ref" : "#/items/definitions/org.apache.camel.model.language.ConstantExpression"
+          },
+          "exchange-property" : {
+            "$ref" : "#/items/definitions/org.apache.camel.model.language.ExchangePropertyExpression"
+          },
+          "exchangeProperty" : {
+            "$ref" : "#/items/definitions/org.apache.camel.model.language.ExchangePropertyExpression"
+          },
+          "header" : {
+            "$ref" : "#/items/definitions/org.apache.camel.model.language.HeaderExpression"
+          },
+          "jq" : {
+            "$ref" : "#/items/definitions/org.apache.camel.model.language.JqExpression"
+          }
+        }
+      },
+      "org.apache.camel.model.FilterDefinition" : {
+        "type" : "object",
+        "anyOf" : [ {
+          "$ref" : "#/items/definitions/org.apache.camel.model.language.ExpressionDefinition"
+        } ],
+        "properties" : {
+          "description" : {
+            "type" : "string"
+          },
+          "expression" : {
+            "$ref" : "#/items/definitions/org.apache.camel.model.language.ExpressionDefinition"
+          },
+          "id" : {
+            "type" : "string"
+          },
+          "inherit-error-handler" : {
+            "type" : "boolean"
+          },
+          "status-property-name" : {
+            "type" : "string"
+          },
+          "steps" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/items/definitions/org.apache.camel.model.ProcessorDefinition"
+            }
+          }
+        }
+      },
+      "org.apache.camel.model.OtherwiseDefinition" : {
+        "type" : "object",
+        "properties" : {
+          "description" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "string"
+          },
+          "inherit-error-handler" : {
+            "type" : "boolean"
+          },
+          "steps" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/items/definitions/org.apache.camel.model.ProcessorDefinition"
+            }
+          }
+        }
+      },
+      "org.apache.camel.model.SetBodyDefinition" : {
+        "type" : "object",
+        "anyOf" : [ {
+          "$ref" : "#/items/definitions/org.apache.camel.model.language.ExpressionDefinition"
+        } ],
+        "properties" : {
+          "description" : {
+            "type" : "string"
+          },
+          "expression" : {
+            "$ref" : "#/items/definitions/org.apache.camel.model.language.ExpressionDefinition"
+          },
+          "id" : {
+            "type" : "string"
+          },
+          "inherit-error-handler" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "org.apache.camel.model.TransformDefinition" : {
+        "type" : "object",
+        "anyOf" : [ {
+          "$ref" : "#/items/definitions/org.apache.camel.model.language.ExpressionDefinition"
+        } ],
+        "properties" : {
+          "description" : {
+            "type" : "string"
+          },
+          "expression" : {
+            "$ref" : "#/items/definitions/org.apache.camel.model.language.ExpressionDefinition"
+          },
+          "id" : {
+            "type" : "string"
+          },
+          "inherit-error-handler" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "org.apache.camel.model.WhenDefinition" : {
+        "type" : "object",
+        "anyOf" : [ {
+          "$ref" : "#/items/definitions/org.apache.camel.model.language.ExpressionDefinition"
+        } ],
+        "properties" : {
+          "description" : {
+            "type" : "string"
+          },
+          "expression" : {
+            "$ref" : "#/items/definitions/org.apache.camel.model.language.ExpressionDefinition"
+          },
+          "id" : {
+            "type" : "string"
+          },
+          "inherit-error-handler" : {
+            "type" : "boolean"
+          },
+          "steps" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/items/definitions/org.apache.camel.model.ProcessorDefinition"
+            }
+          }
+        }
+      },
+      "org.apache.camel.model.language.ConstantExpression" : {
+        "oneOf" : [ {
+          "type" : "string"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "expression" : {
+              "type" : "string"
+            },
+            "id" : {
+              "type" : "string"
+            },
+            "result-type" : {
+              "type" : "string"
+            },
+            "trim" : {
+              "type" : "boolean"
+            }
+          }
+        } ],
+        "required" : [ "expression" ]
+      },
+      "org.apache.camel.model.language.ExchangePropertyExpression" : {
+        "oneOf" : [ {
+          "type" : "string"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "expression" : {
+              "type" : "string"
+            },
+            "id" : {
+              "type" : "string"
+            },
+            "trim" : {
+              "type" : "boolean"
+            }
+          }
+        } ],
+        "required" : [ "expression" ]
+      },
+      "org.apache.camel.model.language.ExpressionDefinition" : {
+        "type" : "object",
+        "properties" : {
+          "constant" : {
+            "$ref" : "#/items/definitions/org.apache.camel.model.language.ConstantExpression"
+          },
+          "exchange-property" : {
+            "$ref" : "#/items/definitions/org.apache.camel.model.language.ExchangePropertyExpression"
+          },
+          "exchangeProperty" : {
+            "$ref" : "#/items/definitions/org.apache.camel.model.language.ExchangePropertyExpression"
+          },
+          "header" : {
+            "$ref" : "#/items/definitions/org.apache.camel.model.language.HeaderExpression"
+          },
+          "jq" : {
+            "$ref" : "#/items/definitions/org.apache.camel.model.language.JqExpression"
+          }
+        }
+      },
+      "org.apache.camel.model.language.HeaderExpression" : {
+        "oneOf" : [ {
+          "type" : "string"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "expression" : {
+              "type" : "string"
+            },
+            "id" : {
+              "type" : "string"
+            },
+            "trim" : {
+              "type" : "boolean"
+            }
+          }
+        } ],
+        "required" : [ "expression" ]
+      },
+      "org.apache.camel.model.language.JqExpression" : {
+        "oneOf" : [ {
+          "type" : "string"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "expression" : {
+              "type" : "string"
+            },
+            "header-name" : {
+              "type" : "string"
+            },
+            "id" : {
+              "type" : "string"
+            },
+            "result-type" : {
+              "type" : "string"
+            },
+            "trim" : {
+              "type" : "boolean"
+            }
+          }
+        } ],
+        "required" : [ "expression" ]
+      }
+    }
+  }
+}

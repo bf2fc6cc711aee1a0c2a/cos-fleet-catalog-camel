@@ -25,8 +25,6 @@ public class Connector {
     @Param
     private EndpointRef kafka;
     @Param
-    private List<ActionRef> actions;
-    @Param
     private Map<String, Channel> channels;
     @Param
     private DataShapeDefinition dataShape;
@@ -98,14 +96,6 @@ public class Connector {
 
     public void setKafka(EndpointRef kafka) {
         this.kafka = kafka;
-    }
-
-    public List<ActionRef> getActions() {
-        return actions;
-    }
-
-    public void setActions(List<ActionRef> actions) {
-        this.actions = actions;
     }
 
     public Map<String, Channel> getChannels() {
