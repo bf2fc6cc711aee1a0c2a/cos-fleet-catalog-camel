@@ -16,3 +16,9 @@ updates:
       - dependency-name: org.apache.camel.quarkus:*
       - dependency-name: org.apache.camel.kamelets:*
       - dependency-name: io.apicurio:*
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: daily
+      time: "19:30"
+      timezone: Europe/Paris
