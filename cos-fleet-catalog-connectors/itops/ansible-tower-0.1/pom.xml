@@ -41,7 +41,7 @@
                             </adapter>
                             <kafka>
                                 <prefix>kafka</prefix>
-                                <name>cos-kafka-sink</name>
+                                <name>cos-kafka-source</name>
                                 <version>${cos.kamelets.version}</version>
                             </kafka>
                         </connector>
