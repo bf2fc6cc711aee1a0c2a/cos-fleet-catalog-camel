@@ -183,6 +183,7 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
     public static class Builder {
         private final String definition;
         private final Map<String, String> properties;
+        private final Map<String, String> userProperties;
 
         private Network network;
         private String dlqKafkaTopic;
@@ -197,13 +198,14 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
 
             this.definition = definition;
             this.properties = new HashMap<>();
+            this.userProperties = new HashMap<>();
         }
 
         public Builder withProperty(String key, String val) {
             Objects.requireNonNull(key);
             Objects.requireNonNull(val);
 
-            this.properties.put(key, val);
+            this.properties.put(key.trim(), val);
             return this;
         }
 
@@ -211,6 +213,21 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
             Objects.requireNonNull(properties);
 
             this.properties.putAll(properties);
+            return this;
+        }
+
+        public Builder withUserProperty(String key, String val) {
+            Objects.requireNonNull(key);
+            Objects.requireNonNull(val);
+
+            this.userProperties.put(key.trim(), val);
+            return this;
+        }
+
+        public Builder withUserProperties(Map<String, String> properties) {
+            Objects.requireNonNull(properties);
+
+            this.userProperties.putAll(properties);
             return this;
         }
 
@@ -396,6 +413,7 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
                     LOGGER.info("route: \n{}", routeYaml);
 
                     answer.withFile(DEFAULT_ROUTE_LOCATION, routeYaml);
+                    answer.withUserProperties(userProperties);
 
                     try (InputStream ip = ConnectorContainer.class.getResourceAsStream("/integration-application.properties")) {
                         answer.withFile(DEFAULT_APPLICATION_PROPERTIES_LOCATION, ip);
