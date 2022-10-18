@@ -59,14 +59,6 @@ public class ClientFactory extends DefaultKafkaClientFactory {
         this.password = password;
     }
 
-    public int getConsumerCreationRetryMs() {
-        return consumerCreationRetryMs;
-    }
-
-    public void setConsumerCreationRetryMs(int consumerCreationRetryMs) {
-        this.consumerCreationRetryMs = consumerCreationRetryMs;
-    }
-
     public int getProducerCreationRetryMs() {
         return producerCreationRetryMs;
     }
@@ -91,14 +83,7 @@ public class ClientFactory extends DefaultKafkaClientFactory {
     @Override
     public Consumer getConsumer(Properties props) {
         enrich(props);
-        try {
-            return (KafkaConsumer) super.getConsumer(props);
-        } catch (KafkaException ke) {
-            int retryMs = getConsumerCreationRetryMs();
-            LOG.warn("KafkaException when trying to create consumer. Will wait {}ms before retry.", retryMs);
-            sleep(retryMs);
-            throw ke;
-        }
+        return super.getConsumer(props);
     }
 
     @Override

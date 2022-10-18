@@ -32,7 +32,6 @@ spec:
           registryUrl: '{{registryUrl:}}'
           username: '{{user}}'
           password: '{{password}}'
-          consumerCreationRetryMs: '{{consumerCreationRetryMs:5000}}'
     from:
       uri: "kafka:{{topic}}"
       parameters:

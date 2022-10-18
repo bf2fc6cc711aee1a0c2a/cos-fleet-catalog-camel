@@ -30,7 +30,6 @@ spec:
         properties:
           bootstrapUrl: "{{bootstrapServers}}"
           registryUrl: '{{registryUrl:}}'
-          consumerCreationRetryMs: '{{consumerCreationRetryMs:5000}}'
     from:
       uri: "kafka:{{topic}}"
       parameters:
