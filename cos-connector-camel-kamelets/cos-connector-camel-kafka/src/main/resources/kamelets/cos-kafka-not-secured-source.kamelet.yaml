@@ -25,13 +25,20 @@ spec:
     - "camel:kamelet"
   template:
     beans:
+      - name: "kc"
+        type: "#class:org.apache.camel.component.kafka.KafkaComponent"
+        properties:
+          createConsumerBackoffInterval: "3000"
+          createConsumerBackoffMaxAttempts: "100"
+          subscribeConsumerBackoffInterval: "3000"
+          subscribeConsumerBackoffMaxAttempts: "100"
       - name: "kafka-client-factory"
         type: "#class:org.bf2.cos.connector.camel.kafka.ClientFactory"
         properties:
           bootstrapUrl: "{{bootstrapServers}}"
           registryUrl: '{{registryUrl:}}'
     from:
-      uri: "kafka:{{topic}}"
+      uri: "{{kc}}:{{topic}}"
       parameters:
         autoOffsetReset: "{{autoOffsetReset:earliest}}"
         groupId: "{{?consumerGroup}}"
