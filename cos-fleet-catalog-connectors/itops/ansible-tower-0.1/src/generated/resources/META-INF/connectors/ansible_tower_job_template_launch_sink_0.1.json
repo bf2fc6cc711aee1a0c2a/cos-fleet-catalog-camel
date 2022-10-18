@@ -7,8 +7,8 @@
           "trait.camel.apache.org/container.request-memory" : "128M",
           "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
         },
-        "connector_image" : "quay.io/rhoas/cos-connector-ansible-tower:0.1.48",
-        "connector_revision" : 48,
+        "connector_image" : "quay.io/rhoas/cos-connector-ansible-tower:0.1.49",
+        "connector_revision" : 49,
         "connector_type" : "sink",
         "consumes" : "application/json",
         "error_handler_strategy" : "stop",
@@ -18,7 +18,7 @@
             "prefix" : "ansible"
           },
           "kafka" : {
-            "name" : "cos-kafka-sink",
+            "name" : "cos-kafka-source",
             "prefix" : "kafka"
           }
         },
@@ -87,8 +87,8 @@
           } ]
         },
         "kafka_topic" : {
-          "title" : "Topic Name",
-          "description" : "The name of the Kafka Topic to use.",
+          "title" : "Topic Names",
+          "description" : "A comma-separated list of Kafka topic names.",
           "type" : "string"
         },
         "data_shape" : {
