@@ -37,6 +37,8 @@ spec:
           registryUrl: '{{registryUrl:}}'
           bootstrapUrl: "{{bootstrapServers}}"
           producerCreationRetryMs: '{{producerCreationRetryMs:5000}}'
+      - name: "add-exception-processor"
+        type: "#class:org.bf2.cos.connector.camel.processor.AddExceptionHeaderProcessor"
     from:
       uri: "kamelet:source"
       steps:
@@ -54,6 +56,8 @@ spec:
             - set-header:
                 name: kafka.PARTITION_KEY
                 simple: "${header[partition-key]}"
+      - process:
+          ref: "{{add-exception-processor}}"
       - to:
           uri: "kafka:{{topic}}"
           parameters:
