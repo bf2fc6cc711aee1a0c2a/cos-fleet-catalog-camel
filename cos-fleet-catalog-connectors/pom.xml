@@ -84,12 +84,6 @@
             <version>${camel-kamelets-catalog.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.camel.kamelets</groupId>
-            <artifactId>camel-kamelets</artifactId>
-            <version>${camel-kamelets-catalog.version}</version>
-        </dependency>
-
         <!-- camel -->
         <dependency>
             <groupId>org.apache.camel.quarkus</groupId>
