@@ -3,6 +3,7 @@ package org.bf2.cos.connector.camel.it
 import com.mongodb.client.MongoClients
 import groovy.util.logging.Slf4j
 import org.apache.commons.lang3.StringUtils
+import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.bf2.cos.connector.camel.it.support.KafkaConnectorSpec
 import org.bf2.cos.connector.camel.it.support.TestUtils
 import org.testcontainers.containers.MongoDBContainer
@@ -103,9 +104,16 @@ class ConnectorIT extends KafkaConnectorSpec {
 
             def errorRecords = kafka.poll(group, errorHandlerTopic)
             errorRecords.size() == 1
-            def actual = TestUtils.SLURPER.parseText(errorRecords.first().value())
+
+            def errorMessage = errorRecords.first()
+            def actual = TestUtils.SLURPER.parseText(errorMessage.value())
             def expected = TestUtils.SLURPER.parseText(payload)
             actual == expected
+
+            def actualErrorHeaderBytes = (byte[]) errorMessage.headers().headers("rhoc.error-cause").first().value()
+            def actualErrorHeader = new String(actualErrorHeaderBytes, "UTF-8");
+            actualErrorHeader.contains("java.lang.RuntimeException: too bad")
+            actualErrorHeader.contains("SimulateErrorProcessor.java")
 
         cleanup:
             closeQuietly(mongoClient)
