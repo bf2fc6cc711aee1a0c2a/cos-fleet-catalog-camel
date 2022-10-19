@@ -5,7 +5,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.ServiceLoader;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -15,13 +19,11 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.logging.Log;
-import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
-import org.apache.maven.project.MavenProjectHelper;
 import org.bf2.cos.catalog.camel.maven.connector.model.ConnectorDefinition;
 import org.bf2.cos.catalog.camel.maven.connector.support.Annotation;
 import org.bf2.cos.catalog.camel.maven.connector.support.Catalog;
@@ -32,10 +34,6 @@ import org.bf2.cos.catalog.camel.maven.connector.support.MojoSupport;
 import org.bf2.cos.catalog.camel.maven.connector.validator.Validator;
 import org.codehaus.groovy.control.CompilerConfiguration;
 import org.codehaus.groovy.control.customizers.ImportCustomizer;
-import org.codehaus.plexus.component.annotations.Requirement;
-import org.eclipse.aether.RepositorySystem;
-import org.eclipse.aether.RepositorySystemSession;
-import org.eclipse.aether.impl.RemoteRepositoryManager;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -88,26 +86,6 @@ public class GenerateCatalogMojo extends AbstractMojo {
     private Validator.Mode mode;
     @Parameter(required = true)
     private Catalog catalog;
-
-    @Parameter(required = false, property = "appArtifact")
-    private String appArtifact;
-    @Parameter(defaultValue = "${project.build.directory}")
-    protected File buildDir;
-    @Parameter(defaultValue = "${project.build.finalName}")
-    protected String finalName;
-    @Parameter(defaultValue = "${camel-quarkus.version}")
-    private String camelQuarkusVersion;
-    @Requirement(role = RepositorySystem.class, optional = false)
-    protected RepositorySystem repoSystem;
-    @Requirement(role = RemoteRepositoryManager.class, optional = false)
-    protected RemoteRepositoryManager remoteRepoManager;
-    @Parameter(defaultValue = "${repositorySystemSession}", readonly = true)
-    private RepositorySystemSession repoSession;
-    @Parameter
-    private Map<String, String> systemProperties;
-
-    @Component
-    protected MavenProjectHelper projectHelper;
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
