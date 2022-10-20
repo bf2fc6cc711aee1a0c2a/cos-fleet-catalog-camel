@@ -24,7 +24,7 @@ jobs:
           echo "CONNECTORS_RELEASE=${C_VERSION}-${C_REVISION}" >> $GITHUB_ENV
 
       - name: "Checkout cos-manifests project"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: bf2fc6cc711aee1a0c2a/cos-manifests
           token: ${{ secrets.token }}
