@@ -1,16 +1,14 @@
 package org.bf2.cos.connector.camel.routecontroller;
 
+import java.util.Locale;
+import java.util.Map;
+
 import org.apache.camel.CamelContext;
 import org.apache.camel.Route;
 import org.apache.camel.ServiceStatus;
 import org.apache.camel.health.HealthCheckResultBuilder;
 import org.apache.camel.impl.health.AbstractHealthCheck;
 import org.apache.camel.spi.annotations.HealthCheck;
-import org.eclipse.microprofile.health.HealthCheckResponse;
-
-import javax.enterprise.inject.spi.CDI;
-import java.util.Locale;
-import java.util.Map;
 
 @HealthCheck("rc-check")
 public class RouteControllerHealthCheck extends AbstractHealthCheck {
