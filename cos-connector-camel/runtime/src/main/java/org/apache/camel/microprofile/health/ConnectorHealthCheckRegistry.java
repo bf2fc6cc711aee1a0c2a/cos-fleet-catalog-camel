@@ -115,6 +115,8 @@ public class ConnectorHealthCheckRegistry extends DefaultHealthCheckRegistry imp
 
     protected void registerRepositoryChecks(HealthCheckRepository repository) {
         if (repository.isEnabled()) {
+            LOG.info("Registering repository {}", repository.getClass());
+
             boolean isAllChecksLiveness = repository.stream().allMatch(HealthCheck::isLiveness);
             boolean isAllChecksReadiness = repository.stream().allMatch(HealthCheck::isReadiness);
 
