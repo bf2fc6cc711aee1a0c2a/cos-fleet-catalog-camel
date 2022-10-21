@@ -20,6 +20,8 @@
         <quarkus.container-image.registry>${cos.connector.container.repository}</quarkus.container-image.registry>
         <quarkus.container-image.group>${cos.connector.container.organization}</quarkus.container-image.group>
 
+
+        <quarkus.jib.base-jvm-image>registry.access.redhat.com/ubi8/openjdk-11-runtime:1.14</quarkus.jib.base-jvm-image>
         <quarkus.jib.jvm-arguments>-XX:+UseShenandoahGC,-Djava.util.logging.manager=org.jboss.logmanager.LogManager</quarkus.jib.jvm-arguments>
 
         <cos.catalog.validation.mode>FAIL</cos.catalog.validation.mode>
