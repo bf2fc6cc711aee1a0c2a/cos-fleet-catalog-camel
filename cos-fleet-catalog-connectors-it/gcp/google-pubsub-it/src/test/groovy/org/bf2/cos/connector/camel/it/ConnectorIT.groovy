@@ -12,15 +12,19 @@ import com.google.cloud.pubsub.v1.TopicAdminSettings
 import com.google.cloud.pubsub.v1.stub.GrpcSubscriberStub
 import com.google.cloud.pubsub.v1.stub.SubscriberStub
 import com.google.cloud.pubsub.v1.stub.SubscriberStubSettings
-import com.google.pubsub.v1.*
+import com.google.pubsub.v1.ProjectSubscriptionName
+import com.google.pubsub.v1.PullRequest
+import com.google.pubsub.v1.PullResponse
+import com.google.pubsub.v1.Subscription
+import com.google.pubsub.v1.Topic
+import com.google.pubsub.v1.TopicName
 import groovy.util.logging.Slf4j
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
+import org.bf2.cos.connector.camel.it.support.ContainerImages
 import org.bf2.cos.connector.camel.it.support.KafkaConnectorSpec
 import org.testcontainers.containers.PubSubEmulatorContainer
-import org.testcontainers.utility.DockerImageName
 
-import java.sql.Time
 import java.util.concurrent.TimeUnit
 
 @Slf4j
@@ -30,8 +34,7 @@ class ConnectorIT extends KafkaConnectorSpec {
 
     @Override
     def setupSpec() {
-        DockerImageName imageName = DockerImageName.parse('gcr.io/google.com/cloudsdktool/cloud-sdk:emulators');
-        container = new PubSubEmulatorContainer(imageName)
+        container = ContainerImages.GCR_PUBSUB.container(PubSubEmulatorContainer.class)
         container.withLogConsumer(logger('tc-google-pubsub'))
         container.withNetwork(network)
         container.withNetworkAliases('tc-google-pubsub')

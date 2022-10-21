@@ -2,6 +2,7 @@ package org.bf2.cos.connector.camel.it
 
 import groovy.sql.Sql
 import groovy.util.logging.Slf4j
+import org.bf2.cos.connector.camel.it.support.ContainerImages
 import org.bf2.cos.connector.camel.it.support.KafkaConnectorSpec
 import org.testcontainers.containers.MySQLContainer
 
@@ -13,7 +14,7 @@ class ConnectorIT extends KafkaConnectorSpec {
 
     @Override
     def setupSpec() {
-        db = new MySQLContainer('mysql:5.7.34')
+        db = ContainerImages.MYSQL.container(MySQLContainer.class)
         db.withLogConsumer(logger('tc-mysql'))
         db.withNetwork(network)
         db.withNetworkAliases('tc-mysql')

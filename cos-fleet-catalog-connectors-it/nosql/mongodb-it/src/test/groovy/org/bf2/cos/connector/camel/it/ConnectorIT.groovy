@@ -2,8 +2,7 @@ package org.bf2.cos.connector.camel.it
 
 import com.mongodb.client.MongoClients
 import groovy.util.logging.Slf4j
-import org.apache.commons.lang3.StringUtils
-import org.apache.kafka.clients.consumer.ConsumerRecord
+import org.bf2.cos.connector.camel.it.support.ContainerImages
 import org.bf2.cos.connector.camel.it.support.KafkaConnectorSpec
 import org.bf2.cos.connector.camel.it.support.TestUtils
 import org.testcontainers.containers.MongoDBContainer
@@ -19,7 +18,7 @@ class ConnectorIT extends KafkaConnectorSpec {
 
     @Override
     def setupSpec() {
-        db = new MongoDBContainer('mongo:5.0.8')
+        db = ContainerImages.MONGODB.container(MongoDBContainer.class)
         db.withLogConsumer(logger('tc-mongodb'))
         db.withNetwork(network)
         db.withNetworkAliases('tc-mongodb')

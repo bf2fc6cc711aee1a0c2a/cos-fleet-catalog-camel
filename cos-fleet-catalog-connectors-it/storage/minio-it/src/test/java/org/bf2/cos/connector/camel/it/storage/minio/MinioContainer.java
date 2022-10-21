@@ -3,6 +3,7 @@ package org.bf2.cos.connector.camel.it.storage.minio;
 import java.time.Duration;
 import java.util.UUID;
 
+import org.bf2.cos.connector.camel.it.support.ContainerImages;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.Network;
 import org.testcontainers.containers.wait.strategy.HttpWaitStrategy;
@@ -10,7 +11,6 @@ import org.testcontainers.containers.wait.strategy.HttpWaitStrategy;
 import io.minio.MinioClient;
 
 public class MinioContainer extends GenericContainer<MinioContainer> {
-    public static final String IMAGE = "quay.io/minio/minio:latest";
     public static final String CONTAINER_ALIAS = "tc-minio";
 
     public static final int PORT = 9000;
@@ -28,7 +28,7 @@ public class MinioContainer extends GenericContainer<MinioContainer> {
     }
 
     public MinioContainer(Network network, String accessKey, String secretKey) {
-        super(IMAGE);
+        super(ContainerImages.MINIO.imageName());
 
         this.accessKey = accessKey;
         this.secretKey = secretKey;

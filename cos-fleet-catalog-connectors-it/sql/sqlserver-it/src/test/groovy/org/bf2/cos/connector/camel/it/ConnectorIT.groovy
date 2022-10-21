@@ -2,6 +2,7 @@ package org.bf2.cos.connector.camel.it
 
 import groovy.sql.Sql
 import groovy.util.logging.Slf4j
+import org.bf2.cos.connector.camel.it.support.ContainerImages
 import org.bf2.cos.connector.camel.it.support.KafkaConnectorSpec
 import org.testcontainers.containers.MSSQLServerContainer
 
@@ -13,7 +14,7 @@ class ConnectorIT extends KafkaConnectorSpec {
 
     @Override
     def setupSpec() {
-        db = new MSSQLServerContainer('mcr.microsoft.com/mssql/server:2017-CU12')
+        db = ContainerImages.SQLSERVER.container(MSSQLServerContainer.class)
         db.acceptLicense()
         db.withLogConsumer(logger('tc-sqlserver'))
         db.withNetwork(network)

@@ -7,6 +7,7 @@ import com.datastax.driver.core.Session
 import com.datastax.driver.core.Statement
 import com.datastax.driver.core.schemabuilder.SchemaBuilder
 import groovy.util.logging.Slf4j
+import org.bf2.cos.connector.camel.it.support.ContainerImages
 import org.bf2.cos.connector.camel.it.support.KafkaConnectorSpec
 import org.testcontainers.containers.CassandraContainer
 
@@ -21,7 +22,7 @@ class ConnectorIT extends KafkaConnectorSpec {
 
     @Override
     def setupSpec() {
-        cassandra = new CassandraContainer()
+        cassandra = ContainerImages.CASSANDRA.container(CassandraContainer.class)
         cassandra.withLogConsumer(logger('tc-cassandra'))
         cassandra.withNetwork(network)
         cassandra.withNetworkAliases('tc-cassandra')

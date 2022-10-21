@@ -2,6 +2,7 @@ package org.bf2.cos.connector.camel.it
 
 import groovy.sql.Sql
 import groovy.util.logging.Slf4j
+import org.bf2.cos.connector.camel.it.support.ContainerImages
 import org.bf2.cos.connector.camel.it.support.KafkaConnectorSpec
 import org.bf2.cos.connector.camel.it.support.TestUtils
 import org.testcontainers.containers.PostgreSQLContainer
@@ -14,7 +15,7 @@ class ConnectorIT extends KafkaConnectorSpec {
 
     @Override
     def setupSpec() {
-        db = new PostgreSQLContainer<>('postgres:14.2')
+        db = ContainerImages.POSTGRES.container(PostgreSQLContainer.class)
         db.withLogConsumer(logger('tc-postgres'))
         db.withNetwork(network)
         db.withNetworkAliases('tc-postgres')

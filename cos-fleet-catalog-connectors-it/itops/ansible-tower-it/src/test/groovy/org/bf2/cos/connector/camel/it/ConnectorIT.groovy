@@ -2,12 +2,12 @@ package org.bf2.cos.connector.camel.it
 
 import com.github.tomakehurst.wiremock.client.WireMock
 import groovy.util.logging.Slf4j
+import org.bf2.cos.connector.camel.it.support.ContainerImages
 import org.bf2.cos.connector.camel.it.support.KafkaConnectorSpec
 import org.testcontainers.containers.BindMode
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.SelinuxContext
 import org.testcontainers.containers.wait.strategy.Wait
-import org.testcontainers.utility.DockerImageName
 import spock.lang.Unroll
 
 import java.util.concurrent.TimeUnit
@@ -32,7 +32,7 @@ class ConnectorIT extends KafkaConnectorSpec {
 
     @Override
     def setupSpec() {
-        mock = new GenericContainer<>(DockerImageName.parse('wiremock/wiremock:2.33.2'))
+        mock = ContainerImages.WIREMOCK.container()
         mock.withLogConsumer(logger(HOST))
         mock.withNetwork(KafkaConnectorSpec.network)
         mock.withNetworkAliases(HOST)
