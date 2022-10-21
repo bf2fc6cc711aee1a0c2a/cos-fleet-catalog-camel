@@ -268,7 +268,7 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
                     ArrayNode integration = yaml.createArrayNode();
                     ObjectNode route = integration.addObject().with("route");
                     ObjectNode from = route.with("from");
-                    ArrayNode steps = route.withArray("steps");
+                    ArrayNode steps = from.withArray("steps");
                     steps.addObject().with("to").put("uri", "log:before?showAll=true&multiline=true");
 
                     if (dlqKafkaTopic != null) {
