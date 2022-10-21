@@ -2,6 +2,7 @@ package org.bf2.cos.connector.camel.it
 
 import groovy.sql.Sql
 import groovy.util.logging.Slf4j
+import org.bf2.cos.connector.camel.it.support.ContainerImages
 import org.bf2.cos.connector.camel.it.support.KafkaConnectorSpec
 import org.testcontainers.containers.MariaDBContainer
 
@@ -13,7 +14,7 @@ class ConnectorIT extends KafkaConnectorSpec {
 
     @Override
     def setupSpec() {
-        db = new MariaDBContainer('mariadb:10.3.6')
+        db = ContainerImages.MARIADB.container(MariaDBContainer.class)
         db.withLogConsumer(logger('tc-mariadb'))
         db.withNetwork(network)
         db.withNetworkAliases('tc-mariadb')

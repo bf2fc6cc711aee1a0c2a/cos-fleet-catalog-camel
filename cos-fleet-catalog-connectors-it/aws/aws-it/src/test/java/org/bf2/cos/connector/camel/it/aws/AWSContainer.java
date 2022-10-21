@@ -2,12 +2,12 @@ package org.bf2.cos.connector.camel.it.aws;
 
 import java.net.URI;
 
+import org.bf2.cos.connector.camel.it.support.ContainerImages;
 import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.Network;
 import org.testcontainers.containers.output.Slf4jLogConsumer;
 import org.testcontainers.containers.wait.strategy.Wait;
-import org.testcontainers.utility.DockerImageName;
 
 import software.amazon.awssdk.auth.credentials.AwsCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
@@ -20,12 +20,11 @@ import software.amazon.awssdk.services.sns.SnsClient;
 import software.amazon.awssdk.services.sqs.SqsClient;
 
 public class AWSContainer extends GenericContainer<AWSContainer> {
-    public static final String IMAGE = "localstack/localstack:0.14.2";
     public static final String CONTAINER_ALIAS = "tc-aws";
     public static final int PORT = 4566;
 
     public AWSContainer(Network network, String... services) {
-        super(DockerImageName.parse(IMAGE));
+        super(ContainerImages.LOCALSTACK.imageName());
 
         withEnv("SERVICE", String.join(",", services));
         withLogConsumer(new Slf4jLogConsumer(LoggerFactory.getLogger(CONTAINER_ALIAS)));

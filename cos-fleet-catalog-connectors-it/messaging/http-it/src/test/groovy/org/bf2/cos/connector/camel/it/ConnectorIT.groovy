@@ -2,21 +2,21 @@ package org.bf2.cos.connector.camel.it
 
 import com.github.tomakehurst.wiremock.client.WireMock
 import groovy.util.logging.Slf4j
+import org.bf2.cos.connector.camel.it.support.ContainerImages
 import org.bf2.cos.connector.camel.it.support.KafkaConnectorSpec
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.wait.strategy.Wait
-import org.testcontainers.utility.DockerImageName
 import spock.lang.Unroll
 
 import java.util.concurrent.TimeUnit
 
+import static com.github.tomakehurst.wiremock.client.WireMock.absent
+import static com.github.tomakehurst.wiremock.client.WireMock.equalTo
 import static com.github.tomakehurst.wiremock.client.WireMock.ok
 import static com.github.tomakehurst.wiremock.client.WireMock.post
 import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo
 import static com.github.tomakehurst.wiremock.client.WireMock.verify
-import static com.github.tomakehurst.wiremock.client.WireMock.equalTo
-import static com.github.tomakehurst.wiremock.client.WireMock.absent
 
 @Slf4j
 class ConnectorIT extends KafkaConnectorSpec {
@@ -28,7 +28,7 @@ class ConnectorIT extends KafkaConnectorSpec {
 
     @Override
     def setupSpec() {
-        mock = new GenericContainer<>(DockerImageName.parse('wiremock/wiremock:2.33.2'))
+        mock = ContainerImages.WIREMOCK.container()
         mock.withLogConsumer(logger(HOST))
         mock.withNetwork(KafkaConnectorSpec.network)
         mock.withNetworkAliases(HOST)

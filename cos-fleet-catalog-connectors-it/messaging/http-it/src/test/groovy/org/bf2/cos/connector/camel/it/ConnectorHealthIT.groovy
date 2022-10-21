@@ -5,13 +5,13 @@ import io.restassured.RestAssured
 import io.restassured.builder.RequestSpecBuilder
 import io.restassured.http.ContentType
 import org.bf2.cos.connector.camel.it.support.ConnectorContainer
+import org.bf2.cos.connector.camel.it.support.ContainerImages
 import org.bf2.cos.connector.camel.it.support.KafkaConnectorSpec
 import org.bf2.cos.connector.camel.it.support.KafkaContainer
 import org.bf2.cos.connector.camel.it.support.SimpleConnectorSpec
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.Network
 import org.testcontainers.containers.wait.strategy.Wait
-import org.testcontainers.utility.DockerImageName
 
 import java.util.concurrent.TimeUnit
 
@@ -32,7 +32,7 @@ class ConnectorHealthIT extends SimpleConnectorSpec {
 
         network = Network.newNetwork()
 
-        mock = new GenericContainer<>(DockerImageName.parse('wiremock/wiremock:2.34.0'))
+        mock = new GenericContainer<>(ContainerImages.WIREMOCK.imageName())
         mock.withLogConsumer(logger(HOST))
         mock.withNetwork(KafkaConnectorSpec.network)
         mock.withNetworkAliases(HOST)

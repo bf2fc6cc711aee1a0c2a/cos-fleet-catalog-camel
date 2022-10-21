@@ -3,12 +3,12 @@ package org.bf2.cos.connector.camel.it
 import com.fasterxml.jackson.databind.ObjectMapper
 import groovy.util.logging.Slf4j
 import org.apache.qpid.jms.JmsConnectionFactory
+import org.bf2.cos.connector.camel.it.support.ContainerImages
 import org.bf2.cos.connector.camel.it.support.AwaitStrategy
 import org.bf2.cos.connector.camel.it.support.KafkaConnectorSpec
 import org.testcontainers.containers.ContainerState
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.wait.strategy.WaitStrategy
-import org.testcontainers.utility.DockerImageName
 
 import javax.jms.BytesMessage
 import javax.jms.Connection
@@ -24,9 +24,7 @@ class ConnectorIT extends KafkaConnectorSpec {
 
     @Override
     def setupSpec() {
-        DockerImageName imageName = DockerImageName.parse('quay.io/artemiscloud/activemq-artemis-broker:1.0.9')
-
-        mq = new GenericContainer(imageName)
+        mq = ContainerImages.ACTIVEMQ_ARTEMIS.container()
         mq.withLogConsumer(logger('tc-activemq'))
         mq.withNetwork(network)
         mq.withNetworkAliases('tc-activemq')
