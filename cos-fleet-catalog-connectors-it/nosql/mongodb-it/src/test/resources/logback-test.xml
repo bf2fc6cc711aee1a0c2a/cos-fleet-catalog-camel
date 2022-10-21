@@ -10,6 +10,9 @@
     <logger name="org.apache.kafka.clients.producer.ProducerConfig" level="WARN"/>
     <logger name="org.apache.kafka.clients.admin.AdminClientConfig" level="ERROR"/>
 
+    <logger name="org.apache.kafka.clients.NetworkClient" level="WARN"/>
+    <logger name="org.apache.kafka.clients.consumer.internals.ConsumerCoordinator" level="WARN"/>
+
     <logger name="tc-container" level="INFO"/>
     <logger name="tc-kafka" level="WARN"/>
     <logger name="tc-mongodb" level="WARN"/>
