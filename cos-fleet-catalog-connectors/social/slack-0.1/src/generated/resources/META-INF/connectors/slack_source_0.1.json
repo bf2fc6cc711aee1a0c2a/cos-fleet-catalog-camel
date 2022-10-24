@@ -7,15 +7,15 @@
           "trait.camel.apache.org/container.request-memory" : "128M",
           "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
         },
-        "connector_image" : "quay.io/rhoas/cos-connector-slack:0.1.53",
-        "connector_revision" : 53,
+        "connector_image" : "quay.io/rhoas/cos-connector-slack:0.1.54",
+        "connector_revision" : 54,
         "connector_type" : "source",
         "consumes" : "application/json",
         "consumes_class" : "com.slack.api.model.Message",
         "error_handler_strategy" : "stop",
         "kamelets" : {
           "adapter" : {
-            "name" : "cos-slack-source",
+            "name" : "slack-source",
             "prefix" : "slack"
           },
           "kafka" : {
@@ -67,9 +67,9 @@
         },
         "slack_delay" : {
           "title" : "Delay",
-          "description" : "The delay between polls.",
+          "description" : "The delay between polls. If no unit provided, miliseconds is the default.",
           "type" : "string",
-          "example" : "1s"
+          "example" : "60s or 6000 or 1m"
         },
         "kafka_topic" : {
           "title" : "Topic Name",
