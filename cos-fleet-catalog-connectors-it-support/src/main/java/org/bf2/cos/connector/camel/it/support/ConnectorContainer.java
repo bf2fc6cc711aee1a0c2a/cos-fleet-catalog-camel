@@ -1,5 +1,6 @@
 package org.bf2.cos.connector.camel.it.support;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -410,13 +411,21 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
 
                     String routeYaml = yaml.writerWithDefaultPrettyPrinter().writeValueAsString(integration);
 
-                    LOGGER.info("route: \n{}", routeYaml);
+                    LOGGER.info("\n\n----------------\nroute: \n{}\n----------------\n\n", routeYaml);
 
                     answer.withFile(DEFAULT_ROUTE_LOCATION, routeYaml);
+
+                    LOGGER.info("\n\n----------------\nuser properties: \n{}\n----------------\n\n", userProperties);
                     answer.withUserProperties(userProperties);
 
                     try (InputStream ip = ConnectorContainer.class.getResourceAsStream("/integration-application.properties")) {
-                        answer.withFile(DEFAULT_APPLICATION_PROPERTIES_LOCATION, ip);
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        ip.transferTo(baos);
+                        byte[] bytes = baos.toByteArray();
+
+                        LOGGER.info("\n\n----------------\napplication properties: \n{}\n----------------\n\n",
+                                new String(bytes));
+                        answer.withFile(DEFAULT_APPLICATION_PROPERTIES_LOCATION, new ByteArrayInputStream(bytes));
                     }
                 }
 
