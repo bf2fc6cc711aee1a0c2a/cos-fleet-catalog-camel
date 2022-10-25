@@ -1,0 +1,80 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-azure-eventhubs-source
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "source"
+spec:
+  definition:
+    title: "Azure Eventhubs Source"
+    description: |-
+      Receive events from Azure Event Hubs.
+    required:
+      - namespaceName
+      - eventhubName
+      - sharedAccessName
+      - sharedAccessKey
+      - blobAccountName
+      - blobAccessKey
+      - blobContainerName
+    type: object
+    properties:
+      namespaceName:
+        title: Eventhubs Namespace
+        description: The Event Hubs namespace.
+        type: string
+      eventhubName:
+        title: Eventhubs Name
+        description: The Event Hub name.
+        type: string
+      sharedAccessName:
+        title: Share Access Name
+        description: The Event Hubs SAS key name.
+        type: string
+        x-descriptors:
+          - urn:camel:group:credentials
+      sharedAccessKey:
+        title: Share Access Key
+        description: The key for the Event Hubs SAS key name.
+        type: string
+        format: password
+        x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:password
+          - urn:camel:group:credentials
+      blobAccountName:
+        title: Azure Storage Blob Account Name
+        description: The name of the Storage Blob account.
+        type: string
+      blobContainerName:
+        title: Azure Storage Blob Container Name
+        description: The name of the Storage Blob container.
+        type: string
+      blobAccessKey:
+        title: Azure Storage Blob Access Key
+        description: The key for the Azure Storage Blob service that is associated with the Storage Blob account name.
+        type: string
+        format: password
+        x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:password
+          - urn:camel:group:credentials
+  types:
+    out:
+      mediaType: application/octet-stream
+  dependencies:
+    - "camel:azure-eventhubs"
+    - "camel:kamelet"
+    - "camel:jackson"
+  template:
+    from:
+      uri: 'azure-eventhubs://{{namespaceName}}/{{eventhubName}}'
+      parameters:
+        sharedAccessName: "{{sharedAccessName}}"
+        sharedAccessKey: "{{sharedAccessKey}}"
+        blobAccountName: "{{blobAccountName}}"
+        blobAccessKey: "{{blobAccessKey}}"
+        blobContainerName: "{{blobContainerName}}"
+      steps:
+        - to: "kamelet:sink"
