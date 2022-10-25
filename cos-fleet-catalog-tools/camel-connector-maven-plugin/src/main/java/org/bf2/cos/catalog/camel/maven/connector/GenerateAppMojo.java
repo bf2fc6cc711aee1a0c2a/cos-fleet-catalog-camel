@@ -36,6 +36,8 @@ public class GenerateAppMojo extends BuildMojo {
     private Connector defaults;
     @Parameter
     private List<Connector> connectors;
+    @Parameter
+    private List<String> bannedDependencies;
 
     @Override
     protected boolean beforeExecute() throws MojoExecutionException {
@@ -59,8 +61,10 @@ public class GenerateAppMojo extends BuildMojo {
             KameletsCatalog catalog = KameletsCatalog.get(mavenProject(), getLog());
 
             for (Connector connector : MojoSupport.inject(mavenSession(), defaults, connectors)) {
-                connectorsDependecies.addAll(
-                        ConnectorSupport.dependencies(catalog, connector, camelQuarkusVersion));
+                ConnectorSupport.dependencies(catalog, connector, camelQuarkusVersion)
+                        .stream()
+                        .filter(cd -> !isBanned(cd))
+                        .forEach(connectorsDependecies::add);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -72,6 +76,14 @@ public class GenerateAppMojo extends BuildMojo {
                             dependency.getGroupId(),
                             dependency.getArtifactId(),
                             dependency.getVersion()));
+        }
+
+        if (bannedDependencies != null) {
+            getLog().info("Banned dependencies:");
+            bannedDependencies.stream()
+                    .distinct()
+                    .sorted()
+                    .forEach(d -> getLog().info("- " + d));
         }
 
         getLog().info("Connectors dependencies:");
@@ -91,5 +103,9 @@ public class GenerateAppMojo extends BuildMojo {
                 .map(d -> new AppArtifact(d.groupId, d.artifactiId, d.version))
                 .map(d -> new AppDependency(d, "compile"))
                 .collect(Collectors.toList());
+    }
+
+    protected boolean isBanned(ConnectorDependency dependency) {
+        return bannedDependencies != null && bannedDependencies.contains(dependency.groupId + ":" + dependency.artifactiId);
     }
 }

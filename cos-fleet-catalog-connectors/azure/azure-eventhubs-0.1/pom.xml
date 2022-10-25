@@ -29,6 +29,13 @@
                 <groupId>org.bf2</groupId>
                 <artifactId>camel-connector-maven-plugin</artifactId>
                 <configuration>
+                    <bannedDependencies>
+                        <bannedDependency>com.fasterxml.jackson.core:jackson-core</bannedDependency>
+                        <bannedDependency>com.fasterxml.jackson.core:jackson-annotations</bannedDependency>
+                        <bannedDependency>com.fasterxml.jackson.core:jackson-databind</bannedDependency>
+                        <bannedDependency>com.fasterxml.jackson.dataformat:jackson-dataformat-xml</bannedDependency>
+                    </bannedDependencies>
+
                     <connectors>
                         <connector>
                             <name>${cos.connector.type}-source-${cos.connector.version}</name>
