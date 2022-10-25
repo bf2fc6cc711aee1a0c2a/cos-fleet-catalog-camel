@@ -49,13 +49,24 @@ jobs:
           SF_CLIENT_SECRET: ${{ secrets.SF_CLIENT_SECRET }}
           SF_CLIENT_USERNAME: ${{ secrets.SF_CLIENT_USERNAME }}
           SF_CLIENT_PASSWORD: ${{ secrets.SF_CLIENT_PASSWORD }}
+
           AZURE_EVENTHUB_NAME: ${{ secrets.AZURE_EVENTHUB_NAME }}
           AZURE_NAMESPACE_NAME: ${{ secrets.AZURE_NAMESPACE_NAME }}
           AZURE_SHARED_ACCESS_KEY: ${{ secrets.AZURE_SHARED_ACCESS_KEY }}
           AZURE_SHARED_ACCESS_NAME: ${{ secrets.AZURE_SHARED_ACCESS_NAME }}
-          AZURE_BLOB_ACCOUNT_NAME: ${{ secrets.AZURE_BLOB_ACCOUNT_NAME }}
           AZURE_BLOB_ACCESS_KEY: ${{ secrets.AZURE_BLOB_ACCESS_KEY }}
+          AZURE_BLOB_ACCOUNT_NAME: ${{ secrets.AZURE_BLOB_ACCOUNT_NAME }}
           AZURE_BLOB_CONTAINER_NAME: ${{ secrets.AZURE_BLOB_CONTAINER_NAME }}
+
+          GCP_FUNCTIONS_FUNCTION_NAME: ${{ secrets.GCP_FUNCTIONS_FUNCTION_NAME }}
+          GCP_FUNCTIONS_PROJECT_ID: ${{ secrets.GCP_FUNCTIONS_PROJECT_ID }}
+          GCP_FUNCTIONS_REGION: ${{ secrets.GCP_FUNCTIONS_REGION }}
+          GCP_FUNCTIONS_SERVICE_ACCOUNT_KEY: ${{ secrets.GCP_FUNCTIONS_SERVICE_ACCOUNT_KEY }}
+          GCP_FUNCTIONS_WEBHOOK_ID: ${{ secrets.GCP_FUNCTIONS_WEBHOOK_ID }}
+
+          SLACK_TEST_CHANNEL: ${{ secrets.SLACK_TEST_CHANNEL }}
+          SLACK_TEST_TOKEN: ${{ secrets.SLACK_TEST_TOKEN }}
+          SLACK_TEST_WEBHOOK: ${{ secrets.SLACK_TEST_WEBHOOK }}
         run: |
           ./mvnw ${MAVEN_ARGS} clean install \
             -Dcos.connector.container.repository=${{ inputs.containerRepo }} \
