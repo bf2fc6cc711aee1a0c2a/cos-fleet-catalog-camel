@@ -181,6 +181,11 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
         return new Builder(definition);
     }
 
+    public void withCamelComponentDebugEnv() {
+        withEnv("quarkus.log.level", "DEBUG");
+        withEnv("quarkus.log.category.\"org.apache.camel.component\".level", "DEBUG");
+    }
+
     public static class Builder {
         private final String definition;
         private final Map<String, String> properties;
