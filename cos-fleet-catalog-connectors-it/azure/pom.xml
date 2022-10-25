@@ -15,6 +15,7 @@
 
     <modules>
         <module>eventhubs-it</module>
+        <module>storage-blob-it</module>
     </modules>
 
 </project>

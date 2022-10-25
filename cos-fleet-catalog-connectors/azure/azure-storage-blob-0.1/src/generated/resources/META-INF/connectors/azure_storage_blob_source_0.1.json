@@ -14,7 +14,7 @@
         "error_handler_strategy" : "stop",
         "kamelets" : {
           "adapter" : {
-            "name" : "azure-storage-blob-source",
+            "name" : "cos-azure-storage-blob-source",
             "prefix" : "azure"
           },
           "kafka" : {
@@ -42,14 +42,8 @@
     "schema" : {
       "type" : "object",
       "additionalProperties" : false,
-      "required" : [ "azure_period", "azure_account_name", "azure_container_name", "azure_access_key", "kafka_topic" ],
+      "required" : [ "azure_account_name", "azure_container_name", "azure_access_key", "kafka_topic" ],
       "properties" : {
-        "azure_period" : {
-          "title" : "Period between Polls",
-          "description" : "The interval (in milliseconds) between fetches to the Azure Storage Container.",
-          "type" : "integer",
-          "default" : 10000
-        },
         "azure_account_name" : {
           "title" : "Account Name",
           "description" : "The Azure Storage Blob account name.",
@@ -80,6 +74,18 @@
           "description" : "Determines the credential strategy to adopt. Possible values are SHARED_ACCOUNT_KEY, SHARED_KEY_CREDENTIAL and AZURE_IDENTITY",
           "type" : "string",
           "default" : "SHARED_ACCOUNT_KEY"
+        },
+        "azure_delay" : {
+          "title" : "Delay",
+          "description" : "The number of milliseconds before the next poll of the selected blob.",
+          "type" : "integer",
+          "default" : 500
+        },
+        "azure_delete_after_read" : {
+          "title" : "Auto-delete Blob",
+          "description" : "Specifies to delete blob after consuming them.",
+          "type" : "boolean",
+          "default" : false
         },
         "kafka_topic" : {
           "title" : "Topic Name",

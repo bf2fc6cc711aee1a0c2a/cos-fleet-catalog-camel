@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
 
-import groovy.util.logging.Slf4j;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.KafkaAdminClient;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -22,6 +21,8 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
+
+import groovy.util.logging.Slf4j;
 
 @Slf4j
 public class KafkaContainer extends RedPandaKafkaContainer {
@@ -100,6 +101,10 @@ public class KafkaContainer extends RedPandaKafkaContainer {
         kp.subscribe(List.of(topic));
 
         return kp;
+    }
+
+    public ConsumerRecords<String, String> poll(String topic) {
+        return poll(UUID.randomUUID().toString(), topic);
     }
 
     public ConsumerRecords<String, String> poll(String groupId, String topic) {

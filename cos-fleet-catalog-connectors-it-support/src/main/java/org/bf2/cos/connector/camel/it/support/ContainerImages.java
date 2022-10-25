@@ -18,7 +18,8 @@ public enum ContainerImages {
     SQLSERVER("mcr.microsoft.com/mssql/server:2017-CU12"),
     MINIO("quay.io/minio/minio:latest"),
     LOCALSTACK("docker.io/localstack/localstack:0.14.2"),
-    GCR_PUBSUB("gcr.io/google.com/cloudsdktool/cloud-sdk:emulators");
+    GCR_PUBSUB("gcr.io/google.com/cloudsdktool/cloud-sdk:emulators"),
+    AZURITE("mcr.microsoft.com/azure-storage/azurite:3.19.0");
 
     private final DockerImageName imageName;
 
