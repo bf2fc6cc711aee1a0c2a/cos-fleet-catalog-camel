@@ -15,6 +15,7 @@
 
     <modules>
         <module>google-pubsub-it</module>
+        <module>google-functions-it</module>
     </modules>
 
 </project>
