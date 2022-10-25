@@ -7,14 +7,14 @@
           "trait.camel.apache.org/container.request-memory" : "128M",
           "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
         },
-        "connector_image" : "quay.io/rhoas/cos-connector-azure-eventhubs:0.1.55",
-        "connector_revision" : 55,
+        "connector_image" : "quay.io/rhoas/cos-connector-azure-eventhubs:0.1.56",
+        "connector_revision" : 56,
         "connector_type" : "source",
-        "consumes" : "application/json",
+        "consumes" : "application/octet-stream",
         "error_handler_strategy" : "stop",
         "kamelets" : {
           "adapter" : {
-            "name" : "azure-eventhubs-source",
+            "name" : "cos-azure-eventhubs-source",
             "prefix" : "azure"
           },
           "kafka" : {
@@ -26,7 +26,7 @@
           "type" : "camel-connector-operator",
           "version" : "[1.0.0,2.0.0)"
         } ],
-        "produces" : "application/json"
+        "produces" : "application/octet-stream"
       }
     }
   },
@@ -107,6 +107,9 @@
           "type" : "object",
           "additionalProperties" : false,
           "properties" : {
+            "consumes" : {
+              "$ref" : "#/$defs/data_shape/consumes"
+            },
             "produces" : {
               "$ref" : "#/$defs/data_shape/produces"
             }
@@ -150,6 +153,19 @@
       },
       "$defs" : {
         "data_shape" : {
+          "consumes" : {
+            "type" : "object",
+            "additionalProperties" : false,
+            "required" : [ "format" ],
+            "properties" : {
+              "format" : {
+                "type" : "string",
+                "description" : "The format of the data that Kafka sends to the sink connector.",
+                "default" : "application/octet-stream",
+                "enum" : [ "application/octet-stream" ]
+              }
+            }
+          },
           "produces" : {
             "type" : "object",
             "additionalProperties" : false,
@@ -158,8 +174,8 @@
               "format" : {
                 "type" : "string",
                 "description" : "The format of the data that the source connector sends to Kafka.",
-                "default" : "application/json",
-                "enum" : [ "application/json" ]
+                "default" : "application/octet-stream",
+                "enum" : [ "application/octet-stream" ]
               }
             }
           }
