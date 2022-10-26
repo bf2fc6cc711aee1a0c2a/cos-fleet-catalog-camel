@@ -14,7 +14,7 @@
         "error_handler_strategy" : "stop",
         "kamelets" : {
           "adapter" : {
-            "name" : "sqlserver-source",
+            "name" : "cos-sqlserver-source",
             "prefix" : "db"
           },
           "kafka" : {
@@ -92,6 +92,18 @@
           "description" : "A query to run on a tuple consumed",
           "type" : "string",
           "example" : "DELETE FROM accounts where user_id = :#user_id"
+        },
+        "db_encrypt" : {
+          "title" : "Encrypt Connection",
+          "description" : "Encrypt the connection to SQL Server.",
+          "type" : "boolean",
+          "default" : false
+        },
+        "db_trust_server_certificate" : {
+          "title" : "Trust Server Certificate",
+          "description" : "Trust Server Ceritificate",
+          "type" : "boolean",
+          "default" : true
         },
         "kafka_topic" : {
           "title" : "Topic Name",

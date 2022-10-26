@@ -88,8 +88,14 @@
           "type" : "string"
         },
         "db_encrypt" : {
-          "title" : "Encrypt",
-          "description" : "If the connection to the database should be secure.",
+          "title" : "Encrypt Connection",
+          "description" : "Encrypt the connection to SQL Server.",
+          "type" : "boolean",
+          "default" : false
+        },
+        "db_trust_server_certificate" : {
+          "title" : "Trust Server Certificate",
+          "description" : "Trust Server Ceritificate",
           "type" : "boolean",
           "default" : true
         },
