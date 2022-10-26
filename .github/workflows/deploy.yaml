@@ -56,6 +56,9 @@ jobs:
           AZURE_NAMESPACE_NAME: ${{ secrets.AZURE_NAMESPACE_NAME }}
           AZURE_SHARED_ACCESS_KEY: ${{ secrets.AZURE_SHARED_ACCESS_KEY }}
           AZURE_SHARED_ACCESS_NAME: ${{ secrets.AZURE_SHARED_ACCESS_NAME }}
+          AZURE_BLOB_ACCOUNT_NAME: ${{ secrets.AZURE_BLOB_ACCOUNT_NAME }}
+          AZURE_BLOB_ACCESS_KEY: ${{ secrets.AZURE_BLOB_ACCESS_KEY }}
+          AZURE_BLOB_CONTAINER_NAME: ${{ secrets.AZURE_BLOB_CONTAINER_NAME }}
         run: |          
           ./mvnw ${MAVEN_ARGS} clean install -U \
             -Pcontainer-build \
