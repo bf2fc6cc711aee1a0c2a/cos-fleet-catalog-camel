@@ -19,7 +19,8 @@ public enum ContainerImages {
     MINIO("quay.io/minio/minio:latest"),
     LOCALSTACK("docker.io/localstack/localstack:0.14.2"),
     GCR_PUBSUB("gcr.io/google.com/cloudsdktool/cloud-sdk:emulators"),
-    AZURITE("mcr.microsoft.com/azure-storage/azurite:3.19.0");
+    AZURITE("mcr.microsoft.com/azure-storage/azurite:3.19.0"),
+    ELASTICSEARCH("docker.elastic.co/elasticsearch/elasticsearch:7.9.2");
 
     private final DockerImageName imageName;
 

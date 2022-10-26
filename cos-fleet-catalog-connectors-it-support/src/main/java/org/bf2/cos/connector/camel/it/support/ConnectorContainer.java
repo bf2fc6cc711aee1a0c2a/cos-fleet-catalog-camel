@@ -414,6 +414,13 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
                             throw new IllegalArgumentException("Unsupported type: " + type);
                     }
 
+                    // add this log to trace what happens after the message gets delivered
+                    // to the target endpoint for troubleshooting purpose.
+                    //
+                    // i.e. the exchange will contain headers and properties added by the
+                    // target system component
+                    steps.addObject().with("to").put("uri", "log:after?showAll=true&multiline=true");
+
                     String routeYaml = yaml.writerWithDefaultPrettyPrinter().writeValueAsString(integration);
 
                     LOGGER.info("\n\n----------------\nroute: \n{}\n----------------\n\n", routeYaml);
