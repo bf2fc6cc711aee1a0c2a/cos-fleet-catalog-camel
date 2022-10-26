@@ -7,14 +7,14 @@
           "trait.camel.apache.org/container.request-memory" : "128M",
           "trait.camel.apache.org/deployment.progress-deadline-seconds" : "30"
         },
-        "connector_image" : "quay.io/rhoas/cos-connector-google-functions:0.1.58",
-        "connector_revision" : 58,
+        "connector_image" : "quay.io/rhoas/cos-connector-google-functions:0.1.59",
+        "connector_revision" : 59,
         "connector_type" : "sink",
         "consumes" : "application/octet-stream",
         "error_handler_strategy" : "stop",
         "kamelets" : {
           "adapter" : {
-            "name" : "google-functions-sink",
+            "name" : "cos-google-functions-sink",
             "prefix" : "gcp"
           },
           "kafka" : {
