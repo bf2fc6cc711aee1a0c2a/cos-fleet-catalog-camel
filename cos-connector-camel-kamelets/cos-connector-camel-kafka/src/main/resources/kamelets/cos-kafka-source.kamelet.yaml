@@ -50,6 +50,7 @@ spec:
         keyDeserializer: "{{keyDeserializer:org.apache.kafka.common.serialization.ByteArrayDeserializer}}"
         valueDeserializer: "{{valueDeserializer:org.bf2.cos.connector.camel.serdes.bytes.ByteArrayDeserializer}}"
         kafkaClientFactory: "#{{kafka-client-factory}}"
+        headerDeserializer: "#class:org.bf2.cos.connector.camel.kafka.ToStringHeaderDeserializer"
       steps:
       - removeHeader:
           name: "kafka.HEADERS"

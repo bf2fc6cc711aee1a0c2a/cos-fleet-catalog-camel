@@ -15,6 +15,7 @@
 
     <modules>
         <module>cassandra-it</module>
+        <module>elasticsearch-it</module>
         <module>mongodb-it</module>
     </modules>
 
