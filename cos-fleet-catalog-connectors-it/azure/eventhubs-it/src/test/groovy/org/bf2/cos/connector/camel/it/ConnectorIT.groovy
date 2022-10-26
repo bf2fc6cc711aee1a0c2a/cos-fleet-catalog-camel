@@ -2,6 +2,7 @@ package org.bf2.cos.connector.camel.it
 
 import com.azure.core.amqp.AmqpTransportType
 import com.azure.messaging.eventhubs.EventData
+import com.azure.messaging.eventhubs.EventDataBatch
 import com.azure.messaging.eventhubs.EventHubClientBuilder
 import com.azure.messaging.eventhubs.EventProcessorClientBuilder
 import com.azure.messaging.eventhubs.models.EventPosition
@@ -28,13 +29,12 @@ import java.util.concurrent.TimeUnit
 @Slf4j
 class ConnectorIT extends KafkaConnectorSpec {
 
-    @Ignore("Fails on CI")
     def "azure-eventhubs sink"() {
         setup:
             def topic = topic()
             def group = UUID.randomUUID().toString()
-            def payload = '''{ "value": "4", "suit": "hearts" }'''
-            def headers = Map.of('foo', 'bar', 'foo2', '123')
+            def payload = """{ "value": "4", "suit": "${group}" }"""
+            def headers = Map.of('foo', 'bar', 'foo2', group)
 
             def namespaceName = System.getenv('AZURE_NAMESPACE_NAME')
             def sharedAccessName = System.getenv('AZURE_SHARED_ACCESS_NAME')
@@ -84,31 +84,28 @@ class ConnectorIT extends KafkaConnectorSpec {
 
             def expected = TestUtils.SLURPER.parseText(payload)
 
-            untilAsserted(10, TimeUnit.SECONDS) {
-                EventData message = queue.poll(1, TimeUnit.SECONDS)
+            EventData message = queue.poll(1, TimeUnit.SECONDS)
+            message != null
 
-                message != null
+            def actual = TestUtils.SLURPER.parseText(message.getBodyAsString())
 
-                def actual = TestUtils.SLURPER.parseText(message.getBodyAsString())
+            actual == expected
 
-                actual == expected
-
-                // match all custom headers
-                headers.every({
-                    it.getValue() == message.getProperties().get(it.getKey())
-                })
-            }
+            // match all custom headers
+            headers.every({
+                it.getValue() == message.getProperties().get(it.getKey())
+            })
         cleanup:
             closeQuietly(cnt)
             eventHubClient.stop()
     }
 
-    @Ignore("Fails on CI")
     def "azure-eventhubs source"() {
         setup:
+            def start = Instant.now();
             def topic = topic()
             def group = UUID.randomUUID().toString()
-            def payload = '''{ "value": "4", "suit": "hearts" }'''
+            def payload = """{ "value": "4", "suit": "${group}" }"""
 
             def namespaceName = System.getenv('AZURE_NAMESPACE_NAME')
             def sharedAccessName = System.getenv('AZURE_SHARED_ACCESS_NAME')
@@ -131,37 +128,34 @@ class ConnectorIT extends KafkaConnectorSpec {
             ])
 
             cnt.withEnv("AZURE_LOG_LEVEL", System.getenv().getOrDefault('AZURE_LOG_LEVEL', 'warn'))
-            cnt.withUserProperty('quarkus.log.level', 'DEBUG')
-            cnt.withUserProperty('quarkus.log.category."org.apache.camel.component".level', 'DEBUG')
+            cnt.withCamelComponentDebugEnv()
+
             cnt.start()
 
             // azure sdk client to write the message to EventHub
-            def eventHubClient = new EventHubClientBuilder()
+            def producer = new EventHubClientBuilder()
                     .connectionString("Endpoint=sb://${namespaceName}.servicebus.windows.net/;SharedAccessKeyName=${sharedAccessName};SharedAccessKey=${sharedAccessKey};EntityPath=${eventhubName}")
-                    .consumerGroup(EventHubClientBuilder.DEFAULT_CONSUMER_GROUP_NAME)
-                    .transportType(AmqpTransportType.AMQP)
                     .buildProducerClient();
 
-            def eventData = new EventData(payload)
-
-            def batch = eventHubClient.createBatch();
-            batch.tryAdd(eventData)
+            EventData event = new EventData(payload);
         when:
-            eventHubClient.send(batch)
-            sleep(1000)
+            EventDataBatch eventDataBatch = producer.createBatch();
+            if (!eventDataBatch.tryAdd(event)) {
+                throw new RuntimeException("Couldn't add event to batch.")
+            }
+            log.info("Message written to eventhub: {}", payload)
+            producer.send(eventDataBatch);
         then:
-            def records = kafka.poll(group, topic)
-            records.size() > 0
-
-            def lastMessage = records.last()
-            lastMessage.value() == payload
-
-            def messageTimestamp = lastMessage.timestamp()
-            Duration.between(Instant.ofEpochMilli(messageTimestamp), Instant.now()).toSeconds() < 5
-
+            await(240, TimeUnit.SECONDS) {
+                def records = kafka.poll(group, topic, 30)
+                records.any({
+                    log.info("Checking if record with value ({}) is equal to payload ({})", it.value(), payload)
+                    it.value() == payload
+                })
+            }
         cleanup:
             closeQuietly(cnt)
-            closeQuietly(eventHubClient)
+            closeQuietly(producer)
     }
 
 }
