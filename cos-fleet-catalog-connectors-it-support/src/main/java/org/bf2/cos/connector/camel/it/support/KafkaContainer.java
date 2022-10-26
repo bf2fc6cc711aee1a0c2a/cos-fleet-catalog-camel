@@ -108,9 +108,13 @@ public class KafkaContainer extends RedPandaKafkaContainer {
     }
 
     public ConsumerRecords<String, String> poll(String groupId, String topic) {
+        return poll(groupId, topic, 30);
+    }
+
+    public ConsumerRecords<String, String> poll(String groupId, String topic, int secondsTimeout) {
         try (var kp = consumer(groupId, topic)) {
             logger().info("Polling message from Kafka | GroupId {} | Topic: {}", groupId, topic);
-            var answer = kp.poll(Duration.ofSeconds(30));
+            var answer = kp.poll(Duration.ofSeconds(secondsTimeout));
             kp.commitSync();
             logger().info("Message polled from Kafka | GroupId {} | Topic: {}", groupId, topic);
             return answer;
