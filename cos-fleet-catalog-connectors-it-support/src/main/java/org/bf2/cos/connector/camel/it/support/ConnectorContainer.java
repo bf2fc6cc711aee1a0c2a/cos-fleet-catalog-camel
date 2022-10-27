@@ -136,7 +136,7 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
     }
 
     public String getServiceAddress() {
-        return getContainerIpAddress();
+        return getHost();
     }
 
     public int getServicePort() {
