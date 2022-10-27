@@ -12,7 +12,6 @@ import org.bf2.cos.connector.camel.it.support.TestUtils
 import spock.lang.Ignore
 import spock.lang.IgnoreIf
 
-import java.time.Duration
 import java.time.Instant
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.TimeUnit
@@ -29,6 +28,7 @@ import java.util.concurrent.TimeUnit
 @Slf4j
 class ConnectorIT extends KafkaConnectorSpec {
 
+    @Ignore
     def "azure-eventhubs sink"() {
         setup:
             def topic = topic()
@@ -100,6 +100,7 @@ class ConnectorIT extends KafkaConnectorSpec {
             eventHubClient.stop()
     }
 
+    @Ignore
     def "azure-eventhubs source"() {
         setup:
             def start = Instant.now();
