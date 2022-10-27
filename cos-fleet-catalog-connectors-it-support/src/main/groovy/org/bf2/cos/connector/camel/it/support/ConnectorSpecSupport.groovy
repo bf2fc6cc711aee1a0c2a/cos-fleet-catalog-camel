@@ -12,26 +12,6 @@ import java.util.concurrent.TimeUnit
 
 @Slf4j
 abstract class ConnectorSpecSupport extends Specification {
-    public static final String DEFAULT_APPLICATION_PROPERTIES_LOCATION = '/etc/camel/application.properties'
-    public static final String DEFAULT_ROUTE_LOCATION = '/etc/camel/sources/route.yaml'
-
-    public static final String DEFAULT_APPLICATION_PROPERTIES =""" 
-        quarkus.log.level = INFO
-        quarkus.log.category."org.apache.camel".level = INFO
-        quarkus.log.category."org.apache.camel.component.kafka".level = INFO
-        quarkus.log.category."org.apache.kafka.clients.consumer.ConsumerConfig".level = ERROR
-        quarkus.log.category."org.apache.kafka.clients.producer.ProducerConfig".level = ERROR
-
-        camel.k.sources[0].language = yaml
-        camel.k.sources[0].location = file:/etc/camel/sources/route.yaml
-        camel.k.sources[0].name = route
-        """
-
-    // **********************************
-    //
-    // Helpers
-    //
-    // **********************************
 
     static Slf4jLogConsumer logger(String name) {
         new Slf4jLogConsumer(LoggerFactory.getLogger(name))
@@ -79,12 +59,6 @@ abstract class ConnectorSpecSupport extends Specification {
         } catch (Exception e) {
             log.debug('Failed to close {}', closeable, e)
         }
-    }
-
-    static ContainerFile route(String content) {
-        return new ContainerFile(
-            DEFAULT_ROUTE_LOCATION,
-            content)
     }
 
     static String json(Object content) {
