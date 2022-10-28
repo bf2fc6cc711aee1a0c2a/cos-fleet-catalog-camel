@@ -241,6 +241,15 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
             return this;
         }
 
+        public Builder withLogCategory(String category, String level) {
+            Objects.requireNonNull(category);
+            Objects.requireNonNull(level);
+
+            return withUserProperty(
+                    String.format("quarkus.log.category.\"%s\".level", category),
+                    level);
+        }
+
         public Builder witNetwork(Network network) {
             this.network = network;
             return this;

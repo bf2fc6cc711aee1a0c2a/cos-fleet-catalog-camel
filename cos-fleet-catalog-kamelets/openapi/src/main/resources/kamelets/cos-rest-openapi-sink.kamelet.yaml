@@ -1,0 +1,54 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-rest-openapi-sink
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "sink"
+spec:
+  definition:
+    title: REST OpenAPI Sink
+    description: Load an OpenAPI specification from a URI and call an operation on a HTTP service. The request that is generated respects the rules given in the OpenAPI specification (for example, path parameters and Content-Type).
+    required:
+      - specification
+      - operation
+    type: object
+    properties:
+      specification:
+        title: Specification URI
+        description: The URI to the OpenApi specification file.
+        type: string
+        example: "https://api.example.com/openapi.json"
+        pattern: "^(http|https|file|classpath)://.*"
+      host:
+        title: Scheme hostname and port to direct the requests
+        description: Scheme hostname and port to direct the requests.
+        type: string
+        example: "https://api.example.com/"
+        pattern: "^(http|https)://.*"
+      operation:
+        title: Operation ID
+        description: The operation to call.
+        type: string
+
+  types:
+    in:
+      mediaType: application/json
+  dependencies:
+    - "camel:rest-openapi"
+    - "camel:vertx-http"
+    - "camel:kamelet"
+    - "camel:core"
+  template:
+    from:
+      uri: kamelet:source
+      steps:
+        - removeHeaders:
+            pattern: "kafka.*"
+        - to:
+            uri: "rest-openapi:{{specification}}#{{operation}}"
+            parameters:
+              host: "{{?host}}"
+              componentName: "vertx-http"
