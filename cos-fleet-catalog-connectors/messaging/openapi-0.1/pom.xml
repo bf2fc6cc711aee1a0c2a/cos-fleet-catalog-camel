@@ -21,6 +21,13 @@
         <cos.connector.type>rest-openapi</cos.connector.type>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.bf2</groupId>
+            <artifactId>cos-connector-openapi</artifactId>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -34,8 +41,8 @@
                             <description>Load an OpenAPI specification from a specified URI and call an operation on the HTTP service. </description>
                             <adapter>
                                 <prefix>rest-openapi</prefix>
-                                <name>${cos.connector.type}-sink</name>
-                                <version>${camel-kamelets-catalog.version}</version>
+                                <name>cos-${cos.connector.type}-sink</name>
+                                <version>${cos.kamelets.version}</version>
                             </adapter>
                             <kafka>
                                 <prefix>kafka</prefix>

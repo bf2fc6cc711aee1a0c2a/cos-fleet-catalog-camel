@@ -1,7 +1,13 @@
 package org.bf2.cos.connector.camel.it.support;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
@@ -21,11 +27,19 @@ public final class WaitStrategies {
     }
 
     public static WaitStrategy forListeningPort() {
-        return new WaitStrategies.ExternalPort();
+        return new ExternalPort();
     }
 
     public static WaitStrategy forHealth(int port) {
         return Wait.forHttp("/q/health").forPort(port).forStatusCode(200);
+    }
+
+    public static WaitStrategy forHttpEndpoint(String scheme, int port) {
+        return new Http(scheme, port, null);
+    }
+
+    public static WaitStrategy forHttpEndpoint(String scheme, int port, String path) {
+        return new Http(scheme, port, path);
     }
 
     public static class ExternalPort extends AbstractWaitStrategy {
@@ -64,6 +78,51 @@ public final class WaitStrategies {
                         " ports: " +
                         externalLivenessCheckPorts +
                         " should be listening)");
+            }
+        }
+    }
+
+    public static class Http extends AwaitStrategy {
+        private final String scheme;
+        private final int port;
+        private final String path;
+
+        public Http(String scheme, int port, String path) {
+            Objects.requireNonNull(scheme);
+
+            this.scheme = scheme;
+            this.port = port;
+
+            if (path == null) {
+                path = "";
+            } else if (!path.startsWith("/")) {
+                path = "/" + path;
+            }
+
+            this.path = path;
+        }
+
+        @Override
+        public boolean ready() {
+            try {
+                String uri = String.format(
+                        "%s://%s:%d%s",
+                        scheme,
+                        target.getHost(),
+                        target.getMappedPort(port),
+                        path);
+
+                var request = HttpRequest.newBuilder()
+                        .uri(new URI(uri))
+                        .GET()
+                        .build();
+
+                var result = HttpClient.newHttpClient()
+                        .send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+
+                return result.statusCode() == 200;
+            } catch (Exception e) {
+                return false;
             }
         }
     }

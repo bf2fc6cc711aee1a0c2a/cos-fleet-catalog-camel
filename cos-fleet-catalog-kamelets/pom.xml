@@ -32,6 +32,7 @@
         <module>kafka</module>
         <module>salesforce</module>
         <module>slack</module>
+        <module>openapi</module>
     </modules>
 
     <build>
