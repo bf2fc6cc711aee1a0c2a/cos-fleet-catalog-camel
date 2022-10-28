@@ -2,4 +2,3 @@
 org.bf2.cos.connector.camel.serdes.MimeTypeConverterLoader
 org.bf2.cos.connector.camel.serdes.avro.AvroTypeConverterLoader
 org.bf2.cos.connector.camel.serdes.json.JsonTypeConverterLoader
-org.bf2.cos.connector.camel.serdes.support.JacksonTypeConvertersLoader
