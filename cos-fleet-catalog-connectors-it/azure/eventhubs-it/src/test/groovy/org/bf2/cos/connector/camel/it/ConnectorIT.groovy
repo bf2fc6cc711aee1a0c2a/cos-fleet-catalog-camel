@@ -9,7 +9,6 @@ import com.azure.messaging.eventhubs.models.EventPosition
 import groovy.util.logging.Slf4j
 import org.bf2.cos.connector.camel.it.support.KafkaConnectorSpec
 import org.bf2.cos.connector.camel.it.support.TestUtils
-import spock.lang.Ignore
 import spock.lang.IgnoreIf
 
 import java.time.Instant
@@ -28,7 +27,6 @@ import java.util.concurrent.TimeUnit
 @Slf4j
 class ConnectorIT extends KafkaConnectorSpec {
 
-    @Ignore
     def "azure-eventhubs sink"() {
         setup:
             def topic = topic()
@@ -100,7 +98,6 @@ class ConnectorIT extends KafkaConnectorSpec {
             eventHubClient.stop()
     }
 
-    @Ignore
     def "azure-eventhubs source"() {
         setup:
             def start = Instant.now();
@@ -144,12 +141,12 @@ class ConnectorIT extends KafkaConnectorSpec {
             if (!eventDataBatch.tryAdd(event)) {
                 throw new RuntimeException("Couldn't add event to batch.")
             }
-            log.info("Message written to eventhub: {}", payload)
             producer.send(eventDataBatch);
+            log.info("Message written to eventhub: {}", payload)
         then:
-            await(240, TimeUnit.SECONDS) {
-                def records = kafka.poll(group, topic, 30)
-                records.any({
+            await(30, TimeUnit.SECONDS) {
+                def records = kafka.poll(group, topic)
+                return records.any({
                     log.info("Checking if record with value ({}) is equal to payload ({})", it.value(), payload)
                     it.value() == payload
                 })
