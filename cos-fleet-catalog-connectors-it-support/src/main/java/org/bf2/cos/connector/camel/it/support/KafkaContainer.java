@@ -169,7 +169,8 @@ public class KafkaContainer extends GenericContainer<KafkaContainer> {
             logger().info("Polling message from Kafka | GroupId {} | Topic: {}", groupId, topic);
             var answer = kp.poll(Duration.ofSeconds(secondsTimeout));
             kp.commitSync();
-            logger().info("Message polled from Kafka | GroupId {} | Topic: {}", groupId, topic);
+            logger().info("Message polled from Kafka | GroupId {} | Topic: {} | Message count: {}", groupId, topic,
+                    answer.count());
             return answer;
         }
     }

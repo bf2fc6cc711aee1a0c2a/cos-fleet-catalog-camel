@@ -14,6 +14,7 @@ import java.util.Properties;
 import java.util.TreeMap;
 import java.util.function.Consumer;
 
+import com.github.dockerjava.api.command.StopContainerCmd;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.text.CaseUtils;
@@ -36,6 +37,7 @@ import com.github.dockerjava.api.command.InspectContainerResponse;
 
 import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
+import org.testcontainers.utility.ResourceReaper;
 
 public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConnectorContainer.class);
@@ -46,6 +48,7 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
 
     public static final String CONTAINER_ALIAS = "tc-connector";
     public static final int DEFAULT_HTTP_PORT = 8080;
+    public static final int GRACEFUL_STOP_TIMEOUT = 30;
 
     private Consumer<ConnectorContainer> customizer;
     private final List<Pair<String, byte[]>> files;
@@ -174,6 +177,20 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
             copyFileToContainer(Transferable.of(os.toByteArray()), DEFAULT_USER_PROPERTIES_LOCATION);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    protected void containerIsStopping(InspectContainerResponse containerInfo) {
+        super.containerIsStopped(containerInfo);
+        LOGGER.info("Container is stopping. Attempting to wait for graceful stop for {} seconds.", GRACEFUL_STOP_TIMEOUT);
+        try (StopContainerCmd stopContainerCmd = getDockerClient()
+                .stopContainerCmd(getContainerId())
+                .withTimeout(GRACEFUL_STOP_TIMEOUT)) {
+            stopContainerCmd.exec();
+            LOGGER.info("Container was gracefully stopped.");
+        } catch (Exception e) {
+            LOGGER.error("Failed to gracefully stop container, this might lead to resource leaking.", e);
         }
     }
 

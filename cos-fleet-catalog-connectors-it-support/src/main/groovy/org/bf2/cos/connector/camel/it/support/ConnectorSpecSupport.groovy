@@ -57,7 +57,7 @@ abstract class ConnectorSpecSupport extends Specification {
         try {
             closeable.close()
         } catch (Exception e) {
-            log.debug('Failed to close {}', closeable, e)
+            log.warn('Failed to close {}', closeable, e)
         }
     }
 
