@@ -20,6 +20,7 @@
     <modules>
         <module>eventhubs-it</module>
         <module>storage-blob-it</module>
+        <module>storage-blob-changefeed-it</module>
     </modules>
 
 </project>

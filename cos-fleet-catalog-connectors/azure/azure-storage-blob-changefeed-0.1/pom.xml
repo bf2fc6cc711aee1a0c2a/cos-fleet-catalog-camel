@@ -34,8 +34,8 @@
                             <description>Receive data from Azure Blob storage change feed.</description>
                             <adapter>
                                 <prefix>azure</prefix>
-                                <name>${cos.connector.type}-source</name>
-                                <version>${camel-kamelets-catalog.version}</version>
+                                <name>cos-${cos.connector.type}-source</name>
+                                <version>${cos.kamelets.version}</version>
                             </adapter>
                             <kafka>
                                 <prefix>kafka</prefix>
@@ -43,9 +43,14 @@
                                 <version>${cos.kamelets.version}</version>
                             </kafka>
                             <dataShape>
+                                <consumes>
+                                    <formats>
+                                        <format>application/json</format>
+                                    </formats>
+                                </consumes>
                                 <produces>
                                     <formats>
-                                        <format>application/octet-stream</format>
+                                        <format>application/json</format>
                                     </formats>
                                 </produces>
                             </dataShape>
