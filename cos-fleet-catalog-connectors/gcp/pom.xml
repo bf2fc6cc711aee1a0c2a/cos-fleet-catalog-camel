@@ -19,6 +19,13 @@
         <cos.connector.catalog.group>gcp</cos.connector.catalog.group>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.bf2</groupId>
+            <artifactId>cos-connector-google</artifactId>
+        </dependency>
+    </dependencies>
+
     <modules>
         <module>google-functions-0.1</module>
         <module>google-pubsub-0.1</module>

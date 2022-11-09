@@ -16,9 +16,10 @@
         <quarkus.container-image.group>${project.groupId}</quarkus.container-image.group>
         <quarkus.container-image.name>${project.artifactId}</quarkus.container-image.name>
         <quarkus.container-image.tag>test</quarkus.container-image.tag>
+        <cos.connector.container.tag>latest</cos.connector.container.tag>
 
         <cos.connector.operator.type>camel-connector-operator</cos.connector.operator.type>
-        <cos.connector.container.repository>quay.io</cos.connector.container.repository>
+        <cos.connector.container.registry>quay.io</cos.connector.container.registry>
         <cos.connector.container.organization>cos</cos.connector.container.organization>
         <cos.connector.catalog.root>${maven.multiModuleProjectDirectory}/etc/connectors</cos.connector.catalog.root>
         <cos.connector.catalog.group>all</cos.connector.catalog.group>

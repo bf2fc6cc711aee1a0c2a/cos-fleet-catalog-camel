@@ -19,9 +19,14 @@
 
     <properties>
         <cos.connector.type>google-functions</cos.connector.type>
-        <quarkus.container-image.name>${cos.connector.container.prefix}-${cos.connector.type}</quarkus.container-image.name>
-        <quarkus.container-image.tag>${cos.connector.container.tag}</quarkus.container-image.tag>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.bf2</groupId>
+            <artifactId>cos-connector-google</artifactId>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
@@ -60,10 +65,6 @@
                         </connector>
                     </connectors>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

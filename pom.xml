@@ -36,12 +36,19 @@
         <json-schema-validator.version>1.0.73</json-schema-validator.version>
         <commons-text.version>1.10.0</commons-text.version>
         <strimzi-test-container.version>0.102.0</strimzi-test-container.version>
+        <wiremock.version>2.34.0</wiremock.version>
+        <json-unit.version>2.35.0</json-unit.version>
+        <assertj.version>3.23.1</assertj.version>
+        <commons-collections4.version>4.4</commons-collections4.version>
         <wiremock.version>2.35.0</wiremock.version>
         <assertj-core.version>3.23.1</assertj-core.version>
 
         <maven.version>3.8.6</maven.version>
+
         <maven-plugin-tools.version>3.7.0</maven-plugin-tools.version>
         <maven-shaded.version>3.3.2</maven-shaded.version>
+        <maven-artifact.version>3.1.1</maven-artifact.version>
+        <maven-shared-utils.version>3.3.4</maven-shared-utils.version>
 
         <maven.compiler.target>11</maven.compiler.target>
         <maven.compiler.source>11</maven.compiler.source>
@@ -68,16 +75,16 @@
 
         <!-- cos -->
         <cos.connector.operator.type>camel-connector-operator</cos.connector.operator.type>
-        <cos.connector.container.repository>quay.io</cos.connector.container.repository>
+        <cos.connector.container.registry>quay.io</cos.connector.container.registry>
         <cos.connector.container.organization>rhoas</cos.connector.container.organization>
-        <cos.connector.container.tag>${cos.connector.version}.${cos.connector.revision}</cos.connector.container.tag>
-        <cos.connector.container.prefix>cos-connector</cos.connector.container.prefix>
+        <cos.connector.container.image-prefix>cos-connector</cos.connector.container.image-prefix>
+        <cos.connector.container.tag>${git.branch}-${git.commit.id.abbrev}</cos.connector.container.tag>
 
-        <cos.connector.catalog.root>${maven.multiModuleProjectDirectory}/etc/kubernetes/manifests/base/connectors</cos.connector.catalog.root>
+        <cos.connector.catalog.root>${maven.multiModuleProjectDirectory}/etc/connectors</cos.connector.catalog.root>
         <cos.connector.catalog.group>all</cos.connector.catalog.group>
 
         <cos.connector.version>0.1</cos.connector.version>
-        <cos.connector.revision>59</cos.connector.revision>
+        <cos.connector.initial-revision>70</cos.connector.initial-revision>
         <cos.connector.operator.version>[1.0.0,2.0.0)</cos.connector.operator.version>
         <cos.kamelets.version>0.0.1</cos.kamelets.version>
 
@@ -88,7 +95,6 @@
     </properties>
 
     <modules>
-        <module>cos-connector-camel-kamelets</module>
         <module>cos-connector-camel-components</module>
         <module>cos-connector-camel</module>
         <module>cos-fleet-catalog-kamelets</module>
@@ -145,6 +151,58 @@
                 <version>${maven.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.apache.maven</groupId>
+                <artifactId>maven-embedder</artifactId>
+                <version>${maven.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.maven</groupId>
+                <artifactId>maven-settings</artifactId>
+                <version>${maven.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.maven</groupId>
+                <artifactId>maven-settings-builder</artifactId>
+                <version>${maven.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.maven</groupId>
+                <artifactId>maven-model-builder</artifactId>
+                <version>${maven.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.maven</groupId>
+                <artifactId>maven-builder-support</artifactId>
+                <version>${maven.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.maven</groupId>
+                <artifactId>maven-resolver-provider</artifactId>
+                <version>${maven.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.maven</groupId>
+                <artifactId>maven-repository-metadata</artifactId>
+                <version>${maven.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.maven</groupId>
+                <artifactId>maven-model</artifactId>
+                <version>${maven.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.maven</groupId>
+                <artifactId>maven-artifact</artifactId>
+                <version>${maven-artifact.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.maven.shared</groupId>
+                <artifactId>maven-shared-utils</artifactId>
+                <version>${maven-shared-utils.version}</version>
+            </dependency>
+
+
 
             <!-- local -->
             <dependency>
@@ -172,22 +230,74 @@
             <dependency>
                 <groupId>org.bf2</groupId>
                 <artifactId>cos-connector-serdes</artifactId>
-                <version>${project.version}</version>
+                <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.bf2</groupId>
-                <artifactId>cos-connector-action-jsonpath</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.bf2</groupId>
-                <artifactId>cos-connector-action-serdes</artifactId>
-                <version>${project.version}</version>
+                <artifactId>cos-connector-jsonpath</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.bf2</groupId>
                 <artifactId>cos-connector-kafka</artifactId>
-                <version>${project.version}</version>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-fault</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-log</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-aws</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-azure</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-ansible-tower</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-salesforce</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-mongodb</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-slack</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-http</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-google</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-sql</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
             </dependency>
 
             <dependency>
@@ -195,6 +305,7 @@
                 <artifactId>cos-fleet-catalog-connectors-it-support</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.bf2</groupId>
                 <artifactId>cos-connector-camel-component-routecontroller</artifactId>
@@ -342,6 +453,21 @@
                 <artifactId>assertj-core</artifactId>
                 <version>${assertj-core.version}</version>
             </dependency>
+            <dependency>
+                <groupId>net.javacrumbs.json-unit</groupId>
+                <artifactId>json-unit</artifactId>
+                <version>${json-unit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.javacrumbs.json-unit</groupId>
+                <artifactId>json-unit-assertj</artifactId>
+                <version>${json-unit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>${commons-collections4.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>com.github.tomakehurst</groupId>
@@ -384,6 +510,16 @@
     </pluginRepositories>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>${project.basedir}/src/generated/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -505,6 +641,7 @@
                     <artifactId>quarkus-extension-maven-plugin</artifactId>
                     <version>${quarkus.version}</version>
                 </plugin>
+
             </plugins>
         </pluginManagement>
         <plugins>

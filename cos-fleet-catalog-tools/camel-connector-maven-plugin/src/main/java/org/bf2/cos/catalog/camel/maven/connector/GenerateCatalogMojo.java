@@ -2,43 +2,67 @@ package org.bf2.cos.catalog.camel.maven.connector;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.security.MessageDigest;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 import java.util.ServiceLoader;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.collections4.SetUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.logging.Log;
+import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
+import org.apache.maven.project.MavenProjectHelper;
 import org.bf2.cos.catalog.camel.maven.connector.model.ConnectorDefinition;
 import org.bf2.cos.catalog.camel.maven.connector.support.Annotation;
-import org.bf2.cos.catalog.camel.maven.connector.support.Catalog;
+import org.bf2.cos.catalog.camel.maven.connector.support.AppBootstrapProvider;
 import org.bf2.cos.catalog.camel.maven.connector.support.CatalogConstants;
 import org.bf2.cos.catalog.camel.maven.connector.support.Connector;
+import org.bf2.cos.catalog.camel.maven.connector.support.ConnectorIndex;
+import org.bf2.cos.catalog.camel.maven.connector.support.ConnectorManifest;
 import org.bf2.cos.catalog.camel.maven.connector.support.KameletsCatalog;
 import org.bf2.cos.catalog.camel.maven.connector.support.MojoSupport;
 import org.bf2.cos.catalog.camel.maven.connector.validator.Validator;
 import org.codehaus.groovy.control.CompilerConfiguration;
 import org.codehaus.groovy.control.customizers.ImportCustomizer;
+import org.codehaus.plexus.component.annotations.Requirement;
+import org.eclipse.aether.RepositorySystem;
+import org.eclipse.aether.RepositorySystemSession;
+import org.eclipse.aether.impl.RemoteRepositoryManager;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
+import io.quarkus.bootstrap.BootstrapException;
+import io.quarkus.bootstrap.app.CuratedApplication;
+import io.quarkus.maven.dependency.ResolvedDependency;
+import net.javacrumbs.jsonunit.assertj.JsonAssertions;
+import net.javacrumbs.jsonunit.core.Option;
 
 import static java.util.Optional.ofNullable;
 import static org.bf2.cos.catalog.camel.maven.connector.support.CatalogSupport.JSON_MAPPER;
@@ -77,15 +101,64 @@ public class GenerateCatalogMojo extends AbstractMojo {
 
     @Parameter(defaultValue = "true", property = "cos.catalog.validate")
     private boolean validate;
+
     @Parameter(defaultValue = "${project.artifactId}", property = "cos.connector.type")
     private String type;
+    @Parameter(defaultValue = "${project.version}", property = "cos.connector.version")
+    private String version;
+    @Parameter(defaultValue = "0", property = "cos.connector.initial-revision")
+    private int initialRevision;
+    @Parameter(defaultValue = "cos-connector", property = "cos.connector.container.image-prefix")
+    private String containerImagePrefix;
+    @Parameter(property = "cos.connector.container.registry")
+    private String containerImageRegistry;
+    @Parameter(defaultValue = "${project.groupId}", property = "cos.connector.container.organization")
+    private String containerImageOrg;
+    @Parameter(property = "cos.base.container.image")
+    private String containerImageBase;
+    @Parameter(property = "cos.connector.container.tag", required = true)
+    private String containerImageTag;
 
     @Parameter
     private List<File> validators;
     @Parameter(defaultValue = "FAIL", property = "cos.catalog.validation.mode")
     private Validator.Mode mode;
-    @Parameter(required = true)
-    private Catalog catalog;
+
+    @Parameter(defaultValue = "${project.build.outputDirectory}/META-INF/connectors")
+    private File definitionPathLocal;
+    @Parameter(defaultValue = "${cos.connector.catalog.root}/${cos.catalog.name}")
+    private File definitionPath;
+    @Parameter(defaultValue = "${cos.connector.catalog.root}")
+    private File indexPath;
+    @Parameter(defaultValue = "${cos.catalog.name}")
+    private String catalogName;
+
+    @Parameter(required = false, property = "appArtifact")
+    private String appArtifact;
+    @Parameter(defaultValue = "${project.build.directory}")
+    protected File buildDir;
+    @Parameter(defaultValue = "${project.build.finalName}")
+    protected String finalName;
+    @Parameter(defaultValue = "${camel-quarkus.version}")
+    private String camelQuarkusVersion;
+    @Requirement(role = RepositorySystem.class, optional = false)
+    protected RepositorySystem repoSystem;
+    @Requirement(role = RemoteRepositoryManager.class, optional = false)
+    protected RemoteRepositoryManager remoteRepoManager;
+    @Parameter(defaultValue = "${repositorySystemSession}", readonly = true)
+    private RepositorySystemSession repoSession;
+    @Parameter
+    private Map<String, String> systemProperties;
+
+    @Component
+    protected MavenProjectHelper projectHelper;
+
+    ConnectorManifest manifest;
+    String manifestId;
+    Path manifestFile;
+    Path manifestLocalFile;
+    Path indexFile;
+    ConnectorIndex index;
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
@@ -94,63 +167,90 @@ public class GenerateCatalogMojo extends AbstractMojo {
         }
 
         try {
+            this.manifestId = type.replace("-", "_");
+            this.indexFile = indexPath.toPath().resolve("connectors.json");
+            this.manifestFile = definitionPath.toPath().resolve(this.manifestId + ".json");
+            this.manifestLocalFile = definitionPathLocal.toPath().resolve(this.manifestId + ".json");
+            this.index = MojoSupport.load(indexFile, ConnectorIndex.class, ConnectorIndex::new);
+
+            this.manifest = index.getConnectors().computeIfAbsent(this.manifestId, k -> {
+                return new ConnectorManifest(
+                        this.catalogName,
+                        this.initialRevision,
+                        Collections.emptySet(),
+                        null,
+                        this.containerImageBase,
+                        null);
+            });
+
             final KameletsCatalog kameletsCatalog = KameletsCatalog.get(project, getLog());
             final List<Connector> connectorList = MojoSupport.inject(session, defaults, connectors);
 
-            cleanup(connectorList);
+            //
+            // Update manifest dependencies
+            //
+
+            TreeSet<String> newDependencies = new TreeSet<>(dependencies());
+
+            if (!this.manifest.getDependencies().equals(newDependencies)) {
+                SetUtils.SetView<String> diff = SetUtils.difference(this.manifest.getDependencies(), newDependencies);
+                if (diff.isEmpty()) {
+                    diff = SetUtils.difference(newDependencies, this.manifest.getDependencies());
+                }
+
+                if (!diff.isEmpty()) {
+                    getLog().info("Detected diff in dependencies (" + diff.size() + "):");
+                    diff.forEach(d -> {
+                        getLog().info("  " + d);
+                    });
+                } else {
+                    getLog().info("Detected diff in dependencies (" + diff.size() + ")");
+                }
+
+                this.manifest.bump();
+                this.manifest.getDependencies().clear();
+                this.manifest.getDependencies().addAll(newDependencies);
+            }
+
+            if (!Objects.equals(manifest.getBaseImage(), this.containerImageBase)) {
+                getLog().info("Detected diff in base image");
+
+                this.manifest.bump();
+            }
+
+            //
+            // Connectors
+            //
 
             for (Connector connector : connectorList) {
-                generateDefinitions(kameletsCatalog, connector);
+                ConnectorDefinition def = generateDefinitions(kameletsCatalog, connector);
+
+                this.manifest.getTypes().add(def.getConnectorType().getId());
             }
+
+            //
+            // Manifest
+            //
+
+            getLog().info("Writing connector manifest to: " + manifestLocalFile);
+
+            this.manifest.setImage(
+                    String.format("%s/%s/%s-%s:%s",
+                            this.containerImageRegistry,
+                            this.containerImageOrg,
+                            this.containerImagePrefix, this.type,
+                            this.containerImageTag));
+
+            JSON_MAPPER.writerWithDefaultPrettyPrinter().writeValue(
+                    Files.newBufferedWriter(manifestLocalFile),
+                    this.manifest);
+
         } catch (Exception e) {
             throw new MojoExecutionException(e);
         }
     }
 
-    private void cleanup(List<Connector> connectorList)
-            throws MojoExecutionException, MojoFailureException {
-
-        final Path manifests = Path.of(catalog.getManifestsPath());
-
-        if (Files.exists(manifests)) {
-            try (Stream<Path> files = Files.list(manifests)) {
-                for (Path file : files.collect(Collectors.toList())) {
-                    getLog().info("" + file);
-
-                    if (!Files.isRegularFile(file)) {
-                        continue;
-                    }
-                    if (file.getFileName().toString().equals(type + ".json")) {
-                        continue;
-                    }
-                    if (!file.getFileName().toString().endsWith(".json")) {
-                        continue;
-                    }
-
-                    boolean valid = false;
-                    for (Connector connector : connectorList) {
-                        String name = ofNullable(connector.getName()).orElseGet(project::getArtifactId);
-                        String id = name.replace("-", "_") + ".json";
-
-                        if (id.equals(file.getFileName().toString())) {
-                            valid = true;
-                            break;
-                        }
-                    }
-
-                    if (!valid) {
-                        getLog().warn("Deleting " + file + " as it does not match any known connector in this module");
-                        Files.delete(file);
-                    }
-                }
-            } catch (IOException e) {
-                throw new MojoExecutionException(e);
-            }
-        }
-
-    }
-
-    private void generateDefinitions(KameletsCatalog kamelets, Connector connector)
+    private ConnectorDefinition generateDefinitions(KameletsCatalog kamelets, Connector connector)
             throws MojoExecutionException, MojoFailureException {
 
         final Connector.EndpointRef kafka = connector.getKafka();
@@ -183,6 +283,9 @@ public class GenerateCatalogMojo extends AbstractMojo {
             final String description = ofNullable(connector.getDescription()).orElseGet(project::getDescription);
             final String type = kameletType(adapterSpec);
             final String id = name.replace("-", "_");
+
+            final Path definitionFile = definitionPath.toPath().resolve(id + ".json");
+            final Path definitionLocalFile = definitionPathLocal.toPath().resolve(id + ".json");
 
             ConnectorDefinition def = new ConnectorDefinition();
             def.getConnectorType().setId(id);
@@ -256,6 +359,33 @@ public class GenerateCatalogMojo extends AbstractMojo {
                 computeErrorHandler(def, connector);
             }
 
+            // force capabilities if defined
+            if (connector.getCapabilities() != null) {
+                def.getConnectorType().getCapabilities().addAll(connector.getCapabilities());
+            }
+
+            for (String capability : def.getConnectorType().getCapabilities()) {
+                switch (capability) {
+                    case CatalogConstants.CAPABILITY_PROCESSORS:
+                        def.getConnectorType().getSchema()
+                                .with("properties")
+                                .with(CatalogConstants.CAPABILITY_PROCESSORS);
+                        break;
+                    case CatalogConstants.CAPABILITY_ERROR_HANDLER:
+                        def.getConnectorType().getSchema()
+                                .with("properties")
+                                .with(CatalogConstants.CAPABILITY_ERROR_HANDLER);
+                        break;
+                    case CatalogConstants.CAPABILITY_DATA_SHAPE:
+                        def.getConnectorType().getSchema()
+                                .with("properties")
+                                .with(CatalogConstants.CAPABILITY_DATA_SHAPE);
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Unsupported capability: " + capability);
+                }
+            }
+
             //
             // channels
             //
@@ -270,19 +400,9 @@ public class GenerateCatalogMojo extends AbstractMojo {
 
                     def.getChannels().put(ch.getKey(), channel);
 
-                    String image = ch.getValue().getImage();
-
-                    if (image == null) {
-                        image = String.format("%s/%s/%s:%s",
-                                project.getProperties().getProperty("cos.connector.container.repository"),
-                                project.getProperties().getProperty("cos.connector.container.organization"),
-                                name,
-                                ch.getValue().getRevision());
-                    }
-
-                    metadata.setConnectorRevision(Integer.parseInt(ch.getValue().getRevision()));
+                    metadata.setConnectorImage("placeholder");
+                    metadata.setConnectorRevision(this.initialRevision);
                     metadata.setConnectorType(type);
-                    metadata.setConnectorImage(image);
 
                     metadata.getOperators().add(new ConnectorDefinition.Operator(
                             ch.getValue().getOperatorType(),
@@ -345,33 +465,6 @@ public class GenerateCatalogMojo extends AbstractMojo {
                 }
             }
 
-            // force capabilities if defined
-            if (connector.getCapabilities() != null) {
-                def.getConnectorType().getCapabilities().addAll(connector.getCapabilities());
-            }
-
-            for (String capability : def.getConnectorType().getCapabilities()) {
-                switch (capability) {
-                    case CatalogConstants.CAPABILITY_PROCESSORS:
-                        def.getConnectorType().getSchema()
-                                .with("properties")
-                                .with(CatalogConstants.CAPABILITY_PROCESSORS);
-                        break;
-                    case CatalogConstants.CAPABILITY_ERROR_HANDLER:
-                        def.getConnectorType().getSchema()
-                                .with("properties")
-                                .with(CatalogConstants.CAPABILITY_ERROR_HANDLER);
-                        break;
-                    case CatalogConstants.CAPABILITY_DATA_SHAPE:
-                        def.getConnectorType().getSchema()
-                                .with("properties")
-                                .with(CatalogConstants.CAPABILITY_DATA_SHAPE);
-                        break;
-                    default:
-                        throw new IllegalArgumentException("Unsupported capability: " + capability);
-                }
-            }
-
             //
             // Patch
             //
@@ -403,6 +496,49 @@ public class GenerateCatalogMojo extends AbstractMojo {
             }
 
             //
+            // Revision
+            //
+
+            try {
+                if (Files.exists(definitionFile)) {
+                    JsonNode newSchema = JSON_MAPPER.convertValue(def, ObjectNode.class);
+                    JsonNode oldSchema = JSON_MAPPER.readValue(definitionFile.toFile(), JsonNode.class);
+
+                    JsonAssertions.assertThatJson(oldSchema)
+                            .when(Option.IGNORING_ARRAY_ORDER)
+                            .whenIgnoringPaths(
+                                    "$.channels.*.shard_metadata.connector_image",
+                                    "$.channels.*.shard_metadata.connector_revision")
+                            .withDifferenceListener((difference, context) -> {
+                                getLog().info("diff: " + difference.toString());
+                                manifest.bump();
+                            })
+                            .isEqualTo(newSchema);
+                }
+            } catch (AssertionError e) {
+                // ignored, just avoid blowing thing up
+            }
+
+            //
+            // Images
+            //
+
+            if (connector.getChannels() != null) {
+                for (var ch : connector.getChannels().entrySet()) {
+                    ConnectorDefinition.Metadata metadata = def.getChannels().get(ch.getKey()).getMetadata();
+
+                    String image = String.format("%s/%s/%s-%s:%s",
+                            this.containerImageRegistry,
+                            this.containerImageOrg,
+                            this.containerImagePrefix, this.type,
+                            this.containerImageTag);
+
+                    metadata.setConnectorRevision(this.manifest.getRevision());
+                    metadata.setConnectorImage(image);
+                }
+            }
+
+            //
             // As Json
             //
 
@@ -417,19 +553,18 @@ public class GenerateCatalogMojo extends AbstractMojo {
             }
 
             //
-            // Write
+            // Write Definition
             //
 
-            Path out = Paths.get(catalog.getManifestsPath());
-            Path file = out.resolve(id + ".json");
+            Files.createDirectories(definitionPathLocal.toPath());
 
-            Files.createDirectories(out);
-
-            getLog().info("Writing connector definition manifest to: " + file);
+            getLog().info("Writing connector definition to: " + definitionLocalFile);
 
             JSON_MAPPER.writerWithDefaultPrettyPrinter().writeValue(
-                    Files.newBufferedWriter(file),
+                    Files.newBufferedWriter(definitionLocalFile),
                     definition);
+
+            return def;
 
         } catch (IOException e) {
             throw new MojoExecutionException("", e);
@@ -473,11 +608,105 @@ public class GenerateCatalogMojo extends AbstractMojo {
         }
     }
 
+    public TreeSet<String> dependencies()
+            throws MojoExecutionException, MojoFailureException {
+
+        TreeSet<String> answer = new TreeSet<>();
+
+        try {
+            Set<String> propertiesToClear = new HashSet<>();
+            propertiesToClear.add("quarkus.container-image.build");
+            propertiesToClear.add("quarkus.container-image.push");
+
+            // disable quarkus build
+            System.setProperty("quarkus.container-image.build", "false");
+            System.setProperty("quarkus.container-image.push", "false");
+
+            if (systemProperties != null) {
+                // Add the system properties of the plugin to the system properties
+                // if and only if they are not already set.
+                for (Map.Entry<String, String> entry : systemProperties.entrySet()) {
+                    String key = entry.getKey();
+                    if (System.getProperty(key) == null) {
+                        System.setProperty(key, entry.getValue());
+                        propertiesToClear.add(key);
+                    }
+                }
+            }
+
+            try (CuratedApplication curatedApplication = bootstrapApplication().bootstrapQuarkus().bootstrap()) {
+                List<ResolvedDependency> deps = new ArrayList<>(curatedApplication.getApplicationModel().getDependencies());
+                deps.sort(Comparator.comparing(ResolvedDependency::toCompactCoords));
+
+                for (ResolvedDependency dep : deps) {
+                    MessageDigest digest = DigestUtils.getSha256Digest();
+                    Path path = dep.getResolvedPaths().getSinglePath();
+
+                    if (dep.getGroupId().startsWith("org.bf2")) {
+                        try (JarFile jar = new JarFile(path.toFile())) {
+                            List<JarEntry> entries = Collections.list(jar.entries());
+                            entries.sort(Comparator.comparing(JarEntry::getName));
+
+                            for (JarEntry entry : entries) {
+                                if (entry.isDirectory()) {
+                                    continue;
+                                }
+                                if (entry.getName().equals("META-INF/jandex.idx")) {
+                                    continue;
+                                }
+                                if (entry.getName().startsWith("META-INF/quarkus-")) {
+                                    continue;
+                                }
+                                if (entry.getName().endsWith("git.properties")) {
+                                    continue;
+                                }
+
+                                try (InputStream is = jar.getInputStream(entry)) {
+                                    DigestUtils.updateDigest(digest, is);
+                                }
+                            }
+                        }
+                    } else {
+                        DigestUtils.updateDigest(digest, dep.toCompactCoords());
+                    }
+
+                    answer.add(
+                            dep.toCompactCoords() + "@sha256:" + DigestUtils.sha256Hex(digest.digest()));
+                }
+            } finally {
+                // Clear all the system properties set by the plugin
+                propertiesToClear.forEach(System::clearProperty);
+            }
+        } catch (BootstrapException | IOException e) {
+            throw new MojoExecutionException("Failed to build quarkus application", e);
+        }
+
+        return answer;
+    }
+
+    protected AppBootstrapProvider bootstrapApplication() {
+        AppBootstrapProvider provider = new AppBootstrapProvider();
+        provider.setAppArtifactCoords(this.appArtifact);
+        provider.setBuildDir(this.buildDir);
+        provider.setConnectors(this.connectors);
+        provider.setDefaults(this.defaults);
+        provider.setFinalName(this.finalName);
+        provider.setLog(getLog());
+        provider.setProject(this.project);
+        provider.setCamelQuarkusVersion(this.camelQuarkusVersion);
+        provider.setRemoteRepoManager(this.remoteRepoManager);
+        provider.setRepoSession(this.repoSession);
+        provider.setRepoSystem(this.repoSystem);
+        provider.setSession(this.session);
+
+        return provider;
+    }
+
     private Validator.Context of(Connector connector) {
         return new Validator.Context() {
             @Override
-            public Catalog getCatalog() {
-                return catalog;
+            public Path getCatalogPath() {
+                return manifestFile;
             }
 
             @Override

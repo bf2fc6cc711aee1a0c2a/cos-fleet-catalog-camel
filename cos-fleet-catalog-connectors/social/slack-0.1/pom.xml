@@ -19,9 +19,14 @@
 
     <properties>
         <cos.connector.type>slack</cos.connector.type>
-        <quarkus.container-image.name>${cos.connector.container.prefix}-${cos.connector.type}</quarkus.container-image.name>
-        <quarkus.container-image.tag>${cos.connector.container.tag}</quarkus.container-image.tag>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.bf2</groupId>
+            <artifactId>cos-connector-slack</artifactId>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
@@ -45,9 +50,11 @@
                                 <version>${cos.kamelets.version}</version>
                             </kafka>
                             <dataShape>
+                                <!--
                                 <consumes>
                                     <contentClass>com.slack.api.model.Message</contentClass>
                                 </consumes>
+                                -->
                                 <produces>
                                     <formats>
                                         <format>application/json</format>
@@ -79,6 +86,7 @@
                         </connector>
                     </connectors>
                 </configuration>
+                <!--
                 <dependencies>
                     <dependency>
                         <groupId>com.slack.api</groupId>
@@ -86,10 +94,7 @@
                         <version>1.8.1</version>
                     </dependency>
                 </dependencies>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
+                -->
             </plugin>
         </plugins>
     </build>
