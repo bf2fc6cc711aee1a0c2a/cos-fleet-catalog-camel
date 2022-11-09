@@ -662,14 +662,12 @@ public class GenerateCatalogMojo extends AbstractMojo {
                                 }
 
                                 try (InputStream is = jar.getInputStream(entry)) {
-                                    digest.update(IOUtils.toByteArray(is));
+                                    DigestUtils.updateDigest(digest, is);
                                 }
                             }
                         }
                     } else {
-                        try (InputStream is = Files.newInputStream(path)) {
-                            digest.update(IOUtils.toByteArray(is));
-                        }
+                        DigestUtils.updateDigest(digest, dep.toCompactCoords());
                     }
 
                     answer.add(
