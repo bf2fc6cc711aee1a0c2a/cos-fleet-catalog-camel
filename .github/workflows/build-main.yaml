@@ -97,11 +97,14 @@ jobs:
                     
           cd ${{ env.PROJECTS }}/cos-manifests
           
+          ls -lR connectors/cos-fleet-catalog-camel
+          
           git config user.email "mas-connectors@redhat.com" 
           git config user.name "mas-connectors"
 
           git checkout -b ${BRANCH_NAME}
-          git add ${OVERLAY_PATH}
+          git add connectors/cos-fleet-catalog-camel
+          git status
           git commit -m "Update cos-fleet-catalog-camel " connectors/cos-fleet-catalog-camel
           git reset --hard
           git push -u origin ${BRANCH_NAME}
