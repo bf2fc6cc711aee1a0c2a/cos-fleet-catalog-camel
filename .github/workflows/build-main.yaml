@@ -20,6 +20,7 @@ env:
   MAVEN_OPTS: -Xmx3000m
   MAVEN_ARGS: -V -ntp -Dhttp.keepAlive=false -e
   CONNECTORS_DIR: etc/kubernetes/manifests/base
+  PROJECTS: ${{ env.GITHUB_WORKSPACE }}
 
 concurrency:
   group: ${{ github.ref }}-${{ github.workflow }}
@@ -58,12 +59,12 @@ jobs:
 
       - name: Build Project
         run: |          
-          cd ${{ env.GITHUB_WORKSPACE }}/cos-fleet-catalog-camel
+          cd ${{ env.PROJECTS }}/cos-fleet-catalog-camel
           
           ./mvnw ${MAVEN_ARGS} clean install -U \
             -Pcontainer-build \
             -Pcontainer-test \
-            -Dcos.connector.catalog.root=${{ env.GITHUB_WORKSPACE }}/cos-manifests/connectors/cos-fleet-catalog-camel \
+            -Dcos.connector.catalog.root=${{ env.PROJECTS }}/cos-manifests/connectors/cos-fleet-catalog-camel \
             -Dcos.connector.container.tag=${CONNECTORS_RELEASE} \
             -Dlog.enabled=true
 
@@ -94,7 +95,7 @@ jobs:
           echo "branch   : ${BRANCH_NAME}"
           echo ""
                     
-          cd ${{ env.GITHUB_WORKSPACE }}/cos-manifests
+          cd ${{ env.PROJECTS }}/cos-manifests
           
           git config user.email "mas-connectors@redhat.com" 
           git config user.name "mas-connectors"
