@@ -44,3 +44,4 @@ spec:
             name: CamelHttpMethod
             constant: "{{method}}"
         - to: "{{url}}"
+
