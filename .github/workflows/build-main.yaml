@@ -20,7 +20,7 @@ env:
   MAVEN_OPTS: -Xmx3000m
   MAVEN_ARGS: -V -ntp -Dhttp.keepAlive=false -e
   CONNECTORS_DIR: etc/kubernetes/manifests/base
-  PROJECTS: ${{ env.GITHUB_WORKSPACE }}
+  PROJECTS: ${{ github.workspace }}
 
 concurrency:
   group: ${{ github.ref }}-${{ github.workflow }}
