@@ -36,7 +36,7 @@
         <json-schema-validator.version>1.0.73</json-schema-validator.version>
         <commons-text.version>1.10.0</commons-text.version>
         <strimzi-test-container.version>0.102.0</strimzi-test-container.version>
-        <wiremock.version>2.34.0</wiremock.version>
+        <wiremock.version>2.35.0</wiremock.version>
         <json-unit.version>2.35.0</json-unit.version>
         <assertj.version>3.23.1</assertj.version>
         <commons-collections4.version>4.4</commons-collections4.version>
