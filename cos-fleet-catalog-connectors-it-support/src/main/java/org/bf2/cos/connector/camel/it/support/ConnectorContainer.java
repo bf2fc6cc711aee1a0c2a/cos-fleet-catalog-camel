@@ -5,6 +5,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +16,6 @@ import java.util.Properties;
 import java.util.TreeMap;
 import java.util.function.Consumer;
 
-import com.github.dockerjava.api.command.StopContainerCmd;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.text.CaseUtils;
@@ -33,10 +34,10 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import com.github.dockerjava.api.command.InspectContainerResponse;
+import com.github.dockerjava.api.command.StopContainerCmd;
 
 import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
-import org.testcontainers.utility.ResourceReaper;
 
 public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConnectorContainer.class);
@@ -52,23 +53,6 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
     private Consumer<ConnectorContainer> customizer;
     private final List<Pair<String, byte[]>> files;
     private final Map<String, String> userProperties;
-
-    public ConnectorContainer() {
-        this(System.getProperty("connector.container.image").trim());
-    }
-
-    public ConnectorContainer(String format, Object... args) {
-        this(String.format(format, args));
-    }
-
-    public ConnectorContainer(String group, String image, String tag) {
-        this(
-                Objects.requireNonNull(group)
-                        + "/"
-                        + Objects.requireNonNull(image)
-                        + ":"
-                        + Objects.requireNonNull(tag));
-    }
 
     public ConnectorContainer(String image) {
         this(DockerImageName.parse(image));
@@ -203,7 +187,7 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
     }
 
     public static class Builder {
-        private final String definition;
+        private final Path definition;
         private final Map<String, String> properties;
         private final Map<String, String> userProperties;
 
@@ -212,13 +196,17 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
         private boolean simulateError;
 
         private Builder(String definition) {
-            Objects.requireNonNull(definition);
+            String root = System.getProperty("cos.catalog.definition.root");
 
-            if (!definition.startsWith("/META-INF/connectors/")) {
-                definition = "/META-INF/connectors/" + definition;
+            Objects.requireNonNull(definition);
+            Objects.requireNonNull(root);
+
+            if (!definition.startsWith(root)) {
+                this.definition = Path.of(root, definition);
+            } else {
+                this.definition = Path.of(definition);
             }
 
-            this.definition = definition;
             this.properties = new HashMap<>();
             this.userProperties = new HashMap<>();
         }
@@ -265,7 +253,7 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
         }
 
         public ConnectorContainer build() {
-            try (InputStream is = ConnectorContainer.class.getResourceAsStream(definition)) {
+            try (InputStream is = Files.newInputStream(definition)) {
                 ObjectMapper yaml = new ObjectMapper(new YAMLFactory().disable(YAMLGenerator.Feature.WRITE_DOC_START_MARKER));
 
                 ObjectMapper mapper = new ObjectMapper();

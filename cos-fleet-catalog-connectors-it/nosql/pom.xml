@@ -13,6 +13,10 @@
     <artifactId>cos-fleet-catalog-connectors-nosql-it</artifactId>
     <packaging>pom</packaging>
 
+    <properties>
+        <cos.connector.catalog.group>nosql</cos.connector.catalog.group>
+    </properties>
+
     <modules>
         <module>cassandra-it</module>
         <module>elasticsearch-it</module>

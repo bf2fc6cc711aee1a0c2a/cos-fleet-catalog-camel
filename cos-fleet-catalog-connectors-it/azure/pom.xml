@@ -13,6 +13,10 @@
     <artifactId>cos-fleet-catalog-connectors-azure-it</artifactId>
     <packaging>pom</packaging>
 
+    <properties>
+        <cos.connector.catalog.group>azure</cos.connector.catalog.group>
+    </properties>
+
     <modules>
         <module>eventhubs-it</module>
         <module>storage-blob-it</module>

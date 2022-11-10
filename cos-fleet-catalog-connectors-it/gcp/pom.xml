@@ -13,6 +13,10 @@
     <artifactId>cos-fleet-catalog-connectors-gcp-it</artifactId>
     <packaging>pom</packaging>
 
+    <properties>
+        <cos.connector.catalog.group>gcp</cos.connector.catalog.group>
+    </properties>
+
     <modules>
         <module>google-pubsub-it</module>
         <module>google-functions-it</module>
