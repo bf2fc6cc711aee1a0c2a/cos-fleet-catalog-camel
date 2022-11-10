@@ -13,6 +13,10 @@
     <artifactId>cos-fleet-catalog-connectors-itops-it</artifactId>
     <packaging>pom</packaging>
 
+    <properties>
+        <cos.connector.catalog.group>itops</cos.connector.catalog.group>
+    </properties>
+
     <modules>
         <module>ansible-tower-it</module>
     </modules>

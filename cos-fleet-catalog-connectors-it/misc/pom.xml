@@ -13,6 +13,10 @@
     <artifactId>cos-fleet-catalog-connectors-misc-it</artifactId>
     <packaging>pom</packaging>
 
+    <properties>
+        <cos.connector.catalog.group>misc</cos.connector.catalog.group>
+    </properties>
+
     <modules>
     </modules>
 </project>

@@ -13,6 +13,9 @@
     <artifactId>cos-fleet-catalog-connectors-social-it</artifactId>
     <packaging>pom</packaging>
 
+    <properties>
+        <cos.connector.catalog.group>social</cos.connector.catalog.group>
+    </properties>
     <modules>
         <module>slack-it</module>
     </modules>

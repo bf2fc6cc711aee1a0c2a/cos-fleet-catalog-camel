@@ -13,6 +13,10 @@
     <artifactId>cos-fleet-catalog-connectors-storage-it</artifactId>
     <packaging>pom</packaging>
 
+    <properties>
+        <cos.connector.catalog.group>storage</cos.connector.catalog.group>
+    </properties>
+
     <modules>
         <module>minio-it</module>
     </modules>

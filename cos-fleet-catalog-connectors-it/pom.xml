@@ -133,6 +133,9 @@
                                     <include>**/*IT*</include>
                                 </includes>
                                 <classesDirectory>${project.build.outputDirectory}</classesDirectory>
+                                <systemPropertyVariables>
+                                    <cos.catalog.definition.root>${cos.connector.catalog.root}/connector-catalog-camel-${cos.connector.catalog.group}</cos.catalog.definition.root>
+                                </systemPropertyVariables>
                             </configuration>
                         </plugin>
                     </plugins>

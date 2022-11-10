@@ -13,6 +13,10 @@
     <artifactId>cos-fleet-catalog-connectors-aws-it</artifactId>
     <packaging>pom</packaging>
 
+    <properties>
+        <cos.connector.catalog.group>aws</cos.connector.catalog.group>
+    </properties>
+
     <modules>
         <module>aws-it</module>
     </modules>

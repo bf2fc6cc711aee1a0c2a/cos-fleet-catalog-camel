@@ -13,6 +13,10 @@
     <artifactId>cos-fleet-catalog-connectors-sql-it</artifactId>
     <packaging>pom</packaging>
 
+    <properties>
+        <cos.connector.catalog.group>sql</cos.connector.catalog.group>
+    </properties>
+
     <modules>
         <module>mariadb-it</module>
         <module>mysql-it</module>
