@@ -78,7 +78,8 @@ jobs:
       - name: Push Container Images
         run: |
           echo "Pushing container images"
-          IMAGES=$(docker image ls --format "{{.Repository}}:{{.Tag}}" | grep quay.io/rhoas/cos- | grep ${CONNECTORS_RELEASE})
+          echo "Pushing container images"
+          IMAGES=$(docker image ls --format "{{.Repository}}:{{.Tag}}" | grep quay.io/rhoas/cos- | grep ${CONNECTORS_RELEASE} || :;)
           echo "Images[@]: ${IMAGES[@]}"
           echo "Images: ${IMAGES}"
           for IMAGE in ${IMAGES}; do
