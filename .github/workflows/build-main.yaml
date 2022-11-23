@@ -110,17 +110,22 @@ jobs:
           git checkout -b ${BRANCH_NAME}
           git add connectors/cos-fleet-catalog-camel
           git status
-          git commit -m "Update cos-fleet-catalog-camel " connectors/cos-fleet-catalog-camel
-          git reset --hard
-          git push -u origin ${BRANCH_NAME}
 
-          # GH CLI can't find the branch on remote... needs some time :)
-          sleep 15
+          if [ -z "$(git status --untracked-files=no --porcelain connectors/cos-fleet-catalog-camel)" ]; then 
+            echo "Working directory clean excluding untracked files"            
+          else
+            git commit -m "Update cos-fleet-catalog-camel " connectors/cos-fleet-catalog-camel
+            git reset --hard
+            git push -u origin ${BRANCH_NAME}
 
-          gh config set prompt disabled
+            # GH CLI can't find the branch on remote... needs some time :)
+            sleep 15
 
-          gh pr create \
-            --fill \
-            --base main \
-            --title "chore(catalog): update cos-fleet-catalog-camel to ${{ env.CONNECTORS_RELEASE }}" \
-            --body "sha: ${{ github.sha }}, tag: ${{ github.ref_name }}"   
+            gh config set prompt disabled
+
+            gh pr create \
+              --fill \
+              --base main \
+              --title "chore(catalog): update cos-fleet-catalog-camel to ${{ env.CONNECTORS_RELEASE }}" \
+              --body "sha: ${{ github.sha }}, tag: ${{ github.ref_name }}"   
+          fi
