@@ -55,6 +55,7 @@ public class AWSContainer extends GenericContainer<AWSContainer> {
                 .credentialsProvider(getCredentialsProvider())
                 .endpointOverride(getExternalEndpointURI())
                 .region(Region.US_EAST_1)
+                .forcePathStyle(true)
                 .build();
     }
 
