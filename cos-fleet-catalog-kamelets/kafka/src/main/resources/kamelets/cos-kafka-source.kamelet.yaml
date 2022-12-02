@@ -39,8 +39,6 @@ spec:
           registryUrl: '{{registryUrl:}}'
           username: '{{user}}'
           password: '{{password}}'
-      - name: "kafka-header-serializer"
-        type: "#class:org.bf2.cos.connector.camel.kafka.DefaultKafkaHeaderSerializer"
     from:
       uri: "{{kc}}:{{topic}}"
       parameters:
@@ -52,7 +50,6 @@ spec:
         keyDeserializer: "{{keyDeserializer:org.apache.kafka.common.serialization.ByteArrayDeserializer}}"
         valueDeserializer: "{{valueDeserializer:org.bf2.cos.connector.camel.serdes.bytes.ByteArrayDeserializer}}"
         kafkaClientFactory: "#{{kafka-client-factory}}"
-        headerSerializer: "#{{kafka-header-serializer}}"
         headerDeserializer: "#class:org.bf2.cos.connector.camel.kafka.ToStringHeaderDeserializer"
       steps:
       - removeHeader:
