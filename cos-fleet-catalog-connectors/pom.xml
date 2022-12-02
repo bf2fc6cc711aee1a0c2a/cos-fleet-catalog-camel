@@ -27,6 +27,7 @@
 
         <cos.catalog.validation.mode>FAIL</cos.catalog.validation.mode>
         <cos.catalog.name>connector-catalog-camel-${cos.connector.catalog.group}</cos.catalog.name>
+        <cos.connector.allowProcessors>false</cos.connector.allowProcessors>
     </properties>
 
     <dependencies>
@@ -115,7 +116,7 @@
         </dependency>
         <dependency>
             <groupId>org.bf2</groupId>
-            <artifactId>cos-connector-rename-field</artifactId>
+            <artifactId>cos-connector-actions</artifactId>
         </dependency>
     </dependencies>
 

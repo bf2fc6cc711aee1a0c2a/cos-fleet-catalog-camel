@@ -56,7 +56,7 @@ class ConnectorIT extends KafkaConnectorSpec {
                 db_database_name: ${db.databaseName}
                 processors:
                 - transform:
-                    expression: '.username = "oscerd"'
+                    jq: '.username = "oscerd"'
             """)
 
             cnt.start()

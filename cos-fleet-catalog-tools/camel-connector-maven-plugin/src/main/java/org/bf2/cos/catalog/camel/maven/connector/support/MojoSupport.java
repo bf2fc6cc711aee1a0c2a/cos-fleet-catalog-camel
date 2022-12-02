@@ -94,6 +94,9 @@ public final class MojoSupport {
                     if (connector.getErrorHandler() == null) {
                         connector.setErrorHandler(defaults.getErrorHandler());
                     }
+                    if (!connector.allowProcessors()) {
+                        connector.setAllowProcessors(defaults.allowProcessors());
+                    }
                 }
             }
         } catch (Exception e) {

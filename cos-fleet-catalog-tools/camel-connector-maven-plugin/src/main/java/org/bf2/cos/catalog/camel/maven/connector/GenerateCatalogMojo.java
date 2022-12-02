@@ -537,7 +537,9 @@ public class GenerateCatalogMojo extends AbstractMojo {
 
             ObjectNode definition = JSON_MAPPER.convertValue(def, ObjectNode.class);
 
-            importProcessorSchema(definition);
+            if (connector.allowProcessors()) {
+                importProcessorSchema(definition);
+            }
 
             //
             // Validate

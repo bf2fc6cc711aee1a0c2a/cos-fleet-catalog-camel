@@ -19,6 +19,8 @@ public class Connector {
     private String version;
     @Param(defaultValue = "${cos.connector.capabilities}")
     private Set<String> capabilities;
+    @Param(defaultValue = "${cos.connector.allowProcessors}")
+    private boolean allowProcessors;
 
     @Param
     private EndpointRef adapter;
@@ -120,6 +122,14 @@ public class Connector {
 
     public void setErrorHandler(ErrorHandler errorHandler) {
         this.errorHandler = errorHandler;
+    }
+
+    public boolean allowProcessors() {
+        return allowProcessors;
+    }
+
+    public void setAllowProcessors(boolean allowProcessors) {
+        this.allowProcessors = allowProcessors;
     }
 
     public static class Channel {
