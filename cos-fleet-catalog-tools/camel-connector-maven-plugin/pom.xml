@@ -108,6 +108,12 @@
         <dependency>
             <groupId>io.apicurio</groupId>
             <artifactId>apicurio-registry-schema-util-json</artifactId>
+            <exclusions>
+                <exclusion>
+                  <groupId>com.github.everit-org.json-schema</groupId>
+                  <artifactId>org.everit.json.schema</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
