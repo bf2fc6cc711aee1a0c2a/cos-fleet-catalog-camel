@@ -95,10 +95,6 @@
         </dependency>
         <dependency>
             <groupId>org.bf2</groupId>
-            <artifactId>cos-connector-jsonpath</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.bf2</groupId>
             <artifactId>cos-connector-serdes</artifactId>
         </dependency>
         <dependency>

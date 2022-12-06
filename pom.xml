@@ -235,11 +235,6 @@
             </dependency>
             <dependency>
                 <groupId>org.bf2</groupId>
-                <artifactId>cos-connector-jsonpath</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>org.bf2</groupId>
                 <artifactId>cos-connector-kafka</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
