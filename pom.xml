@@ -42,6 +42,7 @@
         <commons-collections4.version>4.4</commons-collections4.version>
         <wiremock.version>2.35.0</wiremock.version>
         <assertj-core.version>3.23.1</assertj-core.version>
+        <everit-json-schema.version>1.14.1</everit-json-schema.version>
 
         <maven.version>3.8.6</maven.version>
 
@@ -357,7 +358,11 @@
                 <artifactId>apicurio-registry-schema-util-json</artifactId>
                 <version>${apicurio.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.github.erosb</groupId>
+                <artifactId>everit-json-schema</artifactId>
+                <version>${everit-json-schema.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.github.java-json-tools</groupId>
                 <artifactId>json-schema-avro</artifactId>

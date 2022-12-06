@@ -109,6 +109,7 @@
             <groupId>io.apicurio</groupId>
             <artifactId>apicurio-registry-schema-util-json</artifactId>
             <exclusions>
+                <!-- Exclusion to avoid accessing jitpack repo. Replaced by com.github.erosb:everit-json-schema -->
                 <exclusion>
                   <groupId>com.github.everit-org.json-schema</groupId>
                   <artifactId>org.everit.json.schema</artifactId>
@@ -119,7 +120,6 @@
         <dependency>
             <groupId>com.github.erosb</groupId>
             <artifactId>everit-json-schema</artifactId>
-            <version>1.14.1</version>
         </dependency>
 
         <dependency>
