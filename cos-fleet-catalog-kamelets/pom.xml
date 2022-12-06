@@ -17,7 +17,6 @@
 
     <modules>
         <module>serdes</module>
-        <module>jsonpath</module>
 
         <module>log</module>
         <module>fault</module>
