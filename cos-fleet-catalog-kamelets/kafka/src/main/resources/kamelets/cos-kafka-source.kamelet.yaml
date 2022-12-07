@@ -51,6 +51,7 @@ spec:
         valueDeserializer: "{{valueDeserializer:org.bf2.cos.connector.camel.serdes.bytes.ByteArrayDeserializer}}"
         kafkaClientFactory: "#{{kafka-client-factory}}"
         headerDeserializer: "#class:org.bf2.cos.connector.camel.kafka.ToStringHeaderDeserializer"
+        pollOnError: "{{pollOnError:RECONNECT}}"
       steps:
       - removeHeader:
           name: "kafka.HEADERS"
