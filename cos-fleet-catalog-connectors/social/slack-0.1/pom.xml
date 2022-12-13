@@ -41,8 +41,8 @@
                             <description>Receive messages from a Slack channel.</description>
                             <adapter>
                                 <prefix>slack</prefix>
-                                <name>${cos.connector.type}-source</name>
-                                <version>${camel-kamelets-catalog.version}</version>
+                                <name>cos-${cos.connector.type}-source</name>
+                                <version>${cos.kamelets.version}</version>
                             </adapter>
                             <kafka>
                                 <prefix>kafka</prefix>
