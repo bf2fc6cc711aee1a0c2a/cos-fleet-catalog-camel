@@ -350,7 +350,7 @@
             <plugin>
                 <groupId>org.apache.camel</groupId>
                 <artifactId>camel-yaml-dsl-maven-plugin</artifactId>
-                <version>3.20.0-SNAPSHOT</version>
+                <version>3.21.0-SNAPSHOT</version>
                     <executions>
                         <execution>
                         <id>generate-yaml-schema-kebab-case-restricted</id>
@@ -361,6 +361,7 @@
                         <configuration>
                             <kebabCase>true</kebabCase>
                             <outputFile>src/generated/resources/schema/camel-yaml-dsl-restricted.json</outputFile>
+			    <additionalProperties>false</additionalProperties>
                             <bannedDefinitions>
                                 <bannedDefinition>org.apache.camel.model.AggregateDefinition</bannedDefinition>
                                 <bannedDefinition>org.apache.camel.model.BeanDefinition</bannedDefinition>
