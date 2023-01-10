@@ -7,6 +7,7 @@
       "org.apache.camel.model.ProcessorDefinition" : {
         "type" : "object",
         "maxProperties" : 1,
+        "additionalProperties" : false,
         "properties" : {
           "choice" : {
             "$ref" : "#/items/definitions/org.apache.camel.model.ChoiceDefinition"
@@ -33,6 +34,7 @@
       },
       "org.apache.camel.model.ChoiceDefinition" : {
         "type" : "object",
+        "additionalProperties" : false,
         "properties" : {
           "description" : {
             "type" : "string"
@@ -65,6 +67,7 @@
       },
       "org.apache.camel.model.ExpressionSubElementDefinition" : {
         "type" : "object",
+        "additionalProperties" : false,
         "properties" : {
           "constant" : {
             "$ref" : "#/items/definitions/org.apache.camel.model.language.ConstantExpression"
@@ -85,6 +88,7 @@
       },
       "org.apache.camel.model.FilterDefinition" : {
         "type" : "object",
+        "additionalProperties" : false,
         "anyOf" : [ {
           "$ref" : "#/items/definitions/org.apache.camel.model.language.ExpressionDefinition"
         } ],
@@ -114,6 +118,7 @@
       },
       "org.apache.camel.model.OtherwiseDefinition" : {
         "type" : "object",
+        "additionalProperties" : false,
         "properties" : {
           "description" : {
             "type" : "string"
@@ -134,6 +139,7 @@
       },
       "org.apache.camel.model.SetBodyDefinition" : {
         "type" : "object",
+        "additionalProperties" : false,
         "anyOf" : [ {
           "$ref" : "#/items/definitions/org.apache.camel.model.language.ExpressionDefinition"
         } ],
@@ -154,6 +160,7 @@
       },
       "org.apache.camel.model.TransformDefinition" : {
         "type" : "object",
+        "additionalProperties" : false,
         "anyOf" : [ {
           "$ref" : "#/items/definitions/org.apache.camel.model.language.ExpressionDefinition"
         } ],
@@ -174,6 +181,7 @@
       },
       "org.apache.camel.model.WhenDefinition" : {
         "type" : "object",
+        "additionalProperties" : false,
         "anyOf" : [ {
           "$ref" : "#/items/definitions/org.apache.camel.model.language.ExpressionDefinition"
         } ],
@@ -203,6 +211,7 @@
           "type" : "string"
         }, {
           "type" : "object",
+          "additionalProperties" : false,
           "properties" : {
             "expression" : {
               "type" : "string"
@@ -225,6 +234,7 @@
           "type" : "string"
         }, {
           "type" : "object",
+          "additionalProperties" : false,
           "properties" : {
             "expression" : {
               "type" : "string"
@@ -241,6 +251,7 @@
       },
       "org.apache.camel.model.language.ExpressionDefinition" : {
         "type" : "object",
+        "additionalProperties" : false,
         "properties" : {
           "constant" : {
             "$ref" : "#/items/definitions/org.apache.camel.model.language.ConstantExpression"
@@ -264,6 +275,7 @@
           "type" : "string"
         }, {
           "type" : "object",
+          "additionalProperties" : false,
           "properties" : {
             "expression" : {
               "type" : "string"
@@ -283,6 +295,7 @@
           "type" : "string"
         }, {
           "type" : "object",
+          "additionalProperties" : false,
           "properties" : {
             "expression" : {
               "type" : "string"
