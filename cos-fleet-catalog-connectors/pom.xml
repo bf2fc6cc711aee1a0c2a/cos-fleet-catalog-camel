@@ -15,9 +15,7 @@
     <properties>
         <quarkus.banner.enabled>false</quarkus.banner.enabled>
 
-        <cos.base.container.image.name>registry.access.redhat.com/ubi8/openjdk-11-runtime</cos.base.container.image.name>
-        <cos.base.container.image.tag>1.14</cos.base.container.image.tag>
-        <cos.base.container.image>${cos.base.container.image.name}@${cos.base.container.image.sha}</cos.base.container.image>
+        <cos.base.container.image>registry.access.redhat.com/ubi8/openjdk-11-runtime:latest</cos.base.container.image>
 
         <quarkus.container-image.build>false</quarkus.container-image.build>
         <quarkus.container-image.push>false</quarkus.container-image.push>
@@ -307,7 +305,6 @@
             </activation>
             <properties>
                 <quarkus.jib.platforms>linux/amd64</quarkus.jib.platforms>
-                <cos.base.container.image.sha>sha256:b2071962198fba1dbca61fc04bab76af58fe17edb8b221d17f46d5b02d738a7c</cos.base.container.image.sha>
             </properties>
         </profile>
         <profile>
@@ -319,7 +316,6 @@
             </activation>
             <properties>
                 <quarkus.jib.platforms>linux/arm64</quarkus.jib.platforms>
-                <cos.base.container.image.sha>sha256:9dc91fd669f3a125c63337615d22f1b5676a98d81c5b22fab2e8b4aa2cc34c45</cos.base.container.image.sha>
             </properties>
         </profile>
 
