@@ -63,10 +63,6 @@
             <artifactId>camel-quarkus-controlbus</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.camel.quarkus</groupId>
-            <artifactId>camel-quarkus-jq</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.bf2</groupId>
             <artifactId>cos-connector-camel-component-routecontroller</artifactId>
         </dependency>
