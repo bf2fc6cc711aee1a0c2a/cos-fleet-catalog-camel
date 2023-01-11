@@ -53,6 +53,8 @@ class OpenAPIConnectorIT extends KafkaConnectorSpec {
         mock.start()
     }
 
+    //swaggerapi/petstore
+
     @Override
     def cleanupSpec() {
         closeQuietly(mock)
@@ -62,7 +64,7 @@ class OpenAPIConnectorIT extends KafkaConnectorSpec {
     def "openapi sink"(String scheme, int port) {
         setup:
             def topic = topic()
-            def payload = '''{ "name": "bar", "photoUrls"; [ "https://foo.bar" ] }'''
+            def payload = '''{ "name": "bar", "photoUrls": [ "https://foo.bar" ] }'''
 
             WireMock.configureFor(scheme, mock.getHost(), mock.getMappedPort(port))
 
