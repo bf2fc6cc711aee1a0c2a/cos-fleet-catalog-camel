@@ -69,6 +69,7 @@ class ConnectorIT extends KafkaConnectorSpec {
                 'http_url': "${SCHEME}://${HOST}:${PORT}/run".toString(),
             ])
 
+            cnt.withCamelComponentDebugEnv()
             cnt.start()
         when:
             KafkaConnectorSpec.kafka.send(topic, payload, [
