@@ -4,6 +4,7 @@ import com.github.tomakehurst.wiremock.client.WireMock
 import groovy.util.logging.Slf4j
 import org.bf2.cos.connector.camel.it.support.ContainerImages
 import org.bf2.cos.connector.camel.it.support.KafkaConnectorSpec
+import org.bf2.cos.connector.camel.it.support.spock.RequiresDefinition
 import org.testcontainers.containers.BindMode
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.SelinuxContext
@@ -20,6 +21,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo
 import static com.github.tomakehurst.wiremock.client.WireMock.verify
 
 @Slf4j
+@RequiresDefinition('ansible_tower_job_template_launch_sink_0.1.json')
 class ConnectorIT extends KafkaConnectorSpec {
     static final int PORT = 8443
     static final String SCHEME = 'https'

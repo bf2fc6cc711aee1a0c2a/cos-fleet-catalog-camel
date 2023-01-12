@@ -3,6 +3,7 @@ package org.bf2.cos.connector.camel.it.openapi
 import groovy.util.logging.Slf4j
 import org.bf2.cos.connector.camel.it.support.KafkaConnectorSpec
 import org.bf2.cos.connector.camel.it.support.WaitStrategies
+import org.bf2.cos.connector.camel.it.support.spock.RequiresDefinition
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.utility.DockerImageName
 import spock.lang.Unroll
@@ -10,6 +11,7 @@ import spock.lang.Unroll
 import java.util.concurrent.TimeUnit
 
 @Slf4j
+@RequiresDefinition('rest_openapi_sink_0.1.json')
 class OpenAPIConnectorPetStoreIT extends KafkaConnectorSpec {
     static final int HTTP_PORT = 8080
     static final String HTTP_SCHEME = 'http'
