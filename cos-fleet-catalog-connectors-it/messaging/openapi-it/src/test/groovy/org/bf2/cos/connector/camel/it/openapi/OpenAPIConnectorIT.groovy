@@ -5,6 +5,7 @@ import groovy.util.logging.Slf4j
 import org.bf2.cos.connector.camel.it.support.ContainerImages
 import org.bf2.cos.connector.camel.it.support.KafkaConnectorSpec
 import org.bf2.cos.connector.camel.it.support.WaitStrategies
+import org.bf2.cos.connector.camel.it.support.spock.RequiresDefinition
 import org.testcontainers.containers.BindMode
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.SelinuxContext
@@ -22,6 +23,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo
 import static com.github.tomakehurst.wiremock.client.WireMock.verify
 
 @Slf4j
+@RequiresDefinition('rest_openapi_sink_0.1.json')
 class OpenAPIConnectorIT extends KafkaConnectorSpec {
     static final int HTTP_PORT = 8080
     static final int HTTPS_PORT = 8443
@@ -52,8 +54,6 @@ class OpenAPIConnectorIT extends KafkaConnectorSpec {
 
         mock.start()
     }
-
-    //swaggerapi/petstore
 
     @Override
     def cleanupSpec() {

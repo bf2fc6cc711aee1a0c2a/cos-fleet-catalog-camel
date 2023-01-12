@@ -3,8 +3,10 @@ package org.bf2.cos.connector.camel.it.openapi
 import groovy.util.logging.Slf4j
 import org.bf2.cos.connector.camel.it.support.ConnectorContainer
 import org.bf2.cos.connector.camel.it.support.SimpleConnectorSpec
+import org.bf2.cos.connector.camel.it.support.spock.RequiresDefinition
 
 @Slf4j
+@RequiresDefinition('rest_openapi_sink_0.1.json')
 class OpenAPIConnectorContainerIT extends SimpleConnectorSpec {
 
     def "container image exposes health and metrics"(String definition) {

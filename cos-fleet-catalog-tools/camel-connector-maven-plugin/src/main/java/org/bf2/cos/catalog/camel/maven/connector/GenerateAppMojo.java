@@ -43,6 +43,8 @@ public class GenerateAppMojo extends BuildMojo {
 
     @Parameter(defaultValue = "false", property = "cos.app.skip")
     private boolean skip = false;
+    @Parameter(defaultValue = "false")
+    private boolean exclude = false;
 
     @Parameter(defaultValue = "${project.artifactId}", property = "cos.connector.type")
     private String type;
@@ -99,81 +101,86 @@ public class GenerateAppMojo extends BuildMojo {
             this.indexFile = indexPath.toPath().resolve("connectors.json");
             this.manifestLocalFile = definitionPathLocal.toPath().resolve(this.manifestId + ".json");
 
-            if (!Files.exists(manifestLocalFile)) {
+            if (!Files.exists(manifestLocalFile) && !exclude) {
                 getLog().warn("Skipping App build as the definition file " + manifestLocalFile.getFileName() + " is missing");
                 return;
             }
 
-            this.manifestLocal = JSON_MAPPER.readValue(manifestLocalFile.toFile(), ConnectorManifest.class);
             this.index = MojoSupport.load(indexFile, ConnectorIndex.class, ConnectorIndex::new);
+            this.manifestLocal = JSON_MAPPER.readValue(manifestLocalFile.toFile(), ConnectorManifest.class);
             this.manifest = index.getConnectors().get(this.manifestId);
-
-            if (manifest != null && manifest.getRevision() >= this.manifestLocal.getRevision()) {
-                getLog().info(
-                        "Skipping App build (ref. revision:"
-                                + this.manifest.getRevision()
-                                + ", local revision: "
-                                + this.manifestLocal.getRevision()
-                                + ")");
-
-                return;
-            }
-
-            Set<String> propertiesToClear = new HashSet<>();
-            propertiesToClear.add("quarkus.container-image.registry");
-            propertiesToClear.add("quarkus.container-image.group");
-            propertiesToClear.add("quarkus.container-image.name");
-            propertiesToClear.add("quarkus.container-image.tag");
-            propertiesToClear.add("quarkus.container-image.additional-tags");
-
-            //
-            // Sanitize system properties
-            //
-
-            if (mavenProject().getProperties() != null) {
-                for (String key : mavenProject().getProperties().stringPropertyNames()) {
-                    if (propertiesToClear.contains(key)) {
-                        getLog().warn("Removing project-property " + key);
-                        mavenProject().getProperties().remove(key);
-                    }
-                }
-            }
-
-            //
-            // Set container image related properties
-            //
-
-            // TODO: this should be derived from the manifest
-            System.setProperty("quarkus.container-image.registry", this.containerImageRegistry);
-            System.setProperty("quarkus.container-image.group", this.containerImageOrg);
-            System.setProperty("quarkus.container-image.name", this.containerImagePrefix + "-" + type);
-            System.setProperty("quarkus.container-image.tag", this.containerImageTag);
-
-            if (containerImageAdditionalTags != null) {
-                System.setProperty("quarkus.container-image.additional-tags", containerImageAdditionalTags);
-            }
-
-            getLog().info("App info:");
-
-            for (String key : System.getProperties().stringPropertyNames()) {
-                if (key.startsWith("quarkus.container-image.")) {
-                    getLog().info("  " + key + ": " + System.getProperties().getProperty(key));
-                }
-            }
-
-            super.execute();
 
             Files.createDirectories(definitionPath.toPath());
 
-            this.index.getConnectors().put(this.manifestId, this.manifestLocal);
+            if (!exclude) {
+                if (manifest != null && manifest.getRevision() >= this.manifestLocal.getRevision()) {
+                    getLog().info(
+                            "Skipping App build (ref. revision:"
+                                    + this.manifest.getRevision()
+                                    + ", local revision: "
+                                    + this.manifestLocal.getRevision()
+                                    + ")");
 
-            for (String type : this.manifestLocal.getTypes()) {
-                Path src = definitionPathLocal.toPath().resolve(type + ".json");
-                Path dst = definitionPath.toPath().resolve(type + ".json");
+                    return;
+                }
 
-                getLog().info("Copy connector definition " + src + " to " + dst);
+                Set<String> propertiesToClear = new HashSet<>();
+                propertiesToClear.add("quarkus.container-image.registry");
+                propertiesToClear.add("quarkus.container-image.group");
+                propertiesToClear.add("quarkus.container-image.name");
+                propertiesToClear.add("quarkus.container-image.tag");
+                propertiesToClear.add("quarkus.container-image.additional-tags");
 
-                Files.copy(src, dst, StandardCopyOption.REPLACE_EXISTING);
+                //
+                // Sanitize system properties
+                //
+
+                if (mavenProject().getProperties() != null) {
+                    for (String key : mavenProject().getProperties().stringPropertyNames()) {
+                        if (propertiesToClear.contains(key)) {
+                            getLog().warn("Removing project-property " + key);
+                            mavenProject().getProperties().remove(key);
+                        }
+                    }
+                }
+
+                //
+                // Set container image related properties
+                //
+
+                // TODO: this should be derived from the manifest
+                System.setProperty("quarkus.container-image.registry", this.containerImageRegistry);
+                System.setProperty("quarkus.container-image.group", this.containerImageOrg);
+                System.setProperty("quarkus.container-image.name", this.containerImagePrefix + "-" + type);
+                System.setProperty("quarkus.container-image.tag", this.containerImageTag);
+
+                if (containerImageAdditionalTags != null) {
+                    System.setProperty("quarkus.container-image.additional-tags", containerImageAdditionalTags);
+                }
+
+                getLog().info("App info:");
+
+                for (String key : System.getProperties().stringPropertyNames()) {
+                    if (key.startsWith("quarkus.container-image.")) {
+                        getLog().info("  " + key + ": " + System.getProperties().getProperty(key));
+                    }
+                }
+
+                super.execute();
+
+                this.index.getConnectors().put(this.manifestId, this.manifestLocal);
+
+                for (String type : this.manifestLocal.getTypes()) {
+                    Path src = definitionPathLocal.toPath().resolve(type + ".json");
+                    Path dst = definitionPath.toPath().resolve(type + ".json");
+
+                    getLog().info("Copy connector definition " + src + " to " + dst);
+
+                    Files.copy(src, dst, StandardCopyOption.REPLACE_EXISTING);
+                }
+            } else {
+                getLog().warn("Skipping App build as the connector is excluded");
+                this.index.getConnectors().remove(this.manifestId);
             }
 
             getLog().info("Writing connector index to: " + this.indexFile);

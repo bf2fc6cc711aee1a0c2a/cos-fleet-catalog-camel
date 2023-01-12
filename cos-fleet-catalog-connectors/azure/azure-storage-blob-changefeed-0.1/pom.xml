@@ -27,6 +27,7 @@
                 <groupId>org.bf2</groupId>
                 <artifactId>camel-connector-maven-plugin</artifactId>
                 <configuration>
+                    <exclude>true</exclude>
                     <connectors>
                         <connector>
                             <name>${cos.connector.type}-source-${cos.connector.version}</name>

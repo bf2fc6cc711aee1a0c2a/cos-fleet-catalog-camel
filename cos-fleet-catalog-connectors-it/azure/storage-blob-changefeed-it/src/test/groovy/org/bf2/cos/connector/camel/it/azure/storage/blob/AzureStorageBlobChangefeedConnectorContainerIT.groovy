@@ -3,8 +3,10 @@ package org.bf2.cos.connector.camel.it.azure.storage.blob
 import groovy.util.logging.Slf4j
 import org.bf2.cos.connector.camel.it.support.ConnectorContainer
 import org.bf2.cos.connector.camel.it.support.SimpleConnectorSpec
+import org.bf2.cos.connector.camel.it.support.spock.RequiresDefinition
 
 @Slf4j
+@RequiresDefinition('azure_storage_blob_changefeed_source_0.1.json')
 class AzureStorageBlobChangefeedConnectorContainerIT extends SimpleConnectorSpec {
 
     def "container image exposes health and metrics"(String definition) {

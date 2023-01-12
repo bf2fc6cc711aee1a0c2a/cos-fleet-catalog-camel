@@ -3,19 +3,15 @@ package org.bf2.cos.connector.camel.it.azure.storage.blob
 import com.azure.core.http.policy.HttpLogDetailLevel
 import com.azure.core.http.policy.HttpLogOptions
 import com.azure.core.util.BinaryData
-import com.azure.core.util.Context
 import com.azure.storage.blob.BlobContainerClient
 import com.azure.storage.blob.BlobServiceClientBuilder
-import com.azure.storage.blob.models.BlobRequestConditions
-import com.azure.storage.blob.options.BlobParallelUploadOptions
 import com.azure.storage.common.StorageSharedKeyCredential
 import groovy.json.JsonSlurper
 import groovy.util.logging.Slf4j
-import org.apache.kafka.clients.consumer.ConsumerRecords
 import org.bf2.cos.connector.camel.it.support.KafkaConnectorSpec
+import org.bf2.cos.connector.camel.it.support.spock.RequiresDefinition
 import spock.lang.IgnoreIf
 
-import java.time.Duration
 import java.time.Instant
 import java.util.concurrent.TimeUnit
 
@@ -25,6 +21,7 @@ import java.util.concurrent.TimeUnit
     !hasEnv('AZURE_BLOB_CONTAINER_NAME' )
 })
 @Slf4j
+@RequiresDefinition('azure_storage_blob_changefeed_source_0.1.json')
 class AzureStorageBlobChangefeedConnectorIT extends KafkaConnectorSpec {
 
     def "azure-storage-blob-changefeed source"() {
