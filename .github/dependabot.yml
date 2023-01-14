@@ -16,6 +16,7 @@ updates:
       - dependency-name: org.apache.camel.quarkus:*
       - dependency-name: org.apache.camel.kamelets:*
       - dependency-name: io.apicurio:*
+      - dependency-name: software.amazon.awssdk:*
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
