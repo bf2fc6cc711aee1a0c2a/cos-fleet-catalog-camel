@@ -22,7 +22,6 @@ import java.util.jar.JarFile;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections4.SetUtils;
-import com.fasterxml.jackson.databind.node.TextNode;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -55,6 +54,7 @@ import org.eclipse.aether.impl.RemoteRepositoryManager;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.TextNode;
 
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
@@ -214,6 +214,7 @@ public class GenerateCatalogMojo extends AbstractMojo {
             if (!Objects.equals(manifest.getBaseImage(), this.containerImageBase)) {
                 getLog().info("Detected diff in base image");
 
+                this.manifest.setBaseImage(this.containerImageBase);
                 this.manifest.bump();
             }
 
