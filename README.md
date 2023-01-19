@@ -17,3 +17,5 @@ To generate the catalog sources locally for testing or validating changes:
 ./mvnw clean install -U -Dcos.connector.catalog.root=<path-to-local-cos-manifests/tree/main/connectors/cos-fleet-catalog-camel> -Dlog.enabled=true
 ```
 1. Do a `git diff` in cos-manifests to see the changes.
+
+
