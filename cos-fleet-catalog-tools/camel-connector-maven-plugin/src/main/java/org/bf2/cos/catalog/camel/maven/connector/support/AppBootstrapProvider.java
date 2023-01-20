@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -213,11 +214,13 @@ public class AppBootstrapProvider {
         }
 
         for (org.apache.maven.model.Dependency dependency : project.getDependencies()) {
-            projectDependencies.add(
-                    new ConnectorDependency(
-                            dependency.getGroupId(),
-                            dependency.getArtifactId(),
-                            dependency.getVersion()));
+            if (!Objects.equals(dependency.getScope(), "provided")) {
+                projectDependencies.add(
+                        new ConnectorDependency(
+                                dependency.getGroupId(),
+                                dependency.getArtifactId(),
+                                dependency.getVersion()));
+            }
         }
 
         getLog().info("Connectors dependencies:");

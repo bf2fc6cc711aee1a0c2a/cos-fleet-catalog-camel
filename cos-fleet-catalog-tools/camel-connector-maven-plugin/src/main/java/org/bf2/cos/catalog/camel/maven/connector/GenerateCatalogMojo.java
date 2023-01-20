@@ -19,6 +19,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.stream.Collectors;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections4.SetUtils;
@@ -40,8 +41,10 @@ import org.bf2.cos.catalog.camel.maven.connector.support.AppBootstrapProvider;
 import org.bf2.cos.catalog.camel.maven.connector.support.CatalogConstants;
 import org.bf2.cos.catalog.camel.maven.connector.support.CatalogSupport;
 import org.bf2.cos.catalog.camel.maven.connector.support.Connector;
+import org.bf2.cos.catalog.camel.maven.connector.support.ConnectorDependency;
 import org.bf2.cos.catalog.camel.maven.connector.support.ConnectorIndex;
 import org.bf2.cos.catalog.camel.maven.connector.support.ConnectorManifest;
+import org.bf2.cos.catalog.camel.maven.connector.support.ConnectorSupport;
 import org.bf2.cos.catalog.camel.maven.connector.support.KameletsCatalog;
 import org.bf2.cos.catalog.camel.maven.connector.support.MojoSupport;
 import org.bf2.cos.catalog.camel.maven.connector.validator.Validator;
@@ -244,6 +247,77 @@ public class GenerateCatalogMojo extends AbstractMojo {
             JSON_MAPPER.writerWithDefaultPrettyPrinter().writeValue(
                     Files.newBufferedWriter(manifestLocalFile),
                     this.manifest);
+
+            //
+            // pom.xml
+            //
+
+            getLog().info("Writing pom.xml");
+
+            String oldpom = Files.readString(project.getFile().toPath());
+
+            String inputDependencies = project.getDependencies().stream()
+                    .filter(d -> !"provided".equals(d.getScope()))
+                    .filter(d -> Objects.equals(project.getFile().toString(), d.getLocation("").getSource().getLocation()))
+                    .map(d -> oldpom.replaceFirst("[\\s\\S]*\\n(" +
+                            " +<dependency>\\s+" +
+                            "<groupId>" + d.getGroupId() + "</groupId>\\s+" +
+                            "<artifactId>" + d.getArtifactId() + "</artifactId>" +
+                            "[\\s\\S]*?" +
+                            "</dependency> *\\n)" +
+                            "[\\s\\S]*", "$1"))
+                    .collect(Collectors.joining());
+            if (!inputDependencies.isEmpty()) {
+                inputDependencies = "        <!-- Input dependencies -->\n" + inputDependencies + "\n";
+            }
+
+            Set<ConnectorDependency> injectedDependencies = new HashSet<>();
+            for (Connector connector : MojoSupport.inject(session, defaults, connectors)) {
+                try {
+                    injectedDependencies.addAll(
+                            ConnectorSupport.dependencies(
+                                    KameletsCatalog.get(project, getLog()),
+                                    connector,
+                                    camelQuarkusVersion));
+                } catch (Exception e) {
+                    throw new MojoExecutionException(e);
+                }
+            }
+            String dependenciesXml = injectedDependencies.stream()
+                    .sorted(Comparator.comparing(ConnectorDependency::toString))
+                    .map(dep -> "        <dependency>\n"
+                            + "            <groupId>" + dep.groupId + "</groupId>\n"
+                            + "            <artifactId>" + dep.artifactiId + "</artifactId>\n"
+                            + "            <version>" + dep.version + "</version>\n"
+                            + "            <scope>provided</scope>\n"
+                            + "        </dependency>\n")
+                    .collect(Collectors.joining());
+
+            if (!dependenciesXml.isEmpty()) {
+                dependenciesXml = "        <!-- Generated dependencies -->\n" + dependenciesXml;
+            }
+
+            String newpom;
+            int idx = oldpom.indexOf("<dependencies>");
+            if (idx > 0) {
+                String s1 = oldpom.substring(0, idx + "<dependencies>".length());
+                String s2 = oldpom.substring(oldpom.indexOf("</dependencies>"));
+                newpom = s1 + "\n" + inputDependencies + dependenciesXml + "    " + s2;
+            } else {
+                idx = oldpom.indexOf("<build>");
+                if (idx > 0) {
+                    String s1 = oldpom.substring(0, idx);
+                    String s2 = oldpom.substring(idx);
+                    newpom = s1 + "<dependencies>\n" + inputDependencies + dependenciesXml + "    </dependencies>\n\n    " + s2;
+                } else {
+                    throw new IllegalArgumentException("Unsupported pom!");
+                }
+            }
+
+            if (!Objects.equals(newpom, oldpom)) {
+                Files.writeString(project.getFile().toPath(), newpom);
+                getLog().error("The dependencies have changed and the pom.xml has been overwritten, please rebuild");
+            }
 
         } catch (Exception e) {
             throw new MojoExecutionException(e);
