@@ -5,7 +5,10 @@ import groovy.util.logging.Slf4j
 import org.bf2.cos.connector.camel.it.support.ContainerImages
 import org.bf2.cos.connector.camel.it.support.KafkaConnectorSpec
 import org.bf2.cos.connector.camel.it.support.TestUtils
+import org.testcontainers.containers.BindMode
 import org.testcontainers.containers.MongoDBContainer
+import org.testcontainers.containers.SelinuxContext
+import spock.lang.Unroll
 
 import java.util.concurrent.TimeUnit
 
@@ -15,6 +18,9 @@ import static com.mongodb.client.model.Filters.eq
 @Slf4j
 class ConnectorIT extends KafkaConnectorSpec {
     static MongoDBContainer db
+    static final String JKS_PATH = '/etc/wm/mongo-test.pem'
+    static final String JKS_CLASSPATH = '/ssl/mongo-test.pem'
+    static final String TLS_MODE = 'allowTLS'
 
     @Override
     def setupSpec() {
@@ -22,6 +28,15 @@ class ConnectorIT extends KafkaConnectorSpec {
         db.withLogConsumer(logger('tc-mongodb'))
         db.withNetwork(network)
         db.withNetworkAliases('tc-mongodb')
+        db.withClasspathResourceMapping(JKS_CLASSPATH, JKS_PATH, BindMode.READ_ONLY, SelinuxContext.SHARED)
+
+        db.withCommand(
+                "--tlsMode", "${TLS_MODE}",
+                "--tlsCertificateKeyFile", "${JKS_PATH}",
+                "--tlsAllowInvalidHostnames",
+                "--tlsAllowInvalidCertificates",
+                "--tlsAllowConnectionsWithoutCertificates")
+
         db.start()
     }
 
@@ -30,15 +45,16 @@ class ConnectorIT extends KafkaConnectorSpec {
         closeQuietly(db)
     }
 
-    def "mongodb sink"() {
+    @Unroll
+    def "mongodb sink (#ssl)"(boolean ssl) {
         setup:
-            def mongoClient = MongoClients.create(db.replicaSetUrl)
+            def mongoClient = MongoClients.create(db.replicaSetUrl + "?tlsAllowInvalidCertificates=true&tlsAllowInvalidHostnames=true")
             def database = mongoClient.getDatabase("toys")
             def collection = database.getCollection("cards")
 
             def topic = topic()
             def group = UUID.randomUUID().toString()
-            def payload = '''{ "value": "4", "suit": "hearts" }'''
+            def payload = "{ \"value\": ${ssl}, \"suit\": \"hearts\" }"
 
             def cnt = connectorContainer('mongodb_sink_0.1.json', [
                 'kafka_topic' : topic,
@@ -47,7 +63,9 @@ class ConnectorIT extends KafkaConnectorSpec {
                 'mongodb_hosts': 'tc-mongodb:27017',
                 'mongodb_collection': collection.getNamespace().getCollectionName(),
                 'mongodb_database': database.getName(),
-                'mongodb_create_collection': 'true'
+                'mongodb_create_collection': 'true',
+                'mongodb_ssl': ssl,
+                'mongodb_ssl_validation_enabled': !ssl
             ])
 
             cnt.start()
@@ -59,13 +77,14 @@ class ConnectorIT extends KafkaConnectorSpec {
             records.first().value() == payload
 
             await(10, TimeUnit.SECONDS) {
-                return collection.countDocuments(and(eq('value', '4'), eq('suit', 'hearts'))) == 1
-
+                return collection.countDocuments(and(eq('value', ssl), eq('suit', 'hearts'))) == 1
             }
 
         cleanup:
             closeQuietly(mongoClient)
             closeQuietly(cnt)
+        where:
+            ssl << [true, false]
     }
 
     def "mongodb sink with DLQ"() {
@@ -87,6 +106,7 @@ class ConnectorIT extends KafkaConnectorSpec {
                     'mongodb_collection': collection.getNamespace().getCollectionName(),
                     'mongodb_database': database.getName(),
                     'mongodb_create_collection': 'true',
+                    'mongodb_ssl': 'false'
             ], errorHandlerTopic, true)
 
             cnt.start()
