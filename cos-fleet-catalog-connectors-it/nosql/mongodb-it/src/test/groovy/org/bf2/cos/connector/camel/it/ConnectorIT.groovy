@@ -1,10 +1,13 @@
 package org.bf2.cos.connector.camel.it
 
 import com.mongodb.client.MongoClients
+import com.mongodb.client.model.CreateCollectionOptions
+import com.mongodb.client.model.InsertOneModel
 import groovy.util.logging.Slf4j
 import org.bf2.cos.connector.camel.it.support.ContainerImages
 import org.bf2.cos.connector.camel.it.support.KafkaConnectorSpec
 import org.bf2.cos.connector.camel.it.support.TestUtils
+import org.bson.Document
 import org.testcontainers.containers.BindMode
 import org.testcontainers.containers.MongoDBContainer
 import org.testcontainers.containers.SelinuxContext
@@ -48,7 +51,7 @@ class ConnectorIT extends KafkaConnectorSpec {
     @Unroll
     def "mongodb sink (#ssl)"(boolean ssl) {
         setup:
-            def mongoClient = MongoClients.create(db.replicaSetUrl + "?tlsAllowInvalidCertificates=true&tlsAllowInvalidHostnames=true")
+            def mongoClient = MongoClients.create(db.replicaSetUrl + "?tlsAllowInvalidHostnames=true")
             def database = mongoClient.getDatabase("toys")
             def collection = database.getCollection("cards")
 
@@ -137,6 +140,49 @@ class ConnectorIT extends KafkaConnectorSpec {
         cleanup:
             closeQuietly(mongoClient)
             closeQuietly(cnt)
+    }
+
+    @Unroll
+    def "mongodb source (#ssl)"(boolean ssl) {
+        setup:
+            def mongoClient = MongoClients.create(db.replicaSetUrl + "?tlsAllowInvalidHostnames=true")
+            def database = mongoClient.getDatabase("toys")
+            if(database.listCollectionNames().every {return !"boardgames".equals(it);}) {
+                database.createCollection("boardgames", new CreateCollectionOptions().capped(true).sizeInBytes(256))
+            }
+            def collection = database.getCollection("boardgames", Document.class)
+
+            def topic = topic()
+            def group = UUID.randomUUID().toString()
+            def payload = "{ \"owned\": ${ssl}, \"title\": \"powergrid\" }"
+
+            def cnt = connectorContainer('mongodb_source_0.1.json', [
+                    'kafka_topic' : topic,
+                    'kafka_bootstrap_servers': kafka.outsideBootstrapServers,
+                    'kafka_consumer_group': UUID.randomUUID().toString(),
+                    'mongodb_hosts': 'tc-mongodb:27017',
+                    'mongodb_collection': collection.getNamespace().getCollectionName(),
+                    'mongodb_database': database.getName(),
+                    'mongodb_ssl': ssl,
+                    'mongodb_ssl_validation_enabled': !ssl
+            ])
+
+            cnt.start()
+        when:
+           collection.insertOne(Document.parse(payload))
+        then:
+            await(10, TimeUnit.SECONDS) {
+                def records = kafka.poll(group, topic)
+                records.any {
+                    def jsonDoc = Document.parse(it.value())
+                    return jsonDoc.getBoolean("owned") == ssl && "powergrid".equals(jsonDoc.getString("title"))
+                }
+            }
+        cleanup:
+            closeQuietly(mongoClient)
+            closeQuietly(cnt)
+        where:
+            ssl << [true, false]
     }
 
 }

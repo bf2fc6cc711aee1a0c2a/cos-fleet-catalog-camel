@@ -41,8 +41,8 @@
                             <description>Retrieve data from MongoDB.</description>
                             <adapter>
                                 <prefix>mongodb</prefix>
-                                <name>${cos.connector.type}-source</name>
-                                <version>${camel-kamelets-catalog.version}</version>
+                                <name>cos-${cos.connector.type}-source</name>
+                                <version>${cos.kamelets.version}</version>
                             </adapter>
                             <kafka>
                                 <prefix>kafka</prefix>
