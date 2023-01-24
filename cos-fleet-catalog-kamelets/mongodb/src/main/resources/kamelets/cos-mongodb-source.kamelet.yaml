@@ -1,0 +1,115 @@
+# ---------------------------------------------------------------------------
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ---------------------------------------------------------------------------
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-mongodb-source
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.group: "nosql"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "source"
+spec:
+  definition:
+    title: "MongoDB Source"
+    required:
+      - hosts
+      - collection
+      - database
+    type: object
+    properties:
+      hosts:
+        title: MongoDB Hosts
+        description: A comma-separated list of MongoDB host addresses in `host:port` format.
+        type: string
+      collection:
+        title: MongoDB Collection
+        description: The name of the MongoDB collection to bind to this endpoint.
+        type: string
+      password:
+        title: MongoDB Password
+        description: The user password for accessing MongoDB.
+        type: string
+        format: password
+        x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:password
+          - urn:camel:group:credentials
+      username:
+        title: MongoDB Username
+        description: The username for accessing MongoDB. The username must be present in the MongoDB's authentication database (`authenticationDatabase`). By default, the MongoDB `authenticationDatabase` is 'admin'.
+        type: string
+        x-descriptors:
+          - urn:camel:group:credentials
+      ssl:
+        title: Enable ssl for mongodb connection
+        description: whether to enable ssl connection to mongodb
+        type: boolean
+        default: true
+        x-descriptors:
+          - 'urn:alm:descriptor:com.tectonic.ui:checkbox'
+      sslValidationEnabled:
+        title: Enables ssl certificates validation and host name checks.
+        description: IMPORTANT this should be disabled only in test environment since can pose security issues.
+        type: boolean
+        default: true
+        x-descriptors:
+          - 'urn:alm:descriptor:com.tectonic.ui:checkbox'
+      database:
+        title: MongoDB Database
+        description: The name of the MongoDB database.
+        type: string
+      persistentTailTracking:
+        title: MongoDB Persistent Tail Tracking
+        description: Specifies to enable persistent tail tracking, which is a mechanism to keep track of the last consumed data across system restarts. The next time the system is up, the endpoint recovers the cursor from the point where it last stopped consuimg data. This option will only work on capped collections.
+        type: boolean
+        x-descriptors:
+          - 'urn:alm:descriptor:com.tectonic.ui:checkbox'
+        default: false
+      tailTrackIncreasingField:
+        title: MongoDB Tail Track Increasing Field
+        description: The correlation field in the incoming data which is of increasing nature and is used to position the tailing cursor every time it is generated.
+        type: string
+  dependencies:
+    - "camel:core"
+    - "camel:kamelet"
+    - "camel:mongodb"
+    - "camel:jackson"
+  template:
+    beans:
+      - name: local-mongodb
+        type: "#class:org.apache.camel.component.mongodb.MongoDbComponent"
+      - name: mongo-client
+        type: "#class:org.bf2.cos.connector.camel.mongodb.SslAwareMongoClient"
+        properties:
+          password: "{{?password}}"
+          username: "{{?username}}"
+          hosts: "{{hosts}}"
+          ssl: "{{ssl}}"
+          sslValidationEnabled: "{{sslValidationEnabled}}"
+    from:
+      uri: "{{local-mongodb}}:test"
+      parameters:
+        collection: "{{collection}}"
+        database: "{{database}}"
+        persistentTailTracking: "{{persistentTailTracking}}"
+        tailTrackIncreasingField: "{{?tailTrackIncreasingField}}"
+        mongoConnection: "#{{mongo-client}}"
+      steps:
+        - marshal:
+            json: {}
+        - to: kamelet:sink
