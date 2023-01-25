@@ -94,8 +94,6 @@ spec:
     - "camel:jackson"
   template:
     beans:
-      - name: local-mongodb
-        type: "#class:org.apache.camel.component.mongodb.MongoDbComponent"
       - name: mongo-client
         type: "#class:org.bf2.cos.connector.camel.mongodb.SslAwareMongoClient"
         properties:
@@ -122,7 +120,7 @@ spec:
                       name: CamelMongoDbUpsert
                       simple: "${header[ce-dbupsert]}"
         - to:
-            uri: "{{local-mongodb}}:test"
+            uri: "mongodb:test"
             parameters:
               createCollection: "{{?createCollection}}"
               writeConcern: "{{?writeConcern}}"
