@@ -1,53 +1,63 @@
-<?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-
-    <parent>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <groupId>org.bf2</groupId>
+    <artifactId>cos-fleet-catalog-connectors-nosql</artifactId>
+    <version>999-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>cos-connector-elasticsearch-0.1</artifactId>
+  <name>Elasticsearch</name>
+  <description>Elasticsearch</description>
+  <packaging>jar</packaging>
+  <properties>
+    <cos.connector.type>elasticsearch</cos.connector.type>
+    <quarkus.elasticsearch.health.enabled>false</quarkus.elasticsearch.health.enabled>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.camel.quarkus</groupId>
+      <artifactId>camel-quarkus-bean</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel.quarkus</groupId>
+      <artifactId>camel-quarkus-elasticsearch-rest</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel.quarkus</groupId>
+      <artifactId>camel-quarkus-gson</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel.quarkus</groupId>
+      <artifactId>camel-quarkus-jackson</artifactId>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
         <groupId>org.bf2</groupId>
-        <artifactId>cos-fleet-catalog-connectors-nosql</artifactId>
-        <version>999-SNAPSHOT</version>
-    </parent>
-
-    <modelVersion>4.0.0</modelVersion>
-    <artifactId>cos-connector-elasticsearch-0.1</artifactId>
-
-    <name>Elasticsearch</name>
-    <description>Elasticsearch</description>
-
-    <packaging>jar</packaging>
-
-    <properties>
-        <cos.connector.type>elasticsearch</cos.connector.type>
-        <quarkus.elasticsearch.health.enabled>false</quarkus.elasticsearch.health.enabled>
-    </properties>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.bf2</groupId>
-                <artifactId>camel-connector-maven-plugin</artifactId>
-                <configuration>
-                    <connectors>
-                        <connector>
-                            <name>${cos.connector.type}-sink-${cos.connector.version}</name>
-                            <title>${project.name} sink</title>
-                            <description>Store JSON-formatted data into ElasticSearch.</description>
-                            <adapter>
-                                <prefix>elasticsearch</prefix>
-                                <name>${cos.connector.type}-index-sink</name>
-                                <version>${camel-kamelets-catalog.version}</version>
-                            </adapter>
-                            <kafka>
-                                <prefix>kafka</prefix>
-                                <name>cos-kafka-source</name>
-                                <version>${cos.kamelets.version}</version>
-                            </kafka>
-                        </connector>
-                    </connectors>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
+        <artifactId>camel-connector-maven-plugin</artifactId>
+        <configuration>
+          <connectors>
+            <connector>
+              <name>${cos.connector.type}-sink-${cos.connector.version}</name>
+              <title>${project.name} sink</title>
+              <description>Store JSON-formatted data into ElasticSearch.</description>
+              <adapter>
+                <prefix>elasticsearch</prefix>
+                <name>${cos.connector.type}-index-sink</name>
+                <version>${camel-kamelets-catalog.version}</version>
+              </adapter>
+              <kafka>
+                <prefix>kafka</prefix>
+                <name>cos-kafka-source</name>
+                <version>${cos.kamelets.version}</version>
+              </kafka>
+            </connector>
+          </connectors>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
+

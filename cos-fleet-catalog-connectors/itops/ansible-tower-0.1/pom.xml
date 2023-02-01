@@ -1,60 +1,55 @@
-<?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-
-    <parent>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <groupId>org.bf2</groupId>
+    <artifactId>cos-fleet-catalog-connectors-itops</artifactId>
+    <version>999-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>cos-connector-ansible-tower-0.1</artifactId>
+  <name>Ansible Tower</name>
+  <description>Ansible Tower</description>
+  <packaging>jar</packaging>
+  <properties>
+    <cos.connector.type>ansible-tower</cos.connector.type>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.camel.quarkus</groupId>
+      <artifactId>camel-quarkus-vertx-http</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.bf2</groupId>
+      <artifactId>cos-connector-ansible-tower</artifactId>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
         <groupId>org.bf2</groupId>
-        <artifactId>cos-fleet-catalog-connectors-itops</artifactId>
-        <version>999-SNAPSHOT</version>
-    </parent>
-
-    <modelVersion>4.0.0</modelVersion>
-    <artifactId>cos-connector-ansible-tower-0.1</artifactId>
-
-    <name>Ansible Tower</name>
-    <description>Ansible Tower</description>
-
-    <packaging>jar</packaging>
-
-    <properties>
-        <cos.connector.type>ansible-tower</cos.connector.type>
-    </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.bf2</groupId>
-            <artifactId>cos-connector-ansible-tower</artifactId>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.bf2</groupId>
-                <artifactId>camel-connector-maven-plugin</artifactId>
-                <configuration>
-                    <exclude>true</exclude>
-                    <connectors>
-                        <connector>
-                            <name>${cos.connector.type}-job-template-launch-sink-${cos.connector.version}</name>
-                            <title>${project.name} sink</title>
-                            <description>${project.description} sink</description>
-                            <adapter>
-                                <prefix>ansible</prefix>
-                                <name>ansible-job-template-launch-sink</name>
-                                <version>${cos.kamelets.version}</version>
-                            </adapter>
-                            <kafka>
-                                <prefix>kafka</prefix>
-                                <name>cos-kafka-source</name>
-                                <version>${cos.kamelets.version}</version>
-                            </kafka>
-                        </connector>
-                    </connectors>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
+        <artifactId>camel-connector-maven-plugin</artifactId>
+        <configuration>
+          <exclude>true</exclude>
+          <connectors>
+            <connector>
+              <name>${cos.connector.type}-job-template-launch-sink-${cos.connector.version}</name>
+              <title>${project.name} sink</title>
+              <description>${project.description} sink</description>
+              <adapter>
+                <prefix>ansible</prefix>
+                <name>ansible-job-template-launch-sink</name>
+                <version>${cos.kamelets.version}</version>
+              </adapter>
+              <kafka>
+                <prefix>kafka</prefix>
+                <name>cos-kafka-source</name>
+                <version>${cos.kamelets.version}</version>
+              </kafka>
+            </connector>
+          </connectors>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
+

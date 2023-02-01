@@ -1,120 +1,118 @@
-<?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-
-    <parent>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <groupId>org.bf2</groupId>
+    <artifactId>cos-fleet-catalog-connectors-saas</artifactId>
+    <version>999-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>cos-connector-salesforce-0.1</artifactId>
+  <name>Salesforce</name>
+  <description>Salesforce</description>
+  <packaging>jar</packaging>
+  <properties>
+    <cos.connector.type>salesforce</cos.connector.type>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.camel.quarkus</groupId>
+      <artifactId>camel-quarkus-jackson</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel.quarkus</groupId>
+      <artifactId>camel-quarkus-jsonpath</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel.quarkus</groupId>
+      <artifactId>camel-quarkus-salesforce</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.bf2</groupId>
+      <artifactId>cos-connector-salesforce</artifactId>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
         <groupId>org.bf2</groupId>
-        <artifactId>cos-fleet-catalog-connectors-saas</artifactId>
-        <version>999-SNAPSHOT</version>
-    </parent>
-
-    <modelVersion>4.0.0</modelVersion>
-    <artifactId>cos-connector-salesforce-0.1</artifactId>
-
-    <name>Salesforce</name>
-    <description>Salesforce</description>
-
-    <packaging>jar</packaging>
-
-    <properties>
-        <cos.connector.type>salesforce</cos.connector.type>
-    </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.bf2</groupId>
-            <artifactId>cos-connector-salesforce</artifactId>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.bf2</groupId>
-                <artifactId>camel-connector-maven-plugin</artifactId>
-                <configuration>
-                    <connectors>
-
-                        <!-- Salesforce Streaming Source -->
-                        <connector>
-                            <name>${cos.connector.type}-streaming-source-${cos.connector.version}</name>
-                            <title>${project.name} Streaming source</title>
-                            <description>Receive updates from Salesforce.</description>
-                            <adapter>
-                                <prefix>salesforce</prefix>
-                                <name>cos-${cos.connector.type}-streaming-source</name>
-                                <version>${cos.kamelets.version}</version>
-                            </adapter>
-                            <kafka>
-                                <prefix>kafka</prefix>
-                                <name>cos-kafka-sink</name>
-                                <version>${cos.kamelets.version}</version>
-                            </kafka>
-                            <dataShape>
-                                <produces>
-                                    <formats>
-                                        <format>application/json</format>
-                                    </formats>
-                                </produces>
-                            </dataShape>
-                        </connector>
-
-                        <!-- Salesforce Create -->
-                        <connector>
-                            <name>${cos.connector.type}-create-sink-${cos.connector.version}</name>
-                            <title>${project.name} Create sink</title>
-                            <description>Create an object in Salesforce.</description>
-                            <adapter>
-                                <prefix>salesforce</prefix>
-                                <name>${cos.connector.type}-create-sink</name>
-                                <version>${camel-kamelets-catalog.version}</version>
-                            </adapter>
-                            <kafka>
-                                <prefix>kafka</prefix>
-                                <name>cos-kafka-source</name>
-                                <version>${cos.kamelets.version}</version>
-                            </kafka>
-                        </connector>
-
-                        <!-- Salesforce Delete -->
-                        <connector>
-                            <name>${cos.connector.type}-delete-sink-${cos.connector.version}</name>
-                            <title>${project.name} Delete sink</title>
-                            <description>Delete an object in Salesforce.</description>
-                            <adapter>
-                                <prefix>salesforce</prefix>
-                                <name>${cos.connector.type}-delete-sink</name>
-                                <version>${camel-kamelets-catalog.version}</version>
-                            </adapter>
-                            <kafka>
-                                <prefix>kafka</prefix>
-                                <name>cos-kafka-source</name>
-                                <version>${cos.kamelets.version}</version>
-                            </kafka>
-                        </connector>
-
-                        <!-- Salesforce Update -->
-                        <connector>
-                            <name>${cos.connector.type}-update-sink-${cos.connector.version}</name>
-                            <title>${project.name} Update sink</title>
-                            <description>Update an object in Salesforce.</description>
-                            <adapter>
-                                <prefix>salesforce</prefix>
-                                <name>${cos.connector.type}-update-sink</name>
-                                <version>${camel-kamelets-catalog.version}</version>
-                            </adapter>
-                            <kafka>
-                                <prefix>kafka</prefix>
-                                <name>cos-kafka-source</name>
-                                <version>${cos.kamelets.version}</version>
-                            </kafka>
-                        </connector>
-
-                    </connectors>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
+        <artifactId>camel-connector-maven-plugin</artifactId>
+        <configuration>
+          <connectors>
+            <!-- Salesforce Streaming Source -->
+            <connector>
+              <name>${cos.connector.type}-streaming-source-${cos.connector.version}</name>
+              <title>${project.name} Streaming source</title>
+              <description>Receive updates from Salesforce.</description>
+              <adapter>
+                <prefix>salesforce</prefix>
+                <name>cos-${cos.connector.type}-streaming-source</name>
+                <version>${cos.kamelets.version}</version>
+              </adapter>
+              <kafka>
+                <prefix>kafka</prefix>
+                <name>cos-kafka-sink</name>
+                <version>${cos.kamelets.version}</version>
+              </kafka>
+              <dataShape>
+                <produces>
+                  <formats>
+                    <format>application/json</format>
+                  </formats>
+                </produces>
+              </dataShape>
+            </connector>
+            <!-- Salesforce Create -->
+            <connector>
+              <name>${cos.connector.type}-create-sink-${cos.connector.version}</name>
+              <title>${project.name} Create sink</title>
+              <description>Create an object in Salesforce.</description>
+              <adapter>
+                <prefix>salesforce</prefix>
+                <name>${cos.connector.type}-create-sink</name>
+                <version>${camel-kamelets-catalog.version}</version>
+              </adapter>
+              <kafka>
+                <prefix>kafka</prefix>
+                <name>cos-kafka-source</name>
+                <version>${cos.kamelets.version}</version>
+              </kafka>
+            </connector>
+            <!-- Salesforce Delete -->
+            <connector>
+              <name>${cos.connector.type}-delete-sink-${cos.connector.version}</name>
+              <title>${project.name} Delete sink</title>
+              <description>Delete an object in Salesforce.</description>
+              <adapter>
+                <prefix>salesforce</prefix>
+                <name>${cos.connector.type}-delete-sink</name>
+                <version>${camel-kamelets-catalog.version}</version>
+              </adapter>
+              <kafka>
+                <prefix>kafka</prefix>
+                <name>cos-kafka-source</name>
+                <version>${cos.kamelets.version}</version>
+              </kafka>
+            </connector>
+            <!-- Salesforce Update -->
+            <connector>
+              <name>${cos.connector.type}-update-sink-${cos.connector.version}</name>
+              <title>${project.name} Update sink</title>
+              <description>Update an object in Salesforce.</description>
+              <adapter>
+                <prefix>salesforce</prefix>
+                <name>${cos.connector.type}-update-sink</name>
+                <version>${camel-kamelets-catalog.version}</version>
+              </adapter>
+              <kafka>
+                <prefix>kafka</prefix>
+                <name>cos-kafka-source</name>
+                <version>${cos.kamelets.version}</version>
+              </kafka>
+            </connector>
+          </connectors>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
+

@@ -1,52 +1,58 @@
-<?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-
-    <parent>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <groupId>org.bf2</groupId>
+    <artifactId>cos-fleet-catalog-connectors-aws</artifactId>
+    <version>999-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>cos-connector-aws-dynamodb-streams-0.1</artifactId>
+  <name>Amazon DynamoDB Stream</name>
+  <description>Amazon DynamoDB Stream</description>
+  <packaging>jar</packaging>
+  <properties>
+    <cos.connector.type>aws-ddb-streams</cos.connector.type>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.camel.quarkus</groupId>
+      <artifactId>camel-quarkus-aws2-ddb</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel.quarkus</groupId>
+      <artifactId>camel-quarkus-gson</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>software.amazon.awssdk</groupId>
+      <artifactId>utils</artifactId>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
         <groupId>org.bf2</groupId>
-        <artifactId>cos-fleet-catalog-connectors-aws</artifactId>
-        <version>999-SNAPSHOT</version>
-    </parent>
-
-    <modelVersion>4.0.0</modelVersion>
-    <artifactId>cos-connector-aws-dynamodb-streams-0.1</artifactId>
-
-    <name>Amazon DynamoDB Stream</name>
-    <description>Amazon DynamoDB Stream</description>
-
-    <packaging>jar</packaging>
-
-    <properties>
-        <cos.connector.type>aws-ddb-streams</cos.connector.type>
-    </properties>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.bf2</groupId>
-                <artifactId>camel-connector-maven-plugin</artifactId>
-                <configuration>
-                    <connectors>
-                        <connector>
-                            <name>${cos.connector.type}-source-${cos.connector.version}</name>
-                            <title>${project.name} source</title>
-                            <description>Receive data from Amazon DynamoDB Streams.</description>
-                            <adapter>
-                                <prefix>aws</prefix>
-                                <name>${cos.connector.type}-source</name>
-                                <version>${camel-kamelets-catalog.version}</version>
-                            </adapter>
-                            <kafka>
-                                <prefix>kafka</prefix>
-                                <name>cos-kafka-sink</name>
-                                <version>${cos.kamelets.version}</version>
-                            </kafka>
-                        </connector>
-                    </connectors>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
+        <artifactId>camel-connector-maven-plugin</artifactId>
+        <configuration>
+          <connectors>
+            <connector>
+              <name>${cos.connector.type}-source-${cos.connector.version}</name>
+              <title>${project.name} source</title>
+              <description>Receive data from Amazon DynamoDB Streams.</description>
+              <adapter>
+                <prefix>aws</prefix>
+                <name>${cos.connector.type}-source</name>
+                <version>${camel-kamelets-catalog.version}</version>
+              </adapter>
+              <kafka>
+                <prefix>kafka</prefix>
+                <name>cos-kafka-sink</name>
+                <version>${cos.kamelets.version}</version>
+              </kafka>
+            </connector>
+          </connectors>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
+

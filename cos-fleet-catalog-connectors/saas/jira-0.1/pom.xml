@@ -1,82 +1,88 @@
-<?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-
-    <parent>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <groupId>org.bf2</groupId>
+    <artifactId>cos-fleet-catalog-connectors-saas</artifactId>
+    <version>999-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>cos-connector-jira-0.1</artifactId>
+  <name>Jira</name>
+  <description>Jira</description>
+  <packaging>jar</packaging>
+  <properties>
+    <cos.connector.type>jira</cos.connector.type>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-joda</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel.quarkus</groupId>
+      <artifactId>camel-quarkus-jackson</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel.quarkus</groupId>
+      <artifactId>camel-quarkus-jira</artifactId>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
         <groupId>org.bf2</groupId>
-        <artifactId>cos-fleet-catalog-connectors-saas</artifactId>
-        <version>999-SNAPSHOT</version>
-    </parent>
-
-    <modelVersion>4.0.0</modelVersion>
-    <artifactId>cos-connector-jira-0.1</artifactId>
-
-    <name>Jira</name>
-    <description>Jira</description>
-
-    <packaging>jar</packaging>
-
-    <properties>
-        <cos.connector.type>jira</cos.connector.type>
-    </properties>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.bf2</groupId>
-                <artifactId>camel-connector-maven-plugin</artifactId>
-                <configuration>
-                    <connectors>
-                        <connector>
-                            <name>${cos.connector.type}-source-${cos.connector.version}</name>
-                            <title>${project.name} source</title>
-                            <description>Receive notifications about new issues from Jira.</description>
-                            <adapter>
-                                <prefix>jira</prefix>
-                                <name>${cos.connector.type}-source</name>
-                                <version>${camel-kamelets-catalog.version}</version>
-                            </adapter>
-                            <kafka>
-                                <prefix>kafka</prefix>
-                                <name>cos-kafka-sink</name>
-                                <version>${cos.kamelets.version}</version>
-                            </kafka>
-                        </connector>
-                        <connector>
-                            <name>${cos.connector.type}-add-comment-sink-${cos.connector.version}</name>
-                            <title>${project.name} Add Comment sink</title>
-                            <description>Add a new comment to an existing issue in Jira.</description>
-                            <adapter>
-                                <prefix>jira</prefix>
-                                <name>${cos.connector.type}-add-comment-sink</name>
-                                <version>${camel-kamelets-catalog.version}</version>
-                            </adapter>
-                            <kafka>
-                                <prefix>kafka</prefix>
-                                <name>cos-kafka-source</name>
-                                <version>${cos.kamelets.version}</version>
-                            </kafka>
-                        </connector>
-                        <connector>
-                            <name>${cos.connector.type}-add-issue-sink-${cos.connector.version}</name>
-                            <title>${project.name} Add Issue sink</title>
-                            <description>Add a new issue to Jira.</description>
-                            <adapter>
-                                <prefix>jira</prefix>
-                                <name>${cos.connector.type}-add-issue-sink</name>
-                                <version>${camel-kamelets-catalog.version}</version>
-                            </adapter>
-                            <kafka>
-                                <prefix>kafka</prefix>
-                                <name>cos-kafka-source</name>
-                                <version>${cos.kamelets.version}</version>
-                            </kafka>
-                        </connector>
-                    </connectors>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
+        <artifactId>camel-connector-maven-plugin</artifactId>
+        <configuration>
+          <connectors>
+            <connector>
+              <name>${cos.connector.type}-source-${cos.connector.version}</name>
+              <title>${project.name} source</title>
+              <description>Receive notifications about new issues from Jira.</description>
+              <adapter>
+                <prefix>jira</prefix>
+                <name>${cos.connector.type}-source</name>
+                <version>${camel-kamelets-catalog.version}</version>
+              </adapter>
+              <kafka>
+                <prefix>kafka</prefix>
+                <name>cos-kafka-sink</name>
+                <version>${cos.kamelets.version}</version>
+              </kafka>
+            </connector>
+            <connector>
+              <name>${cos.connector.type}-add-comment-sink-${cos.connector.version}</name>
+              <title>${project.name} Add Comment sink</title>
+              <description>Add a new comment to an existing issue in Jira.</description>
+              <adapter>
+                <prefix>jira</prefix>
+                <name>${cos.connector.type}-add-comment-sink</name>
+                <version>${camel-kamelets-catalog.version}</version>
+              </adapter>
+              <kafka>
+                <prefix>kafka</prefix>
+                <name>cos-kafka-source</name>
+                <version>${cos.kamelets.version}</version>
+              </kafka>
+            </connector>
+            <connector>
+              <name>${cos.connector.type}-add-issue-sink-${cos.connector.version}</name>
+              <title>${project.name} Add Issue sink</title>
+              <description>Add a new issue to Jira.</description>
+              <adapter>
+                <prefix>jira</prefix>
+                <name>${cos.connector.type}-add-issue-sink</name>
+                <version>${camel-kamelets-catalog.version}</version>
+              </adapter>
+              <kafka>
+                <prefix>kafka</prefix>
+                <name>cos-kafka-source</name>
+                <version>${cos.kamelets.version}</version>
+              </kafka>
+            </connector>
+          </connectors>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
+

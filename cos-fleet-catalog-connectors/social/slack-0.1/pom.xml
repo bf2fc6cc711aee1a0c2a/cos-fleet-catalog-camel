@@ -1,92 +1,95 @@
-<?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-
-    <parent>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <groupId>org.bf2</groupId>
+    <artifactId>cos-fleet-catalog-connectors-social</artifactId>
+    <version>999-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>cos-connector-slack-0.1</artifactId>
+  <name>Slack</name>
+  <description>Slack</description>
+  <packaging>jar</packaging>
+  <properties>
+    <cos.connector.type>slack</cos.connector.type>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.camel.quarkus</groupId>
+      <artifactId>camel-quarkus-gson</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel.quarkus</groupId>
+      <artifactId>camel-quarkus-jackson</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel.quarkus</groupId>
+      <artifactId>camel-quarkus-slack</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.bf2</groupId>
+      <artifactId>cos-connector-slack</artifactId>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
         <groupId>org.bf2</groupId>
-        <artifactId>cos-fleet-catalog-connectors-social</artifactId>
-        <version>999-SNAPSHOT</version>
-    </parent>
-
-    <modelVersion>4.0.0</modelVersion>
-    <artifactId>cos-connector-slack-0.1</artifactId>
-
-    <name>Slack</name>
-    <description>Slack</description>
-
-    <packaging>jar</packaging>
-
-    <properties>
-        <cos.connector.type>slack</cos.connector.type>
-    </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.bf2</groupId>
-            <artifactId>cos-connector-slack</artifactId>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.bf2</groupId>
-                <artifactId>camel-connector-maven-plugin</artifactId>
-                <configuration>
-                    <connectors>
-                        <connector>
-                            <name>${cos.connector.type}-source-${cos.connector.version}</name>
-                            <title>${project.name} source</title>
-                            <description>Receive messages from a Slack channel.</description>
-                            <adapter>
-                                <prefix>slack</prefix>
-                                <name>cos-${cos.connector.type}-source</name>
-                                <version>${cos.kamelets.version}</version>
-                            </adapter>
-                            <kafka>
-                                <prefix>kafka</prefix>
-                                <name>cos-kafka-sink</name>
-                                <version>${cos.kamelets.version}</version>
-                            </kafka>
-                            <dataShape>
-                                <!--
+        <artifactId>camel-connector-maven-plugin</artifactId>
+        <configuration>
+          <connectors>
+            <connector>
+              <name>${cos.connector.type}-source-${cos.connector.version}</name>
+              <title>${project.name} source</title>
+              <description>Receive messages from a Slack channel.</description>
+              <adapter>
+                <prefix>slack</prefix>
+                <name>cos-${cos.connector.type}-source</name>
+                <version>${cos.kamelets.version}</version>
+              </adapter>
+              <kafka>
+                <prefix>kafka</prefix>
+                <name>cos-kafka-sink</name>
+                <version>${cos.kamelets.version}</version>
+              </kafka>
+              <dataShape>
+                <!--
                                 <consumes>
                                     <contentClass>com.slack.api.model.Message</contentClass>
                                 </consumes>
                                 -->
-                                <produces>
-                                    <formats>
-                                        <format>application/json</format>
-                                    </formats>
-                                </produces>
-                            </dataShape>
-                        </connector>
-                        <connector>
-                            <name>${cos.connector.type}-sink-${cos.connector.version}</name>
-                            <title>${project.name} sink</title>
-                            <description>Send messages to a Slack channel.</description>
-                            <adapter>
-                                <prefix>slack</prefix>
-                                <name>${cos.connector.type}-sink</name>
-                                <version>${camel-kamelets-catalog.version}</version>
-                            </adapter>
-                            <kafka>
-                                <prefix>kafka</prefix>
-                                <name>cos-kafka-source</name>
-                                <version>${cos.kamelets.version}</version>
-                            </kafka>
-                            <dataShape>
-                                <consumes>
-                                    <formats>
-                                        <format>application/octet-stream</format>
-                                    </formats>
-                                </consumes>
-                            </dataShape>
-                        </connector>
-                    </connectors>
-                </configuration>
-                <!--
+                <produces>
+                  <formats>
+                    <format>application/json</format>
+                  </formats>
+                </produces>
+              </dataShape>
+            </connector>
+            <connector>
+              <name>${cos.connector.type}-sink-${cos.connector.version}</name>
+              <title>${project.name} sink</title>
+              <description>Send messages to a Slack channel.</description>
+              <adapter>
+                <prefix>slack</prefix>
+                <name>${cos.connector.type}-sink</name>
+                <version>${camel-kamelets-catalog.version}</version>
+              </adapter>
+              <kafka>
+                <prefix>kafka</prefix>
+                <name>cos-kafka-source</name>
+                <version>${cos.kamelets.version}</version>
+              </kafka>
+              <dataShape>
+                <consumes>
+                  <formats>
+                    <format>application/octet-stream</format>
+                  </formats>
+                </consumes>
+              </dataShape>
+            </connector>
+          </connectors>
+        </configuration>
+        <!--
                 <dependencies>
                     <dependency>
                         <groupId>com.slack.api</groupId>
@@ -95,8 +98,8 @@
                     </dependency>
                 </dependencies>
                 -->
-            </plugin>
-        </plugins>
-    </build>
-
+      </plugin>
+    </plugins>
+  </build>
 </project>
+

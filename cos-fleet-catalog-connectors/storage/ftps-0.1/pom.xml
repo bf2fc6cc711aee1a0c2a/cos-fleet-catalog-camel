@@ -1,81 +1,79 @@
-<?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-
-    <parent>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <groupId>org.bf2</groupId>
+    <artifactId>cos-fleet-catalog-connectors-storage</artifactId>
+    <version>999-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>cos-connector-ftps-0.1</artifactId>
+  <name>FTPS</name>
+  <description>FTPS</description>
+  <packaging>jar</packaging>
+  <properties>
+    <cos.connector.type>ftps</cos.connector.type>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.camel.quarkus</groupId>
+      <artifactId>camel-quarkus-ftp</artifactId>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
         <groupId>org.bf2</groupId>
-        <artifactId>cos-fleet-catalog-connectors-storage</artifactId>
-        <version>999-SNAPSHOT</version>
-    </parent>
-
-    <modelVersion>4.0.0</modelVersion>
-    <artifactId>cos-connector-ftps-0.1</artifactId>
-
-    <name>FTPS</name>
-    <description>FTPS</description>
-
-    <packaging>jar</packaging>
-
-    <properties>
-        <cos.connector.type>ftps</cos.connector.type>
-    </properties>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.bf2</groupId>
-                <artifactId>camel-connector-maven-plugin</artifactId>
-                <configuration>
-                    <connectors>
-                        <connector>
-                            <name>${cos.connector.type}-source-${cos.connector.version}</name>
-                            <title>${project.name} source</title>
-                            <description>Retrieve data from an FTPS Server.</description>
-                            <adapter>
-                                <prefix>ftps</prefix>
-                                <name>${cos.connector.type}-source</name>
-                                <version>${camel-kamelets-catalog.version}</version>
-                            </adapter>
-                            <kafka>
-                                <prefix>kafka</prefix>
-                                <name>cos-kafka-sink</name>
-                                <version>${cos.kamelets.version}</version>
-                            </kafka>
-                            <dataShape>
-                                <produces>
-                                    <formats>
-                                        <format>application/octet-stream</format>
-                                    </formats>
-                                </produces>
-                            </dataShape>
-                        </connector>
-                        <connector>
-                            <name>${cos.connector.type}-sink-${cos.connector.version}</name>
-                            <title>${project.name} sink</title>
-                            <description>Send data to an FTPS Server.</description>
-                            <adapter>
-                                <prefix>ftps</prefix>
-                                <name>${cos.connector.type}-sink</name>
-                                <version>${camel-kamelets-catalog.version}</version>
-                            </adapter>
-                            <kafka>
-                                <prefix>kafka</prefix>
-                                <name>cos-kafka-source</name>
-                                <version>${cos.kamelets.version}</version>
-                            </kafka>
-                            <dataShape>
-                                <consumes>
-                                    <formats>
-                                        <format>application/octet-stream</format>
-                                    </formats>
-                                </consumes>
-                            </dataShape>
-                        </connector>
-                    </connectors>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
+        <artifactId>camel-connector-maven-plugin</artifactId>
+        <configuration>
+          <connectors>
+            <connector>
+              <name>${cos.connector.type}-source-${cos.connector.version}</name>
+              <title>${project.name} source</title>
+              <description>Retrieve data from an FTPS Server.</description>
+              <adapter>
+                <prefix>ftps</prefix>
+                <name>${cos.connector.type}-source</name>
+                <version>${camel-kamelets-catalog.version}</version>
+              </adapter>
+              <kafka>
+                <prefix>kafka</prefix>
+                <name>cos-kafka-sink</name>
+                <version>${cos.kamelets.version}</version>
+              </kafka>
+              <dataShape>
+                <produces>
+                  <formats>
+                    <format>application/octet-stream</format>
+                  </formats>
+                </produces>
+              </dataShape>
+            </connector>
+            <connector>
+              <name>${cos.connector.type}-sink-${cos.connector.version}</name>
+              <title>${project.name} sink</title>
+              <description>Send data to an FTPS Server.</description>
+              <adapter>
+                <prefix>ftps</prefix>
+                <name>${cos.connector.type}-sink</name>
+                <version>${camel-kamelets-catalog.version}</version>
+              </adapter>
+              <kafka>
+                <prefix>kafka</prefix>
+                <name>cos-kafka-source</name>
+                <version>${cos.kamelets.version}</version>
+              </kafka>
+              <dataShape>
+                <consumes>
+                  <formats>
+                    <format>application/octet-stream</format>
+                  </formats>
+                </consumes>
+              </dataShape>
+            </connector>
+          </connectors>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
+

@@ -1,65 +1,83 @@
-<?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-
-    <parent>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <groupId>org.bf2</groupId>
+    <artifactId>cos-fleet-catalog-connectors-azure</artifactId>
+    <version>999-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>cos-connector-azure-storage-blob-changefeed-0.1</artifactId>
+  <name>Azure Blob Storage change feed</name>
+  <description>Azure Blob Storage change feed</description>
+  <packaging>jar</packaging>
+  <properties>
+    <cos.connector.type>azure-storage-blob-changefeed</cos.connector.type>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>com.azure</groupId>
+      <artifactId>azure-storage-blob-changefeed</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-jsr310</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel.quarkus</groupId>
+      <artifactId>camel-quarkus-azure-storage-blob</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel.quarkus</groupId>
+      <artifactId>camel-quarkus-jackson</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel.quarkus</groupId>
+      <artifactId>camel-quarkus-jsonpath</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel.quarkus</groupId>
+      <artifactId>camel-quarkus-timer</artifactId>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
         <groupId>org.bf2</groupId>
-        <artifactId>cos-fleet-catalog-connectors-azure</artifactId>
-        <version>999-SNAPSHOT</version>
-    </parent>
-
-    <modelVersion>4.0.0</modelVersion>
-    <artifactId>cos-connector-azure-storage-blob-changefeed-0.1</artifactId>
-
-    <name>Azure Blob Storage change feed</name>
-    <description>Azure Blob Storage change feed</description>
-
-    <packaging>jar</packaging>
-
-    <properties>
-        <cos.connector.type>azure-storage-blob-changefeed</cos.connector.type>
-    </properties>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.bf2</groupId>
-                <artifactId>camel-connector-maven-plugin</artifactId>
-                <configuration>
-                    <exclude>true</exclude>
-                    <connectors>
-                        <connector>
-                            <name>${cos.connector.type}-source-${cos.connector.version}</name>
-                            <title>${project.name} source</title>
-                            <description>Receive data from Azure Blob storage change feed.</description>
-                            <adapter>
-                                <prefix>azure</prefix>
-                                <name>cos-${cos.connector.type}-source</name>
-                                <version>${cos.kamelets.version}</version>
-                            </adapter>
-                            <kafka>
-                                <prefix>kafka</prefix>
-                                <name>cos-kafka-sink</name>
-                                <version>${cos.kamelets.version}</version>
-                            </kafka>
-                            <dataShape>
-                                <consumes>
-                                    <formats>
-                                        <format>application/json</format>
-                                    </formats>
-                                </consumes>
-                                <produces>
-                                    <formats>
-                                        <format>application/json</format>
-                                    </formats>
-                                </produces>
-                            </dataShape>
-                        </connector>
-                    </connectors>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
+        <artifactId>camel-connector-maven-plugin</artifactId>
+        <configuration>
+          <exclude>true</exclude>
+          <connectors>
+            <connector>
+              <name>${cos.connector.type}-source-${cos.connector.version}</name>
+              <title>${project.name} source</title>
+              <description>Receive data from Azure Blob storage change feed.</description>
+              <adapter>
+                <prefix>azure</prefix>
+                <name>cos-${cos.connector.type}-source</name>
+                <version>${cos.kamelets.version}</version>
+              </adapter>
+              <kafka>
+                <prefix>kafka</prefix>
+                <name>cos-kafka-sink</name>
+                <version>${cos.kamelets.version}</version>
+              </kafka>
+              <dataShape>
+                <consumes>
+                  <formats>
+                    <format>application/json</format>
+                  </formats>
+                </consumes>
+                <produces>
+                  <formats>
+                    <format>application/json</format>
+                  </formats>
+                </produces>
+              </dataShape>
+            </connector>
+          </connectors>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
+
