@@ -4,12 +4,18 @@ import java.util.Objects;
 
 public class ConnectorDependency {
     public final String groupId;
-    public final String artifactiId;
+    public final String artifactId;
     public final String version;
 
-    public ConnectorDependency(String groupId, String artifactiId, String version) {
+    public ConnectorDependency(String groupId, String artifactId) {
         this.groupId = Objects.requireNonNull(groupId);
-        this.artifactiId = Objects.requireNonNull(artifactiId);
+        this.artifactId = Objects.requireNonNull(artifactId);
+        this.version = null;
+    }
+
+    public ConnectorDependency(String groupId, String artifactId, String version) {
+        this.groupId = Objects.requireNonNull(groupId);
+        this.artifactId = Objects.requireNonNull(artifactId);
         this.version = Objects.requireNonNull(version);
     }
 
@@ -22,19 +28,23 @@ public class ConnectorDependency {
             return false;
         }
 
-        ConnectorDependency artifatc = (ConnectorDependency) o;
-        return Objects.equals(groupId, artifatc.groupId)
-                && Objects.equals(artifactiId, artifatc.artifactiId)
-                && Objects.equals(version, artifatc.version);
+        ConnectorDependency artifact = (ConnectorDependency) o;
+
+        return Objects.equals(groupId, artifact.groupId)
+                && Objects.equals(artifactId, artifact.artifactId)
+                && Objects.equals(version, artifact.version);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(groupId, artifactiId, version);
+        return Objects.hash(groupId, artifactId, version);
     }
 
     @Override
     public String toString() {
-        return groupId + ":" + artifactiId + ":" + version;
+        return version != null
+                ? groupId + ":" + artifactId + ":" + version
+                : groupId + ":" + artifactId;
     }
+
 }

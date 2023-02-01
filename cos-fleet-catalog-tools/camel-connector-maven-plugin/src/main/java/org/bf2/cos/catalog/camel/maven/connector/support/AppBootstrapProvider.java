@@ -270,7 +270,7 @@ public class AppBootstrapProvider {
                 .setForcedDependencies(
                         Stream.concat(connectorsDependecies.stream(), projectDependencies.stream())
                                 .distinct()
-                                .map(d -> new AppArtifact(d.groupId, d.artifactiId, d.version))
+                                .map(d -> new AppArtifact(d.groupId, d.artifactId, d.version))
                                 .map(d -> new AppDependency(d, "compile"))
                                 .collect(Collectors.toList()));
 

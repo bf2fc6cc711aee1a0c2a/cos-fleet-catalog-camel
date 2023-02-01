@@ -6,16 +6,13 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.MessageDigest;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.ServiceLoader;
-import java.util.Set;
 import java.util.TreeSet;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -23,7 +20,9 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections4.SetUtils;
+import org.apache.maven.artifact.Artifact;
 import org.apache.maven.execution.MavenSession;
+import org.apache.maven.model.Dependency;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -37,14 +36,11 @@ import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
 import org.bf2.cos.catalog.camel.maven.connector.model.ConnectorDefinition;
 import org.bf2.cos.catalog.camel.maven.connector.support.Annotation;
-import org.bf2.cos.catalog.camel.maven.connector.support.AppBootstrapProvider;
 import org.bf2.cos.catalog.camel.maven.connector.support.CatalogConstants;
 import org.bf2.cos.catalog.camel.maven.connector.support.CatalogSupport;
 import org.bf2.cos.catalog.camel.maven.connector.support.Connector;
-import org.bf2.cos.catalog.camel.maven.connector.support.ConnectorDependency;
 import org.bf2.cos.catalog.camel.maven.connector.support.ConnectorIndex;
 import org.bf2.cos.catalog.camel.maven.connector.support.ConnectorManifest;
-import org.bf2.cos.catalog.camel.maven.connector.support.ConnectorSupport;
 import org.bf2.cos.catalog.camel.maven.connector.support.KameletsCatalog;
 import org.bf2.cos.catalog.camel.maven.connector.support.MojoSupport;
 import org.bf2.cos.catalog.camel.maven.connector.validator.Validator;
@@ -61,9 +57,6 @@ import com.fasterxml.jackson.databind.node.TextNode;
 
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
-import io.quarkus.bootstrap.BootstrapException;
-import io.quarkus.bootstrap.app.CuratedApplication;
-import io.quarkus.maven.dependency.ResolvedDependency;
 import net.javacrumbs.jsonunit.assertj.JsonAssertions;
 import net.javacrumbs.jsonunit.core.Option;
 
@@ -247,78 +240,6 @@ public class GenerateCatalogMojo extends AbstractMojo {
             JSON_MAPPER.writerWithDefaultPrettyPrinter().writeValue(
                     Files.newBufferedWriter(manifestLocalFile),
                     this.manifest);
-
-            //
-            // pom.xml
-            //
-
-            getLog().info("Writing pom.xml");
-
-            String oldpom = Files.readString(project.getFile().toPath());
-
-            String inputDependencies = project.getDependencies().stream()
-                    .filter(d -> !"provided".equals(d.getScope()))
-                    .filter(d -> Objects.equals(project.getFile().toString(), d.getLocation("").getSource().getLocation()))
-                    .map(d -> oldpom.replaceFirst("[\\s\\S]*\\n(" +
-                            " +<dependency>\\s+" +
-                            "<groupId>" + d.getGroupId() + "</groupId>\\s+" +
-                            "<artifactId>" + d.getArtifactId() + "</artifactId>" +
-                            "[\\s\\S]*?" +
-                            "</dependency> *\\n)" +
-                            "[\\s\\S]*", "$1"))
-                    .collect(Collectors.joining());
-            if (!inputDependencies.isEmpty()) {
-                inputDependencies = "        <!-- Input dependencies -->\n" + inputDependencies + "\n";
-            }
-
-            Set<ConnectorDependency> injectedDependencies = new HashSet<>();
-            for (Connector connector : MojoSupport.inject(session, defaults, connectors)) {
-                try {
-                    injectedDependencies.addAll(
-                            ConnectorSupport.dependencies(
-                                    KameletsCatalog.get(project, getLog()),
-                                    connector,
-                                    camelQuarkusVersion));
-                } catch (Exception e) {
-                    throw new MojoExecutionException(e);
-                }
-            }
-            String dependenciesXml = injectedDependencies.stream()
-                    .sorted(Comparator.comparing(ConnectorDependency::toString))
-                    .map(dep -> "        <dependency>\n"
-                            + "            <groupId>" + dep.groupId + "</groupId>\n"
-                            + "            <artifactId>" + dep.artifactiId + "</artifactId>\n"
-                            + "            <version>" + dep.version + "</version>\n"
-                            + "            <scope>provided</scope>\n"
-                            + "        </dependency>\n")
-                    .collect(Collectors.joining());
-
-            if (!dependenciesXml.isEmpty()) {
-                dependenciesXml = "        <!-- Generated dependencies -->\n" + dependenciesXml;
-            }
-
-            String newpom;
-            int idx = oldpom.indexOf("<dependencies>");
-            if (idx > 0) {
-                String s1 = oldpom.substring(0, idx + "<dependencies>".length());
-                String s2 = oldpom.substring(oldpom.indexOf("</dependencies>"));
-                newpom = s1 + "\n" + inputDependencies + dependenciesXml + "    " + s2;
-            } else {
-                idx = oldpom.indexOf("<build>");
-                if (idx > 0) {
-                    String s1 = oldpom.substring(0, idx);
-                    String s2 = oldpom.substring(idx);
-                    newpom = s1 + "<dependencies>\n" + inputDependencies + dependenciesXml + "    </dependencies>\n\n    " + s2;
-                } else {
-                    throw new IllegalArgumentException("Unsupported pom!");
-                }
-            }
-
-            if (!Objects.equals(newpom, oldpom)) {
-                Files.writeString(project.getFile().toPath(), newpom);
-                getLog().error("The dependencies have changed and the pom.xml has been overwritten, please rebuild");
-            }
-
         } catch (Exception e) {
             throw new MojoExecutionException(e);
         }
@@ -711,97 +632,58 @@ public class GenerateCatalogMojo extends AbstractMojo {
     }
 
     public TreeSet<String> dependencies()
-            throws MojoExecutionException, MojoFailureException {
+            throws MojoExecutionException {
 
         TreeSet<String> answer = new TreeSet<>();
 
         try {
-            Set<String> propertiesToClear = new HashSet<>();
-            propertiesToClear.add("quarkus.container-image.build");
-            propertiesToClear.add("quarkus.container-image.push");
+            List<Dependency> deps = project.getDependencies().stream()
+                    .filter(d -> !"provided".equals(d.getScope()))
+                    .sorted(Comparator.comparing(d -> d.getGroupId() + ":" + d.getArtifactId()))
+                    .collect(Collectors.toList());
 
-            // disable quarkus build
-            System.setProperty("quarkus.container-image.build", "false");
-            System.setProperty("quarkus.container-image.push", "false");
+            for (Dependency dep : deps) {
+                Artifact artifact = project.getArtifactMap().get(dep.getGroupId() + ":" + dep.getArtifactId());
+                MessageDigest digest = DigestUtils.getSha256Digest();
+                Path path = artifact.getFile().toPath();
+                String gav = dep.getGroupId() + ":" + dep.getArtifactId() + ":" + dep.getVersion();
 
-            if (systemProperties != null) {
-                // Add the system properties of the plugin to the system properties
-                // if and only if they are not already set.
-                for (Map.Entry<String, String> entry : systemProperties.entrySet()) {
-                    String key = entry.getKey();
-                    if (System.getProperty(key) == null) {
-                        System.setProperty(key, entry.getValue());
-                        propertiesToClear.add(key);
-                    }
-                }
-            }
+                if (dep.getGroupId().startsWith("org.bf2")) {
+                    try (JarFile jar = new JarFile(path.toFile())) {
+                        List<JarEntry> entries = Collections.list(jar.entries());
+                        entries.sort(Comparator.comparing(JarEntry::getName));
 
-            try (CuratedApplication curatedApplication = bootstrapApplication().bootstrapQuarkus().bootstrap()) {
-                List<ResolvedDependency> deps = new ArrayList<>(curatedApplication.getApplicationModel().getDependencies());
-                deps.sort(Comparator.comparing(ResolvedDependency::toCompactCoords));
+                        for (JarEntry entry : entries) {
+                            if (entry.isDirectory()) {
+                                continue;
+                            }
+                            if (entry.getName().equals("META-INF/jandex.idx")) {
+                                continue;
+                            }
+                            if (entry.getName().startsWith("META-INF/quarkus-")) {
+                                continue;
+                            }
+                            if (entry.getName().endsWith("git.properties")) {
+                                continue;
+                            }
 
-                for (ResolvedDependency dep : deps) {
-                    MessageDigest digest = DigestUtils.getSha256Digest();
-                    Path path = dep.getResolvedPaths().getSinglePath();
-
-                    if (dep.getGroupId().startsWith("org.bf2")) {
-                        try (JarFile jar = new JarFile(path.toFile())) {
-                            List<JarEntry> entries = Collections.list(jar.entries());
-                            entries.sort(Comparator.comparing(JarEntry::getName));
-
-                            for (JarEntry entry : entries) {
-                                if (entry.isDirectory()) {
-                                    continue;
-                                }
-                                if (entry.getName().equals("META-INF/jandex.idx")) {
-                                    continue;
-                                }
-                                if (entry.getName().startsWith("META-INF/quarkus-")) {
-                                    continue;
-                                }
-                                if (entry.getName().endsWith("git.properties")) {
-                                    continue;
-                                }
-
-                                try (InputStream is = jar.getInputStream(entry)) {
-                                    DigestUtils.updateDigest(digest, is);
-                                }
+                            try (InputStream is = jar.getInputStream(entry)) {
+                                DigestUtils.updateDigest(digest, is);
                             }
                         }
-                    } else {
-                        DigestUtils.updateDigest(digest, dep.toCompactCoords());
                     }
-
-                    answer.add(
-                            dep.toCompactCoords() + "@sha256:" + DigestUtils.sha256Hex(digest.digest()));
+                } else {
+                    DigestUtils.updateDigest(digest, gav);
                 }
-            } finally {
-                // Clear all the system properties set by the plugin
-                propertiesToClear.forEach(System::clearProperty);
+
+                answer.add(
+                        gav + "@sha256:" + DigestUtils.sha256Hex(digest.digest()));
             }
-        } catch (BootstrapException | IOException e) {
+        } catch (IOException e) {
             throw new MojoExecutionException("Failed to build quarkus application", e);
         }
 
         return answer;
-    }
-
-    protected AppBootstrapProvider bootstrapApplication() {
-        AppBootstrapProvider provider = new AppBootstrapProvider();
-        provider.setAppArtifactCoords(this.appArtifact);
-        provider.setBuildDir(this.buildDir);
-        provider.setConnectors(this.connectors);
-        provider.setDefaults(this.defaults);
-        provider.setFinalName(this.finalName);
-        provider.setLog(getLog());
-        provider.setProject(this.project);
-        provider.setCamelQuarkusVersion(this.camelQuarkusVersion);
-        provider.setRemoteRepoManager(this.remoteRepoManager);
-        provider.setRepoSession(this.repoSession);
-        provider.setRepoSystem(this.repoSystem);
-        provider.setSession(this.session);
-
-        return provider;
     }
 
     private Validator.Context of(Connector connector) {
