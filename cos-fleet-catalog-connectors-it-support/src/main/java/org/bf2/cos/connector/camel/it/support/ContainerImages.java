@@ -7,19 +7,19 @@ import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.utility.DockerImageName;
 
 public enum ContainerImages {
-    REDPANDA("docker.io/vectorized/redpanda:v22.2.6"),
-    WIREMOCK("docker.io/wiremock/wiremock:2.34.0"),
-    ACTIVEMQ_ARTEMIS("quay.io/artemiscloud/activemq-artemis-broker:1.0.9"),
+    REDPANDA("docker.io/vectorized/redpanda:v22.3.11"),
+    WIREMOCK("docker.io/wiremock/wiremock:2.35.0"),
+    ACTIVEMQ_ARTEMIS("quay.io/artemiscloud/activemq-artemis-broker:1.0.14"),
     CASSANDRA("cassandra:3.11"),
     MONGODB("mongo:5"),
-    MARIADB("mariadb:10.3.6"),
+    MARIADB("mariadb:10.6"),
     MYSQL("mysql:5"),
-    POSTGRES("postgres:14.2"),
+    POSTGRES("postgres:14.6"),
     SQLSERVER("mcr.microsoft.com/mssql/server:2017-CU12"),
     MINIO("quay.io/minio/minio:latest"),
-    LOCALSTACK("docker.io/localstack/localstack:0.14.2"),
+    LOCALSTACK("docker.io/localstack/localstack:1.3"),
     GCR_PUBSUB("gcr.io/google.com/cloudsdktool/cloud-sdk:emulators"),
-    AZURITE("mcr.microsoft.com/azure-storage/azurite:3.19.0"),
+    AZURITE("mcr.microsoft.com/azure-storage/azurite:3.21.0"),
     ELASTICSEARCH("docker.elastic.co/elasticsearch/elasticsearch:7.9.2");
 
     private final DockerImageName imageName;
