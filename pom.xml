@@ -60,7 +60,7 @@
         <maven-failsafe-plugin.version>3.0.0-M8</maven-failsafe-plugin.version>
         <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
         <maven-plugin-plugin.version>3.7.1</maven-plugin-plugin.version>
-        <formatter-maven-plugin.version>2.21.0</formatter-maven-plugin.version>
+        <formatter-maven-plugin.version>2.22.0</formatter-maven-plugin.version>
         <impsort-maven-plugin.version>1.8.0</impsort-maven-plugin.version>
         <build-helper-maven-plugin.version>3.3.0</build-helper-maven-plugin.version>
         <git-commit-id-maven-plugin.version>5.0.0</git-commit-id-maven-plugin.version>
