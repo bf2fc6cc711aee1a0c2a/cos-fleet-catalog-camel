@@ -18,9 +18,8 @@ props.fieldNames().each {
         oneOf.add(f)
 
         def opaque = oneOf.addObject()
-        opaque.put("description", "An opaque reference to the aws_access_key")
+        opaque.put("description", "An opaque reference to the gcp_service_account_key")
         opaque.put("type", "object")
-        opaque.put("additionalProperties", false)
 
         props.set(it, replaced)
 
