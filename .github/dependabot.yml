@@ -17,6 +17,9 @@ updates:
       - dependency-name: org.apache.camel.kamelets:*
       - dependency-name: io.apicurio:*
       - dependency-name: software.amazon.awssdk:*
+      - dependency-name: org.apache.maven:*
+      - dependency-name: org.apache.maven.shared:*
+      - dependency-name: org.apache.maven.plugin-tools:*
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
