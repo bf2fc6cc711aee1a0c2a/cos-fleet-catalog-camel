@@ -1,0 +1,123 @@
+# ---------------------------------------------------------------------------
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ---------------------------------------------------------------------------
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-sftp-sink
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "sink"
+spec:
+  definition:
+    title: "SFTP Sink"
+    description: |-
+      Send data to an SFTP Server.
+
+      In the header, you can set the `file` / `ce-file` property to specify the filename to upload.
+
+      If you do not set the property in the header, the Kamelet uses the exchange ID for the filename.
+    required:
+      - connectionHost
+      - connectionPort
+      - username
+      - password
+      - directoryName
+    type: object
+    properties:
+      connectionHost:
+        title: Connection Host
+        description: The hostname of the FTP server
+        type: string
+      connectionPort:
+        title: Connection Port
+        description: The port of the FTP server
+        type: string
+        default: 22
+      username:
+        title: Username
+        description: The username to access the FTP server.
+        type: string
+        x-descriptors:
+        - urn:camel:group:credentials
+      password:
+        title: Password
+        description: The password to access the FTP server.
+        type: string
+        format: password
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:password
+        - urn:camel:group:credentials
+      directoryName:
+        title: Directory Name
+        description: The starting directory.
+        type: string
+      passiveMode:
+        title: Passive Mode
+        description: Specifies to use passive mode connection.
+        type: boolean
+        default: false
+        x-descriptors:
+        - 'urn:alm:descriptor:com.tectonic.ui:checkbox'
+      fileExist:
+        title: File Existence
+        description: How to behave in case of file already existent. There are 4 enums. Possible values are Override, Append, Fail, or Ignore.
+        type: string
+        default: Override
+      binary:
+        title: Binary
+        description: Specifies the file transfer mode, BINARY or ASCII. Default is ASCII (false).
+        type: boolean
+        default: false
+        x-descriptors:
+        - 'urn:alm:descriptor:com.tectonic.ui:checkbox'
+      autoCreate:
+        title: Autocreate Missing Directories
+        description: Automatically create the directory the files should be written to.
+        type: boolean
+        default: true
+        x-descriptors:
+        - 'urn:alm:descriptor:com.tectonic.ui:checkbox'
+  dependencies:
+    - "camel:ftp"
+    - "camel:core"
+    - "camel:kamelet"
+  template:
+    from:
+      uri: "kamelet:source"
+      steps:
+      - choice:
+          when:
+          - simple: "${header[file]}"
+            steps:
+            - set-header:
+                name: CamelFileName
+                simple: "${header[file]}"
+          - simple: "${header[ce-file]}"
+            steps:
+            - set-header:
+                name: CamelFileName
+                simple: "${header[ce-file]}"
+      - to:
+          uri: "sftp:{{username}}@{{connectionHost}}:{{connectionPort}}/{{directoryName}}"
+          parameters:
+            password: "{{password}}"
+            passiveMode: "{{passiveMode}}"
+            fileExist: "{{fileExist}}"
+            binary: "{{binary}}"
+            autoCreate: "{{autoCreate}}"
