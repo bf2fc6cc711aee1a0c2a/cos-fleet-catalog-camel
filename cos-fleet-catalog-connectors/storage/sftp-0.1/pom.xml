@@ -34,8 +34,8 @@
                             <description>Retrieve data from an SFTP Server.</description>
                             <adapter>
                                 <prefix>sftp</prefix>
-                                <name>${cos.connector.type}-source</name>
-                                <version>${camel-kamelets-catalog.version}</version>
+                                <name>cos-${cos.connector.type}-source</name>
+                                <version>${cos.kamelets.version}</version>
                             </adapter>
                             <kafka>
                                 <prefix>kafka</prefix>
@@ -56,8 +56,8 @@
                             <description>Send data to an SFTP Server.</description>
                             <adapter>
                                 <prefix>sftp</prefix>
-                                <name>${cos.connector.type}-sink</name>
-                                <version>${camel-kamelets-catalog.version}</version>
+                                <name>cos-${cos.connector.type}-sink</name>
+                                <version>${cos.kamelets.version}</version>
                             </adapter>
                             <kafka>
                                 <prefix>kafka</prefix>
