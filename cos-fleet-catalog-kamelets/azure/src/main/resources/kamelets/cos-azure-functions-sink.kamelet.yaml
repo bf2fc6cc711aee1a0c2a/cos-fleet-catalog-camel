@@ -1,0 +1,67 @@
+# ---------------------------------------------------------------------------
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ---------------------------------------------------------------------------
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-azure-functions-sink
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "sink"
+spec:
+  definition:
+    title: Azure Function Sink
+    description: Forward data to an Azure Function.
+    required:
+    - url
+    type: object
+    properties:
+      url:
+        title: URL
+        description: The Azure Functions URL you want to send the data to.
+        type: string
+        example: "https://azure-function-demo-12234.azurewebsites.net/api/httpexample"
+        pattern: "^(https)://.*"
+      method:
+        title: Method
+        description: The HTTP method to use.
+        type: string
+        default: POST
+        enum: ["GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS", "TRACE", "PATCH"]
+      key:
+        title: Key
+        description: A function-specific API key is required, if the authLevel of the function is FUNCTION or master key if the authLevel is ADMIN.
+        type: string
+        format: password
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:password
+        - urn:camel:group:credentials
+  dependencies:
+  - "camel:vertx-http"
+  - "camel:kamelet"
+  - "camel:core"
+  template:
+    from:
+      uri: kamelet:source
+      steps:
+      - remove-header:
+          name: CamelHttpUri
+      - set-header:
+          name: CamelHttpMethod
+          constant: "{{method}}"
+      - to: "vertx-http:{{url}}?code={{?key}}"
