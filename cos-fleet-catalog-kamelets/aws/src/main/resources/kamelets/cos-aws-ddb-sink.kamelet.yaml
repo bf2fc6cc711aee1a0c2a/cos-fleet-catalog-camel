@@ -93,7 +93,7 @@ spec:
     in:
       mediaType: application/json
   dependencies:
-  - github:apache.camel-kamelets:camel-kamelets-utils:0.9.5-SNAPSHOT
+  - mvn:org.apache.camel.kamelets:camel-kamelets-utils:0.9.1
   - "camel:core"
   - "camel:jackson"
   - "camel:aws2-ddb"
