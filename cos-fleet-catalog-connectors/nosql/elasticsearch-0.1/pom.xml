@@ -32,7 +32,7 @@
                         <connector>
                             <name>${cos.connector.type}-sink-${cos.connector.version}</name>
                             <title>${project.name} sink</title>
-                            <description>Store JSON-formatted data into ElasticSearch.</description>
+                            <description>Send JSON objects to ElasticSearch. Other JSON data types are not supported.</description>
                             <adapter>
                                 <prefix>elasticsearch</prefix>
                                 <name>${cos.connector.type}-index-sink</name>
