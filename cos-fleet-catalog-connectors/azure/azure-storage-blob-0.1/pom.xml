@@ -56,8 +56,8 @@
                             <description>Send data to Azure Blob storage.</description>
                             <adapter>
                                 <prefix>azure</prefix>
-                                <name>${cos.connector.type}-sink</name>
-                                <version>${camel-kamelets-catalog.version}</version>
+                                <name>cos-${cos.connector.type}-sink</name>
+                                <version>${cos.kamelets.version}</version>
                             </adapter>
                             <kafka>
                                 <prefix>kafka</prefix>
