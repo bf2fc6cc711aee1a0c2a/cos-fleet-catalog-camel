@@ -1,0 +1,93 @@
+# ---------------------------------------------------------------------------
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ---------------------------------------------------------------------------
+
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-azure-storage-blob-sink
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "sink"
+spec:
+  definition:
+    title: "Azure Storage Blob Sink"
+    description: |-
+      Upload data to Azure Storage Blob.
+
+      In the header, you can set the `file` / `ce-file` property to specify the filename to upload. If you do set property in the header, the Kamelet uses the exchange ID as filename.
+    required:
+      - accountName
+      - containerName
+      - accessKey
+    type: object
+    properties:
+      accountName:
+        title: Account Name
+        description: The Azure Storage Blob account name.
+        type: string
+        x-descriptors:
+        - urn:camel:group:credentials
+      containerName:
+        title: Container Name
+        description: The Azure Storage Blob container name.
+        type: string
+      accessKey:
+        title: Access Key
+        description: The Azure Storage Blob access key.
+        type: string
+        format: password
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:password
+        - urn:camel:group:credentials
+      operation:
+        title: Operation name
+        description: The operation to perform.
+        type: string
+        default: uploadBlockBlob
+  dependencies:
+    - "camel:core"
+    - "camel:azure-storage-blob"
+    - "camel:kamelet"
+  template:
+    from:
+      uri: "kamelet:source"
+      steps:
+      - choice:
+          when:
+          - simple: "${header[file]}"
+            steps:
+            - set-header:
+                name: CamelAzureStorageBlobBlobName
+                simple: "${header[file]}"
+          - simple: "${header[ce-file]}"
+            steps:
+            - set-header:
+                name: CamelAzureStorageBlobBlobName
+                simple: "${header[ce-file]}"
+          otherwise:
+            steps:
+            - set-header:
+                name: CamelAzureStorageBlobBlobName
+                simple: "${exchangeId}"
+      - to:
+          uri: "azure-storage-blob://{{accountName}}/{{containerName}}"
+          parameters:
+            accessKey: "{{accessKey}}"
+            operation: "{{operation}}"
+            credentialType: "SHARED_ACCOUNT_KEY"
