@@ -734,7 +734,7 @@ public class GenerateCatalogMojo extends AbstractMojo {
         return new Validator.Context() {
             @Override
             public Path getCatalogPath() {
-                return manifestFile;
+                return definitionPath.toPath();
             }
 
             @Override
@@ -744,7 +744,7 @@ public class GenerateCatalogMojo extends AbstractMojo {
 
             @Override
             public Log getLog() {
-                return getLog();
+                return GenerateCatalogMojo.this.getLog();
             }
 
             @Override
