@@ -31,6 +31,8 @@ public final class SchemaCompatibilityValidator implements Validator {
             Path current = context.getCatalogPath().resolve(id + ".json");
 
             if (Files.exists(current)) {
+                context.getLog().info("Reference schema file: " + current);
+
                 JsonNode schema = definition.requiredAt("/connector_type/schema");
                 JsonNode definitionReference = CatalogSupport.JSON_MAPPER.readValue(current.toFile(), JsonNode.class);
                 JsonNode schemaReference = definitionReference.requiredAt("/connector_type/schema");
