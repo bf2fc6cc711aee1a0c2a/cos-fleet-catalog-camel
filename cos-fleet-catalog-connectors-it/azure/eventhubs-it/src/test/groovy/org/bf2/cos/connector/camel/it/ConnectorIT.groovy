@@ -70,7 +70,7 @@ class ConnectorIT extends KafkaConnectorSpec {
             eventHubClient.start();
 
             // wait for eventHubClient to init
-            sleep(5000)
+            sleep(10000)
 
         when:
             kafka.send(topic, payload, headers)
@@ -82,7 +82,7 @@ class ConnectorIT extends KafkaConnectorSpec {
 
             def expected = TestUtils.SLURPER.parseText(payload)
 
-            EventData message = queue.poll(1, TimeUnit.SECONDS)
+            EventData message = queue.poll(10, TimeUnit.SECONDS)
             message != null
 
             def actual = TestUtils.SLURPER.parseText(message.getBodyAsString())
@@ -134,6 +134,9 @@ class ConnectorIT extends KafkaConnectorSpec {
             def producer = new EventHubClientBuilder()
                     .connectionString("Endpoint=sb://${namespaceName}.servicebus.windows.net/;SharedAccessKeyName=${sharedAccessName};SharedAccessKey=${sharedAccessKey};EntityPath=${eventhubName}")
                     .buildProducerClient();
+
+            // wait for eventHubClient to init
+            sleep(10000)
 
             EventData event = new EventData(payload);
         when:
