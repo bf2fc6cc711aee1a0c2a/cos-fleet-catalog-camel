@@ -310,6 +310,11 @@
                 <artifactId>cos-connector-ftp</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-cassandra</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.bf2</groupId>

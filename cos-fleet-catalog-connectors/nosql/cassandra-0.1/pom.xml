@@ -21,6 +21,13 @@
         <cos.connector.type>cassandra</cos.connector.type>
         <quarkus.cassandra.health.enabled>false</quarkus.cassandra.health.enabled>
     </properties>
+    
+    <dependencies>
+        <dependency>
+            <groupId>org.bf2</groupId>
+            <artifactId>cos-connector-cassandra</artifactId>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
@@ -35,8 +42,8 @@
                             <description>Retrieve data by sending a query to an Apache Cassandra cluster table.</description>
                             <adapter>
                                 <prefix>cassandra</prefix>
-                                <name>${cos.connector.type}-source</name>
-                                <version>${camel-kamelets-catalog.version}</version>
+                                <name>cos-${cos.connector.type}-source</name>
+                                <version>${cos.kamelets.version}</version>
                             </adapter>
                             <kafka>
                                 <prefix>kafka</prefix>
@@ -57,8 +64,8 @@
                             <description>Send data to an Apache Cassandra cluster.</description>
                             <adapter>
                                 <prefix>cassandra</prefix>
-                                <name>${cos.connector.type}-sink</name>
-                                <version>${camel-kamelets-catalog.version}</version>
+                                <name>cos-${cos.connector.type}-sink</name>
+                                <version>${cos.kamelets.version}</version>
                             </adapter>
                             <kafka>
                                 <prefix>kafka</prefix>
