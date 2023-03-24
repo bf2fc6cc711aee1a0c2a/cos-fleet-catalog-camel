@@ -1,0 +1,102 @@
+# ---------------------------------------------------------------------------
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ---------------------------------------------------------------------------
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-cassandra-source
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.group: "nosql"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "source"
+spec:
+  definition:
+    title: "Cassandra Source"
+    description: |-
+      Send a query to an Apache Cassandra cluster table.
+    required:
+      - connectionHost
+      - connectionPort
+      - keyspace
+      - query
+    type: object
+    properties:
+      connectionHost:
+        title: Connection Host
+        description: The hostname(s) for the Cassandra server(s). Use a comma to separate multiple hostnames.
+        type: string
+        example: localhost
+      connectionPort:
+        title: Connection Port
+        description: The port number(s) of the cassandra server(s). Use a comma to separate multiple port numbers.
+        type: string
+        example: 9042
+      keyspace:
+        title: Keyspace 
+        description: The keyspace to use.
+        type: string
+        example: customers
+      username:
+        title: Username
+        description: The username for accessing a secured Cassandra cluster.
+        type: string
+        x-descriptors:
+        - urn:camel:group:credentials
+      password:
+        title: Password
+        description: The password for accessing a secured Cassandra cluster.
+        type: string
+        format: password
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:password
+        - urn:camel:group:credentials
+      resultStrategy:
+        title: Result Strategy
+        description: The strategy to convert the result set of the query. Possible values are ALL, ONE, LIMIT_10, or LIMIT_100.
+        type: string
+        default: ALL
+      consistencyLevel:
+        title: Consistency Level
+        description: The consistency level to use. 
+        type: string
+        default: QUORUM
+        enum: ["ONE", "TWO", "THREE", "QUORUM", "ALL", "LOCAL_QUORUM", "EACH_QUORUM", "SERIAL", "LOCAL_SERIAL", "LOCAL_ONE"]
+      query:
+        title: Query
+        description: The query to execute against the Cassandra cluster table.
+        type: string
+  types:
+    out:
+      mediaType: application/json
+  dependencies:
+  - "camel:jackson"
+  - "camel:kamelet"
+  - "camel:cassandraql"
+  template:
+    from:
+      uri: "cql://{{connectionHost}}:{{connectionPort}}/{{keyspace}}"
+      parameters:
+        username: "{{?username}}"
+        password: "{{?password}}"
+        cql: "{{query}}"
+        consistencyLevel: "{{consistencyLevel}}"
+        resultSetConversionStrategy: "{{resultStrategy}}"
+      steps:
+      - marshal:
+          json: {}
+      - to: "kamelet:sink"

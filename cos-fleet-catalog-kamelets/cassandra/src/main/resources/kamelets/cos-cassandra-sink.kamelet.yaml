@@ -1,0 +1,109 @@
+# ---------------------------------------------------------------------------
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ---------------------------------------------------------------------------
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-cassandra-sink
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.group: "nosql"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "sink"
+spec:
+  definition:
+    title: "Cassandra Sink"
+    description: |-
+      Send data to an Apache Cassandra cluster.
+
+      This Kamelet expects JSON Array formatted data. The content of the JSON Array is used as input for the CQL Prepared Statement set in the query parameter.
+    required:
+      - connectionHost
+      - connectionPort
+      - keyspace
+      - query
+    type: object
+    properties:
+      connectionHost:
+        title: Connection Host
+        description: The hostname(s) for the Cassandra server(s). Use a comma to separate multiple hostnames.
+        type: string
+        example: localhost
+      connectionPort:
+        title: Connection Port
+        description: The port number(s) of the cassandra server(s). Use a comma to separate multiple port numbers.
+        type: string
+        example: 9042
+      keyspace:
+        title: Keyspace 
+        description: The keyspace to use.
+        type: string
+        example: customers
+      username:
+        title: Username
+        description: The username for accessing a secured Cassandra cluster.
+        type: string
+        x-descriptors:
+        - urn:camel:group:credentials
+      password:
+        title: Password
+        description: The password for accessing a secured Cassandra cluster.
+        type: string
+        format: password
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:password
+        - urn:camel:group:credentials
+      consistencyLevel:
+        title: Consistency Level
+        description: The consistency level to use.
+        type: string
+        default: ANY
+        enum: ["ANY", "ONE", "TWO", "THREE", "QUORUM", "ALL", "LOCAL_QUORUM", "EACH_QUORUM", "LOCAL_ONE"]
+      prepareStatements:
+        title: Prepare Statements
+        description: If true, specifies to use PreparedStatements as the query. If false, specifies to use regular Statements as the query.
+        type: boolean
+        default: true
+        x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:checkbox
+      query:
+        title: Query
+        description: The query to execute against the Cassandra cluster table.
+        type: string
+  types:
+    in:
+      mediaType: application/json
+  dependencies:
+  - "camel:jackson"
+  - "camel:kamelet"
+  - "camel:cassandraql"
+  template:
+    from:
+      uri: "kamelet:source"
+      steps:
+      - unmarshal:
+          json: 
+            library: Jackson
+            useList: true
+      - to: 
+          uri: "cql://{{connectionHost}}:{{connectionPort}}/{{keyspace}}"
+          parameters:
+            username: "{{?username}}"
+            password: "{{?password}}"
+            prepareStatements: "{{prepareStatements}}"
+            consistencyLevel: "{{consistencyLevel}}"
+            cql: "{{query}}"
