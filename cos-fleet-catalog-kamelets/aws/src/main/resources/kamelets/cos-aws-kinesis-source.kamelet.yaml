@@ -1,0 +1,86 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-aws-kinesis-source
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "source"
+spec:
+  definition:
+    title: "AWS Kinesis Source"
+    description: |-
+      Receive data from AWS Kinesis.
+
+      The basic authentication method for the Kinesis service is to specify an access key and a secret key. These parameters are optional because the Kamelet provides a default credentials provider.
+      
+      If you use the default credentials provider, the Kinesis client loads the credentials through this provider and doesn't use the basic authentication method.
+    required:
+      - accessKey
+      - secretKey
+      - stream
+      - region
+    type: object
+    properties:
+      stream:
+        title: Stream Name
+        description: The Kinesis stream that you want to access. The Kinesis stream that you specify must already exist.
+        type: string
+      accessKey:
+        title: Access Key
+        description: The access key obtained from AWS.
+        type: string
+        format: password
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:password
+        - urn:camel:group:credentials
+      secretKey:
+        title: Secret Key
+        description: The secret key obtained from AWS.
+        type: string
+        format: password
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:password
+        - urn:camel:group:credentials
+      region:
+        title: AWS Region
+        description: The AWS region to access.
+        type: string
+        enum: ["ap-south-1", "eu-south-1", "us-gov-east-1", "me-central-1", "ca-central-1", "eu-central-1", "us-iso-west-1", "us-west-1", "us-west-2", "af-south-1", "eu-north-1", "eu-west-3", "eu-west-2", "eu-west-1", "ap-northeast-3", "ap-northeast-2", "ap-northeast-1", "me-south-1", "sa-east-1", "ap-east-1", "cn-north-1", "us-gov-west-1", "ap-southeast-1", "ap-southeast-2", "us-iso-east-1", "ap-southeast-3", "us-east-1", "us-east-2", "cn-northwest-1", "us-isob-east-1", "aws-global", "aws-cn-global", "aws-us-gov-global", "aws-iso-global", "aws-iso-b-global"]
+      uriEndpointOverride:
+        title: Overwrite Endpoint URI
+        description: The overriding endpoint URI. To use this option, you must also select the `overrideEndpoint` option.
+        type: string
+      overrideEndpoint:
+        title: Endpoint Overwrite
+        description: Select this option to override the endpoint URI. To use this option, you must also provide a URI for the `uriEndpointOverride` option.
+        type: boolean
+        x-descriptors:
+          - 'urn:alm:descriptor:com.tectonic.ui:checkbox'
+        default: false
+      delay:
+        title: Delay
+        description: The number of milliseconds before the next poll of the selected stream.
+        type: integer
+        default: 500
+  types:
+    out:
+      mediaType: application/octet-stream
+  dependencies:
+    - "camel:aws2-kinesis"
+    - "camel:kamelet"
+    - "camel:core"
+  template:
+    from:
+      uri: aws2-kinesis:{{stream}}
+      parameters:
+        secretKey: "{{?secretKey}}"
+        accessKey: "{{?accessKey}}"
+        region: "{{region}}"
+        useDefaultCredentialsProvider: "false"
+        uriEndpointOverride: "{{?uriEndpointOverride}}"
+        overrideEndpoint: "{{overrideEndpoint}}"
+        delay: "{{delay}}"
+      steps:
+      - to: "kamelet:sink"

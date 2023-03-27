@@ -24,7 +24,7 @@
     <dependencies>
         <dependency>
             <groupId>org.bf2</groupId>
-            <artifactId>cos-connector-mongodb</artifactId>
+            <artifactId>cos-connector-kamelets-mongodb</artifactId>
         </dependency>
     </dependencies>
 

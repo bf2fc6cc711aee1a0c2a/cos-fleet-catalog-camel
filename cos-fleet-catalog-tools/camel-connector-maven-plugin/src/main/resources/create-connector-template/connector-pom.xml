@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <parent>
+        <groupId>org.bf2</groupId>
+        <artifactId>cos-fleet-catalog-connectors-{{connector.group}}</artifactId>
+        <version>999-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>cos-connector-{{connector.type}}-{{connector.version}}</artifactId>
+
+    <name>{{connector.type}}</name>
+    <description>{{connector.type}}</description>
+
+    <packaging>jar</packaging>
+
+    <properties>
+        <cos.connector.type>{{connector.type}}</cos.connector.type>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.bf2</groupId>
+            <artifactId>cos-connector-kamelets-{{connector.type}}</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.bf2</groupId>
+                <artifactId>camel-connector-maven-plugin</artifactId>
+                <configuration>
+                    <connectors>
+                        {{#connector.source}}
+                        <connector>
+                            <name>${cos.connector.type}-source-${cos.connector.version}</name>
+                            <title>${project.name} source</title>
+                            <description>TODO</description>
+                            <adapter>
+                                <prefix>{{connector.group}}</prefix>
+                                <name>cos-${cos.connector.type}-source</name>
+                                <version>${cos.kamelets.version}</version>
+                            </adapter>
+                            <kafka>
+                                <prefix>kafka</prefix>
+                                <name>cos-kafka-sink</name>
+                                <version>${cos.kamelets.version}</version>
+                            </kafka>
+                        </connector>
+                        {{/connector.source}}
+                        {{#connector.sink}}
+                        <connector>
+                            <name>${cos.connector.type}-sink-${cos.connector.version}</name>
+                            <title>${project.name} sink</title>
+                            <description>TODO</description>
+                            <adapter>
+                                <prefix>{{connector.group}}</prefix>
+                                <name>cos-${cos.connector.type}-sink</name>
+                                <version>${cos.kamelets.version}</version>
+                            </adapter>
+                            <kafka>
+                                <prefix>kafka</prefix>
+                                <name>cos-kafka-source</name>
+                                <version>${cos.kamelets.version}</version>
+                            </kafka>
+                        </connector>
+                        {{/connector.sink}}
+                    </connectors>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

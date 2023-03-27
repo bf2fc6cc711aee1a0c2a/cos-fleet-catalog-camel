@@ -1,0 +1,51 @@
+== Adding a new Component
+
+1. You should know link:how-to-build.adoc[how to build].
+2. Scaffold the necessary Maven modules using `camel-connector-maven-plugin.
+
+
+As an example let's add a new conenctor for supporting an imaginary social platform named `foo`:
+[source,bash]
+----
+./mvnw camel-connector:create-connector \
+    -N \
+    -Dconnector.group=social \
+    -Dconnector.type=foo \
+    -Dconnector.version=0.1
+----
+
+where:
+
+* `social` is the group/category the connector belongs to
+* `0.1` is the schema version of the connector.
+
+[NOTE]
+====
+The connectors' schema MUST be backward compatible hence, if a breaking change is required, a new connector must be generated with a new version.
+====
+
+The above sequence of commands does the following:
+
+* it creates/amends four new Maven modules
+** `cos-fleetshard-connector/social`
+** `cos-fleetshard-connector/social/foo-0.1`
+** `cos-fleetshard-connector-it/foo-it`
+** `cos-fleetshard-connector-it/social/foo-it`
+* it creates a basic connector configuration in the `cos-fleetshard-connector/social/foo-0.1/pom.xml` with:
+** a source connector definition which users a `cos-foo-source`
+** a sink connector definition which users a `cos-foo-sink`
++
+[NOTE]
+====
+At this stage, the plugin does not check for the existence of the kamelets so the generated modules should be reviewed and amended as needed.
+====
++
+* it creates a basic integration test in the `cos-fleetshard-connector-it/social/foo-it` module to ensure the generated container image starts.
+
+[TIP]
+====
+It is possible to configure the mojo to create only the source or sink connector by providing additional maven properties:
+
+- `-Dconnector.source=true|false`
+- `-Dconnector.sink=true|false`
+====

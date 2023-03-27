@@ -24,7 +24,7 @@
     <dependencies>
         <dependency>
             <groupId>org.bf2</groupId>
-            <artifactId>cos-connector-ansible-tower</artifactId>
+            <artifactId>cos-connector-kamelets-ansible</artifactId>
         </dependency>
     </dependencies>
 

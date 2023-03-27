@@ -34,8 +34,10 @@ spec:
 
       If you use the default credentials provider, the DynamoDB client loads the credentials through this provider and doesn't use the basic authentication method.
 
-      This Kamelet expects a JSON-formatted body and it must include the primary key values that define the DynamoDB item. The mapping between the JSON fields and table attribute values is done by key. For example, for  '{"username":"oscerd", "city":"Rome"}' input, the Kamelet inserts or update an item in the specified AWS DynamoDB table and sets the values for the 'username' and 'city' attributes. 
+      This Kamelet expects a JSON-formatted body and it must include the primary key values that define the DynamoDB item. The mapping between the JSON fields and table attribute values is done by key. For example, for  '{"username":"oscerd", "city":"Rome"}' input, the Kamelet inserts or update an item in the specified AWS DynamoDB table and sets the values for the 'username' and 'city' attributes.
     required:
+      - accessKey
+      - secretKey
       - table
       - region
     type: object
@@ -71,13 +73,6 @@ spec:
         type: string
         default: PutItem
         example: PutItem
-      useDefaultCredentialsProvider:
-        title: Default Credentials Provider
-        description: If true, the DynamoDB client loads credentials through a default credentials provider. If false, it uses the basic authentication method (access key and secret key).
-        type: boolean
-        x-descriptors:
-          - 'urn:alm:descriptor:com.tectonic.ui:checkbox'
-        default: false
       uriEndpointOverride:
         title: Overwrite Endpoint URI
         description: The overriding endpoint URI. To use this option, you must also select the `overrideEndpoint` option.
@@ -93,12 +88,10 @@ spec:
     in:
       mediaType: application/json
   dependencies:
-  - mvn:org.apache.camel.kamelets:camel-kamelets-utils:0.9.1
   - "camel:core"
   - "camel:jackson"
   - "camel:aws2-ddb"
   - "camel:kamelet"
-  - "mvn:software.amazon.awssdk:utils:2.17.223"
   template:
     from:
       uri: "kamelet:source"
@@ -110,7 +103,7 @@ spec:
           json:
             library: Jackson
             unmarshalType: com.fasterxml.jackson.databind.JsonNode
-      - bean: "org.apache.camel.kamelets.utils.transform.aws.ddb.JsonToDdbModelConverter"
+      - bean: "org.bf2.cos.kamelets.aws.ddb.JsonToDdbModelConverter"
       - to:
           uri: "aws2-ddb:{{table}}"
           parameters:
@@ -118,6 +111,6 @@ spec:
             accessKey: "{{?accessKey}}"
             region: "{{region}}"
             operation: "{{operation}}"
-            useDefaultCredentialsProvider: "{{useDefaultCredentialsProvider}}"
+            useDefaultCredentialsProvider: "false"
             uriEndpointOverride: "{{?uriEndpointOverride}}"
             overrideEndpoint: "{{overrideEndpoint}}"

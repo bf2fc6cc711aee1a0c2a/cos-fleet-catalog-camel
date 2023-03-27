@@ -34,8 +34,8 @@
                             <description>Send data to an Amazon Simple Notification Service (SNS) topic.</description>
                             <adapter>
                                 <prefix>aws</prefix>
-                                <name>${cos.connector.type}-sink</name>
-                                <version>${camel-kamelets-catalog.version}</version>
+                                <name>cos-${cos.connector.type}-sink</name>
+                                <version>${cos.kamelets.version}</version>
                             </adapter>
                             <kafka>
                                 <prefix>kafka</prefix>

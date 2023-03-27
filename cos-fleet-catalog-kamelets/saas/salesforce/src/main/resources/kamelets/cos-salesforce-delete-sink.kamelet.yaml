@@ -1,0 +1,100 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-salesforce-delete-sink
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "sink"
+spec:
+  definition:
+    title: "Salesforce Delete Sink"
+    description: |-
+      Remove an object from Salesforce. 
+      
+      The data body must be JSON-formatted and it must
+      contain two keys: `sObjectId` and `sObjectName`. For example: `{ "sObjectId": "XXXXX0", "sObjectName": "Contact" }`
+    required:
+      - clientId
+      - clientSecret
+      - userName
+      - password
+    type: object
+    properties:
+      loginUrl:
+        title: Login URL
+        description: The Salesforce instance login URL.
+        type: string
+        default: https://login.salesforce.com
+      clientId:
+        title: Consumer Key
+        description: The Salesforce application consumer key.
+        type: string
+        x-descriptors:
+        - urn:camel:group:credentials
+      clientSecret:
+        title: Consumer Secret
+        description: The Salesforce application consumer secret.
+        type: string
+        format: password
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:password
+        - urn:camel:group:credentials
+      userName:
+        title: Username
+        description: The Salesforce username.
+        type: string
+        x-descriptors:
+        - urn:camel:group:credentials
+      password:
+        title: Password
+        description: The Salesforce user password.
+        type: string
+        format: password
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:password
+        - urn:camel:group:credentials
+  types:
+    in:
+      mediaType: application/json
+      schema:
+        type: object
+        required: ["sObjectId", "sObjectName"]
+        properties:
+          sObjectId:
+            type: string
+          sObjectName:
+            type: string
+  dependencies:
+  - "camel:salesforce"
+  - "camel:kamelet"
+  - "camel:core"
+  - "camel:jsonpath"
+  template:
+    beans:
+      - name: local-delete-salesforce
+        type: "#class:org.apache.camel.component.salesforce.SalesforceComponent"
+        properties:
+          clientId: "{{clientId}}"
+          clientSecret: "{{clientSecret}}"
+          userName: "{{userName}}"
+          password: "{{password}}"
+          loginUrl: "{{loginUrl}}"
+    from:
+      uri: kamelet:source
+      steps:
+        - set-header:
+            name: sObjectId
+            jsonpath: "$['sObjectId']"
+        - set-header:
+            name: sObjectName
+            jsonpath: "$['sObjectName']"
+        - setBody:
+            simple: "${null}"
+        - to:
+            uri: "{{local-delete-salesforce}}:deleteSObject"
+        - remove-header:
+            name: sObjectId
+        - remove-header:
+            name: sObjectName

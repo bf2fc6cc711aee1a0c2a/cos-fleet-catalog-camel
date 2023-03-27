@@ -19,12 +19,6 @@
         <cos.connector.catalog.group>sql</cos.connector.catalog.group>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.bf2</groupId>
-            <artifactId>cos-connector-sql</artifactId>
-        </dependency>
-    </dependencies>
 
     <modules>
        <module>postgresql-0.1</module>

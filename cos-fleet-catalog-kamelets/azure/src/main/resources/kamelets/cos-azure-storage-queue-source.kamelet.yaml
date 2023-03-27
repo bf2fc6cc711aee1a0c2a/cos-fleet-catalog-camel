@@ -1,0 +1,54 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-azure-storage-queue-source
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "source"
+spec:
+  definition:
+    title: "Azure Storage Queue Source"
+    description: |-
+      Receive events from Azure Storage queues.
+    required:
+      - accountName
+      - queueName
+      - accessKey
+    type: object
+    properties:
+      accountName:
+        title: Account Name
+        description: The Azure Storage Queue account name.
+        type: string
+        x-descriptors:
+        - urn:camel:group:credentials
+      queueName:
+        title: Queue Name
+        description: The Azure Storage Queue container name.
+        type: string
+      accessKey:
+        title: Access Key
+        description: The Azure Storage Queue access key.
+        type: string
+        format: password
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:password
+        - urn:camel:group:credentials
+      maxMessages:
+        title: Maximum Messages
+        description: The maximum number of messages to get. You can specify a value between 1 and 32. The default is 1 (one message). If there are fewer than the maximum number of messages in the queue, then all the messages are returned.
+        type: integer
+        default: 1
+  dependencies:
+    - "camel:azure-storage-queue"
+    - "camel:kamelet"
+  template:
+    from:
+      uri: "azure-storage-queue://{{accountName}}/{{queueName}}"
+      parameters:
+        accessKey: "{{accessKey}}"
+        maxMessages: "{{maxMessages}}"
+      steps:
+      - to: "kamelet:sink"

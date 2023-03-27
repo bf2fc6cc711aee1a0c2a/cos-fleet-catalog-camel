@@ -9,32 +9,28 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>cos-connector-kamelets</artifactId>
+    <artifactId>cos-fleet-catalog-kamelets</artifactId>
     <packaging>pom</packaging>
 
     <properties>
     </properties>
 
     <modules>
-        <module>serdes</module>
-
-        <module>log</module>
-        <module>fault</module>
-
-        <module>aws</module>
-	<module>azure</module>
-	<module>cassandra</module>
-	<module>ftp</module>
-        <module>google</module>
-        <module>sql</module>
-        <module>ansible-tower</module>
-        <module>http</module>
-        <module>mongodb</module>
-        <module>kafka</module>
-        <module>salesforce</module>
-        <module>slack</module>
-        <module>openapi</module>
         <module>actions</module>
+        <module>serdes</module>
+        <module>kafka</module>
+        <module>support</module>
+        <module>aws</module>
+        <module>azure</module>
+        <module>gcp</module>
+        <module>sql</module>
+        <module>misc</module>
+        <module>itops</module>
+        <module>messaging</module>
+        <module>nosql</module>
+        <module>saas</module>
+        <module>social</module>
+        <module>storage</module>
     </modules>
 
     <build>

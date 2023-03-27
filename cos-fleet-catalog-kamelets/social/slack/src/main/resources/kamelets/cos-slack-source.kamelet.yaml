@@ -1,0 +1,56 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-slack-source
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "source"
+spec:
+  definition:
+    title: "Slack Source"
+    description: |-
+      Receive messages from a Slack channel.
+    required:
+      - channel
+      - token
+    type: object
+    properties:
+      channel:
+        title: Channel
+        description: The Slack channel to receive messages from.
+        type: string
+        example: "#myroom"
+      token:
+        title: Token
+        description: "The Bot User OAuth Access Token to access Slack. A Slack app that has the following permissions is required: `channels:history`, `groups:history`, `im:history`, `mpim:history`, `channels:read`, `groups:read`, `im:read`, and `mpim:read`."
+        type: string
+        format: password
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:password
+        - urn:camel:group:credentials
+      delay:
+        title: Delay
+        description: The delay between polls. If no unit provided, miliseconds is the default.
+        type: string
+        default: "60000"
+        example: "60s or 6000 or 1m"
+  types:
+    out:
+      mediaType: application/json
+  dependencies:
+  - "camel:gson"
+  - "camel:slack"
+  - "camel:kamelet"
+  template:
+    from:
+      uri: "slack:{{channel}}"
+      parameters:
+        token: "{{token}}"
+        delay: "{{delay}}"
+      steps:
+      - marshal:
+          json:
+            library: "Gson"
+      - to: "kamelet:sink"

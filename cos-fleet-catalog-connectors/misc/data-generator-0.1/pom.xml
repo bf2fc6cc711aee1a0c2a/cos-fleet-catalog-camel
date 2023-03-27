@@ -21,6 +21,13 @@
         <cos.connector.type>data-generator</cos.connector.type>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.bf2</groupId>
+            <artifactId>cos-connector-kamelets-data-generator</artifactId>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -34,8 +41,8 @@
                             <description>A data generator (for development and testing purposes).</description>
                             <adapter>
                                 <prefix>timer</prefix>
-                                <name>timer-source</name>
-                                <version>${camel-kamelets-catalog.version}</version>
+                                <name>cos-${cos.connector.type}-source</name>
+                                <version>${cos.kamelets.version}</version>
                             </adapter>
                             <kafka>
                                 <prefix>kafka</prefix>

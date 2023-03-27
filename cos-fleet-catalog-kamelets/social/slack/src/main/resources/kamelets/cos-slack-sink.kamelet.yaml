@@ -1,0 +1,62 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-slack-sink
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "sink"
+spec:
+  definition:
+    title: "Slack Sink"
+    description: |-
+      Send messages to a Slack channel.
+    required:
+      - channel
+      - webhookUrl
+    type: object
+    properties:
+      channel:
+        title: Channel
+        description: The Slack channel to send messages to.
+        type: string
+        example: "#myroom"
+      webhookUrl:
+        title: Webhook URL
+        description: The webhook URL used by the Slack channel to handle incoming messages.
+        type: string
+        format: password
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:password
+        - urn:camel:group:credentials
+      iconEmoji:
+        title: Icon Emoji
+        description: Use a Slack emoji as an avatar.
+        type: string
+      iconUrl:
+        title: Icon URL
+        description: The avatar to use when sending a message to a channel or user.
+        type: string
+      username:
+        title: Username
+        description: The username for the bot when it sends messages to a channel or user.
+        type: string
+  types:
+    out:
+      mediaType: application/json
+  dependencies:
+  - "camel:jackson"
+  - "camel:slack"
+  - "camel:kamelet"
+  template:
+    from:
+      uri: "kamelet:source"
+      steps:
+      - to:
+          uri: "slack:{{channel}}"
+          parameters:
+            webhookUrl: "{{webhookUrl}}"
+            iconEmoji: "{{?iconEmoji}}"
+            iconUrl: "{{?iconUrl}}"
+            username: "{{?username}}"

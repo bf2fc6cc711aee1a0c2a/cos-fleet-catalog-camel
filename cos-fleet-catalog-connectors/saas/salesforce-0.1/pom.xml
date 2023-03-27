@@ -24,7 +24,7 @@
     <dependencies>
         <dependency>
             <groupId>org.bf2</groupId>
-            <artifactId>cos-connector-salesforce</artifactId>
+            <artifactId>cos-connector-kamelets-salesforce</artifactId>
         </dependency>
     </dependencies>
 
@@ -67,8 +67,8 @@
                             <description>Create an object in Salesforce.</description>
                             <adapter>
                                 <prefix>salesforce</prefix>
-                                <name>${cos.connector.type}-create-sink</name>
-                                <version>${camel-kamelets-catalog.version}</version>
+                                <name>cos-${cos.connector.type}-create-sink</name>
+                                <version>${cos.kamelets.version}</version>
                             </adapter>
                             <kafka>
                                 <prefix>kafka</prefix>
@@ -84,8 +84,8 @@
                             <description>Delete an object in Salesforce.</description>
                             <adapter>
                                 <prefix>salesforce</prefix>
-                                <name>${cos.connector.type}-delete-sink</name>
-                                <version>${camel-kamelets-catalog.version}</version>
+                                <name>cos-${cos.connector.type}-delete-sink</name>
+                                <version>${cos.kamelets.version}</version>
                             </adapter>
                             <kafka>
                                 <prefix>kafka</prefix>
@@ -101,8 +101,8 @@
                             <description>Update an object in Salesforce.</description>
                             <adapter>
                                 <prefix>salesforce</prefix>
-                                <name>${cos.connector.type}-update-sink</name>
-                                <version>${camel-kamelets-catalog.version}</version>
+                                <name>cos-${cos.connector.type}-update-sink</name>
+                                <version>${cos.kamelets.version}</version>
                             </adapter>
                             <kafka>
                                 <prefix>kafka</prefix>

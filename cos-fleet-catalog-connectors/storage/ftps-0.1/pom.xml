@@ -21,6 +21,13 @@
         <cos.connector.type>ftps</cos.connector.type>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.bf2</groupId>
+            <artifactId>cos-connector-kamelets-ftp</artifactId>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>

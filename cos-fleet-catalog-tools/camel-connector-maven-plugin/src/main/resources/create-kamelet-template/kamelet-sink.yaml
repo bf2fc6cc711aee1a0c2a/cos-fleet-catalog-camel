@@ -1,0 +1,22 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-{{kamelet.group}}-{{kamelet.type}}-sink
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "sink"
+spec:
+  definition:
+    title: "{{kamelet.group}}-{{kamelet.type}} Sink"
+    description: "TODO"
+    required:
+    type: object
+    properties:
+  dependencies:
+    - "camel:core"
+    - "camel:kamelet"
+  template:
+    from:
+      uri: "kamelet:source"

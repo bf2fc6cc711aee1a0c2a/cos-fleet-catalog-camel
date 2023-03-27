@@ -1,0 +1,102 @@
+kind: Kamelet
+metadata:
+  name: cos-splunk-sink
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "sink"
+spec:
+  definition:
+    title: "Splunk Sink"
+    description: |-
+      Send data to Splunk either by using "submit" or "stream" mode.
+
+      The payload MUST be in json format.
+
+    required:
+      - serverHostname
+      - username
+      - password
+    type: object
+    properties:
+      serverHostname:
+        title: Splunk Server Address
+        description: The address of your Splunk server.
+        type: string
+        example: my_server_splunk.com
+      serverPort:
+        title: Splunk Server Port
+        description: The address of your Splunk server.
+        type: integer
+        default: 8089
+      username:
+        title: Username
+        description: The username to authenticate to Splunk Server.
+        type: string
+      password:
+        title: Password
+        description: The password to authenticate to Splunk Server.
+        type: string
+        format: password
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:password
+        - urn:camel:group:credentials
+      index:
+        title: Index
+        description: Splunk index to write to.
+        type: string
+      protocol:
+        title: Protocol
+        description: Connection Protocol to Splunk server.
+        type: string
+        default: https
+        enum: ["http", "https"]
+      source:
+        title: Source
+        description: The source named field of the data.
+        type: string
+      sourceType:
+        title: Source Type
+        description: The source named field of the data.
+        type: string
+      app:
+        title: Splunk App
+        description: The app name in Splunk.
+        type: string
+      connectionTimeout:
+        title: Connection Timeout
+        description: Timeout in milliseconds when connecting to Splunk server
+        type: integer
+        default: 5000
+      mode:
+        title: Mode
+        description: The mode to publish events to Splunk.
+        type: string
+        default: stream
+        enum: ["submit", "stream"]
+  types:
+    in:
+      mediaType: application/json
+  dependencies:
+  - "camel:core"
+  - "camel:splunk"
+  - "camel:kamelet"
+  template:
+    from:
+      uri: "kamelet:source"
+      steps:
+      - to:
+          uri: "splunk:{{mode}}"
+          parameters:
+            host: "{{serverHostname}}"
+            port: "{{serverPort}}"
+            username: "{{username}}"
+            password: "{{password}}"
+            source: "{{?source}}"
+            sourceType: "{{?sourceType}}"
+            scheme: "{{?protocol}}"
+            index: "{{?index}}"
+            app: "{{?app}}"
+            connectionTimeout: "{{?connectionTimeout}}"
+            raw: true

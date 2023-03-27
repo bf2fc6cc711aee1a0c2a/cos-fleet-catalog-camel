@@ -19,7 +19,6 @@
         <camel-k-runtime.version>1.15.0</camel-k-runtime.version>
         <camel-quarkus.version>2.13.0</camel-quarkus.version>
         <camel.version>3.18.2</camel.version>
-        <camel-kamelets-catalog.version>0.9.1</camel-kamelets-catalog.version>
 
         <classgraph.version>4.8.157</classgraph.version>
         <jsonschema-generator.version>4.29.0</jsonschema-generator.version>
@@ -35,6 +34,7 @@
         <rest-assured.version>5.3.0</rest-assured.version>
         <json-schema-validator.version>1.0.79</json-schema-validator.version>
         <commons-text.version>1.10.0</commons-text.version>
+        <commons-dbcp2.version>2.9.0</commons-dbcp2.version>
         <strimzi-test-container.version>0.103.0</strimzi-test-container.version>
         <wiremock.version>2.35.0</wiremock.version>
         <json-unit.version>2.37.0</json-unit.version>
@@ -43,7 +43,13 @@
         <wiremock.version>2.35.0</wiremock.version>
         <assertj-core.version>3.24.2</assertj-core.version>
         <everit-json-schema.version>1.14.2</everit-json-schema.version>
+        <redshift-jdbc42.version>2.1.0.9</redshift-jdbc42.version>
+        <awssdk-utils.version>2.17.223</awssdk-utils.version>
+        <artemis-jms.version>2.23.1</artemis-jms.version>
+        <qpid-jms.version>1.0.0</qpid-jms.version>
+        <mustache.version>0.9.10</mustache.version>
 
+        <pom-tuner.version>4.2.0</pom-tuner.version>
         <maven.version>3.8.7</maven.version>
 
         <maven-plugin-tools.version>3.7.1</maven-plugin-tools.version>
@@ -228,91 +234,175 @@
                 <version>${project.version}</version>
             </dependency>
 
+            <!-- aws -->
             <dependency>
                 <groupId>org.bf2</groupId>
-                <artifactId>cos-connector-serdes</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>org.bf2</groupId>
-                <artifactId>cos-connector-kafka</artifactId>
+                <artifactId>cos-connector-kamelets-aws</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
 
+            <!-- azure -->
             <dependency>
                 <groupId>org.bf2</groupId>
-                <artifactId>cos-connector-fault</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>org.bf2</groupId>
-                <artifactId>cos-connector-log</artifactId>
+                <artifactId>cos-connector-kamelets-azure</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
 
+            <!-- google -->
             <dependency>
                 <groupId>org.bf2</groupId>
-                <artifactId>cos-connector-aws</artifactId>
+                <artifactId>cos-connector-kamelets-gcp</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <!-- itops -->
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-kamelets-splunk</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.bf2</groupId>
-                <artifactId>cos-connector-azure</artifactId>
+                <artifactId>cos-connector-kamelets-ansible</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <!-- messaging -->
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-kamelets-http</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.bf2</groupId>
-                <artifactId>cos-connector-ansible-tower</artifactId>
+                <artifactId>cos-connector-kamelets-jms-artemis</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.bf2</groupId>
-                <artifactId>cos-connector-salesforce</artifactId>
+                <artifactId>cos-connector-kamelets-jms-amqp</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.bf2</groupId>
-                <artifactId>cos-connector-mongodb</artifactId>
+                <artifactId>cos-connector-kamelets-openapi</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <!-- misc -->
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-kamelets-data-generator</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <!-- nosql -->
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-kamelets-cassandra</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.bf2</groupId>
-                <artifactId>cos-connector-slack</artifactId>
+                <artifactId>cos-connector-kamelets-elasticsearch</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.bf2</groupId>
-                <artifactId>cos-connector-http</artifactId>
+                <artifactId>cos-connector-kamelets-mongodb</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <!-- saas -->
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-kamelets-jira</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.bf2</groupId>
-                <artifactId>cos-connector-google</artifactId>
+                <artifactId>cos-connector-kamelets-salesforce</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <!-- social -->
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-kamelets-slack</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.bf2</groupId>
-                <artifactId>cos-connector-sql</artifactId>
+                <artifactId>cos-connector-kamelets-telegram</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <!-- sql -->
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-kamelets-aws-redshift</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.bf2</groupId>
-                <artifactId>cos-connector-openapi</artifactId>
+                <artifactId>cos-connector-kamelets-mariadb</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.bf2</groupId>
-                <artifactId>cos-connector-actions</artifactId>
+                <artifactId>cos-connector-kamelets-mysql</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.bf2</groupId>
-                <artifactId>cos-connector-ftp</artifactId>
+                <artifactId>cos-connector-kamelets-postgresql</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.bf2</groupId>
-                <artifactId>cos-connector-cassandra</artifactId>
+                <artifactId>cos-connector-kamelets-sqlserver</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <!-- storage -->
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-kamelets-ftp</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-kamelets-minio</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+
+            <!-- core -->
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-kamelets-actions</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-kamelets-serdes</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-kamelets-kafka</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <!-- helpers -->
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-kamelets-log</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bf2</groupId>
+                <artifactId>cos-connector-kamelets-fault</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
 
@@ -321,7 +411,6 @@
                 <artifactId>cos-fleet-catalog-connectors-it-support</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>org.bf2</groupId>
                 <artifactId>cos-connector-camel-component-routecontroller</artifactId>
@@ -329,8 +418,6 @@
             </dependency>
 
             <!-- deps -->
-
-
             <dependency>
                 <groupId>com.networknt</groupId>
                 <artifactId>json-schema-validator</artifactId>
@@ -463,6 +550,18 @@
                 <artifactId>commons-text</artifactId>
                 <version>${commons-text.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-dbcp2</artifactId>
+                <version>${commons-dbcp2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.amazon.redshift</groupId>
+                <artifactId>redshift-jdbc42</artifactId>
+                <version>${redshift-jdbc42.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>io.strimzi</groupId>
                 <artifactId>strimzi-test-container</artifactId>
@@ -487,6 +586,28 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-collections4</artifactId>
                 <version>${commons-collections4.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.activemq</groupId>
+                <artifactId>artemis-jms-client-all</artifactId>
+                <version>${artemis-jms.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.qpid</groupId>
+                <artifactId>qpid-jms-client</artifactId>
+                <version>${qpid-jms.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.l2x6.pom-tuner</groupId>
+                <artifactId>pom-tuner</artifactId>
+                <version>${pom-tuner.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.spullara.mustache.java</groupId>
+                <artifactId>compiler</artifactId>
+                <version>${mustache.version}</version>
             </dependency>
 
             <dependency>

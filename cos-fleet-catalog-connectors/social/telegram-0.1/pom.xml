@@ -21,6 +21,13 @@
         <cos.connector.type>telegram</cos.connector.type>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.bf2</groupId>
+            <artifactId>cos-connector-kamelets-telegram</artifactId>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -34,8 +41,8 @@
                             <description>Receive all messages that people send to your Telegram bot.</description>
                             <adapter>
                                 <prefix>telegram</prefix>
-                                <name>${cos.connector.type}-source</name>
-                                <version>${camel-kamelets-catalog.version}</version>
+                                <name>cos-${cos.connector.type}-source</name>
+                                <version>${cos.kamelets.version}</version>
                             </adapter>
                             <kafka>
                                 <prefix>kafka</prefix>
@@ -49,8 +56,8 @@
                             <description>Send a message to a Telegram chat using your Telegram bot as sender. To create a bot, use your Telegram app to contact the @botfather account.</description>
                             <adapter>
                                 <prefix>telegram</prefix>
-                                <name>${cos.connector.type}-sink</name>
-                                <version>${camel-kamelets-catalog.version}</version>
+                                <name>cos-${cos.connector.type}-sink</name>
+                                <version>${cos.kamelets.version}</version>
                             </adapter>
                             <kafka>
                                 <prefix>kafka</prefix>

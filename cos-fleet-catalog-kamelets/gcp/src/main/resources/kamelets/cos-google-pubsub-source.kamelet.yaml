@@ -1,0 +1,66 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-google-pubsub-source
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "source"
+spec:
+  definition:
+    title: "Google Pubsub Source"
+    description: |-
+      Consume messages from Google Cloud Pub/Sub.
+    required:
+      - projectId
+      - subscriptionName
+      - serviceAccountKey
+    type: object
+    properties:
+      projectId:
+        title: Project Id
+        description: The Google Cloud Pub/Sub Project ID.
+        type: string
+      subscriptionName:
+        title: Subscription Name
+        description: The subscription name.
+        type: string
+      serviceAccountKey:
+        title: Service Account Key
+        description: The service account key to use as credentials for the Pub/Sub publisher/subscriber. You must encode this value in base64.
+        format: password
+        x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:password
+          - urn:camel:group:credentials
+      synchronousPull:
+        title: Synchronous Pull
+        description: Specifies to synchronously pull batches of messages.
+        type: boolean
+        x-descriptors:
+        - 'urn:alm:descriptor:com.tectonic.ui:checkbox'
+        default: false
+      maxMessagesPerPoll:
+        title: Max Messages Per Poll
+        description: The maximum number of messages to receive from the server in a single API call.
+        type: integer
+        default: 1
+      concurrentConsumers:
+        title: Concurrent Consumers
+        description: The number of parallel streams to consume from the subscription.
+        type: integer
+        default: 1
+  dependencies:
+    - "camel:kamelet"
+    - "camel:google-pubsub"
+    - "camel:jackson"
+  template:
+    from:
+      uri: "google-pubsub://{{projectId}}:{{subscriptionName}}"
+      parameters:
+        serviceAccountKey: "base64:{{serviceAccountKey}}"
+        synchronousPull: "{{synchronousPull}}"
+        maxMessagesPerPoll: "{{maxMessagesPerPoll}}"
+        concurrentConsumers: "{{concurrentConsumers}}"
+      steps:
+      - to: kamelet:sink

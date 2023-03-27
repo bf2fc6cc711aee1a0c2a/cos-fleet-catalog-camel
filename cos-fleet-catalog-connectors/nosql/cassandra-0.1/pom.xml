@@ -21,11 +21,11 @@
         <cos.connector.type>cassandra</cos.connector.type>
         <quarkus.cassandra.health.enabled>false</quarkus.cassandra.health.enabled>
     </properties>
-    
+
     <dependencies>
         <dependency>
             <groupId>org.bf2</groupId>
-            <artifactId>cos-connector-cassandra</artifactId>
+            <artifactId>cos-connector-kamelets-cassandra</artifactId>
         </dependency>
     </dependencies>
 

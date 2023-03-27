@@ -1,0 +1,61 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-google-bigquery-sink
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "sink"
+spec:
+  definition:
+    title: "Google Big Query Sink"
+    description: |-
+      Send data to a Google Big Query table.
+
+      The data must be JSON format to represent an object or an array of objects.
+    required:
+      - projectId
+      - dataset
+      - table
+      - serviceAccountKey
+    type: object
+    properties:
+      projectId:
+        title: Google Cloud Project Id
+        description: The Google Cloud Project ID.
+        type: string
+      dataset:
+        title: Big Query Dataset Id
+        description: The Big Query Dataset ID.
+        type: string
+      table:
+        title: Big Query Table Id
+        description: The Big Query Table ID.
+        type: string
+      serviceAccountKey:
+        title: Service Account Key
+        description: The service account key to use as credentials for the BigQuery Service. You must encode this value in base64.
+        format: password
+        x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:password
+          - urn:camel:group:credentials
+  types:
+    in:
+      mediaType: application/json
+  dependencies:
+    - "camel:core"
+    - "camel:kamelet"
+    - "camel:google-bigquery"
+    - "camel:jackson"
+  template:
+    from:
+      uri: "kamelet:source"
+      steps:
+      - unmarshal:
+          json:
+              library: Jackson
+      - to:
+          uri: "google-bigquery:{{projectId}}:{{dataset}}:{{table}}"
+          parameters:
+            serviceAccountKey: "base64:{{serviceAccountKey}}"

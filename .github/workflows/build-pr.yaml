@@ -1,148 +1,135 @@
+---
 name: Build PR
-on:
+"on":
   pull_request:
     branches:
-      - main
-  workflow_dispatch:
-
+    - main
+  workflow_dispatch: null
 env:
   LANG: en_US.UTF-8
   MAVEN_OPTS: -Xmx3000m
   MAVEN_ARGS: -V -ntp -Dhttp.keepAlive=false -e
-
 concurrency:
-  group: ${{ github.ref }}-${{ github.workflow }}
+  group: "${{ github.ref }}-${{ github.workflow }}"
   cancel-in-progress: true
-
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Set up JDK 11
-        uses: actions/setup-java@v3
-        with:
-          java-version: '11'
-          distribution: 'temurin'
-      #- name: Cache m2 repo
-      #  uses: actions/cache@v1
-      #  with:
-      #    path: ~/.m2/repository
-      #    key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-      #     restore-keys: |
-      #      ${{ runner.os }}-maven-
-      - name: "Build"
-        run: |
-          ./mvnw ${MAVEN_ARGS} clean install
-      - name: "Tar Maven Repo"
-        shell: bash
-        run: |
-          tar -czf ${{ runner.temp }}/maven-repo.tgz -C ~ .m2/repository
-          ls -lh ${{ runner.temp }}/maven-repo.tgz
-          df -h /
-      - name: "Persist Maven Repo"
-        uses: actions/upload-artifact@v3
-        with:
-          name: maven-repo-${{ github.run_id }}
-          path: ${{ runner.temp }}/maven-repo.tgz
-          retention-days: 1
-
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: 11
+        distribution: temurin
+    - name: Cache m2 repo
+      uses: actions/cache@v1
+      with:
+        path: "~/.m2/repository"
+        key: "${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}"
+        restore-keys: |
+          ${{ runner.os }}-maven-
+    - name: Build
+      run: |
+        ./mvnw ${MAVEN_ARGS} clean install
+    - name: Tar Maven Repo
+      shell: bash
+      run: |
+        tar -czf ${{ runner.temp }}/maven-repo.tgz -C ~ .m2/repository
+        ls -lh ${{ runner.temp }}/maven-repo.tgz
+        df -h /
+    - name: Persist Maven Repo
+      uses: actions/upload-artifact@v3
+      with:
+        name: "maven-repo-${{ github.run_id }}"
+        path: "${{ runner.temp }}/maven-repo.tgz"
+        retention-days: 1
   aws:
     needs:
-      - build
+    - build
     uses: ./.github/workflows/build-it.yaml
     secrets: inherit
     with:
       modules: ":cos-fleet-catalog-connectors-aws,:cos-fleet-catalog-connectors-aws-it"
-      tag: ${{ github.run_id }}-${{ github.run_attempt }}
-
+      tag: "${{ github.run_id }}-${{ github.run_attempt }}"
   azure:
     needs:
-      - build
+    - build
     uses: ./.github/workflows/build-it.yaml
     secrets: inherit
     with:
       modules: ":cos-fleet-catalog-connectors-azure,:cos-fleet-catalog-connectors-azure-it"
-      tag: ${{ github.run_id }}-${{ github.run_attempt }}
-
+      tag: "${{ github.run_id }}-${{ github.run_attempt }}"
   gcp:
     needs:
-      - build
+    - build
     uses: ./.github/workflows/build-it.yaml
     secrets: inherit
     with:
       modules: ":cos-fleet-catalog-connectors-gcp,:cos-fleet-catalog-connectors-gcp-it"
-      tag: ${{ github.run_id }}-${{ github.run_attempt }}
-
+      tag: "${{ github.run_id }}-${{ github.run_attempt }}"
   itops:
     needs:
-      - build
+    - build
     uses: ./.github/workflows/build-it.yaml
     secrets: inherit
     with:
       modules: ":cos-fleet-catalog-connectors-itops,:cos-fleet-catalog-connectors-itops-it"
-      tag: ${{ github.run_id }}-${{ github.run_attempt }}
-
+      tag: "${{ github.run_id }}-${{ github.run_attempt }}"
   messaging:
     needs:
-      - build
+    - build
     uses: ./.github/workflows/build-it.yaml
     secrets: inherit
     with:
       modules: ":cos-fleet-catalog-connectors-messaging,:cos-fleet-catalog-connectors-messaging-it"
-      tag: ${{ github.run_id }}-${{ github.run_attempt }}
-
+      tag: "${{ github.run_id }}-${{ github.run_attempt }}"
   misc:
     needs:
-      - build
+    - build
     uses: ./.github/workflows/build-it.yaml
     secrets: inherit
     with:
       modules: ":cos-fleet-catalog-connectors-misc,:cos-fleet-catalog-connectors-misc-it"
-      tag: ${{ github.run_id }}-${{ github.run_attempt }}
-
+      tag: "${{ github.run_id }}-${{ github.run_attempt }}"
   nosql:
     needs:
-      - build
+    - build
     uses: ./.github/workflows/build-it.yaml
     secrets: inherit
     with:
       modules: ":cos-fleet-catalog-connectors-nosql,:cos-fleet-catalog-connectors-nosql-it"
-      tag: ${{ github.run_id }}-${{ github.run_attempt }}
-
+      tag: "${{ github.run_id }}-${{ github.run_attempt }}"
   saas:
     needs:
-      - build
+    - build
     uses: ./.github/workflows/build-it.yaml
     secrets: inherit
     with:
       modules: ":cos-fleet-catalog-connectors-saas,:cos-fleet-catalog-connectors-saas-it"
-      tag: ${{ github.run_id }}-${{ github.run_attempt }}
-
+      tag: "${{ github.run_id }}-${{ github.run_attempt }}"
   social:
     needs:
-      - build
+    - build
     uses: ./.github/workflows/build-it.yaml
     secrets: inherit
     with:
       modules: ":cos-fleet-catalog-connectors-social,:cos-fleet-catalog-connectors-social-it"
-      tag: ${{ github.run_id }}-${{ github.run_attempt }}
-
+      tag: "${{ github.run_id }}-${{ github.run_attempt }}"
   sql:
     needs:
-      - build
+    - build
     uses: ./.github/workflows/build-it.yaml
     secrets: inherit
     with:
       modules: ":cos-fleet-catalog-connectors-sql,:cos-fleet-catalog-connectors-sql-it"
-      tag: ${{ github.run_id }}-${{ github.run_attempt }}
-
+      tag: "${{ github.run_id }}-${{ github.run_attempt }}"
   storage:
     needs:
-      - build
+    - build
     uses: ./.github/workflows/build-it.yaml
     secrets: inherit
     with:
       modules: ":cos-fleet-catalog-connectors-storage,:cos-fleet-catalog-connectors-storage-it"
-      tag: ${{ github.run_id }}-${{ github.run_attempt }}
+      tag: "${{ github.run_id }}-${{ github.run_attempt }}"

@@ -1,0 +1,49 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-google-pubsub-sink
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "sink"
+spec:
+  definition:
+    title: "Google Pubsub Sink"
+    description: |-
+      Send messages to Google Cloud Pub/Sub.
+
+      You must encode the `serviceAccountKey` property before you pass it as a parameter.
+    required:
+      - projectId
+      - destinationName
+      - serviceAccountKey
+    type: object
+    properties:
+      projectId:
+        title: Project Id
+        description: The Google Cloud Pub/Sub Project ID.
+        type: string
+      destinationName:
+        title: Destination Name
+        description: The destination name.
+        type: string
+      serviceAccountKey:
+        title: Service Account Key
+        description: The service account key to use as credentials for the Pub/Sub publisher/subscriber. You must encode this value in base64.
+        format: password
+        x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:password
+          - urn:camel:group:credentials
+  dependencies:
+    - "camel:kamelet"
+    - "camel:google-pubsub"
+    - "camel:jackson"
+  template:
+    from:
+      uri: kamelet:source
+      steps:
+      - to:
+          uri: "google-pubsub://{{projectId}}:{{destinationName}}"
+          parameters:
+            serviceAccountKey: "base64:{{serviceAccountKey}}"

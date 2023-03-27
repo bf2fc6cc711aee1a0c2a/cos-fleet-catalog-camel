@@ -23,8 +23,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.microsoft.sqlserver</groupId>
-            <artifactId>mssql-jdbc</artifactId>
+            <groupId>org.bf2</groupId>
+            <artifactId>cos-connector-kamelets-sqlserver</artifactId>
         </dependency>
     </dependencies>
 

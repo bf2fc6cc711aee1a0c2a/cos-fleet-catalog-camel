@@ -1,0 +1,29 @@
+== How To Build
+
+* git
+* docker
+* java 11
+* maven 3.8.x
+
+Checkout the code
+
+[source,shell]
+----
+$ git clone https://github.com/bf2fc6cc711aee1a0c2a/cos-fleet-catalog-camel
+$ cd cos-fleet-catalog-camel
+----
+
+A fast build without tests:
+
+[source,shell]
+----
+$ ./mvnw clean install -DskipTests=true
+----
+
+A build with integration tests (requires docker):
+
+[source,shell]
+----
+$ ./mvnw clean install -Dcontainer-build -Dcontaineer-test
+----
+
