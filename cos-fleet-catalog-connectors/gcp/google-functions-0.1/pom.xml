@@ -21,13 +21,6 @@
         <cos.connector.type>google-functions</cos.connector.type>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.bf2</groupId>
-            <artifactId>cos-connector-google</artifactId>
-        </dependency>
-    </dependencies>
-
     <build>
         <plugins>
             <plugin>

@@ -1,0 +1,50 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-jms-amqp-10-sink
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "sink"
+    camel.apache.org/requires.runtime: camel-k
+spec:
+  definition:
+    title: "JMS - AMQP 1.0 Kamelet Sink"
+    description: "Send data to any AMQP 1.0 compliant message broker by using the Apache Qpid JMS client."
+    required:
+      - destinationName
+      - remoteURI
+    type: object
+    properties:
+      destinationType:
+        title: "Destination Type"
+        description: "The JMS destination type (queue or topic)."
+        type: string
+        default: queue
+      destinationName:
+        title: "Destination Name"
+        description: "The JMS destination name."
+        type: string
+      remoteURI:
+        title: "Broker URL"
+        description: "The JMS URL."
+        type: string
+        example: "amqp://my-host:31616"
+  dependencies:
+  - "camel:jms"
+  - "camel:kamelet"
+  template:
+    beans:
+      - name: connectionFactoryBean
+        type: "#class:org.apache.qpid.jms.JmsConnectionFactory"
+        property:
+          - key: remoteURI
+            value: '{{remoteURI}}'
+    from:
+      uri: "kamelet:source"
+      steps:
+      - to:
+          uri: "jms:{{destinationType}}:{{destinationName}}"
+          parameters:
+            connectionFactory: "#bean:{{connectionFactoryBean}}"

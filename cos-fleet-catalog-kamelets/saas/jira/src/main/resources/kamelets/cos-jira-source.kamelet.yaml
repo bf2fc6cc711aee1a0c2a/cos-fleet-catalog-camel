@@ -1,0 +1,66 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-jira-source
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "source"
+spec:
+  definition:
+    title: "Jira Source"
+    description: |-
+      Receive notifications about new issues from Jira.
+    required:
+      - jiraUrl
+      - username
+      - password
+    type: object
+    properties:
+      jiraUrl:
+        title: Jira URL
+        description: The URL of your instance of Jira.
+        type: string
+        example: http://my_jira.com:8081
+      username:
+        title: Username
+        description: The username to access Jira.
+        type: string
+        x-descriptors:
+        - urn:camel:group:credentials
+      password:
+        title: Password
+        description: The password or the API Token to access Jira.
+        type: string
+        format: password
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:password
+        - urn:camel:group:credentials
+      jql:
+        title: JQL
+        description: A query to filter issues.
+        type: string
+        example: project=MyProject
+
+  types:
+    out:
+      mediaType: application/json
+  dependencies:
+  - "camel:jackson"
+  - "camel:jira"
+  - "camel:kamelet"
+  template:
+    from:
+      uri: "jira:newIssues"
+      parameters:
+        jiraUrl: "{{jiraUrl}}"
+        username: "{{username}}"
+        password: "{{password}}"
+        jql: "{{jql}}"
+      steps:
+      - marshal:
+          json:
+            library: Jackson
+            module-class-names: com.fasterxml.jackson.datatype.joda.JodaModule
+      - to: "kamelet:sink"

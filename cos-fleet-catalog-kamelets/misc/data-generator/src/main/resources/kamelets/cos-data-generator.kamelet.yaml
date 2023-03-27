@@ -1,0 +1,49 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-data-generator-source
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: source
+    camel.apache.org/kamelet.verified: "true"
+spec:
+  definition:
+    title: Timer Source
+    description: Produces periodic messages with a custom payload.
+    required:
+      - message
+    type: object
+    properties:
+      period:
+        title: Period
+        description: "The interval (in milliseconds) to wait between producing the next message."
+        type: integer
+        default: 1000
+      message:
+        title: Message
+        description: The message to generate.
+        type: string
+        example: hello world
+      contentType:
+        title: Content Type
+        description: The content type of the generated message.
+        type: string
+        default: text/plain
+  dependencies:
+    - "camel:core"
+    - "camel:timer"
+    - "camel:kamelet"
+  template:
+    from:
+      uri: timer:tick
+      parameters:
+        period: "{{period}}"
+      steps:
+        - set-body:
+            constant: "{{message}}"
+        - set-header:
+            name: "Content-Type"
+            constant: "{{contentType}}"
+        - to: kamelet:sink

@@ -22,7 +22,7 @@
     <dependencies>
         <dependency>
             <groupId>org.bf2</groupId>
-            <artifactId>cos-connector-google</artifactId>
+            <artifactId>cos-connector-kamelets-gcp</artifactId>
         </dependency>
     </dependencies>
 

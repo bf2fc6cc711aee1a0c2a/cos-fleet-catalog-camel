@@ -4,16 +4,46 @@
 
     <parent>
         <groupId>org.bf2</groupId>
-        <artifactId>cos-connector-kamelets</artifactId>
+        <artifactId>cos-fleet-catalog-kamelets</artifactId>
         <version>999-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>cos-connector-aws</artifactId>
+    <artifactId>cos-connector-kamelets-aws</artifactId>
     <packaging>jar</packaging>
 
     <version>0.0.1-SNAPSHOT</version>
     <description>${project.artifactId}</description>
     <name>${project.artifactId}</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.camel.quarkus</groupId>
+            <artifactId>camel-quarkus-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel.quarkus</groupId>
+            <artifactId>camel-quarkus-aws2-ddb</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel.quarkus</groupId>
+            <artifactId>camel-quarkus-jackson</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>utils</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 </project>

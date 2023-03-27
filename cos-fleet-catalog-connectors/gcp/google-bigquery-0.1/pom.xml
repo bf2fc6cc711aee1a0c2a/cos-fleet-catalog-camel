@@ -21,13 +21,6 @@
         <cos.connector.type>google-bigquery</cos.connector.type>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.bf2</groupId>
-            <artifactId>cos-connector-google</artifactId>
-        </dependency>
-    </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -41,8 +34,8 @@
                             <description>Send data to a Google Big Query table.</description>
                             <adapter>
                                 <prefix>gcp</prefix>
-                                <name>${cos.connector.type}-sink</name>
-                                <version>${camel-kamelets-catalog.version}</version>
+                                <name>cos-${cos.connector.type}-sink</name>
+                                <version>${cos.kamelets.version}</version>
                             </adapter>
                             <kafka>
                                 <prefix>kafka</prefix>

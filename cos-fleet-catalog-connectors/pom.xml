@@ -67,20 +67,6 @@
             <artifactId>cos-connector-camel-component-routecontroller</artifactId>
         </dependency>
 
-        <!-- kamelets -->
-
-        <dependency>
-            <groupId>org.apache.camel.kamelets</groupId>
-            <artifactId>camel-kamelets</artifactId>
-            <version>${camel-kamelets-catalog.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.camel.kamelets</groupId>
-            <artifactId>camel-kamelets-utils</artifactId>
-            <version>${camel-kamelets-catalog.version}</version>
-        </dependency>
-
         <!-- camel -->
         <dependency>
             <groupId>org.apache.camel.quarkus</groupId>
@@ -102,15 +88,15 @@
         </dependency>
         <dependency>
             <groupId>org.bf2</groupId>
-            <artifactId>cos-connector-serdes</artifactId>
+            <artifactId>cos-connector-kamelets-serdes</artifactId>
         </dependency>
         <dependency>
             <groupId>org.bf2</groupId>
-            <artifactId>cos-connector-kafka</artifactId>
+            <artifactId>cos-connector-kamelets-kafka</artifactId>
         </dependency>
         <dependency>
             <groupId>org.bf2</groupId>
-            <artifactId>cos-connector-actions</artifactId>
+            <artifactId>cos-connector-kamelets-actions</artifactId>
         </dependency>
     </dependencies>
 
@@ -282,6 +268,8 @@
                                 <bannedDependencies>
                                     <excludes>
                                         <exclude>org.apache.camel.quarkus:camel-quarkus-microprofile-health</exclude>
+                                        <exclude>org.apache.camel.kamelets:camel-kamelets</exclude>
+                                        <exclude>org.apache.camel.kamelets:camel-kamelets-utils</exclude>
                                     </excludes>
                                 </bannedDependencies>
                             </rules>

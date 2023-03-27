@@ -22,7 +22,7 @@
     <dependencies>
         <dependency>
             <groupId>org.bf2</groupId>
-            <artifactId>cos-connector-azure</artifactId>
+            <artifactId>cos-connector-kamelets-azure</artifactId>
         </dependency>
     </dependencies>
 

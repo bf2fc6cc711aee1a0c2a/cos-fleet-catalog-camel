@@ -1,0 +1,35 @@
+== Adding a new Kamelet
+
+1. You should know link:how-to-build.adoc[how to build].
+2. Scaffold the necessary Maven modules using `camel-connector-maven-plugin.
+
+
+As an example let's add a new conenctor for supporting an imaginary social platform named `foo`:
+[source,bash]
+----
+./mvnw camel-connector:create-kamelet \
+    -N \
+    -Dkamelet.group=social \
+    -Dkamelet.type=foo
+----
+
+where:
+
+* `social` is the group/category the kamelet belongs to
+* `type` is the name of the kamelet
+
+The above sequence of commands does the following:
+
+* it creates/amends two new Maven modules
+** `cos-fleetshard-kamelets/social`
+** `cos-fleetshard-kamelets/social/foo`
+* scaffold a source kamelet in `cos-fleetshard-kamelets/social/foo/src/main/resources/kamelets/cos-foo-source.kamelet.yaml`
+* scaffold a sink kamelet in `cos-fleetshard-kamelets/social/foo/src/main/resources/kamelets/cos-foo-sink.kamelet.yaml`
+
+[TIP]
+====
+It is possible to configure the mojo to create only the source or sink kamelet by providing additional maven properties:
+
+- `-Dkamelet.source=true|false`
+- `-Dkamelet.sink=true|false`
+====

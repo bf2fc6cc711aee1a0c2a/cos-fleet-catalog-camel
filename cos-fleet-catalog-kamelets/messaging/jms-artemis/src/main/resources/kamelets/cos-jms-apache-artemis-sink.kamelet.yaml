@@ -1,0 +1,51 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-jms-apache-artemis-sink
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "sink"
+    camel.apache.org/requires.runtime: camel-k
+spec:
+  definition:
+    title: "JMS - Apache Artemis Kamelet Sink"
+    description: "Send data to an Apache Artemis message broker by using JMS."
+    required:
+      - destinationName
+      - brokerURL
+    type: object
+    properties:
+      destinationType:
+        title: "Destination Type"
+        description: "The JMS destination type (queue or topic)."
+        type: string
+        default: queue
+      destinationName:
+        title: "Destination Name"
+        description: "The JMS destination name."
+        type: string
+        example: person
+      brokerURL:
+        title: "Broker URL"
+        description: "The JMS URL."
+        type: string
+        example: "tcp://my-host:61616"
+  dependencies:
+  - "camel:jms"
+  - "camel:kamelet"
+  template:
+    beans:
+      - name: connectionFactoryBean
+        type: "#class:org.apache.activemq.artemis.jms.client.ActiveMQConnectionFactory"
+        property:
+          - key: brokerURL
+            value: '{{brokerURL}}'
+    from:
+      uri: "kamelet:source"
+      steps:
+      - to:
+          uri: "jms:{{destinationType}}:{{destinationName}}"
+          parameters:
+            connectionFactory: "#bean:{{connectionFactoryBean}}"

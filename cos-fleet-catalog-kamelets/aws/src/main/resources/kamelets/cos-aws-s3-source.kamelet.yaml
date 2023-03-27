@@ -17,6 +17,8 @@ spec:
       
       If you use the default credentials provider, the S3 client loads the credentials through this provider and doesn't use the basic authentication method.
     required:
+      - accessKey
+      - secretKey
       - bucketNameOrArn
       - region
     type: object
@@ -72,13 +74,6 @@ spec:
         x-descriptors:
         - 'urn:alm:descriptor:com.tectonic.ui:checkbox'
         default: false
-      useDefaultCredentialsProvider:
-        title: Default Credentials Provider
-        description: If true, the S3 client loads credentials through a default credentials provider. If false, it uses the basic authentication method (access key and secret key).
-        type: boolean
-        x-descriptors:
-        - 'urn:alm:descriptor:com.tectonic.ui:checkbox'
-        default: false
       uriEndpointOverride:
         title: Overwrite Endpoint URI
         description: The overriding endpoint URI. To use this option, you must also select the `overrideEndpoint` option.
@@ -98,7 +93,6 @@ spec:
   dependencies:
     - "camel:aws2-s3"
     - "camel:kamelet"
-    - "mvn:software.amazon.awssdk:utils:2.17.223"
   template:
     from:
       uri: "aws2-s3:{{bucketNameOrArn}}"
@@ -110,7 +104,7 @@ spec:
         ignoreBody: "{{ignoreBody}}"
         deleteAfterRead: "{{deleteAfterRead}}"
         prefix: "{{?prefix}}"
-        useDefaultCredentialsProvider: "{{useDefaultCredentialsProvider}}"
+        useDefaultCredentialsProvider: "false"
         uriEndpointOverride: "{{?uriEndpointOverride}}"
         overrideEndpoint: "{{overrideEndpoint}}"
         delay: "{{delay}}"

@@ -22,6 +22,13 @@
         <quarkus.elasticsearch.health.enabled>false</quarkus.elasticsearch.health.enabled>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.bf2</groupId>
+            <artifactId>cos-connector-kamelets-elasticsearch</artifactId>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -35,8 +42,8 @@
                             <description>Send JSON objects to ElasticSearch. Other JSON data types are not supported.</description>
                             <adapter>
                                 <prefix>elasticsearch</prefix>
-                                <name>${cos.connector.type}-index-sink</name>
-                                <version>${camel-kamelets-catalog.version}</version>
+                                <name>cos-${cos.connector.type}-index-sink</name>
+                                <version>${cos.kamelets.version}</version>
                             </adapter>
                             <kafka>
                                 <prefix>kafka</prefix>

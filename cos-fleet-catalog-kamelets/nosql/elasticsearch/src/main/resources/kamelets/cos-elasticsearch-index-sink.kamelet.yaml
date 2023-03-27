@@ -1,0 +1,120 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-elasticsearch-index-sink
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "sink"
+spec:
+  definition:
+    title: "ElasticSearch Index Sink"
+    description: |-
+      Stores JSON-formatted data into ElasticSearch.
+
+      The input data must be formatted in JSON according to the requirements of the index. 
+
+      In the header, you can set the following properties:
+
+      - `indexId` / `ce-indexid`: The index ID for ElasticSearch.
+      
+      - `indexName` / `ce-indexname`: The index name for ElasticSearch.
+      
+      If you do not set a property in the header, the Kamelet uses the exchange ID for the index setting.
+    required:
+      - clusterName
+      - hostAddresses
+    type: object
+    properties:
+      user:
+        title: Username
+        description: The username to connect to ElasticSearch.
+        type: string
+        x-descriptors:
+        - urn:camel:group:credentials
+      password:
+        title: Password
+        description: The password to connect to ElasticSearch.
+        type: string
+        format: password
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:password
+        - urn:camel:group:credentials
+      enableSSL:
+        title: Enable SSL
+        description: Specifies to connect by using SSL.
+        type: boolean
+        default: true
+        x-descriptors:
+          - 'urn:alm:descriptor:com.tectonic.ui:checkbox'
+      hostAddresses:
+        title: Host Addresses
+        description: A comma-separated list of remote transport addresses in `ip:port format`.
+        type: string
+        example: quickstart-es-http:9200
+      clusterName:
+        title: ElasticSearch Cluster Name
+        description: The name of the ElasticSearch cluster.
+        type: string
+        example: quickstart
+      indexName:
+        title: Index in ElasticSearch
+        description: The name of the ElasticSearch index.
+        type: string
+        example: data
+  types:
+    out:
+      mediaType: application/json
+    in:
+      mediaType: application/json
+  dependencies:
+    - "camel:core"
+    - "camel:jackson"
+    - "camel:kamelet"
+    - "camel:elasticsearch-rest"
+    - "camel:gson"
+    - "camel:bean"
+  template:
+    beans:
+      - name: local-es
+        type: "#class:org.apache.camel.component.elasticsearch.ElasticsearchComponent"
+        properties:
+            user: "{{?user}}"
+            password: "{{?password}}"
+    from:
+      uri: kamelet:source
+      steps:
+      - choice:
+          when:
+          - simple: "${header[indexId]}"
+            steps:
+            - set-header:
+                name: "indexId"
+                simple: "${header[indexId]}"
+          - simple: "${header[ce-indexid]}"
+            steps:
+            - set-header:
+                name: "indexId"
+                simple: "${header[ce-indexid]}"
+      - choice:
+          when:
+          - simple: "${header[indexName]}"
+            steps:
+            - set-header:
+                name: "indexName"
+                simple: "${header[indexName]}"
+          - simple: "${header[ce-indexname]}"
+            steps:
+            - set-header:
+                name: "indexName"
+                simple: "${header[ce-indexname]}"
+      - to:
+          uri: "{{local-es}}:{{clusterName}}"
+          parameters:
+            operation: "INDEX"
+            hostAddresses: "{{hostAddresses}}"
+            enableSSL: "{{enableSSL}}"
+            indexName: "{{?indexName}}"
+      - marshal:
+          json: { }

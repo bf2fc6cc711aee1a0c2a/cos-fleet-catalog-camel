@@ -1,0 +1,89 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: cos-minio-sink
+  annotations:
+    camel.apache.org/provider: "Red Hat"
+    camel.apache.org/kamelet.version: "${cos.kamelets.version}"
+  labels:
+    camel.apache.org/kamelet.type: "sink"
+spec:
+  definition:
+    title: "Minio Sink"
+    description: |-
+      Upload data to MinIO.
+
+      In the header, you can set the `file` / `ce-file` property to specify the filename to upload.
+
+      If you do not set the property in the header, the Kamelet uses the exchange ID for the filename.
+    required:
+      - bucketName
+      - accessKey
+      - secretKey
+      - endpoint
+    type: object
+    properties:
+      bucketName:
+        title: Bucket Name
+        description: The Minio Bucket name.
+        type: string
+      accessKey:
+        title: Access Key
+        description: The access key obtained from MinIO.
+        type: string
+        format: password
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:password
+        - urn:camel:group:credentials
+      secretKey:
+        title: Secret Key
+        description: The secret key obtained from MinIO.
+        type: string
+        format: password
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:password
+        - urn:camel:group:credentials
+      endpoint:
+        title: Endpoint
+        description: The MinIO Endpoint. You can specify an URL, domain name, IPv4 address, or IPv6 address.
+        type: string
+        example: http://localhost:9000
+      autoCreateBucket:
+        title: Autocreate Bucket
+        description: Specify to automatically create the MinIO bucket.
+        type: boolean
+        x-descriptors:
+        - 'urn:alm:descriptor:com.tectonic.ui:checkbox'
+        default: false
+  dependencies:
+    - "camel:core"
+    - "camel:minio"
+    - "camel:kamelet"
+  template:
+    from:
+      uri: "kamelet:source"
+      steps:
+      - choice:
+          when:
+          - simple: "${header[file]}"
+            steps:
+            - set-header:
+                name: CamelMinioObjectName
+                simple: "${header[file]}"
+          - simple: "${header[ce-file]}"
+            steps:
+            - set-header:
+                name: CamelMinioObjectName
+                simple: "${header[ce-file]}"
+          otherwise:
+            steps:
+            - set-header:
+                name: CamelMinioObjectName
+                simple: "${exchangeId}"
+      - to:
+          uri: "minio:{{bucketName}}"
+          parameters:
+            autoCreateBucket: "{{autoCreateBucket}}"
+            secretKey: "{{secretKey}}"
+            accessKey: "{{accessKey}}"
+            endpoint: "{{endpoint}}"

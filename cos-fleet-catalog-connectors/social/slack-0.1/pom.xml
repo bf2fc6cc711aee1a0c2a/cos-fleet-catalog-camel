@@ -24,7 +24,7 @@
     <dependencies>
         <dependency>
             <groupId>org.bf2</groupId>
-            <artifactId>cos-connector-slack</artifactId>
+            <artifactId>cos-connector-kamelets-slack</artifactId>
         </dependency>
     </dependencies>
 
@@ -50,11 +50,6 @@
                                 <version>${cos.kamelets.version}</version>
                             </kafka>
                             <dataShape>
-                                <!--
-                                <consumes>
-                                    <contentClass>com.slack.api.model.Message</contentClass>
-                                </consumes>
-                                -->
                                 <produces>
                                     <formats>
                                         <format>application/json</format>
@@ -68,8 +63,8 @@
                             <description>Send messages to a Slack channel.</description>
                             <adapter>
                                 <prefix>slack</prefix>
-                                <name>${cos.connector.type}-sink</name>
-                                <version>${camel-kamelets-catalog.version}</version>
+                                <name>cos-${cos.connector.type}-sink</name>
+                                <version>${cos.kamelets.version}</version>
                             </adapter>
                             <kafka>
                                 <prefix>kafka</prefix>
@@ -86,15 +81,6 @@
                         </connector>
                     </connectors>
                 </configuration>
-                <!--
-                <dependencies>
-                    <dependency>
-                        <groupId>com.slack.api</groupId>
-                        <artifactId>slack-api-model</artifactId>
-                        <version>1.8.1</version>
-                    </dependency>
-                </dependencies>
-                -->
             </plugin>
         </plugins>
     </build>

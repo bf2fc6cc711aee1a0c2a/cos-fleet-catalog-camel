@@ -11,6 +11,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <connector.generate.skip>true</connector.generate.skip>
+        <kamelet.generate.skip>true</kamelet.generate.skip>
 
         <quarkus.container-image.registry>registry.io</quarkus.container-image.registry>
         <quarkus.container-image.group>${project.groupId}</quarkus.container-image.group>

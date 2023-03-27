@@ -18,13 +18,7 @@
     <properties>
         <cos.connector.catalog.group>storage</cos.connector.catalog.group>
     </properties>
-    
-    <dependencies>
-        <dependency>
-            <groupId>org.bf2</groupId>
-            <artifactId>cos-connector-ftp</artifactId>
-        </dependency>
-    </dependencies>
+
 
     <modules>
         <module>ftps-0.1</module>
