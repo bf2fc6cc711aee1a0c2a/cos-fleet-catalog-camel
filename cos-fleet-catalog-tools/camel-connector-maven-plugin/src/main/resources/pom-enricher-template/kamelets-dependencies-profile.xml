@@ -1,0 +1,8 @@
+<profiles xmlns="http://maven.apache.org/POM/4.0.0">
+    <profile>
+        <id>kamelets-deps</id>
+        <activation>
+            <activeByDefault>true</activeByDefault>
+        </activation>
+    </profile>
+</profiles>

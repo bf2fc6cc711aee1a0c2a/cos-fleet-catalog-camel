@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.execution.MavenSession;
@@ -197,20 +196,7 @@ public class AppBootstrapProvider {
             throw new MojoExecutionException("The camelQuarkusVersion should be configured on the plugin");
         }
 
-        final Set<ConnectorDependency> connectorsDependecies = new HashSet<>();
         final Set<ConnectorDependency> projectDependencies = new HashSet<>();
-
-        for (Connector connector : MojoSupport.inject(session, defaults, connectors)) {
-            try {
-                connectorsDependecies.addAll(
-                        ConnectorSupport.dependencies(
-                                KameletsCatalog.get(project, getLog()),
-                                connector,
-                                camelQuarkusVersion));
-            } catch (Exception e) {
-                throw new MojoExecutionException(e);
-            }
-        }
 
         for (org.apache.maven.model.Dependency dependency : project.getDependencies()) {
             projectDependencies.add(
@@ -219,12 +205,6 @@ public class AppBootstrapProvider {
                             dependency.getArtifactId(),
                             dependency.getVersion()));
         }
-
-        getLog().info("Connectors dependencies:");
-        connectorsDependecies.stream()
-                .distinct()
-                .sorted(Comparator.comparing(ConnectorDependency::toString))
-                .forEach(d -> getLog().info("- " + d));
 
         getLog().info("Project dependencies:");
         projectDependencies.stream()
@@ -265,9 +245,9 @@ public class AppBootstrapProvider {
                 .setBaseName(finalName)
                 .setTargetDirectory(buildDir.toPath())
                 .setForcedDependencies(
-                        Stream.concat(connectorsDependecies.stream(), projectDependencies.stream())
+                        projectDependencies.stream()
                                 .distinct()
-                                .map(d -> new AppArtifact(d.groupId, d.artifactiId, d.version))
+                                .map(d -> new AppArtifact(d.groupId, d.artifactId, d.version))
                                 .map(d -> new AppDependency(d, "compile"))
                                 .collect(Collectors.toList()));
 

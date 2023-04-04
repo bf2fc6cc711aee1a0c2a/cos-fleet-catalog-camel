@@ -1,5 +1,10 @@
 package org.bf2.cos.catalog.camel.maven.connector.support;
 
+import com.github.mustachejava.DefaultMustacheFactory;
+import com.github.mustachejava.Mustache;
+import com.github.mustachejava.MustacheFactory;
+import org.l2x6.pom.tuner.PomTransformer;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -13,12 +18,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.l2x6.pom.tuner.PomTransformer;
-
-import com.github.mustachejava.DefaultMustacheFactory;
-import com.github.mustachejava.Mustache;
-import com.github.mustachejava.MustacheFactory;
 
 public final class Builders {
     private Builders() {
@@ -89,6 +88,11 @@ public final class Builders {
 
         public Pom withPath(String first, String... more) {
             this.path = Paths.get(first, more);
+            return this;
+        }
+
+        public Pom withPath(Path path) {
+            this.path = path;
             return this;
         }
 
