@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.logging.Log;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -17,6 +18,7 @@ public final class ConnectorSupport {
     }
 
     public static Collection<ConnectorDependency> dependencies(
+            Log log,
             KameletsCatalog catalog,
             Connector connector,
             String camelQuarkusVersion) throws MojoExecutionException {
@@ -33,9 +35,12 @@ public final class ConnectorSupport {
                 connector.getKafka().getVersion()));
 
         for (ObjectNode node : kamelets) {
+            log.info("kamelet: " + node.at("/metadata/name").asText());
+
             for (JsonNode depNode : node.at("/spec/dependencies")) {
 
                 final String dep = depNode.asText();
+                final ConnectorDependency result;
 
                 if (dep.startsWith("mvn:")) {
                     String[] coords = dep.substring("mvn:".length()).split(":");
@@ -45,25 +50,33 @@ public final class ConnectorSupport {
                         continue;
                     }
 
-                    dependencies.add(new ConnectorDependency(
+                    log.info(">> " + node.at("/metadata/name").asText());
+
+                    result = new ConnectorDependency(
                             coords[0],
                             coords[1],
-                            coords[2]));
+                            coords[2]);
+
                 } else if (dep.startsWith("camel:")) {
                     String coord = dep.substring("camel:".length());
-                    dependencies.add(new ConnectorDependency(
+                    result = new ConnectorDependency(
                             "org.apache.camel.quarkus",
                             "camel-quarkus-" + coord,
-                            camelQuarkusVersion));
+                            camelQuarkusVersion);
+
                 } else if (dep.startsWith("github:")) {
                     String[] coords = dep.substring("github:".length()).split(":");
-                    dependencies.add(new ConnectorDependency(
+                    result = new ConnectorDependency(
                             "com.github." + coords[0],
                             coords[1],
-                            coords[2]));
+                            coords[2]);
                 } else {
                     throw new MojoExecutionException("Unsupported dependency: " + dep);
                 }
+
+                log.info(">> " + result.toString());
+                dependencies.add(result);
+
             }
         }
 

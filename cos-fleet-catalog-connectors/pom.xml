@@ -122,7 +122,14 @@
                     <artifactId>camel-connector-maven-plugin</artifactId>
                     <executions>
                         <execution>
-                            <id>generate</id>
+                            <id>generate-pom</id>
+                            <phase>process-resources</phase>
+                            <goals>
+                                <goal>enrich-pom</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>generate-catalog</id>
                             <phase>process-resources</phase>
                             <goals>
                                 <goal>generate-catalog</goal>
