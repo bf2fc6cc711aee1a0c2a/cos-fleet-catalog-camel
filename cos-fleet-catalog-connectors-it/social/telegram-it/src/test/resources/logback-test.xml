@@ -15,6 +15,7 @@
 
     <logger name="tc-container" level="INFO"/>
     <logger name="tc-kafka" level="WARN"/>
+    <logger name="tc-mock" level="INFO"/>
 
     <root level="INFO">
         <appender-ref ref="STDOUT"/>
