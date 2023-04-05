@@ -18,6 +18,7 @@
     </properties>
     <modules>
         <module>slack-it</module>
+        <module>telegram-it</module>
     </modules>
 
 </project>

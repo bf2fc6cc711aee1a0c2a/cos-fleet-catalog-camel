@@ -18,5 +18,6 @@
     </properties>
 
     <modules>
+        <module>data-generator-it</module>
     </modules>
 </project>
