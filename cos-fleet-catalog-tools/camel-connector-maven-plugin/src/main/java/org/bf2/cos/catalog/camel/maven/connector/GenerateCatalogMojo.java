@@ -689,6 +689,12 @@ public class GenerateCatalogMojo extends AbstractMojo {
                                     continue;
                                 }
 
+                                // include kamelets names to ensure kamelets renaming would trigger
+                                // a new connector being generated
+                                if (entry.getName().endsWith(".kamelet.yaml")) {
+                                    DigestUtils.updateDigest(digest, entry.getName());
+                                }
+
                                 try (InputStream is = jar.getInputStream(entry)) {
                                     DigestUtils.updateDigest(digest, is);
                                 }
