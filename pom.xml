@@ -45,7 +45,7 @@
         <everit-json-schema.version>1.14.2</everit-json-schema.version>
         <redshift-jdbc42.version>2.1.0.9</redshift-jdbc42.version>
         <awssdk-utils.version>2.17.223</awssdk-utils.version>
-        <artemis-jms.version>2.23.1</artemis-jms.version>
+        <artemis-jms.version>2.28.0</artemis-jms.version>
         <qpid-jms.version>1.0.0</qpid-jms.version>
         <mustache.version>0.9.10</mustache.version>
 
