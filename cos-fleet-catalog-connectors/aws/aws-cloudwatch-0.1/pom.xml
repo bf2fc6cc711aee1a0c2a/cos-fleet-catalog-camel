@@ -56,4 +56,28 @@
         </plugins>
     </build>
 
+    <profiles>
+        <!--This is auto generate, do not change it-->
+        <profile>
+            <id>kamelets-deps</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.apache.camel.quarkus</groupId>
+                    <artifactId>camel-quarkus-aws2-cw</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.camel.quarkus</groupId>
+                    <artifactId>camel-quarkus-kafka</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.camel.quarkus</groupId>
+                    <artifactId>camel-quarkus-kamelet</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
+
 </project>
