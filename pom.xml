@@ -15,10 +15,10 @@
         <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
         <project.resources.sourceEncoding>${encoding}</project.resources.sourceEncoding>
 
-        <quarkus.version>2.13.0.Final</quarkus.version>
-        <camel-k-runtime.version>1.15.0</camel-k-runtime.version>
+        <quarkus.version>2.13.7.Final</quarkus.version>
+        <camel-k-runtime.version>1.15.2</camel-k-runtime.version>
         <camel-quarkus.version>2.13.0</camel-quarkus.version>
-        <camel.version>3.18.2</camel.version>
+        <camel.version>3.18.3</camel.version>
 
         <classgraph.version>4.8.157</classgraph.version>
         <jsonschema-generator.version>4.29.0</jsonschema-generator.version>
@@ -625,31 +625,6 @@
         </dependencies>
     </dependencyManagement>
 
-    <repositories>
-        <repository>
-            <id>apache.snapshots</id>
-            <url>https://repository.apache.org/snapshots/</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>apache.snapshots</id>
-            <url>https://repository.apache.org/snapshots/</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-        </pluginRepository>
-    </pluginRepositories>
-
     <build>
         <resources>
             <resource>
@@ -781,6 +756,12 @@
                     <groupId>io.quarkus</groupId>
                     <artifactId>quarkus-extension-maven-plugin</artifactId>
                     <version>${quarkus.version}</version>
+                </plugin>                
+                <plugin>
+                    <groupId>org.apache.camel</groupId>
+                    <artifactId>camel-yaml-dsl-maven-plugin</artifactId>
+                    <!-- custom version needed for the restricted yaml dsl schema generation -->
+                    <version>3.20.3</version>
                 </plugin>
 
             </plugins>
