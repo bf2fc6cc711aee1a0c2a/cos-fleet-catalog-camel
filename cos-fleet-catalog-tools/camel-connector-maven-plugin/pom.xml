@@ -524,7 +524,7 @@
                                 <bannedDefinition>org.apache.camel.model.CircuitBreakerDefinition</bannedDefinition>
                                 <bannedDefinition>org.apache.camel.model.ClaimCheckDefinition</bannedDefinition>
                                 <bannedDefinition>org.apache.camel.model.ContextScanDefinition</bannedDefinition>
-                                <bannedDefinition>org.apache.camel.model.ConvertBodyDefinition</bannedDefinition>
+                                <!-- <bannedDefinition>org.apache.camel.model.ConvertBodyDefinition</bannedDefinition> -->
                                 <!-- <bannedDefinition>org.apache.camel.model.DataFormatDefinition</bannedDefinition> -->
                                 <bannedDefinition>org.apache.camel.model.DelayDefinition</bannedDefinition>
                                 <bannedDefinition>org.apache.camel.model.DescriptionDefinition</bannedDefinition>
@@ -594,7 +594,7 @@
                                 <!-- <bannedDefinition>org.apache.camel.model.SetHeaderDefinition</bannedDefinition> -->
                                 <!-- <bannedDefinition>org.apache.camel.model.SetPropertyDefinition</bannedDefinition> -->
                                 <bannedDefinition>org.apache.camel.model.SortDefinition</bannedDefinition>
-                                <bannedDefinition>org.apache.camel.model.SplitDefinition</bannedDefinition>
+                                <!-- <bannedDefinition>org.apache.camel.model.SplitDefinition</bannedDefinition> -->
                                 <!-- <bannedDefinition>org.apache.camel.model.StepDefinition</bannedDefinition> -->
                                 <bannedDefinition>org.apache.camel.model.StopDefinition</bannedDefinition>
                                 <bannedDefinition>org.apache.camel.model.TemplatedRouteBeanDefinition</bannedDefinition>
