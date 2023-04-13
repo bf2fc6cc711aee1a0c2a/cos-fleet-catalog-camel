@@ -19,7 +19,6 @@ env:
   LANG: en_US.UTF-8
   MAVEN_OPTS: -Xmx3000m
   MAVEN_ARGS: -V -ntp -Dhttp.keepAlive=false -Dmaven.wagon.http.pool=false -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 -e
-  CONNECTORS_DIR: etc/kubernetes/manifests/base
   PROJECTS: ${{ github.workspace }}
 
 concurrency:
@@ -64,7 +63,7 @@ jobs:
           username: ${{ secrets.QUAY_MCI_USR }}
           password: ${{ secrets.QUAY_MCI_PWD }}
 
-      - name: Build Project
+      - name: Build Catalog
         run: |          
           cd ${{ env.PROJECTS }}/cos-fleet-catalog-camel
           
@@ -75,7 +74,7 @@ jobs:
             -Dcos.connector.container.tag=${CONNECTORS_RELEASE} \
             -Dlog.enabled=true
 
-      - name: Push Container Images
+      - name: Push Connector Images
         run: |
           echo "Pushing container images"
           echo "Pushing container images"
@@ -87,11 +86,52 @@ jobs:
               docker push $IMAGE
           done
 
-      - name: "Create PR for cos-fleet-catalog-camel"
-        env:
-          BRANCH_NAME: "cos-fleet-catalog-camel.${{ env.CONNECTORS_RELEASE }}"
-          GH_TOKEN: ${{ secrets.PR_TOKEN }}
+      - name: Generate Manifests
         run: |
+          cd ${{ env.PROJECTS }}/cos-manifests
+          
+          ./connectors/manifest.sh
+
+      - name: Build Catalog Image
+        run: |
+          cd ${{ env.PROJECTS }}/cos-manifests
+          
+          docker build \
+            -t "quay.io/rhoas/cos-fleet-catalog-camel:${CONNECTORS_RELEASE}" \
+            -t "quay.io/rhoas/cos-fleet-catalog-camel:latest" \
+            -f connectors/Dockerfile.camel ./connectors
+
+          docker push "quay.io/rhoas/cos-fleet-catalog-camel:${CONNECTORS_RELEASE}"
+          docker push "quay.io/rhoas/cos-fleet-catalog-camel:latest"
+
+      - name: Push Catalog Image
+        run: |
+          docker push "quay.io/rhoas/cos-fleet-catalog-camel:${CONNECTORS_RELEASE}"
+          docker push "quay.io/rhoas/cos-fleet-catalog-camel:latest"
+
+      - name: "Update Kustomize overlay ${{ matrix.overlay }}"
+        strategy:
+          matrix:
+            overlay:
+              - "dev"
+        env:
+          OVERLAY_PATH: kustomize/overlays/${{ matrix.overlay }}/control-plane/cos-fleet-catalog-camel
+        run: |
+          yq -i '.images[0].newTag = strenv(CONNECTORS_RELEASE)' ${OVERLAY_PATH}/kustomization.yaml
+
+      - name: "Create PR for cos-fleet-catalog-camel overlay ${{ matrix.overlay }}"
+        strategy:
+          matrix:
+            overlay:
+              - "dev"
+        env:
+          OVERLAY_PATH: "kustomize/overlays/${{ matrix.overlay }}/control-plane/cos-fleet-catalog-camel"
+          BRANCH_NAME: "cos-fleet-catalog-camel.${{ matrix.overlay }}.${{ env.CONNECTORS_RELEASE }}"
+          GH_TOKEN: ${{ secrets.PR_TOKEN }}
+          CONNECTORS_DIR: connectors
+        run: |
+          cd ${{ env.PROJECTS }}/cos-manifests          
+          
           echo ""
           echo "tag      : ${{ github.ref_name }}"
           echo "version  : ${CONNECTORS_VERSION}"
@@ -99,33 +139,41 @@ jobs:
           echo "release  : ${CONNECTORS_RELEASE}"
           echo "branch   : ${BRANCH_NAME}"
           echo ""
-                    
-          cd ${{ env.PROJECTS }}/cos-manifests
-          
-          ls -lR connectors/cos-fleet-catalog-camel
           
           git config user.email "mas-connectors@redhat.com" 
           git config user.name "mas-connectors"
-
           git checkout -b ${BRANCH_NAME}
-          git add connectors/cos-fleet-catalog-camel
+          
           git status
-
-          if [ -z "$(git status --untracked-files=no --porcelain connectors/cos-fleet-catalog-camel)" ]; then 
-            echo "Working directory clean excluding untracked files"            
+          
+          git add ${CONNECTORS_DIR}
+          git add ${OVERLAY_PATH}
+          
+          if [ -z "$(git status --untracked-files=no --porcelain ${OVERLAY_PATH} ${CONNECTORS_DIR})" ]; then 
+            echo " Working directory clean excluding untracked files"            
           else
-            git commit -m "Update cos-fleet-catalog-camel " connectors/cos-fleet-catalog-camel
+          
+            if [ -z "$(git status --untracked-files=no --porcelain ${OVERLAY_PATH})" ]; then 
+              echo "No overlay files to commit"
+            else
+              git commit -m "Update cos-fleet-catalog-camel kustomization images for overlay ${{ matrix.overlay }}" ${OVERLAY_PATH} 
+            fi
+          
+            if [ -z "$(git status --untracked-files=no --porcelain ${CONNECTORS_DIR})" ]; then 
+              echo "No conenctor files to commit"
+            else
+              git commit -m "Regen manifests" ${CONNECTORS_DIR}
+            fi
+          
             git reset --hard
             git push -u origin ${BRANCH_NAME}
-
+          
             # GH CLI can't find the branch on remote... needs some time :)
             sleep 15
-
-            gh config set prompt disabled
-
+          
             gh pr create \
               --fill \
               --base main \
-              --title "chore(catalog): update cos-fleet-catalog-camel to ${{ env.CONNECTORS_RELEASE }}" \
-              --body "sha: ${{ github.sha }}, tag: ${{ github.ref_name }}"   
+              --title "chore(catalog): update cos-fleet-catalog-camel catalog to ${{ env.CONNECTORS_RELEASE }}" \
+              --body "sha: ${{ github.sha }}, overlay: ${{ matrix.overlay }}, tag: ${{ github.ref_name }}"
           fi
