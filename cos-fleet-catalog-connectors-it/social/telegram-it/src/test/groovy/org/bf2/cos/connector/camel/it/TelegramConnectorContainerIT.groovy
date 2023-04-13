@@ -5,7 +5,7 @@ import org.bf2.cos.connector.camel.it.support.ConnectorContainer
 import org.bf2.cos.connector.camel.it.support.SimpleConnectorSpec
 
 @Slf4j
-class ConnectorContainerIT extends SimpleConnectorSpec {
+class TelegramConnectorContainerIT extends SimpleConnectorSpec {
 
     def "container image exposes health and metrics"(String definition) {
         setup:
