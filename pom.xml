@@ -48,7 +48,7 @@
         <artemis-jms.version>2.23.1</artemis-jms.version>
         <qpid-jms.version>1.0.0</qpid-jms.version>
         <mustache.version>0.9.10</mustache.version>
-        <azure-storage-blob-changefeed.version>12.0.0-beta.17</azure-storage-blob-changefeed.version>
+        <azure-storage-blob-changefeed.version>12.0.0-beta.18</azure-storage-blob-changefeed.version>
 
         <pom-tuner.version>4.2.0</pom-tuner.version>
         <maven.version>3.8.7</maven.version>
