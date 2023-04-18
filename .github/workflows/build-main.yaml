@@ -160,7 +160,7 @@ jobs:
             fi
           
             if [ -z "$(git status --untracked-files=no --porcelain ${CONNECTORS_DIR})" ]; then 
-              echo "No conenctor files to commit"
+              echo "No connector files to commit"
             else
               git commit -m "Regen manifests" ${CONNECTORS_DIR}
             fi
