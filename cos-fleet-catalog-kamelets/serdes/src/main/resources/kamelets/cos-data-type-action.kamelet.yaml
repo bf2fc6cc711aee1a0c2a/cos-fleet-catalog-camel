@@ -18,7 +18,7 @@
 apiVersion: camel.apache.org/v1alpha1
 kind: Kamelet
 metadata:
-  name: cos-decoder-avro-action
+  name: cos-data-type-action
   labels:
     camel.apache.org/kamelet.type: "action"
   annotations:
@@ -27,43 +27,43 @@ metadata:
     camel.apache.org/kamelet.group: "Actions"
 spec:
   definition:
-    title: "Avro Deserialize Action"
-    description: "Deserialize payload to Avro"
+    title: "Data Type Action"
+    description: |-
+      Applies a given data type with respective data transformation.
+    required:
+      - format
     type: object
     properties:
-      schema:
-        title: The schema
-        description: The schema
+      scheme:
+        title: Component Scheme
+        description: The data type component scheme enables users to apply Camel component specific data type conversions.
         type: string
-        x-descriptors:
-          - urn:camel:group:common
-      contentClass:
-        title: The content class
-        description: The content class
+        default: "camel"
+        example: "camel"
+      format:
+        title: Data Type Format
+        description: Defines the data type that will be applied by this action. The Kamelet catalog supports different data types and performs automatic message conversion according to the given type.
         type: string
-        x-descriptors:
-          - urn:camel:group:common
   dependencies:
     - "camel:kamelet"
     - "camel:core"
+    - "camel:jackson"
     - "camel:jackson-avro"
   template:
     beans:
-      - name: "schema-resolver"
-        type: "#class:org.bf2.cos.connector.camel.serdes.avro.AvroSchemaResolver"
-        properties:
-          schema: '{{schema:}}'
-          contentClass: '{{contentClass:}}'
+      - name: dataTypeRegistry
+        type: "#class:org.apache.camel.kamelets.utils.format.DefaultDataTypeRegistry"
+      - name: dataTypeProcessor
+        type: "#class:org.apache.camel.kamelets.utils.format.DataTypeProcessor"
+        property:
+          - key: scheme
+            value: '{{scheme}}'
+          - key: format
+            value: '{{format}}'
+          - key: registry
+            value: '#bean:{{dataTypeRegistry}}'
     from:
       uri: "kamelet:source"
       steps:
         - process:
-            ref: "{{schema-resolver}}"
-        - unmarshal:
-            avro:
-              library: "Jackson"
-              unmarshal-type: "com.fasterxml.jackson.databind.JsonNode"
-              schema-resolver: "{{schema-resolver}}"
-        - set-header:
-            name: "Content-Type"
-            constant: "application/x-struct"
+            ref: "{{dataTypeProcessor}}"

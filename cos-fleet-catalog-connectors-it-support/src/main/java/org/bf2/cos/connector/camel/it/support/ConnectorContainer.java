@@ -16,6 +16,7 @@ import java.util.Properties;
 import java.util.TreeMap;
 import java.util.function.Consumer;
 
+import com.fasterxml.jackson.databind.node.TextNode;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.text.CaseUtils;
@@ -306,72 +307,34 @@ public class ConnectorContainer extends GenericContainer<ConnectorContainer> {
                     }
 
                     if (consumes != null) {
-                        switch (consumes) {
-                            case "application/json": {
-                                ObjectNode step = steps.addObject();
-                                step.with("to").put("uri", "kamelet:cos-decoder-json-action");
-                                if (meta.has("consumes_class")) {
-                                    step.with("to").with("parameters").set("contentClass", meta.get("consumes_class"));
-                                }
-                            }
-                                break;
-                            case "avro/binary": {
-                                ObjectNode step = steps.addObject();
-                                step.with("to").put("uri", "kamelet:cos-decoder-avro-action");
-                                if (meta.has("consumes_class")) {
-                                    step.with("to").with("parameters").set("contentClass", meta.get("consumes_class"));
-                                }
-                            }
-                                break;
-                            case "application/x-java-object": {
-                                ObjectNode step = steps.addObject();
-                                step.with("to").put("uri", "kamelet:cos-decoder-pojo-action");
-                                if (meta.has("consumes_class")) {
-                                    step.with("to").with("parameters").set("mimeType", meta.get("consumes_class"));
-                                }
-                            }
-                                break;
-                            case "text/plain":
-                            case "application/octet-stream":
-                                break;
-                            default:
-                                throw new IllegalArgumentException("Unsupported value format " + consumes);
+                        ObjectNode step = steps.addObject();
+                        step.with("to").put("uri", "kamelet:cos-resolve-schema-action");
+                        step.with("to").with("parameters").set("mimeType", meta.requiredAt("/consumes"));
+                        if (meta.has("consumes_class")) {
+                            step.with("to").with("parameters").set("contentClass", meta.get("consumes_class"));
                         }
+                        if (produces != null) {
+                            step.with("to").with("parameters").set("targetMimeType", meta.requiredAt("/consumes"));
+                        }
+
+                        step = steps.addObject();
+                        step.with("to").put("uri", "kamelet:cos-data-type-action");
+                        step.with("to").with("parameters").set("format", new TextNode(consumes.replaceAll("/", "-")));
                     }
 
                     configureProcessors(mapper, meta, steps, properties);
 
                     if (produces != null) {
-                        switch (produces) {
-                            case "application/json": {
-                                ObjectNode step = steps.addObject();
-                                step.with("to").put("uri", "kamelet:cos-encoder-json-action");
-                                if (meta.has("consumes_class")) {
-                                    step.with("to").with("parameters").set("contentClass", meta.get("consumes_class"));
-                                }
-                            }
-                                break;
-                            case "avro/binary": {
-                                ObjectNode step = steps.addObject();
-                                step.with("to").put("uri", "kamelet:cos-decoder-json-action");
-                                if (meta.has("consumes_class")) {
-                                    step.with("to").with("parameters").set("contentClass", meta.get("consumes_class"));
-                                }
-                            }
-                                break;
-                            case "text/plain": {
-                                ObjectNode step = steps.addObject();
-                                step.with("to").put("uri", "kamelet:cos-encoder-string-action");
-                            }
-                                break;
-                            case "application/octet-stream": {
-                                ObjectNode step = steps.addObject();
-                                step.with("to").put("uri", "kamelet:cos-encoder-bytearray-action");
-                            }
-                                break;
-                            default:
-                                throw new IllegalArgumentException("Unsupported value format " + produces);
+                        ObjectNode step = steps.addObject();
+                        step.with("to").put("uri", "kamelet:cos-resolve-schema-action");
+                        step.with("to").with("parameters").set("mimeType", meta.requiredAt("/produces"));
+                        if (meta.has("produces_class")) {
+                            step.with("to").with("parameters").set("contentClass", meta.get("produces_class"));
                         }
+
+                        step = steps.addObject();
+                        step.with("to").put("uri", "kamelet:cos-data-type-action");
+                        step.with("to").with("parameters").set("format", new TextNode(produces.replaceAll("/", "-")));
                     }
 
                     steps.addObject().with("removeHeader").put("name", "X-Content-Schema");
