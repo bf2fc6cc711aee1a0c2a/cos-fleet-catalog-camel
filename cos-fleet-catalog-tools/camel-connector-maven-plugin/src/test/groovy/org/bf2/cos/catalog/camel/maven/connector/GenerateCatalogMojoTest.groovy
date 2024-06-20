@@ -27,14 +27,16 @@ class GenerateCatalogMojoTest extends Spec {
         given:
             def adapter = adapter(CatalogConstants.SOURCE, 'application/json')
             def shape = new Connector.DataShapeDefinition()
-            shape.consumes = Connector.dataShape(null, [ 'avro/binary' ])
+            shape.consumes = Connector.dataShape(null, [ 'avro/x-struct' ])
+            shape.produces = Connector.dataShape(null, [ 'avro/binary' ])
 
         when:
             CatalogSupport.computeDataShapes(shape, adapter)
 
         then:
             shape.consumes != null
-            shape.consumes.defaultFormat == 'avro/binary'
+            shape.consumes.defaultFormat == 'avro/x-struct'
+            shape.consumes.formats.containsAll(['avro/x-struct'])
 
             shape.produces != null
             shape.produces.defaultFormat == 'avro/binary'
@@ -62,6 +64,7 @@ class GenerateCatalogMojoTest extends Spec {
         given:
             def adapter = adapter(CatalogConstants.SINK, 'application/json')
             def shape = new Connector.DataShapeDefinition()
+            shape.consumes = Connector.dataShape(null, [ 'avro/x-struct' ])
             shape.produces = Connector.dataShape(null, [ 'avro/binary' ])
 
         when:
@@ -70,10 +73,11 @@ class GenerateCatalogMojoTest extends Spec {
         then:
 
             shape.consumes != null
-            shape.consumes.defaultFormat == 'avro/binary'
-            shape.consumes.formats.containsAll(['avro/binary'])
+            shape.consumes.defaultFormat == 'avro/x-struct'
+            shape.consumes.formats.containsAll(['avro/x-struct'])
 
             shape.produces != null
             shape.produces.defaultFormat == 'avro/binary'
+            shape.produces.formats.containsAll(['avro/binary'])
     }
 }

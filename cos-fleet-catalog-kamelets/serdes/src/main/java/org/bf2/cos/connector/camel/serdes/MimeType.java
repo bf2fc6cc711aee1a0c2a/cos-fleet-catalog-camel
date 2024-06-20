@@ -5,6 +5,8 @@ import java.util.Objects;
 public enum MimeType {
     JSON("application/json"),
     AVRO("avro/binary"),
+    AVRO_STRUCT("avro/x-struct"),
+    BINARY("application/octet-stream"),
     TEXT("text/plain"),
     JAVA_OBJECT("application/x-java-object"),
     STRUCT("application/x-struct");
