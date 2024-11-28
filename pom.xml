@@ -43,7 +43,7 @@
         <wiremock.version>2.35.0</wiremock.version>
         <assertj-core.version>3.24.2</assertj-core.version>
         <everit-json-schema.version>1.14.2</everit-json-schema.version>
-        <redshift-jdbc42.version>2.1.0.9</redshift-jdbc42.version>
+        <redshift-jdbc42.version>2.1.0.15</redshift-jdbc42.version>
         <awssdk-utils.version>2.17.223</awssdk-utils.version>
         <artemis-jms.version>2.23.1</artemis-jms.version>
         <qpid-jms.version>1.0.0</qpid-jms.version>
